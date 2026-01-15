@@ -26,126 +26,510 @@ export { default as teluguBadWords } from "./languages/telugu-words.js";
 export { default as brazilianBadWords } from "./languages/brazilian-words.js";
 
 /**
- * Logger interface for the library.
+ * Logger interface for AllProfanity library logging operations.
+ *
+ * @interface Logger
+ * @description Provides a contract for logging implementations used by the AllProfanity library.
+ * Implement this interface to provide custom logging behavior (e.g., logging to files, external services).
+ *
+ * @example
+ * ```typescript
+ * class CustomLogger implements Logger {
+ *   info(message: string): void {
+ *     // Custom info logging logic
+ *   }
+ *   warn(message: string): void {
+ *     // Custom warning logging logic
+ *   }
+ *   error(message: string): void {
+ *     // Custom error logging logic
+ *   }
+ * }
+ * const filter = new AllProfanity({ logger: new CustomLogger() });
+ * ```
  */
 export interface Logger {
   /**
-   * Log informational messages.
-   * @param message - The message to log.
+   * Log informational messages about normal operations.
+   *
+   * @param message - The informational message to log
+   * @returns void
    */
   info(message: string): void;
+
   /**
-   * Log warning messages.
-   * @param message - The message to log.
+   * Log warning messages about potential issues or deprecated usage.
+   *
+   * @param message - The warning message to log
+   * @returns void
    */
   warn(message: string): void;
+
   /**
-   * Log error messages.
-   * @param message - The message to log.
+   * Log error messages about failures or critical issues.
+   *
+   * @param message - The error message to log
+   * @returns void
    */
   error(message: string): void;
 }
 
 /**
- * Default console logger implementation.
+ * Default console logger implementation for AllProfanity.
+ *
+ * @class ConsoleLogger
+ * @implements {Logger}
+ * @description Logs messages to the browser or Node.js console with an "[AllProfanity]" prefix.
+ * This is the default logger used when no custom logger is provided.
+ *
+ * @internal
  */
 class ConsoleLogger implements Logger {
+  /**
+   * Log informational messages to console.log with [AllProfanity] prefix.
+   *
+   * @param message - The message to log
+   * @returns void
+   */
   info(message: string): void {
     console.log(`[AllProfanity] ${message}`);
   }
 
+  /**
+   * Log warning messages to console.warn with [AllProfanity] prefix.
+   *
+   * @param message - The warning message to log
+   * @returns void
+   */
   warn(message: string): void {
     console.warn(`[AllProfanity] ${message}`);
   }
 
+  /**
+   * Log error messages to console.error with [AllProfanity] prefix.
+   *
+   * @param message - The error message to log
+   * @returns void
+   */
   error(message: string): void {
     console.error(`[AllProfanity] ${message}`);
   }
 }
 
 /**
- * Configuration options for AllProfanity.
+ * Silent logger implementation that suppresses all log output.
+ *
+ * @class SilentLogger
+ * @implements {Logger}
+ * @description A no-op logger that discards all log messages. Used when `silent: true` is set
+ * in AllProfanityOptions, or when you want to completely disable logging.
+ *
+ * @internal
+ */
+class SilentLogger implements Logger {
+  /**
+   * No-op implementation - messages are discarded.
+   *
+   * @param _message - The message (unused)
+   * @returns void
+   */
+  info(_message: string): void {
+    // Silent mode - no logging
+  }
+
+  /**
+   * No-op implementation - warnings are discarded.
+   *
+   * @param _message - The warning message (unused)
+   * @returns void
+   */
+  warn(_message: string): void {
+    // Silent mode - no logging
+  }
+
+  /**
+   * No-op implementation - errors are discarded.
+   *
+   * @param _message - The error message (unused)
+   * @returns void
+   */
+  error(_message: string): void {
+    // Silent mode - no logging
+  }
+}
+
+/**
+ * Configuration options for initializing an AllProfanity instance.
+ *
+ * @interface AllProfanityOptions
+ * @description Comprehensive configuration object for customizing profanity detection behavior,
+ * algorithm selection, performance optimizations, and logging.
+ *
+ * @example
+ * ```typescript
+ * const filter = new AllProfanity({
+ *   languages: ['english', 'french'],
+ *   enableLeetSpeak: true,
+ *   strictMode: true,
+ *   algorithm: {
+ *     matching: 'hybrid',
+ *     useBloomFilter: true
+ *   },
+ *   performance: {
+ *     enableCaching: true,
+ *     cacheSize: 500
+ *   }
+ * });
+ * ```
  */
 export interface AllProfanityOptions {
+  /**
+   * Array of language keys to load (e.g., 'english', 'hindi', 'french').
+   * Available languages: english, hindi, french, german, spanish, bengali, tamil, telugu, brazilian.
+   *
+   * @default ['english', 'hindi'] (loaded by default in constructor)
+   */
   languages?: string[];
+
+  /**
+   * Custom dictionaries to load in addition to built-in languages.
+   * Key is the dictionary name, value is an array of words.
+   *
+   * @example
+   * ```typescript
+   * customDictionaries: {
+   *   'gaming': ['noob', 'trash'],
+   *   'custom': ['word1', 'word2']
+   * }
+   * ```
+   */
   customDictionaries?: Record<string, string[]>;
+
+  /**
+   * Single character to use as replacement placeholder for profane characters.
+   *
+   * @default "*"
+   */
   defaultPlaceholder?: string;
+
+  /**
+   * Enable detection and normalization of leet speak variations (e.g., "h3ll0" -> "hello").
+   *
+   * @default true
+   */
   enableLeetSpeak?: boolean;
+
+  /**
+   * Enable case-sensitive matching. When false, all matching is done in lowercase.
+   *
+   * @default false
+   */
   caseSensitive?: boolean;
+
+  /**
+   * Array of words to whitelist (never flag as profanity even if in dictionaries).
+   *
+   * @example ['hello', 'class', 'assignment']
+   */
   whitelistWords?: string[];
+
+  /**
+   * Strict mode requires profanity to be surrounded by word boundaries (spaces, punctuation).
+   * When false, profanity embedded in other words may be detected.
+   *
+   * @default false
+   */
   strictMode?: boolean;
+
+  /**
+   * Allow detection of profanity as partial matches within larger words.
+   * When true, "badword" will be detected in "mybadwordhere".
+   *
+   * @default false
+   */
   detectPartialWords?: boolean;
+
+  /**
+   * Custom logger implementation for handling log messages.
+   * If not provided, defaults to ConsoleLogger unless silent mode is enabled.
+   */
   logger?: Logger;
 
-  // Advanced algorithm options
+  /**
+   * Silent mode suppresses all logging output.
+   * When true, uses SilentLogger to discard all log messages.
+   *
+   * @default false
+   */
+  silent?: boolean;
+
+  /**
+   * Advanced algorithm configuration for pattern matching strategies.
+   */
   algorithm?: {
+    /**
+     * Primary matching algorithm to use.
+     * - 'trie': Fast prefix tree matching (default, best for most use cases)
+     * - 'aho-corasick': Multi-pattern matching (best for large dictionaries)
+     * - 'hybrid': Combines Aho-Corasick with Bloom Filter (best for extreme performance)
+     *
+     * @default "trie"
+     */
     matching?: "trie" | "aho-corasick" | "hybrid";
+
+    /**
+     * Enable Aho-Corasick automaton for multi-pattern matching.
+     * Automatically enabled when matching is set to 'aho-corasick' or 'hybrid'.
+     *
+     * @default false
+     */
     useAhoCorasick?: boolean;
+
+    /**
+     * Enable Bloom Filter for probabilistic quick rejection of non-profane text.
+     * Automatically enabled when matching is set to 'hybrid'.
+     *
+     * @default false
+     */
     useBloomFilter?: boolean;
+
+    /**
+     * Enable context analysis to reduce false positives based on surrounding words.
+     *
+     * @default false
+     */
     useContextAnalysis?: boolean;
   };
 
+  /**
+   * Bloom Filter configuration for probabilistic matching optimization.
+   */
   bloomFilter?: {
+    /**
+     * Enable Bloom Filter.
+     *
+     * @default false
+     */
     enabled?: boolean;
+
+    /**
+     * Expected number of items to be stored in the Bloom Filter.
+     * Higher values increase memory usage but reduce false positive rate.
+     *
+     * @default 10000
+     */
     expectedItems?: number;
+
+    /**
+     * Target false positive rate (probability of incorrectly identifying non-profanity as profanity).
+     * Lower values increase memory usage but improve accuracy.
+     *
+     * @default 0.01 (1%)
+     */
     falsePositiveRate?: number;
   };
 
+  /**
+   * Aho-Corasick automaton configuration for multi-pattern matching.
+   */
   ahoCorasick?: {
+    /**
+     * Enable Aho-Corasick automaton.
+     *
+     * @default false
+     */
     enabled?: boolean;
+
+    /**
+     * Pre-build the automaton during initialization.
+     * When false, automaton is built lazily on first use.
+     *
+     * @default false
+     */
     prebuild?: boolean;
   };
 
+  /**
+   * Context analysis configuration for reducing false positives.
+   */
   contextAnalysis?: {
+    /**
+     * Enable context-aware profanity detection.
+     *
+     * @default false
+     */
     enabled?: boolean;
+
+    /**
+     * Number of words before and after the detected word to analyze for context.
+     *
+     * @default 5
+     */
     contextWindow?: number;
+
+    /**
+     * Languages to use for context analysis (e.g., ['en', 'es']).
+     *
+     * @default ['en']
+     */
     languages?: string[];
+
+    /**
+     * Minimum confidence score (0-1) required to flag as profanity.
+     * Higher values reduce false positives but may miss some profanity.
+     *
+     * @default 0.5
+     */
     scoreThreshold?: number;
   };
 
+  /**
+   * Performance optimization configuration.
+   */
   performance?: {
+    /**
+     * Maximum number of results to cache in LRU cache.
+     *
+     * @default 1000
+     */
     cacheSize?: number;
+
+    /**
+     * Enable result caching to speed up repeated queries.
+     * Stores detection results for previously seen text.
+     *
+     * @default false
+     */
     enableCaching?: boolean;
   };
 }
 
 /**
- * Severity levels for profanity detection.
+ * Severity levels for profanity detection results.
+ *
+ * @enum {number}
+ * @description Categorizes the severity of detected profanity based on the number
+ * of unique words and total matches found in the text.
+ *
+ * @readonly
+ * @example
+ * ```typescript
+ * const result = filter.detect("some text");
+ * if (result.severity === ProfanitySeverity.EXTREME) {
+ *   // Handle extreme profanity
+ * }
+ * ```
  */
 export enum ProfanitySeverity {
+  /** Mild profanity: 1 unique word or 1 total match */
   MILD = 1,
+
+  /** Moderate profanity: 2 unique words or 2 total matches */
   MODERATE = 2,
+
+  /** Severe profanity: 3 unique words or 3 total matches */
   SEVERE = 3,
+
+  /** Extreme profanity: 4+ unique words or 5+ total matches */
   EXTREME = 4,
 }
 
 /**
- * Detection result for profanity detection.
+ * Result object returned from profanity detection operations.
+ *
+ * @interface ProfanityDetectionResult
+ * @description Contains comprehensive information about detected profanity including
+ * what was found, where it was found, how severe it is, and a cleaned version of the text.
+ *
+ * @example
+ * ```typescript
+ * const result = filter.detect("This is a bad word");
+ * console.log(result.hasProfanity); // true
+ * console.log(result.detectedWords); // ['bad word']
+ * console.log(result.cleanedText); // 'This is a *** ****'
+ * console.log(result.severity); // ProfanitySeverity.MILD
+ * console.log(result.positions); // [{ word: 'bad word', start: 10, end: 18 }]
+ * ```
  */
 export interface ProfanityDetectionResult {
+  /**
+   * Whether any profanity was detected in the text.
+   *
+   * @type {boolean}
+   */
   hasProfanity: boolean;
+
+  /**
+   * Array of detected profane words/phrases as they appeared in the original text.
+   * Includes case and formatting from the original text.
+   *
+   * @type {string[]}
+   */
   detectedWords: string[];
+
+  /**
+   * The text with all profanity replaced by placeholder characters.
+   * Each profane character is replaced with the configured placeholder (default: '*').
+   *
+   * @type {string}
+   */
   cleanedText: string;
+
+  /**
+   * Severity level of detected profanity.
+   *
+   * @type {ProfanitySeverity}
+   */
   severity: ProfanitySeverity;
+
+  /**
+   * Precise positions of each detected profane word in the original text.
+   * Useful for highlighting or further processing.
+   *
+   * @type {Array<{ word: string; start: number; end: number }>}
+   */
   positions: Array<{ word: string; start: number; end: number }>;
 }
 
 /**
- * Internal match result for efficient processing.
+ * Internal match result structure for efficient profanity matching and processing.
+ *
+ * @interface MatchResult
+ * @description Used internally during the matching phase to track both the dictionary
+ * word that was matched and the actual text that was found.
+ *
+ * @internal
  */
 interface MatchResult {
+  /** The dictionary word that was matched (normalized) */
   word: string;
+
+  /** Start index of the match in the original text (0-based, inclusive) */
   start: number;
+
+  /** End index of the match in the original text (0-based, exclusive) */
   end: number;
+
+  /** The actual matched text from the original input (preserves case and formatting) */
   originalWord: string;
 }
 
 /**
- * Validate a string parameter.
- * @param input - The input to validate.
- * @param paramName - The name of the parameter.
- * @returns The validated string.
- * @throws {TypeError} If input is not a string.
+ * Validates that an input is a non-empty string.
+ *
+ * @function validateString
+ * @param {unknown} input - The value to validate
+ * @param {string} paramName - Name of the parameter being validated (used in error messages)
+ * @returns {string} The validated string
+ * @throws {TypeError} If input is not a string
+ *
+ * @internal
+ *
+ * @example
+ * ```typescript
+ * const text = validateString(userInput, 'text');
+ * // Returns userInput if it's a string, throws TypeError otherwise
+ * ```
  */
 function validateString(input: unknown, paramName: string): string {
   if (typeof input !== "string") {
@@ -155,11 +539,22 @@ function validateString(input: unknown, paramName: string): string {
 }
 
 /**
- * Validate a string array parameter.
- * @param input - The input to validate.
- * @param paramName - The name of the parameter.
- * @returns The validated string array.
- * @throws {TypeError} If input is not an array.
+ * Validates and filters a string array, removing non-string and empty items.
+ *
+ * @function validateStringArray
+ * @param {unknown} input - The value to validate (expected to be an array)
+ * @param {string} paramName - Name of the parameter being validated (used in error/warning messages)
+ * @returns {string[]} Array of valid, non-empty strings
+ * @throws {TypeError} If input is not an array
+ *
+ * @internal
+ *
+ * @example
+ * ```typescript
+ * const words = validateStringArray(['word1', '', 123, 'word2'], 'words');
+ * // Returns: ['word1', 'word2']
+ * // Logs warning: "Skipping non-string item in words: 123"
+ * ```
  */
 function validateStringArray(input: unknown, paramName: string): string[] {
   if (!Array.isArray(input)) {
@@ -175,16 +570,51 @@ function validateStringArray(input: unknown, paramName: string): string[] {
 }
 
 /**
- * Trie node for efficient string matching.
+ * Trie (prefix tree) node for efficient pattern matching and word storage.
+ *
+ * @class TrieNode
+ * @description Implements a trie data structure for O(m) time complexity word matching,
+ * where m is the length of the word being searched. Each node represents a character
+ * in the word, and paths from root to nodes with isEndOfWord=true represent complete words.
+ *
+ * @internal
+ *
+ * @example
+ * ```typescript
+ * const trie = new TrieNode();
+ * trie.addWord('bad');
+ * trie.addWord('badword');
+ * const matches = trie.findMatches('badwords here', 0, false);
+ * // Returns matches for 'bad' and 'badword'
+ * ```
  */
 class TrieNode {
+  /** Map of characters to child nodes for fast lookups */
   private children: Map<string, TrieNode> = new Map();
+
+  /** Flag indicating if this node represents the end of a complete word */
   private isEndOfWord: boolean = false;
+
+  /** The complete word ending at this node (only set when isEndOfWord is true) */
   private word: string = "";
 
   /**
-   * Add a word to the trie.
-   * @param word - The word to add.
+   * Adds a word to the trie structure.
+   *
+   * @param {string} word - The word to add to the trie
+   * @returns {void}
+   *
+   * @remarks
+   * - Time Complexity: O(m) where m is the length of the word
+   * - Space Complexity: O(m) in worst case when all characters are new
+   * - Supports any Unicode characters
+   *
+   * @example
+   * ```typescript
+   * const trie = new TrieNode();
+   * trie.addWord('hello');
+   * trie.addWord('world');
+   * ```
    */
   addWord(word: string): void {
     let current: TrieNode = this;
@@ -202,14 +632,37 @@ class TrieNode {
   }
 
   /**
-   * Remove a word from the trie.
-   * @param word - The word to remove.
-   * @returns True if the word was removed, false otherwise.
+   * Removes a word from the trie structure.
+   *
+   * @param {string} word - The word to remove from the trie
+   * @returns {boolean} True if the word existed and was removed, false if word was not found
+   *
+   * @remarks
+   * - Time Complexity: O(m) where m is the length of the word
+   * - Also removes unnecessary nodes to keep the trie optimized
+   * - Only removes the word marking; shared prefixes with other words are preserved
+   *
+   * @example
+   * ```typescript
+   * const trie = new TrieNode();
+   * trie.addWord('hello');
+   * trie.removeWord('hello'); // Returns: true
+   * trie.removeWord('world'); // Returns: false (word not in trie)
+   * ```
    */
   removeWord(word: string): boolean {
     return this.removeHelper(word, 0);
   }
 
+  /**
+   * Recursive helper method for removing a word from the trie.
+   *
+   * @param {string} word - The word being removed
+   * @param {number} index - Current character index in the word
+   * @returns {boolean} True if this node should be deleted (has no children and is not end of another word)
+   *
+   * @internal
+   */
   private removeHelper(word: string, index: number): boolean {
     if (index === word.length) {
       if (!this.isEndOfWord) return false;
@@ -233,11 +686,25 @@ class TrieNode {
   }
 
   /**
-   * Find all matches starting at a given position.
-   * @param text - The text to search.
-   * @param startPos - The start position.
-   * @param allowPartial - Whether to allow partial word matches.
-   * @returns Array of matches.
+   * Finds all word matches in text starting at a specific position.
+   *
+   * @param {string} text - The text to search for profanity
+   * @param {number} startPos - The starting position (0-based index) in the text
+   * @param {boolean} allowPartial - If true, finds partial matches within larger words
+   * @returns {Array<{ word: string; start: number; end: number }>} Array of match objects with word and position info
+   *
+   * @remarks
+   * - Time Complexity: O(k) where k is the length of the longest match from startPos
+   * - Returns all valid words that can be formed starting from startPos
+   * - When allowPartial is false, respects word boundaries
+   *
+   * @example
+   * ```typescript
+   * const trie = new TrieNode();
+   * trie.addWord('bad');
+   * const matches = trie.findMatches('badword', 0, false);
+   * // Returns: [{ word: 'bad', start: 0, end: 3 }]
+   * ```
    */
   findMatches(
     text: string,
@@ -278,7 +745,22 @@ class TrieNode {
   }
 
   /**
-   * Clear all words from the trie.
+   * Clears all words from the trie, resetting it to empty state.
+   *
+   * @returns {void}
+   *
+   * @remarks
+   * - Time Complexity: O(1) - clears the root node only (JavaScript GC handles children)
+   * - Removes all stored words and resets the trie to initial state
+   *
+   * @example
+   * ```typescript
+   * const trie = new TrieNode();
+   * trie.addWord('hello');
+   * trie.addWord('world');
+   * trie.clear();
+   * // Trie is now empty
+   * ```
    */
   clear(): void {
     this.children.clear();
@@ -288,7 +770,99 @@ class TrieNode {
 }
 
 /**
- * Main class for profanity detection and filtering.
+ * AllProfanity - Professional-grade multilingual profanity detection and filtering library.
+ *
+ * @class AllProfanity
+ * @description A comprehensive, high-performance profanity filtering system supporting 9+ languages
+ * with advanced features including leet speak detection, context analysis, multiple matching algorithms,
+ * and customizable filtering options.
+ *
+ * @remarks
+ * ### Features:
+ * - **Multi-language Support**: English, Hindi, French, German, Spanish, Bengali, Tamil, Telugu, Brazilian Portuguese
+ * - **Advanced Algorithms**: Trie, Aho-Corasick, Bloom Filter, and hybrid approaches
+ * - **Leet Speak Detection**: Automatically normalizes and detects variations like "h3ll0"
+ * - **Context Analysis**: Reduces false positives using surrounding word context
+ * - **Performance**: Built-in caching and optimized data structures
+ * - **Flexible**: Custom dictionaries, whitelisting, severity levels
+ *
+ * ### Default Behavior:
+ * - Loads English and Hindi dictionaries by default
+ * - Case-insensitive matching
+ * - Leet speak detection enabled
+ * - Uses Trie algorithm (fastest for most cases)
+ *
+ * @example
+ * ```typescript
+ * // Basic usage with default instance
+ * import allProfanity from 'allprofanity';
+ *
+ * const result = allProfanity.detect("This is some bad text");
+ * console.log(result.hasProfanity); // true
+ * console.log(result.cleanedText); // "This is some *** text"
+ * console.log(result.severity); // ProfanitySeverity.MILD
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Advanced usage with custom configuration
+ * import { AllProfanity, ProfanitySeverity } from 'allprofanity';
+ *
+ * const filter = new AllProfanity({
+ *   languages: ['english', 'french', 'spanish'],
+ *   enableLeetSpeak: true,
+ *   strictMode: true,
+ *   algorithm: {
+ *     matching: 'hybrid',
+ *     useBloomFilter: true
+ *   },
+ *   performance: {
+ *     enableCaching: true,
+ *     cacheSize: 500
+ *   },
+ *   whitelistWords: ['class', 'assignment']
+ * });
+ *
+ * const text = "This text has some b@d w0rds";
+ * const result = filter.detect(text);
+ *
+ * if (result.hasProfanity) {
+ *   console.log(`Found ${result.detectedWords.length} profane words`);
+ *   console.log(`Severity: ${ProfanitySeverity[result.severity]}`);
+ *   console.log(`Cleaned: ${result.cleanedText}`);
+ * }
+ * ```
+ *
+ * @example
+ * ```typescript
+ * // Using individual methods
+ * const filter = new AllProfanity();
+ *
+ * // Simple check
+ * if (filter.check("some text")) {
+ *   console.log("Contains profanity!");
+ * }
+ *
+ * // Clean with custom placeholder
+ * const cleaned = filter.clean("bad words here", "#");
+ *
+ * // Load additional languages
+ * filter.loadLanguage('german');
+ * filter.loadIndianLanguages(); // Loads hindi, bengali, tamil, telugu
+ *
+ * // Add custom words
+ * filter.add(['customword1', 'customword2']);
+ *
+ * // Remove words
+ * filter.remove(['someword']);
+ *
+ * // Whitelist words
+ * filter.addToWhitelist(['class', 'assignment']);
+ * ```
+ *
+ * @see {@link AllProfanityOptions} for all configuration options
+ * @see {@link ProfanityDetectionResult} for detection result format
+ * @see {@link ProfanitySeverity} for severity levels
  */
 export class AllProfanity {
   private readonly profanityTrie: TrieNode = new TrieNode();
@@ -383,11 +957,47 @@ export class AllProfanity {
   private resultCache: Map<string, ProfanityDetectionResult> | null = null;
 
   /**
-   * Create an AllProfanity instance.
-   * @param options - Profanity filter configuration options.
+   * Creates a new AllProfanity instance with the specified configuration.
+   *
+   * @constructor
+   * @param {AllProfanityOptions} [options] - Configuration options for profanity detection behavior
+   *
+   * @remarks
+   * ### Default Initialization:
+   * - Loads English and Hindi dictionaries automatically
+   * - Enables leet speak detection
+   * - Case-insensitive matching
+   * - Uses Trie algorithm for pattern matching
+   *
+   * ### Performance Considerations:
+   * - Initial load time depends on number of languages loaded
+   * - Aho-Corasick automaton (if enabled) is built during construction
+   * - Bloom Filter (if enabled) is populated during construction
+   *
+   * @throws {TypeError} If invalid options are provided
+   *
+   * @example
+   * ```typescript
+   * // Default instance
+   * const filter = new AllProfanity();
+   *
+   * // Custom configuration
+   * const filter = new AllProfanity({
+   *   languages: ['english', 'french'],
+   *   strictMode: true,
+   *   defaultPlaceholder: '#',
+   *   algorithm: { matching: 'hybrid' }
+   * });
+   *
+   * // Silent mode (no logging)
+   * const filter = new AllProfanity({ silent: true });
+   * ```
+   *
+   * @see {@link AllProfanityOptions} for all available configuration options
    */
   constructor(options?: AllProfanityOptions) {
-    this.logger = options?.logger || new ConsoleLogger();
+    // Use silent logger if silent mode is enabled, otherwise use provided logger or console logger
+    this.logger = options?.logger || (options?.silent ? new SilentLogger() : new ConsoleLogger());
 
     if (options?.defaultPlaceholder !== undefined) {
       this.setPlaceholder(options.defaultPlaceholder);
@@ -684,9 +1294,56 @@ export class AllProfanity {
   }
 
   /**
-   * Detect profanity in a given text.
-   * @param text - The text to check.
-   * @returns Profanity detection result.
+   * Detects profanity in the provided text and returns comprehensive analysis.
+   *
+   * @param {string} text - The text to analyze for profanity
+   * @returns {ProfanityDetectionResult} Detailed detection result including matches, positions, severity, and cleaned text
+   *
+   * @throws {TypeError} If text is not a string
+   *
+   * @remarks
+   * ### Performance:
+   * - Time Complexity: O(n*m) where n is text length, m is average word length in dictionary
+   * - With Bloom Filter: O(n) average case (faster early rejection)
+   * - With Caching: O(1) for repeated identical text
+   *
+   * ### Features:
+   * - Detects leet speak variations (if enabled): "h3ll0" → "hello"
+   * - Respects word boundaries (strict mode) or detects partial matches
+   * - Returns exact positions for highlighting/masking
+   * - Calculates severity based on match count and uniqueness
+   *
+   * ### Caching:
+   * - Results are cached if `performance.enableCaching` is true
+   * - Cache uses LRU eviction when size limit is reached
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   * const result = filter.detect("This has bad words");
+   *
+   * console.log(result.hasProfanity); // true
+   * console.log(result.detectedWords); // ['bad']
+   * console.log(result.cleanedText); // 'This has *** words'
+   * console.log(result.severity); // ProfanitySeverity.MILD
+   * console.log(result.positions); // [{ word: 'bad', start: 9, end: 12 }]
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // With leet speak detection
+   * const filter = new AllProfanity({ enableLeetSpeak: true });
+   * const result = filter.detect("st0p b3ing b@d");
+   *
+   * if (result.hasProfanity) {
+   *   result.positions.forEach(pos => {
+   *     console.log(`Found "${pos.word}" at position ${pos.start}-${pos.end}`);
+   *   });
+   * }
+   * ```
+   *
+   * @see {@link ProfanityDetectionResult} for result structure
+   * @see {@link ProfanitySeverity} for severity levels
    */
   detect(text: string): ProfanityDetectionResult {
     const validatedText = validateString(text, "text");
@@ -780,7 +1437,9 @@ export class AllProfanity {
       // Implement simple LRU by clearing cache when it gets too large
       if (this.resultCache.size > 1000) {
         const firstKey = this.resultCache.keys().next().value;
-        this.resultCache.delete(firstKey);
+        if (firstKey !== undefined) {
+          this.resultCache.delete(firstKey);
+        }
       }
     }
 
@@ -860,19 +1519,79 @@ export class AllProfanity {
   }
 
   /**
-   * Check if a string contains profanity.
-   * @param text - The text to check.
-   * @returns True if profanity is found, false otherwise.
+   * Quick boolean check for profanity presence in text.
+   *
+   * @param {string} text - The text to check for profanity
+   * @returns {boolean} True if profanity is detected, false otherwise
+   *
+   * @throws {TypeError} If text is not a string
+   *
+   * @remarks
+   * - Convenience method that internally calls `detect()` and returns only the boolean result
+   * - For detailed information about matches, use `detect()` instead
+   * - Results are cached if caching is enabled (same cache as `detect()`)
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * if (filter.check("This has bad words")) {
+   *   console.log("Profanity detected!");
+   * }
+   *
+   * // Quick validation
+   * const isClean = !filter.check(userInput);
+   * ```
+   *
+   * @see {@link detect} for detailed profanity analysis
    */
   check(text: string): boolean {
     return this.detect(text).hasProfanity;
   }
 
   /**
-   * Clean text with a custom placeholder.
-   * @param text - The text to clean.
-   * @param placeholder - The placeholder to use.
-   * @returns Cleaned text.
+   * Cleans text by replacing profanity with a placeholder character.
+   *
+   * @param {string} text - The text to clean
+   * @param {string} [placeholder] - Optional custom placeholder character (uses default if not provided)
+   * @returns {string} The cleaned text with profanity replaced
+   *
+   * @throws {TypeError} If text is not a string
+   *
+   * @remarks
+   * ### Character-level Replacement:
+   * - Each profane character is replaced individually
+   * - "bad" with placeholder "*" becomes "***"
+   * - Preserves text length and structure
+   *
+   * ### Placeholder Behavior:
+   * - If no placeholder provided, uses the instance's default placeholder
+   * - If placeholder provided, uses only the first character
+   * - Empty placeholder throws error
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * // Using default placeholder (*)
+   * const cleaned = filter.clean("This has bad words");
+   * console.log(cleaned); // "This has *** *****"
+   *
+   * // Using custom placeholder
+   * const cleaned = filter.clean("This has bad words", "#");
+   * console.log(cleaned); // "This has ### #####"
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // Clean user-generated content for display
+   * const userComment = "Some inappropriate words here";
+   * const safeComment = filter.clean(userComment);
+   * displayComment(safeComment);
+   * ```
+   *
+   * @see {@link cleanWithPlaceholder} for word-level replacement
+   * @see {@link setPlaceholder} to change default placeholder
    */
   clean(text: string, placeholder?: string): string {
     const detection = this.detect(text);
@@ -906,10 +1625,46 @@ export class AllProfanity {
   }
 
   /**
-   * Clean text by replacing each profane word with a single placeholder (word-level).
-   * @param text - The text to clean.
-   * @param placeholder - The placeholder to use.
-   * @returns Word-level cleaned text.
+   * Cleans text by replacing each profane word with a single placeholder string (word-level replacement).
+   *
+   * @param {string} text - The text to clean
+   * @param {string} [placeholder="***"] - The placeholder string to use for each profane word
+   * @returns {string} The cleaned text with each profane word replaced by the placeholder
+   *
+   * @throws {TypeError} If text is not a string
+   *
+   * @remarks
+   * ### Word-level Replacement:
+   * - Each profane word is replaced with the entire placeholder string (not character-by-character)
+   * - "bad words" with placeholder "***" becomes "*** ***"
+   * - Does NOT preserve original text length
+   *
+   * ### Difference from `clean()`:
+   * - `clean()`: Character-level replacement - "bad" becomes "***" (preserves length)
+   * - `cleanWithPlaceholder()`: Word-level replacement - "bad" becomes "***" (fixed placeholder)
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * // Default placeholder (***) const text = "This has bad words";
+   * const cleaned = filter.cleanWithPlaceholder(text);
+   * console.log(cleaned); // "This has *** ***"
+   *
+   * // Custom placeholder
+   * const cleaned2 = filter.cleanWithPlaceholder(text, "[CENSORED]");
+   * console.log(cleaned2); // "This has [CENSORED] [CENSORED]"
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // Censoring chat messages
+   * const message = "You are a badword and stupid";
+   * const censored = filter.cleanWithPlaceholder(message, "[***]");
+   * // Result: "You are a [***] and [***]"
+   * ```
+   *
+   * @see {@link clean} for character-level replacement
    */
   cleanWithPlaceholder(text: string, placeholder: string = "***"): string {
     const detection = this.detect(text);
@@ -939,8 +1694,51 @@ export class AllProfanity {
   }
 
   /**
-   * Add word(s) to the profanity filter.
-   * @param word - Word or array of words to add.
+   * Dynamically adds one or more words to the profanity filter at runtime.
+   *
+   * @param {string | string[]} word - A single word or array of words to add to the filter
+   * @returns {void}
+   *
+   * @remarks
+   * ### Behavior:
+   * - Words are added to all active data structures (Trie, Aho-Corasick, Bloom Filter)
+   * - Automatically normalizes words based on caseSensitive setting
+   * - Skips whitelisted words
+   * - Validates and filters out non-string or empty values
+   * - Changes take effect immediately for subsequent detect/check/clean calls
+   *
+   * ### Use Cases:
+   * - Adding context-specific profanity
+   * - Building dynamic word lists from user reports
+   * - Customizing filters for specific communities/applications
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * // Add single word
+   * filter.add('newbadword');
+   *
+   * // Add multiple words
+   * filter.add(['word1', 'word2', 'word3']);
+   *
+   * // Now these words will be detected
+   * filter.check('newbadword'); // true
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // Add game-specific slang dynamically
+   * const filter = new AllProfanity();
+   * const gamingSlang = ['noob', 'trash', 'tryhard'];
+   * filter.add(gamingSlang);
+   *
+   * const message = "You're such a noob";
+   * console.log(filter.check(message)); // true
+   * ```
+   *
+   * @see {@link remove} to remove words
+   * @see {@link loadCustomDictionary} for loading named dictionaries
    */
   add(word: string | string[]): void {
     const words = Array.isArray(word) ? word : [word];
@@ -952,8 +1750,50 @@ export class AllProfanity {
   }
 
   /**
-   * Remove word(s) from the profanity filter.
-   * @param word - Word or array of words to remove.
+   * Dynamically removes one or more words from the profanity filter at runtime.
+   *
+   * @param {string | string[]} word - A single word or array of words to remove from the filter
+   * @returns {void}
+   *
+   * @remarks
+   * ### Behavior:
+   * - Removes words from all active data structures (Trie, dynamic words set)
+   * - Normalizes words based on caseSensitive setting before removal
+   * - Only removes dynamically added words, not words from loaded language dictionaries
+   * - Changes take effect immediately for subsequent detect/check/clean calls
+   *
+   * ### Important Notes:
+   * - Cannot remove words from built-in language dictionaries
+   * - To exclude dictionary words, use `addToWhitelist()` instead
+   * - Validates and filters out non-string or empty values
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * // Add then remove a word
+   * filter.add('tempword');
+   * filter.check('tempword'); // true
+   *
+   * filter.remove('tempword');
+   * filter.check('tempword'); // false
+   *
+   * // Remove multiple words
+   * filter.remove(['word1', 'word2']);
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // Managing custom word list
+   * const filter = new AllProfanity();
+   * filter.add(['custom1', 'custom2', 'custom3']);
+   *
+   * // Later, remove one that's no longer needed
+   * filter.remove('custom2');
+   * ```
+   *
+   * @see {@link add} to add words
+   * @see {@link addToWhitelist} to exclude dictionary words without removing them
    */
   remove(word: string | string[]): void {
     const words = Array.isArray(word) ? word : [word];
@@ -1000,9 +1840,60 @@ export class AllProfanity {
   }
 
   /**
-   * Load a built-in language dictionary.
-   * @param language - The language key.
-   * @returns True if loaded, false otherwise.
+   * Loads a built-in language dictionary into the profanity filter.
+   *
+   * @param {string} language - The language key to load (case-insensitive)
+   * @returns {boolean} True if language was loaded successfully, false if not found or already loaded
+   *
+   * @remarks
+   * ### Available Languages:
+   * - `'english'` - English profanity words
+   * - `'hindi'` - Hindi profanity words
+   * - `'french'` - French profanity words
+   * - `'german'` - German profanity words
+   * - `'spanish'` - Spanish profanity words
+   * - `'bengali'` - Bengali profanity words
+   * - `'tamil'` - Tamil profanity words
+   * - `'telugu'` - Telugu profanity words
+   * - `'brazilian'` - Brazilian Portuguese profanity words
+   *
+   * ### Behavior:
+   * - Language keys are case-insensitive
+   * - Loading is idempotent - calling multiple times for same language is safe
+   * - Returns true if language loaded successfully or was already loaded
+   * - Returns false if language not found
+   * - Logs success/failure messages (unless silent mode enabled)
+   * - Words are added to all active data structures
+   *
+   * ### Default Languages:
+   * English and Hindi are loaded automatically in the constructor
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * // Load additional languages
+   * filter.loadLanguage('french');
+   * filter.loadLanguage('spanish');
+   *
+   * // Case-insensitive
+   * filter.loadLanguage('GERMAN'); // Works
+   *
+   * // Check if loaded
+   * console.log(filter.getLoadedLanguages()); // ['english', 'hindi', 'french', 'spanish', 'german']
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // Load all Indian languages at once
+   * const filter = new AllProfanity();
+   * filter.loadIndianLanguages();
+   * ```
+   *
+   * @see {@link loadLanguages} to load multiple languages at once
+   * @see {@link loadIndianLanguages} for convenience method
+   * @see {@link getAvailableLanguages} to see all available languages
+   * @see {@link getLoadedLanguages} to see currently loaded languages
    */
   loadLanguage(language: string): boolean {
     if (!language || typeof language !== "string") {
@@ -1063,9 +1954,64 @@ export class AllProfanity {
   }
 
   /**
-   * Load a custom dictionary.
-   * @param name - Name of the dictionary.
-   * @param words - Words to add.
+   * Loads a custom dictionary of profane words with a specific name.
+   *
+   * @param {string} name - Unique name/identifier for this custom dictionary
+   * @param {string[]} words - Array of profane words to add to the dictionary
+   * @returns {void}
+   *
+   * @throws {TypeError} If name is not a string or words is not an array
+   *
+   * @remarks
+   * ### Behavior:
+   * - Creates a new named dictionary or overwrites existing one with same name
+   * - Validates and filters out non-string and empty values from words array
+   * - Words are added to all active data structures (Trie, Aho-Corasick, Bloom Filter)
+   * - Dictionary name is converted to lowercase for storage
+   * - Logs count of loaded words (unless silent mode enabled)
+   *
+   * ### Use Cases:
+   * - Domain-specific profanity (gaming, medical, legal, etc.)
+   * - Organization-specific word lists
+   * - Temporary or context-dependent filters
+   * - Testing and development
+   *
+   * @example
+   * ```typescript
+   * const filter = new AllProfanity();
+   *
+   * // Load gaming-specific slang
+   * filter.loadCustomDictionary('gaming', [
+   *   'noob',
+   *   'scrub',
+   *   'tryhard',
+   *   'trash'
+   * ]);
+   *
+   * // Load company-specific terms
+   * filter.loadCustomDictionary('company', [
+   *   'competitor1',
+   *   'bannedTerm1',
+   *   'inappropriateJargon'
+   * ]);
+   *
+   * console.log(filter.check('You are such a noob')); // true
+   * ```
+   *
+   * @example
+   * ```typescript
+   * // Load from external source
+   * const filter = new AllProfanity();
+   *
+   * async function loadExternalDictionary() {
+   *   const response = await fetch('https://example.com/custom-words.json');
+   *   const customWords = await response.json();
+   *   filter.loadCustomDictionary('external', customWords);
+   * }
+   * ```
+   *
+   * @see {@link add} for adding individual words dynamically
+   * @see {@link loadLanguage} for loading built-in language dictionaries
    */
   loadCustomDictionary(name: string, words: string[]): void {
     validateString(name, "dictionary name");
