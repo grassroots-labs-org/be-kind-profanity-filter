@@ -2,9 +2,9 @@
   "name": "allprofanity",
   "version": "2.2.1",
   "description": "A blazing-fast, multi-language profanity filter with advanced algorithms (Aho-Corasick, Bloom Filters) delivering 664% faster performance on large texts, intelligent leet-speak detection, and pattern-based context analysis",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
