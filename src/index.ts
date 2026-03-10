@@ -1,29 +1,13 @@
-// Language dictionaries imports
-import englishBadWords from "./languages/english-words.ts";
-import hindiBadWords from "./languages/hindi-words.ts";
-import frenchBadWords from "./languages/french-words.ts";
-import germanBadWords from "./languages/german-words.ts";
-import spanishBadWords from "./languages/spanish-words.ts";
-import bengaliBadWords from "./languages/bengali-words.ts";
-import tamilBadWords from "./languages/tamil-words.ts";
-import teluguBadWords from "./languages/telugu-words.ts";
-import brazilianBadWords from "./languages/brazilian-words.ts";
+// Consolidated all-languages dictionary import
+import allLanguagesBadWords from "./languages/english-primary-all-languages.ts";
 
 // Advanced algorithm imports
 import { AhoCorasick, Match as AhoMatch } from "./algos/aho-corasick.ts";
 import { BloomFilter } from "./algos/bloom-filter.ts";
 import { ContextAnalyzer, ContextPatternMatcher } from "./algos/context-patterns.ts";
 
-// Export language dictionaries for direct access
-export { default as englishBadWords } from "./languages/english-words.ts";
-export { default as hindiBadWords } from "./languages/hindi-words.ts";
-export { default as frenchBadWords } from "./languages/french-words.ts";
-export { default as germanBadWords } from "./languages/german-words.ts";
-export { default as spanishBadWords } from "./languages/spanish-words.ts";
-export { default as bengaliBadWords } from "./languages/bengali-words.ts";
-export { default as tamilBadWords } from "./languages/tamil-words.ts";
-export { default as teluguBadWords } from "./languages/telugu-words.ts";
-export { default as brazilianBadWords } from "./languages/brazilian-words.ts";
+// Export consolidated dictionary for direct access
+export { default as allLanguagesBadWords } from "./languages/english-primary-all-languages.ts";
 
 /**
  * Logger interface for AllProfanity library logging operations.
@@ -489,6 +473,22 @@ export interface ProfanityDetectionResult {
    * @type {Array<{ word: string; start: number; end: number }>}
    */
   positions: Array<{ word: string; start: number; end: number }>;
+
+  /**
+   * Whether the text contains abhorrent language (hate speech, slurs, extremist terms)
+   * that should be flagged for manual review rather than auto-moderated.
+   *
+   * @type {boolean}
+   */
+  needsManualReview: boolean;
+
+  /**
+   * The specific abhorrent words that triggered the manual review flag.
+   * Empty array if needsManualReview is false.
+   *
+   * @type {string[]}
+   */
+  flaggedAbhorrentWords: string[];
 }
 
 /**
@@ -877,16 +877,125 @@ export class AllProfanity {
   private detectPartialWords: boolean = false;
 
   private readonly availableLanguages: Record<string, string[]> = {
-    english: englishBadWords || [],
-    hindi: hindiBadWords || [],
-    french: frenchBadWords || [],
-    german: germanBadWords || [],
-    spanish: spanishBadWords || [],
-    bengali: bengaliBadWords || [],
-    tamil: tamilBadWords || [],
-    telugu: teluguBadWords || [],
-    brazilian: brazilianBadWords || [],
+    all: allLanguagesBadWords || [],
   };
+
+  /**
+   * Set of abhorrent words/phrases that trigger needsManualReview.
+   * Includes hate groups, slurs, extremist terminology, and Nazi references.
+   * Stored in lowercase for case-insensitive matching.
+   */
+  private readonly abhorrentWords: Set<string> = new Set([
+    // Nazi / Third Reich
+    "nazi", "nazis", "neonazi", "neo nazi", "neo-nazi", "hitler",
+    "heil hitler", "heilhitler", "hitler did nothing wrong",
+    "sieg heil", "siegheil", "third reich", "thirdreich",
+    "final solution", "finalsolution", "master race", "masterrace",
+    "gas the jews", "gasthejews", "holocaust denier", "holocaustdenier",
+    "holocaust denial", "holocaustdenial", "holohoax",
+    "lebensraum", "herrenvolk", "volkisch", "völkisch",
+    "judenfrei", "judenrein", "untermensch", "untermenschen",
+    "rassenschande", "übermensch",
+    // KKK and white supremacist orgs
+    "klan", "klansman", "klansmen", "ku klux klan", "kukluxklan", "kkk",
+    "united klans of america", "imperial klans of america",
+    "knights of the ku klux klan", "loyal white knights",
+    "white camelia knights", "brotherhood of klans",
+    "white knights of the kkk",
+    // White supremacy / white nationalism
+    "white power", "whitepower", "white pride", "whitepride",
+    "white supremacy", "whitesupremacy", "white supremacist", "whitesupremacist",
+    "white nationalist", "whitenationalist", "white nationalism", "whitenationalism",
+    "white ethnostate", "whiteethnostate", "ethnostate",
+    "white genocide", "whitegenocide", "racial purity", "racialpurity",
+    "race purification", "racepurification", "racial purification", "racialpurification",
+    "racial hygiene", "racialhygiene", "ethnic cleansing", "ethniccleansing",
+    "aryan nation", "aryan nations", "aryan brotherhood", "aryan circle",
+    "aryan guard", "aryan resistance", "aryan strikeforce",
+    "white aryan resistance",
+    // Extremist groups
+    "proud boys", "proudboys", "oath keepers", "oathkeepers",
+    "atomwaffen", "atomwaffen division", "patriot front", "patriotfront",
+    "vanguard america", "identity evropa", "american identity movement",
+    "national socialist", "national socialism", "national socialist movement",
+    "american nazi party", "nordic resistance movement",
+    "golden dawn", "casa pound", "casapound",
+    "generation identity", "identitarian", "identitarian movement",
+    "hammerskins", "hammerskin nation", "combat 18", "combat18",
+    "blood honour", "blood honor", "volksfront",
+    "stormfront", "iron march", "daily stormer", "dailystormer",
+    "order of nine angles", "o9a",
+    "rise above movement", "vinlanders social club",
+    "nazi low riders",
+    // Extremist slogans and coded language
+    "fourteen words", "fourteenwords", "1488", "14 88",
+    "rahowa", "racial holy war", "racialholywar",
+    "blood and soil", "bloodandsoil",
+    "day of the rope", "dayoftherope",
+    "great replacement", "greatreplacement",
+    "race war", "racewar",
+    "turner diaries", "turnerdiaries",
+    "right wing death squad", "rwds",
+    "physical removal", "physicalremoval",
+    "free helicopter ride", "helicopter ride",
+    "race realism", "racerealism", "race realist", "racerealist",
+    // Antisemitic
+    "jewish question", "jewishquestion", "jq",
+    "zionist occupied government", "zog",
+    "jewish conspiracy", "jewishconspiracy",
+    "protocols of the elders of zion",
+    "international jewry", "internationaljewry", "world jewry", "worldjewry",
+    "blood libel", "bloodlibel", "jewish problem", "jewishproblem",
+    "six million lie", "sixmillionlie",
+    "happy merchant", "happymerchant", "le happy merchant",
+    "(((them)))", "(((they)))", "(((who)))",
+    "oy vey shut it down",
+    "death to jews", "kill all jews",
+    // Racial slurs — anti-Black
+    "lynching", "lynch mob", "lynchmob",
+    "jungle bunny", "junglebunny", "jungle bunnies", "junglebunnies",
+    "porch monkey", "porchmonkey", "porch monkeys", "porchmonkeys",
+    "spear chucker", "spearchucker", "spear chuckers", "spearchuckers",
+    "moon cricket", "mooncricket", "moon crickets", "mooncrickets",
+    "cotton picker", "cottonpicker", "cotton pickers", "cottonpickers",
+    "tar baby", "tarbaby",
+    "race soldiers", "racesoldiers",
+    "mud people",
+    // Racial slurs — anti-Asian
+    "gook", "gooks", "chink", "chinks", "chinaman", "chinamen",
+    "zipperhead", "zipperheads", "slant eye", "slanteye",
+    "ching chong", "chingchong", "yellow peril", "yellowperil",
+    "kung flu", "kungflu",
+    // Racial slurs — anti-Latino
+    "wetback", "wetbacks", "beaner", "beaners",
+    "spic", "spics", "spick", "spicks",
+    // Racial slurs — anti-Muslim/Arab
+    "sand nigger", "sandnigger", "sand niggers", "sandniggers",
+    "towel head", "towelhead", "towel heads", "towelheads",
+    "raghead", "ragheads", "rag head", "rag heads",
+    "camel jockey", "cameljockey", "camel jockeys", "cameljockeys",
+    "goat fucker", "goatfucker", "goat fuckers", "goatfuckers",
+    "muzzie", "muzzies", "muzrat", "muzrats",
+    // Racial slurs — anti-Indigenous
+    "prairie nigger", "prairienigger", "timber nigger", "timbernigger",
+    "wagon burner", "wagonburner", "wagon burners", "wagonburners",
+    "injun", "injuns",
+    // Anti-LGBTQ+ hate
+    "death to fags", "god hates fags", "godhatesfags",
+    "death to gays", "kill all gays",
+    // Genocidal language
+    "death to muslims", "death to blacks", "death to whites",
+    "death to immigrants",
+    "kill all muslims", "kill all blacks", "kill all whites",
+    "kill all immigrants",
+    // Coded hate
+    "dindu nuffin", "dindunuffin", "dindu",
+    "we wuz kangz", "wewuzkangz",
+    "ooga booga", "oogabooga",
+    "remove kebab", "removekebab",
+    "race traitor", "race traitors", "racetraitor", "racetraitors",
+    "sonnenrad", "black sun", "totenkopf", "wolfsangel",
+  ]);
 
   private readonly leetMappings: Map<string, string> = new Map([
     ["@", "a"],
@@ -1016,8 +1125,7 @@ export class AllProfanity {
     // so that words can be added to all data structures
     this.initializeAdvancedAlgorithms(options);
 
-    this.loadLanguage("english");
-    this.loadLanguage("hindi");
+    this.loadLanguage("all");
 
     if (options?.languages?.length) {
       options.languages.forEach((lang) => this.loadLanguage(lang));
@@ -1354,6 +1462,8 @@ export class AllProfanity {
         cleanedText: validatedText,
         severity: ProfanitySeverity.MILD,
         positions: [],
+        needsManualReview: false,
+        flaggedAbhorrentWords: [],
       };
     }
 
@@ -1419,6 +1529,12 @@ export class AllProfanity {
     const severity = this.calculateSeverity(uniqueMatches);
     const cleanedText = this.generateCleanedText(validatedText, uniqueMatches);
 
+    // Check for abhorrent words that need manual review
+    const flaggedAbhorrentWords = uniqueMatches
+      .filter((m) => this.abhorrentWords.has(m.word.toLowerCase()))
+      .map((m) => m.originalWord);
+    const uniqueAbhorrent = [...new Set(flaggedAbhorrentWords)];
+
     const result: ProfanityDetectionResult = {
       hasProfanity: uniqueMatches.length > 0,
       detectedWords,
@@ -1429,6 +1545,8 @@ export class AllProfanity {
         start: m.start,
         end: m.end,
       })),
+      needsManualReview: uniqueAbhorrent.length > 0,
+      flaggedAbhorrentWords: uniqueAbhorrent,
     };
 
     // Cache result if caching is enabled

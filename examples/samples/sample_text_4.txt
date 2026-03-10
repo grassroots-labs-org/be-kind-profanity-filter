@@ -1,0 +1,56 @@
+In early February, I visited UCLA to cover what I thought would be a routine event on the future of AI and science. But I came back with something unexpected: a window into what happens when Trump administration cuts federal funds and pulls the rug out from under American science — told through the eyes of Terence Tao, widely regarded the greatest living mathematician.
+
+Tao is a Fields Medal winner — the Nobel Prize of mathematics — who has solved problems that humans couldn’t for decades. Tao is a child prodigy born in Australia, and moved to the U.S. to pursue a PhD as a teenager. He is referred to as the “Mozart of Math,” whose work is currently used to make MRI scans faster in hospitals.
+
+Last fall, the Trump administration froze $25 million in funding to his applied mathematics institute at UCLA, disrupting research, student funding, and workshops. A court order partially restored the grant at $18 million, still leaving a $7 million shortfall that Tao and his team are now scrambling to recoup for research.
+
+The world’s greatest mathematician is turning into a salesman. Over the past twelve months, instead of focusing on math and mentoring, Tao has been thrust into doing media interviews, pitching potential donors, and explaining advanced math to venture capitalists, real estate executives, and crypto bros — who can’t fully grasp his research.
+
+“In quiet times, I would mostly do math and teach and advise my students,” he told me, when I sat down with him at UCLA. “Suddenly my life was fighting fires and meeting with potential donors.”
+
+
+
+
+Tao is soft spoken, analytical, and disarming, with a rare quality of explaining complex topics with great eloquence and clarity.
+
+In a blog post last year, he wrote that American scientific dominance is founded on two pillars: the historic influx of talent fleeing authoritarian regimes such as Nazi Germany or the former Soviet Union, and the sustained bipartisan investment from the federal government to fund science as a public good. The Trump administration, he argued, is systematically dismantling public funding, without appreciating what was required for science to flourish.
+
+The federal investment in mathematics across the U.S. is $900 million a year, about $3 per person per year.
+
+“You can buy a coffee for more than that,” he said.
+
+The Trump administration has only redoubled its effort to coerce universities to change policies to align with its priorities, and Tao has turned to alternative ways to steer the future of science. Earlier this year, Tao, along with Nobel and Turing award winners, co-founded the foundation for Science and AI research (SAIR), a non-profit to court private funding to fill the gap left by federal cuts to pursue science research.
+
+What struck me most was what the funding crisis is doing to the culture of math.
+
+“I think we have to hustle more, become sort of more entrepreneurial,” Tao said. “Some people thrive in that. Some people don’t. Soft skills become more important.”
+
+The math wizard whose reputation rests on solving complex equations, is now advising his students that knowing how to pitch and sell is important.
+
+“You don’t just have to pitch to geometers,” Tao said. “You may have to sell it to someone who does data science or biology. What are the other ways to repackage what you do so you can get funding?”
+
+This sentiment landed on me strangely.
+
+
+
+
+The Institute for Pure and Applied Mathematics (IPAM) at UCLA
+Tao’s second challenge is leading the field of mathematics into the AI-assisted future.
+
+Three years ago, Tao predicted that by 2026, AIs would make a co-author-level contribution to a math research paper. He was right. “I’m quite pleased with my prediction. I think that’s roughly where we are right now,” he said. The speed of evolution from graduate level math student to research scientist over the past three years has surprised many mathematicians including Tao.
+
+That pace has accelerated in the past year, as AI has solved a subset of longstanding unsolved math problems — called Erdős Problems — and won a gold medal in the international math Olympiad. In January, OpenAI claimed its GPT-5.2 Pro model solved an Erdős problem, and said it’s “going to be a wild year” for mathematical and scientific advancement.
+
+Tao has been impressed but not entirely satisfied.
+
+“When a human student or researcher works on a problem, they don’t just solve the problem. They try things and they fail, and then they learn something, and then they try a new approach. There’s a sort of story and a narrative that you can build out of it. Sometimes the journey is actually more important than the destination.
+
+When we talk about wanting to solve a problem, we don’t actually just want the answer. That’s like only wanting the ending of a movie. You want the whole thing. So sometimes these AI solutions are unsatisfactory. It’s like they showed you the last five minutes of a movie, but you didn’t get to see the rest of it. Now, how come you are not entertained.”
+
+Tao’s recommendation is as AI-assisted proofs become more common, there’s a need to “destigmatize” responsible use of AI, while being vigilant about irresponsible use. He wants the field to abandon the centuries-old method of using just the blackboard and move towards “industrial scale mathematics” and use AI to churn out hundreds of 1000s of problems at a time, and do quantitative studies of what problem techniques work better than others.
+
+But he also acknowledged the anxiety of it all. “There is the fear that maybe if these AIs become too effective, the next ChatGPT is something that can solve 1000 thesis problems at once. What do you do then?” Tao said.
+
+“I don’t think this will happen right away.”
+
+

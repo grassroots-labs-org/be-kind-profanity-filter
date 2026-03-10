@@ -1,0 +1,203 @@
+Debate Question: Given advanced AI, is it time for government to step in and guide development, or should we leave it to the market?
+
+TLDR: Kokotajlo thinks regulation is necessary because concentration of power (both corporate and governmental) and loss-of-control risks are too severe to leave to the market. Dean thinks government intervention will likely make things worse — the executive branch will centralize power and weaponize AI; he prefers market incentives, third-party auditors, and new private institutions as checks. They both agree on: importance of 3rd-party verification and auditing of labs, investing in traditional government checks on executive power (e.g., from judiciary), and establishing conditions for an eventual US–China bilateral agreement.
+
+Phase 1: Clarifying Differences
+Daniel’s case for regulation
+Reason 1: Concentration of power.
+
+Whoever controls the first ASI will be able to do “magical” things. This causes massive power asymmetry — they could rule the world. E.g., a US corporation puppeting the US government; the US disabling the nuclear deterrence of China and Russia.
+
+The AGI race might be winner-take-all, especially given automated research and potential government capture.
+
+A single company could control the world’s most powerful AIs, the government, etc.
+
+So, we should probably regulate the CEOs.
+
+Reason 2: Loss of control / existential risk.
+
+Labs say they’ll use AIs for automated alignment research, but this is obviously a chicken-and-egg problem — how will a possibly unaligned AI solve alignment?
+
+We’re not on track to solve the thorny alignment problems, and companies can’t be trusted to be aligned with values that are beneficial for all of humanity. So we need regulation.
+
+preferred policy ideas: Advocate for transparency; make a deal with China and other countries to proceed slowly.
+
+Dean’s case against regulation
+Government will inevitably step in to shape the trajectory of AGI/ASI. Dean thinks that concentration of government power would be extremely bad, because the government holds a “monopoly over legitimate violence” and can act upon upon it.
+
+Once the government becomes AGI-pilled, they’ll try to take over. (1) They’ll implement export controls; (2) they’ll diffuse technology on their terms. We’re starting to see sparks of understanding in government.
+
+Two core concerns about government power:
+
+(A) Opportunities for government tyranny will be plentiful.
+
+(B) The law can be enforced with lots of imperfections — if the government uses AIs to enforce perfectly, that’s terrifying. (cf. Communications Act of 1934.)
+
+The infrastructure for nationalizing AI labs was being put into place at the end of the Biden administration. The Trump administration wants to use AIs for autonomous lethal weapons and mass surveillance. Government should not have that power.
+
+The possibilities of surveillance and infinite tyranny are basically already baked into American law, so we must be cautious about regulation.
+
+Has faith in the private sector and private actors generally:
+
+Believes we can build new, healthier institutions: AI will be so transformative that wholly new institutions will be possible at very low cost; the private sector gives inherently more room to experiment with these new institutions!
+
+Favors third-party audits, consumer activism/demand (decentralized groundswell).
+
+Thinks markets will do better for alignment
+
+Believes the Anthropic thesis that virtue-based ethics alignment will probably just work for human-scale intelligence systems, and will be a major capabilities advantage over systems aligned in a positivist fashion (rules-based).
+
+Rebuttals
+Daniel’s rebuttal of Dean
+Dean’s argument relies on the government ‘staying asleep at the wheel’ — but it seems like this would also be really bad; e.g., it could enable the leading AI company to gain basically unchecked power.
+
+Also, if you think the government ‘wakeup’ to AGI will happen eventually, maybe we should do it ASAP. This is an ‘only way out is through’ sort of situation. We just have to rely on checks and balances, spread of power, etc. to reduce the tyrannical potential of the government.
+
+Right now, everyone is asleep at the wheel except the AI companies. It seems better to wake everyone up.
+
+Dean’s response
+Agrees that AI in entirely private hands would be very bad. We need a hybrid approach, but this is obviously walking a narrow tightrope.
+
+Proposal: we should create structured mechanisms to give political leaders a ‘cozy’ feeling of control over what’s happening.
+
+Specific proposals:
+
+Create “institutions of private governance”: centers of power other than labs and the executive branch
+
+Independent 3rd-party auditors as a check on frontier lab power — i.e., organizations for auditing, verification, and so on which are involved in both labs and the government.
+
+Get the liability regime right as a macro-incentive.
+
+Accept it’ll be messy; arm yourself. Frame it as “us and the AIs vs. government power centralization.”
+
+Thinks it’s fundamentally a political fight.
+
+Dean on timelines and knowledge work automation
+Total autonomy of knowledge work is more complicated than abstract models suggest. Complex knowledge work relies on soft things — charisma, trust, integrity — that have a human flavor.
+
+Tyler Cowen said something like “people are a bottleneck”! Yes, humans will be the bottleneck — our preferences for human things. Automation will proceed in a strange way.
+
+The world where OpenAI is 100% automatable is a “new type of institution” that will take time to evolve. That world will be very alien and won’t arrive immediately after an intelligence explosion.
+
+We have longer to deal with emerging risks than Daniel expects.
+
+Politics is a human game. Automating politics is like automating sex — it’s a category error. It’s inherently human-to-human.
+
+Daniel on third-party auditors
+He has trouble believing third-party auditors will succeed fast enough.
+
+Government has the power of guns; tech has the AIs and the money.
+
+Third-party auditors have small potatoes — the press, lawsuits.
+
+Even with robust auditing, the government might wake up and seize control anyway. AND the AIs could still be misaligned.
+
+Dean’s response on how it could work
+Bets that could pay off:
+
+(1) Never bet against the incompetence of American political actors and regulators. This is a consistent track record.
+
+(2) There are real impediments to government takeover. Thinks Anthropic could win a lawsuit against the entire government/DoD. One key spectrum in AI politics: where you sit on centralization of power.
+
+Both Dean and Daniel care about open-source and decentralization of power.
+
+Nationalizing labs would probably cause a market crash, which would make a president unenthusiastic.
+
+Models many things Daniel supports as increasing the power of the executive branch. This shouldn’t be a debate about “should we regulate at all, ever?” but rather: bank on the government being lame and boring, rather than moving quickly and taking risks.
+
+vishnuamritpydah@gmail.com
+password
+vishnuamritpydah@gmail.com
+Subscribe
+Phase 2: Exploring Synthesis
+Steelmanning each other
+Dean to Daniel:
+
+“I keep waiting for you to be wrong! You’ve basically been right about timelines so far though.”
+
+The policy Kokotajlo describes is eminently possible on paper. In practice, it’s incredibly difficult to move even a millimeter, but in principle you just have to sign a piece of paper!
+
+Maybe when more people/institutions are AGI-pilled, then Daniel’s plan for regulation will just work!
+
+Daniel to Dean:
+
+The US government is a scary entity. They’ll flail around and try to grab power. This is a steelman for the anti-regulation case.
+
+They could make a deal with China, but they won’t want to — they’ll want to win. Nice international agreements aren’t what the government normally does, and they might mess it up even if they try.
+
+On US–China parity
+Dean: Wouldn’t you want more parity between China and the US on AI, compute, data centers, etc., because this would make a bilateral deal more feasible? (The logic: if one side has a massive lead, they have no incentive to negotiate, but if capabilities are roughly equal, both sides have more reason to come to the table, because neither can count on winning a race).
+
+Daniel:
+
+His position on export controls has shifted (!!). He used to be in favor of restricting chip sales to China, but now he’s moving in the other direction — probably good to equalize bilateral AI power somewhat.
+
+That said, the bigger bottleneck for a deal is enforceability rather than parity. If chips are being smuggled at scale, it’s hard to verify compliance with any AI agreement. So even if both sides want a deal, it might not be worth much.
+
+Top priority: make the preconditions of a deal met — which means figuring out the enforcement problem.
+
+What would it take to change your position?
+Daniel:
+
+If private companies followed through with good private governance mechanisms that addressed concentration-of-power/safety risks without needing government regulation. E.g., the old merge-assist clause at OpenAI.
+
+Dean:
+
+The cruxy question is: at what point do worries about AI risk outweigh worries about government tyranny? His views would flip if market incentives don't actually incentivize alignment — e.g., evidence that models are deeply misaligned.
+
+On Anthropic vs. DoW
+Daniel: Predicts Anthropic will lose out in the current fight — they’ve lost government contracts and that’s pretty devastating. But maybe they’ll come out ahead.
+
+Dean: Thinks Anthropic made the right move. Anthropic making aligned superintelligence would be an act of political rebellion against the government.
+
+Daniel: Still believes in Congress, the Supreme Court, and checks and balances. Advocates for transparency regulations. But he’s become disillusioned with the EA/AI safety idea of “just do the technical stuff” — companies aren’t on track to solve alignment on time, and the default outcome without governance intervention is a tech company puppeteering the government.
+
+Dean: What matters less is what the law says on paper, and more who has the power and can do the thing.
+
+Points of agreement and disagreement
+They disagree on logical next steps and on what 2030 looks like for superpowerful systems. But they converge on several things:
+
+Power concentration is a major concern. Neither wants the executive branch accumulating unchecked power. Invest in the judiciary.
+
+Alignment is a major concern. Should be working on auditing and verification methods.
+
+Conditions for a US–China bilateral agreement should be established — even if the deal itself is far off.
+
+Two logical next steps they both endorse:
+
+Verification and auditing of labs.
+
+Establish conditions so that the US and China could bilaterally agree to slow down or shut things down.
+
+Ball thinks alignment will be solved by the market. Kokotajlo is much less confident. Both care about open-source and decentralization of power. Both acknowledge that we kind of gotta get lucky :)
+
+My takes
+I was very pleasantly surprised by the generosity and intellectual charity of the conversation! Both parties had reasonable takes on what information would make them update, and they agreed on more than I expected. I was particularly impressed by Ball’s depth of understanding, as I was pretty unfamiliar with him going into the talk- has clearly thought a lot about this.
+
+I generally side with Kokotajlo in believing that Dean is probably too optimistic about markets enabling alignment - I worry a good amount about loss of control and also think that many new misalignment modes will arise as we begin recursive self-improvement and near ASI. That said, Ball has a very interesting and pragmatic view of government, and describes the mundanity of DC operations; I’d like to get a better feel of this.
+
+My opinions post-debate are the following:
+
+bad to nationalize the labs and centralize power in the hands of the US government
+
+good to try and reach a bilateral AI trade deal with China ASAP, to reduce race dynamics. I’m not dialed into geopolitics — how hard will this be, and what are the main areas of agreement that may need to be reaached/areas to chip away at for consensus-building?
+
+What I’ve heard from people who are more knowledgeable about China is that China has not woken up to AGI yet; also, they feel somewhat disincentivzed to develop AGI because it would threaten their country’s stability. This means that they will likely just ‘race to AGI’ when American domination starts being perceived as a greater threat than internal stability (maybe it already is?). I’m interested in how others think these dynamics will play out.
+
+we should be generally wary of centralization for the purposes of securitization (across multiple scales).
+
+More people should be building decentralized/diffused technology. I think the prospects for decentralization endeavors being successful are grim, but we should be nothing if not hopeful.
+
+more third-party auditing of frontier labs for accountability. (I’m working on this!)
+
+We should aim to strengthen democracy generally — get the bicep curls in to build resilience for the arm-wrestling contest (against AIs, and/or power-hungry actors generally).
+
+one possible future is where Anthropic makes it to AGI/ASI first and uses its AI to puppeteer the US government and enforce a liberal world order. This is commonly seen as one of the better possible futures out there; at least A\ is kind of aligned? and plausibly they could end up diffusing benefits and enabling more pluralistic futures than other contenders of the AGI race.
+
+Redistribution post-centralization would be great but we shouldn't bank on it (beware Stalinism).
+
+I’m skeptical that Anthropic is that much better than other actors out there. I still ultimately hope we can reach pluralistic and decentralized futures that don't have to go through a dangerous intermediary step of centralization first.
+
+even if we make it through all of that, there is also the other thing of literally having SUPERINTELLIGENT AI. Loss of control risks are tough. I agree with Ball that the world will look very strange, and also that the road to full automation will turn out to be more weirdly jagged or slower than expected — though not, IMO, in any way that truly matters for slowing down automation of the most economically valuable tasks or reducing human disempowerment.
+
+More technical AI safety folks should consider making impact through auditing & measurements!! I’m going to be writing more about this in the future. For an initial rec, read Jacob Steinhardt’s recent post on open problems in TAIG.

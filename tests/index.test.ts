@@ -1,11 +1,5 @@
 import filter from "../src/index.js";
-import hindiBadWordsList from "../src/languages/hindi-words.js";
-import bengaliBadWordsList from "../src/languages/bengali-words.js";
-import tamilBadWordsList from "../src/languages/tamil-words.js";
-import teluguBadWordsList from "../src/languages/telugu-words.js";
-import frenchBadWordsList from "../src/languages/french-words.js";
-import germanBadWordsList from "../src/languages/german-words.js";
-import spanishBadWordsList from "../src/languages/spanish-words.js";
+import allLanguagesBadWords from "../src/languages/english-primary-all-languages.js";
 
 
 // Sample words for testing
@@ -42,15 +36,7 @@ const LEET_SPEAK_TESTS = [
 
 describe("AllProfanity Filter - Upgraded Test Suite", () => {
   beforeAll(() => {
-    // Load multiple languages using the new API
-    filter.loadLanguages([
-      "bengali",
-      "tamil",
-      "telugu",
-      "french",
-      "german",
-      "spanish",
-    ]);
+    // All languages are loaded by default via the consolidated word list
 
     // Add custom test words - FIXED: use 'add' instead of 'addWords'
     filter.add([
@@ -84,51 +70,12 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
   describe("Language Management", () => {
     test("should report loaded languages", () => {
       const loaded = filter.getLoadedLanguages();
-      expect(loaded).toEqual(
-        expect.arrayContaining([
-          "english",
-          "hindi",
-          "bengali",
-          "tamil",
-          "telugu",
-          "french",
-          "german",
-          "spanish",
-        ])
-      );
+      expect(loaded).toContain("all");
     });
 
     test("should report available languages", () => {
       const available = filter.getAvailableLanguages();
-      expect(available).toEqual(
-        expect.arrayContaining([
-          "hindi",
-          "bengali",
-          "tamil",
-          "telugu",
-          "french",
-          "german",
-          "spanish",
-        ])
-      );
-    });
-
-    test("should load Indian languages in bulk", () => {
-      const { AllProfanity } = require("../src/index");
-      const newFilter = new AllProfanity();
-      const loadedCount = newFilter.loadIndianLanguages();
-      expect(loadedCount).toBe(4);
-
-      const loaded = newFilter.getLoadedLanguages();
-      expect(loaded).toEqual(
-        expect.arrayContaining([
-          "english",
-          "hindi",
-          "bengali",
-          "tamil",
-          "telugu",
-        ])
-      );
+      expect(available).toContain("all");
     });
   });
 
