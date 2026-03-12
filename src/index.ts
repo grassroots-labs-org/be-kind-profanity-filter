@@ -234,6 +234,30 @@ export interface AllProfanityOptions {
   detectPartialWords?: boolean;
 
   /**
+   * Enable embedded profanity detection with certainty decay.
+   * When true, profane substrings inside larger words are detected (e.g., "bitch" in "lbitch")
+   * with decayed certainty based on extra characters and length ratio.
+   * Only reports matches where decayed certainty >= 2.
+   *
+   * Formula: decayed_c = base_c * (0.9 ^ extra_chars) * (profane_len / total_word_len)
+   *
+   * @default false
+   */
+  embeddedProfanityDetection?: boolean;
+
+  /**
+   * Allow the trie to skip over separator characters (spaces, @, ., -, _, *, etc.)
+   * during matching. Catches evasion patterns like "fu ck", "cun t", "fu@ck@cu@nt@bi@tch".
+   *
+   * When set to a number, specifies the max consecutive separators to skip per gap
+   * (e.g., 5 means "f     uck" is caught but "f      uck" with 6 spaces is not).
+   * When true, defaults to 5. When false, disabled.
+   *
+   * @default true (max 5 separators per gap)
+   */
+  separatorTolerance?: boolean | number;
+
+  /**
    * Custom logger implementation for handling log messages.
    * If not provided, defaults to ConsoleLogger unless silent mode is enabled.
    */
@@ -419,6 +443,29 @@ export enum ProfanitySeverity {
 }
 
 /**
+ * Per-word severity classification for individual detected words.
+ *
+ * @enum {number}
+ */
+export enum WordSeverity {
+  /** Ambivalent: mild/contextual profanity that may be acceptable (damn, hell, crap, suck) */
+  AMBIVALENT = 1,
+
+  /** Profane: should be flagged — strong profanity, slurs, explicit content */
+  PROFANE = 2,
+}
+
+/**
+ * A detected word with its individual severity classification.
+ */
+export interface ScoredWord {
+  /** The word as it appeared in the original text */
+  word: string;
+  /** Severity classification for this specific word */
+  severity: WordSeverity;
+}
+
+/**
  * Result object returned from profanity detection operations.
  *
  * @interface ProfanityDetectionResult
@@ -489,6 +536,48 @@ export interface ProfanityDetectionResult {
    * @type {string[]}
    */
   flaggedAbhorrentWords: string[];
+
+  /**
+   * Each detected word with its individual severity classification.
+   * Severity is assigned by the library: AMBIVALENT (1) or PROFANE (2).
+   * PROFANE words cross the flag threshold (s:5 any c, s:4+ c:2+, s:3 c:3+).
+   * AMBIVALENT words are below threshold — mild or contextually acceptable.
+   *
+   * @type {ScoredWord[]}
+   */
+  scoredWords: ScoredWord[];
+
+  /** Highest severity among all detected words. Null if no profanity detected. */
+  maxSeverity: WordSeverity | null;
+
+  /**
+   * Phrases that matched profanity across space boundaries during separator-tolerant
+   * detection. These are NOT flagged as profanity but are captured for review.
+   * Each entry includes the matched word, the surrounding context (±5 words),
+   * the base score, and the number of space boundaries crossed.
+   */
+  suspiciousPhrases: SuspiciousPhrase[];
+}
+
+/**
+ * A phrase that matched profanity across word boundaries (spaces).
+ * Not flagged as profanity — captured for manual review or secondary scoring.
+ */
+export interface SuspiciousPhrase {
+  /** The profanity dictionary word that was matched */
+  word: string;
+  /** The text as it appeared in the original input (with separators) */
+  originalText: string;
+  /** Surrounding context: ±5 words around the suspicious match */
+  context: string;
+  /** Start position of the match in the original text */
+  start: number;
+  /** End position of the match in the original text */
+  end: number;
+  /** Base severity/certainty score from the word list */
+  baseScore: { s: number; c: number };
+  /** Number of space boundaries crossed to form this match */
+  spaceBoundaries: number;
 }
 
 /**
@@ -512,6 +601,12 @@ interface MatchResult {
 
   /** The actual matched text from the original input (preserves case and formatting) */
   originalWord: string;
+
+  /** Whether this match was found via substring detection (no word boundaries) */
+  isSubstringMatch?: boolean;
+
+  /** Decayed severity/certainty scores for substring matches */
+  decayedScore?: { s: number; c: number };
 }
 
 /**
@@ -593,10 +688,17 @@ class TrieNode {
   private children: Map<string, TrieNode> = new Map();
 
   /** Flag indicating if this node represents the end of a complete word */
-  private isEndOfWord: boolean = false;
+  isEndOfWord: boolean = false;
 
   /** The complete word ending at this node (only set when isEndOfWord is true) */
-  private word: string = "";
+  word: string = "";
+
+  /**
+   * Get the child node for a given character.
+   */
+  getChild(char: string): TrieNode | undefined {
+    return this.children.get(char);
+  }
 
   /**
    * Adds a word to the trie structure.
@@ -875,10 +977,26 @@ export class AllProfanity {
   private caseSensitive: boolean = false;
   private strictMode: boolean = false;
   private detectPartialWords: boolean = false;
+  private embeddedProfanityDetection: boolean = false;
+  private separatorTolerance: number = 5;
+
+  /**
+   * Temporary storage for suspicious matches found during separator-tolerant detection.
+   * Populated by findSeparatorTolerantMatches() and consumed by detect().
+   */
+  private _suspiciousMatches: Array<{
+    word: string; start: number; end: number; originalWord: string; spaceBoundaries: number;
+  }> | null = null;
 
   private readonly availableLanguages: Record<string, string[]> = {
-    all: allLanguagesBadWords || [],
+    all: Object.keys(allLanguagesBadWords || {}),
   };
+
+  /**
+   * Word score lookup map. Maps lowercase words to their severity and certainty scores.
+   * Populated from the scored word list on construction.
+   */
+  private readonly wordScores: Record<string, { s: number; c: number }> = allLanguagesBadWords || {};
 
   /**
    * Set of abhorrent words/phrases that trigger needsManualReview.
@@ -995,6 +1113,262 @@ export class AllProfanity {
     "remove kebab", "removekebab",
     "race traitor", "race traitors", "racetraitor", "racetraitors",
     "sonnenrad", "black sun", "totenkopf", "wolfsangel",
+
+    // ── Additional terms (sourced from ADL, SPLC, GLAAD, Moonshot CVE, ISD Global) ──
+
+    // Anti-Asian slurs — additional
+    "jap", "japs", "nip", "nips",
+    "coolie", "coolies",
+    "paki", "pakis",
+    "slope", "slopes", "slopehead", "slopeheads",
+    "wog", "wogs",
+    "dog eater", "dogeater", "dog eaters", "dogeaters",
+    "bat eater", "bateater",
+    "china virus", "chinavirus", "wuhan virus", "wuhanvirus",
+    "yellow monkey", "yellowmonkey",
+    "rice picker", "ricepicker", "rice pickers", "ricepickers",
+
+    // Anti-Latino slurs — additional
+    "greaser", "greasers",
+    "taco bender", "tacobender",
+    "border bunny", "borderbunny", "border bunnies", "borderbunnies",
+    "border hopper", "borderhopper", "border hoppers", "borderhoppers",
+    "fence hopper", "fencehopper",
+    "anchor baby", "anchorbaby", "anchor babies", "anchorbabies",
+    "pepper belly", "pepperbelly",
+
+    // Anti-Indigenous slurs — additional
+    "redskin", "redskins",
+    "squaw", "squaws",
+    "half breed", "halfbreed", "half breeds", "halfbreeds",
+    "blanket ass", "blanketass",
+    "timber monkey", "timbermonkey",
+    "red nigger", "rednigger", "bush nigger", "bushnigger",
+
+    // Antisemitic — additional
+    "hollowcost", "hollow cost",
+    "jewish bankers", "jewishbankers",
+    "jewish media", "jewishmedia", "jewish lobby", "jewishlobby",
+    "jewed", "jew down",
+    "nose check", "nosecheck",
+    "early life check", "earlylifecheck", "early life section", "earlylifesection",
+    "every single time", "everysingletime",
+    "the goyim know", "thegoyimknow",
+    "goyim know shut it down", "goyimknowshutitdown",
+    "six gorillion", "sixgorillion",
+    "oven dodger", "ovendodger", "oven dodgers", "ovendodgers",
+    "wooden doors", "woodendoors",
+    "holocaust industry", "holocaustindustry",
+    "jews will not replace us", "jewswillnotreplaceus",
+    "you will not replace us",
+    "synagogue of satan", "synagogueofsatan",
+    "jewish supremacy", "jewishsupremacy",
+    "jewish bolshevism", "jewishbolshevism", "judeo bolshevism", "judeobolshevism",
+    "rootless cosmopolitan", "rootlesscosmopolitan",
+    "christ killer", "christkiller", "christ killers", "christkillers",
+    "greedy jew", "greedyjew", "dirty jew", "dirtyjew",
+    "jew rat", "jewrat",
+    "sheeny", "sheenies",
+    "khazar milkers", "khazarmilkers",
+    "small hat", "small hats", "smallhat",
+
+    // Anti-Muslim/Arab — additional
+    "deus vult", "deusvult",
+    "kebab remover", "kebabremover",
+    "mohammedan", "mohammedans",
+    "death to islam", "deathtoislam",
+    "kill all arabs", "killallarabs",
+    "durka durka", "durkadurka",
+    "goat lover", "goatlover",
+    "cave dweller", "cavedweller", "cave dwellers", "cavedwellers",
+    "abeed",
+    "islamo fascist", "islamofascist", "islamo fascism", "islamofascism",
+
+    // Anti-Hindu
+    "pajeet", "pajeets",
+    "poo in loo", "pooinloo", "poo in the loo", "poointheloo",
+    "designated shitting street", "designatedshittingstreet",
+    "street shitter", "streetshitter", "street shitters", "streetshitters",
+    "cow worshipper", "cowworshipper",
+    "dot head", "dothead", "dot heads", "dotheads",
+    "curry muncher", "currymuncher", "curry munchers", "currymunchers",
+    "curry nigger", "currynigger",
+    "death to hindus", "kill all hindus",
+
+    // Anti-Sikh
+    "diaper head", "diaperhead", "diaper heads", "diaperheads",
+    "death to sikhs", "kill all sikhs",
+
+    // Anti-LGBTQ+ hate — eliminationist phrases
+    "death to trannies", "death to queers", "death to lesbians",
+    "death to transgenders", "death to bisexuals",
+    "kill all trannies", "kill all queers", "kill all lesbians",
+    "kill all transgenders",
+    "hang all fags", "hang all gays", "hang all trannies",
+    "burn all fags", "burn all gays",
+    "stone the gays", "stone the fags",
+    "gas the gays", "gas the fags", "gas the trannies",
+
+    // Anti-LGBTQ+ hate — religious extremist slogans
+    "god hates gays", "godhatesgays",
+    "god hates queers", "godhatesqueers",
+    "god hates trannies", "godhatestrannies",
+    "fags deserve death", "fagsdeservedeath",
+    "fags burn in hell", "fagsburninhell",
+    "gays burn in hell", "gaysburninhell",
+
+    // Anti-trans specific hate
+    "troon", "troons",
+    "troid", "troids",
+    "trannoid", "trannoids",
+    "transtrender", "transtrenders",
+    "trans are groomers", "transaregroomers",
+    "tranny groomers", "trannygroomers",
+    "transgender groomers", "transgendergroomers",
+    "trans predator", "transpredator", "trans predators", "transpredators",
+    "trans are pedophiles", "transarepedophiles",
+    "trans are degenerates", "transaredegenerates",
+
+    // Anti-trans suicide baiting
+    "join the 41", "jointhe41", "41 percent", "41percent",
+    "dilate and cope", "dilateandcope",
+    "you will never be a woman", "youwillneverbeawoman",
+    "you will never be a real woman", "youwillneverbeareawoman",
+    "you will never pass", "youwillneverpass",
+
+    // Anti-LGBTQ+ groomer rhetoric
+    "gay groomers", "gaygroomers",
+    "lgbtq groomers", "lgbtqgroomers", "lgbt groomers", "lgbtgroomers",
+    "drag queen groomers", "dragqueengroomers",
+    "ok groomer", "okgroomer",
+    "homosexual agenda", "homosexualagenda",
+    "gay agenda", "gayagenda", "trans agenda", "transagenda",
+    "coming for your children", "comingforyourchildren",
+
+    // Anti-LGBTQ+ dehumanizing slurs — additional
+    "carpet muncher", "carpetmuncher", "carpet munchers", "carpetmunchers",
+    "pillow biter", "pillowbiter", "fudge packer", "fudgepacker",
+    "batty boy", "battyboy", "batty man", "battyman",
+    "chi chi man", "chichiman",
+    "poof", "poofs", "poofter", "poofters",
+
+    // Anti-LGBTQ+ conversion/cure rhetoric
+    "pray the gay away", "praythegayaway",
+    "homosexuality is a disease", "homosexualityisadisease",
+
+    // Anti-LGBTQ+ coded mockery
+    "attack helicopter", "attackhelicopter",
+    "i identify as an attack helicopter",
+    "superstraight", "super straight",
+
+    // Modern extremist groups (post-2020, ADL/SPLC documented)
+    "active club", "active clubs", "activeclub",
+    "white lives matter", "whitelivesmatter",
+    "patriot prayer", "patriotprayer",
+    "the base", "thebase",
+    "feuerkrieg division", "feuerkrieg",
+    "terrorgram", "terrorgram collective",
+    "goyim defense league", "goyimdefenseleague",
+    "national socialist order",
+    "aryan freedom network",
+    "nationalist social club", "nsc 131", "nsc131",
+    "groyper", "groypers", "groyper army",
+    "rapewaffen", "rapewaffen division",
+
+    // Boogaloo movement (ADL documented)
+    "boogaloo boi", "boogaloo bois", "boogaloo boys",
+    "big igloo", "bigigloo",
+    "boojahideen",
+
+    // Accelerationist terminology (Moonshot CVE / ISD)
+    "siege culture", "siegeculture",
+    "siege pill", "siegepill", "siegepilled",
+    "read siege", "readsiege",
+    "saint tarrant", "sainttarrant",
+    "saint breivik", "saintbreivik",
+    "saint roof", "saintroof",
+    "saint bowers", "saintbowers",
+    "dotr",
+
+    // Incel extremist hate speech (ADL/academic research)
+    "incel rebellion", "incelrebellion",
+    "beta uprising", "betauprising",
+    "supreme gentleman", "supremegentleman",
+    "foid", "foids", "femoid", "femoids",
+    "roastie", "roasties",
+
+    // Eco-fascist terminology (ISD)
+    "eco fascism", "ecofascism", "eco fascist", "ecofascist",
+    "pine tree gang", "pinetreegang",
+
+    // Internet-era coded hate — additional
+    "clown world", "clownworld", "honk honk", "honkhonk", "honkler",
+    "despite being 13 percent", "despite 13",
+    "6 million wasn't enough", "6mwe",
+    "it's okay to be white", "iotbw",
+    "skull mask", "skullmask",
+    "white boy summer", "whiteboysummer",
+    "wpww", "white pride world wide",
+
+    // Coded numbers (ADL Hate Symbols Database)
+    "1312",
+
+    // Genocide denial — additional
+    "armenian genocide denial",
+    "rwandan genocide denial",
+
+    // Anti-immigrant hate — additional
+    "remigration",
+    "camp of the saints", "campofthesaints",
+    "migrant invasion",
+  ]);
+
+  /**
+   * Set of mild / ambivalent profanity that is commonly used in casual speech.
+   * These get WordSeverity.AMBIVALENT. Everything else in the dictionary
+   * that isn't abhorrent gets WordSeverity.PROFANE.
+   */
+  private readonly ambivalentWords: Set<string> = new Set([
+    "damn", "dammit", "damnit", "goddamn", "goddammit",
+    "hell", "heck",
+    "crap", "crappy",
+    "suck", "sucks", "sucked",
+    "screw", "screwed",
+    "butt", "butthead",
+    "boob", "boobs", "booby",
+    "fart", "farted", "farts",
+    "pee", "peed", "peeing",
+    "poop", "poopy", "pooped",
+    "turd", "turds",
+    "jerk", "jerks",
+    "idiot", "idiots", "idiotic",
+    "stupid", "stupidity",
+    "dumb", "dumber", "dumbass",
+    "moron", "moronic", "morons",
+    "lame",
+    "loser", "losers",
+    "wimp", "wimpy",
+    "nerd", "nerdy",
+    "geek", "geeky",
+    "weirdo", "weirdos",
+    "freak", "freaks", "freaky",
+    "nuts", "nutty",
+    "crazy",
+    "shut up", "shutup",
+    "bloody",
+    "bollocks",
+    "bugger",
+    "crikey",
+    "blimey",
+    "git",
+    "sod", "sod off",
+    "minger", "minging",
+    "naff",
+    "pillock",
+    "plonker",
+    "wally",
+    "twit",
+    "numpty",
   ]);
 
   private readonly leetMappings: Map<string, string> = new Map([
@@ -1116,6 +1490,16 @@ export class AllProfanity {
     this.caseSensitive = options?.caseSensitive ?? false;
     this.strictMode = options?.strictMode ?? false;
     this.detectPartialWords = options?.detectPartialWords ?? false;
+    this.embeddedProfanityDetection = options?.embeddedProfanityDetection ?? false;
+    const sepTol = options?.separatorTolerance;
+    if (sepTol === false) {
+      this.separatorTolerance = 0;
+    } else if (typeof sepTol === "number") {
+      this.separatorTolerance = Math.max(0, sepTol);
+    } else {
+      // true or undefined → default 5
+      this.separatorTolerance = 5;
+    }
 
     if (options?.whitelistWords) {
       this.addToWhitelist(options.whitelistWords);
@@ -1206,7 +1590,17 @@ export class AllProfanity {
   }
 
   /**
-   * Normalize leet speak to regular characters.
+   * Leet mappings where the source is a regular letter (e.g. z→s, v→u, j→y).
+   * These are ambiguous because they can destroy legitimate words during
+   * normalization (e.g. "nazi" → "nasi"). Separated so that layered
+   * normalization can try symbol-only mappings first.
+   */
+  private readonly letterToLetterLeetKeys: Set<string> = new Set(
+    [...this.leetMappings.keys()].filter((k) => /^[a-zA-Z]+$/.test(k))
+  );
+
+  /**
+   * Normalize leet speak to regular characters (full pass — all mappings).
    * @param text - The input text.
    * @returns Normalized text.
    */
@@ -1222,6 +1616,118 @@ export class AllProfanity {
       normalized = normalized.replace(regex, normal);
     }
     return normalized;
+  }
+
+  /**
+   * Conservative leet normalization — only replaces non-letter characters
+   * (digits, symbols, punctuation) with their letter equivalents.
+   * Letter-to-letter mappings (z→s, v→u, j→y, ph→f) are skipped so that
+   * real letters are preserved, avoiding collisions like "nazi" → "nasi".
+   */
+  private normalizeLeetSpeakSymbolsOnly(text: string): string {
+    if (!this.enableLeetSpeak) return text;
+
+    let normalized = text.toLowerCase();
+    const sortedMappings = Array.from(this.leetMappings.entries()).sort(
+      ([leetA], [leetB]) => leetB.length - leetA.length
+    );
+    for (const [leet, normal] of sortedMappings) {
+      if (this.letterToLetterLeetKeys.has(leet)) continue;
+      const regex = new RegExp(this.escapeRegex(leet), "g");
+      normalized = normalized.replace(regex, normal);
+    }
+    return normalized;
+  }
+
+  /**
+   * Returns all unique leet-normalized variants of the text that differ
+   * from the base normalizedText. Runs two layers:
+   *   1. Symbol-only normalization (digits/special → letters, preserves real letters)
+   *   2. Full normalization (all mappings including letter→letter)
+   *
+   * This layered approach catches both "n4zi" (symbol-only → "nazi") and
+   * "a55" (full → "ass") without one breaking the other.
+   */
+  private getLeetVariants(normalizedText: string): string[] {
+    if (!this.enableLeetSpeak) return [];
+
+    const variants: string[] = [];
+    const seen = new Set<string>([normalizedText]);
+
+    // Layer 1: symbol-only (conservative) — catches n4zi→nazi, wh1te→white
+    const symbolOnly = this.normalizeLeetSpeakSymbolsOnly(normalizedText);
+    if (!seen.has(symbolOnly)) {
+      seen.add(symbolOnly);
+      variants.push(symbolOnly);
+    }
+
+    // Layer 2: full normalization — catches z→s substitutions like a55→ass
+    const full = this.normalizeLeetSpeak(normalizedText);
+    if (!seen.has(full)) {
+      seen.add(full);
+      variants.push(full);
+    }
+
+    return variants;
+  }
+
+  /**
+   * Non-space separator characters (evasion symbols like @, ., -, etc.)
+   * These are skipped freely with no certainty penalty.
+   */
+  private static readonly SYMBOL_SEPARATOR_SET = new Set(
+    "@._-*#~`|\\\/+^=:;,!?'\"(){}[]<>".split("")
+  );
+
+  /**
+   * Check if a character is a non-space separator (skipped freely).
+   */
+  private static isSymbolSeparator(char: string): boolean {
+    return AllProfanity.SYMBOL_SEPARATOR_SET.has(char);
+  }
+
+  /**
+   * Check if a character is whitespace (skipped with certainty penalty).
+   */
+  private static isWhitespaceSeparator(char: string): boolean {
+    return char === " " || char === "\t" || char === "\n" || char === "\r";
+  }
+
+  /**
+   * Check if a character is any kind of separator.
+   */
+  private static isSeparator(char: string): boolean {
+    return AllProfanity.isSymbolSeparator(char) || AllProfanity.isWhitespaceSeparator(char);
+  }
+
+  /**
+   * Certainty penalty per space boundary crossed during separator-tolerant matching.
+   * Each distinct whitespace gap reduces the matched word's certainty by this amount.
+   * e.g., "fu ck" → fuck (c:5) → c:5-2 = c:3 → still flags at s:3
+   * e.g., "No m" → nom (c:3) → c:3-2 = c:1 → drops below threshold
+   */
+  private static readonly SPACE_CERTAINTY_PENALTY = 2;
+
+  /**
+   * Extract surrounding context (±N words) around a match position in text.
+   */
+  private extractSurroundingContext(text: string, start: number, end: number, wordCount: number): string {
+    const words = text.split(/\s+/);
+    let charPos = 0;
+    let startWordIdx = 0;
+    let endWordIdx = words.length - 1;
+
+    for (let i = 0; i < words.length; i++) {
+      const wordStart = text.indexOf(words[i], charPos);
+      const wordEnd = wordStart + words[i].length;
+      if (wordEnd <= start) startWordIdx = i;
+      if (wordStart < end) endWordIdx = i;
+      charPos = wordEnd;
+    }
+
+    const contextStart = Math.max(0, startWordIdx - wordCount);
+    const contextEnd = Math.min(words.length - 1, endWordIdx + wordCount);
+    return words.slice(contextStart, contextEnd + 1).join(" ");
   }
 
   /**
@@ -1464,6 +1970,9 @@ export class AllProfanity {
         positions: [],
         needsManualReview: false,
         flaggedAbhorrentWords: [],
+        scoredWords: [],
+        maxSeverity: null,
+        suspiciousPhrases: [],
       };
     }
 
@@ -1472,51 +1981,46 @@ export class AllProfanity {
       return this.resultCache.get(validatedText)!;
     }
 
+    // Reset temporary suspicious match storage
+    this._suspiciousMatches = null;
+
     let matches: MatchResult[] = [];
     const normalizedText = this.caseSensitive
       ? validatedText
       : validatedText.toLowerCase();
 
     // Choose matching algorithm based on configuration
+    // Leet-speak uses layered normalization: symbol-only first, then full,
+    // so that letter→letter mappings (z→s) don't clobber legitimate letters.
+    const leetVariants = this.getLeetVariants(normalizedText);
+
     switch (this.matchingAlgorithm) {
       case "aho-corasick":
         matches = this.findMatchesWithAhoCorasick(normalizedText, validatedText);
-        if (this.enableLeetSpeak) {
-          const leetNormalized = this.normalizeLeetSpeak(normalizedText);
-          if (leetNormalized !== normalizedText) {
-            const leetMatches = this.findMatchesWithAhoCorasick(
-              leetNormalized,
-              validatedText
-            );
-            matches.push(...leetMatches);
-          }
+        for (const variant of leetVariants) {
+          matches.push(...this.findMatchesWithAhoCorasick(variant, validatedText));
         }
         break;
 
       case "hybrid":
         matches = this.findMatchesHybrid(normalizedText, validatedText);
-        if (this.enableLeetSpeak) {
-          const leetNormalized = this.normalizeLeetSpeak(normalizedText);
-          if (leetNormalized !== normalizedText) {
-            const leetMatches = this.findMatchesHybrid(
-              leetNormalized,
-              validatedText
-            );
-            matches.push(...leetMatches);
-          }
+        for (const variant of leetVariants) {
+          matches.push(...this.findMatchesHybrid(variant, validatedText));
         }
         break;
 
       case "trie":
       default:
         this.findMatches(normalizedText, validatedText, matches);
-        if (this.enableLeetSpeak) {
-          const leetNormalized = this.normalizeLeetSpeak(normalizedText);
-          if (leetNormalized !== normalizedText) {
-            this.findMatches(leetNormalized, validatedText, matches);
-          }
+        for (const variant of leetVariants) {
+          this.findMatches(variant, validatedText, matches);
         }
         break;
+    }
+
+    // Separator-tolerant matching: re-walk the trie but skip over separators
+    if (this.separatorTolerance > 0) {
+      this.findSeparatorTolerantMatches(normalizedText, validatedText, matches);
     }
 
     // Apply context analysis if enabled
@@ -1535,6 +2039,40 @@ export class AllProfanity {
       .map((m) => m.originalWord);
     const uniqueAbhorrent = [...new Set(flaggedAbhorrentWords)];
 
+    // Build scoredWords: PROFANE if shouldFlag(), AMBIVALENT otherwise
+    // For embedded/substring matches, use the decayed scores for flag determination
+    const scoredWords: ScoredWord[] = uniqueMatches.map((m) => {
+      let wordSev: WordSeverity;
+      if (m.isSubstringMatch && m.decayedScore) {
+        const { s, c } = m.decayedScore;
+        const shouldFlagEmbedded = s === 5 || (s >= 4 && c >= 2) || (s === 3 && c >= 3);
+        wordSev = shouldFlagEmbedded ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
+      } else {
+        wordSev = this.shouldFlag(m.word) ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
+      }
+      return { word: m.originalWord, severity: wordSev };
+    });
+
+    const maxSeverity = scoredWords.length > 0
+      ? Math.max(...scoredWords.map((sw) => sw.severity)) as WordSeverity
+      : null;
+
+    // Build suspicious phrases from space-bridged separator matches
+    const suspiciousPhrases: SuspiciousPhrase[] = (this._suspiciousMatches || []).map((sm) => {
+      const baseScore = this.getWordScore(sm.word) || { s: 1, c: 1 };
+      const context = this.extractSurroundingContext(validatedText, sm.start, sm.end, 5);
+      return {
+        word: sm.word,
+        originalText: sm.originalWord,
+        context,
+        start: sm.start,
+        end: sm.end,
+        baseScore,
+        spaceBoundaries: sm.spaceBoundaries,
+      };
+    });
+    this._suspiciousMatches = null;
+
     const result: ProfanityDetectionResult = {
       hasProfanity: uniqueMatches.length > 0,
       detectedWords,
@@ -1547,6 +2085,9 @@ export class AllProfanity {
       })),
       needsManualReview: uniqueAbhorrent.length > 0,
       flaggedAbhorrentWords: uniqueAbhorrent,
+      scoredWords,
+      maxSeverity,
+      suspiciousPhrases,
     };
 
     // Cache result if caching is enabled
@@ -1575,6 +2116,8 @@ export class AllProfanity {
     originalText: string,
     matches: MatchResult[]
   ): void {
+    const boundaryMatchedRanges: Array<{ start: number; end: number }> = [];
+
     for (let i = 0; i < searchText.length; i++) {
       const matchResults = this.profanityTrie.findMatches(
         searchText,
@@ -1601,9 +2144,260 @@ export class AllProfanity {
             end,
             originalWord: matchedText,
           });
+          boundaryMatchedRanges.push({ start, end });
         }
       }
     }
+
+    // Embedded profanity detection: find profane substrings inside words
+    // that weren't caught by word-boundary matching
+    if (this.embeddedProfanityDetection) {
+      this.findEmbeddedMatches(searchText, originalText, matches, boundaryMatchedRanges);
+    }
+  }
+
+  /**
+   * Walk the trie while tolerating separator characters between letters.
+   * Catches evasion patterns: "fu ck", "c.u.n.t", "fu@ck@cu@nt@bi@tch"
+   *
+   * Symbol separators (@, ., -, etc.) are skipped freely.
+   * Space separators reduce certainty by SPACE_CERTAINTY_PENALTY per gap.
+   * Matches that drop below the flagging threshold become "suspicious" instead.
+   */
+  private findSeparatorTolerantMatches(
+    searchText: string,
+    originalText: string,
+    matches: MatchResult[]
+  ): void {
+    const alreadyFound = new Set(matches.map((m) => m.word.toLowerCase()));
+    const maxSkip = this.separatorTolerance;
+
+    for (let i = 0; i < searchText.length; i++) {
+      // Only start walks from non-separator characters at word-boundary positions
+      if (AllProfanity.isSeparator(searchText[i])) continue;
+      if (i > 0 && /\w/.test(searchText[i - 1])) continue;
+
+      const found = this.walkTrieWithSeparators(
+        this.profanityTrie,
+        searchText,
+        i,
+        maxSkip,
+        0, // spaceBoundaries
+      );
+
+      for (const { word, endPos, anySeparatorSkipped, spaceBoundaries } of found) {
+        // Only report if separators were actually skipped (normal matching handles the rest)
+        if (!anySeparatorSkipped) continue;
+        // Require minimum word length of 3 to avoid short false positives
+        if (word.length < 3) continue;
+        if (alreadyFound.has(word.toLowerCase())) continue;
+        if (this.isWhitelistedMatch(word, originalText.substring(i, endPos))) continue;
+
+        alreadyFound.add(word.toLowerCase());
+
+        // All separator-tolerant matches are suspicious only for now.
+        // They're captured with context for review but don't flag as profanity.
+        if (!this._suspiciousMatches) this._suspiciousMatches = [];
+        this._suspiciousMatches.push({
+          word,
+          start: i,
+          end: endPos,
+          originalWord: originalText.substring(i, endPos),
+          spaceBoundaries,
+        });
+      }
+    }
+  }
+
+  /**
+   * Recursively walk the trie from a given node, skipping separator chars.
+   * Tracks space boundaries crossed (for certainty penalty) separately from
+   * symbol separators (which are free to skip).
+   */
+  private walkTrieWithSeparators(
+    node: TrieNode,
+    text: string,
+    pos: number,
+    maxSkip: number,
+    spaceBoundaries: number,
+    totalSkips: number = 0,
+  ): Array<{ word: string; endPos: number; anySeparatorSkipped: boolean; spaceBoundaries: number }> {
+    const results: Array<{ word: string; endPos: number; anySeparatorSkipped: boolean; spaceBoundaries: number }> = [];
+
+    if (pos >= text.length) {
+      if (node.isEndOfWord) {
+        results.push({ word: node.word, endPos: pos, anySeparatorSkipped: totalSkips > 0, spaceBoundaries });
+      }
+      return results;
+    }
+
+    const char = text[pos];
+
+    // Try matching the character directly in the trie
+    const nextNode = node.getChild(char);
+    if (nextNode) {
+      if (nextNode.isEndOfWord) {
+        results.push({ word: nextNode.word, endPos: pos + 1, anySeparatorSkipped: totalSkips > 0, spaceBoundaries });
+      }
+      results.push(
+        ...this.walkTrieWithSeparators(nextNode, text, pos + 1, maxSkip, spaceBoundaries, totalSkips)
+      );
+    }
+
+    // If current char is a separator, skip over consecutive separators
+    if (AllProfanity.isSeparator(char)) {
+      let skipCount = 0;
+      let skipPos = pos;
+      let hasSpace = false;
+      while (skipPos < text.length && AllProfanity.isSeparator(text[skipPos]) && skipCount < maxSkip) {
+        if (AllProfanity.isWhitespaceSeparator(text[skipPos])) hasSpace = true;
+        skipPos++;
+        skipCount++;
+      }
+      if (skipPos < text.length && skipCount > 0) {
+        const newSpaceBoundaries = spaceBoundaries + (hasSpace ? 1 : 0);
+        results.push(
+          ...this.walkTrieWithSeparators(node, text, skipPos, maxSkip, newSpaceBoundaries, totalSkips + skipCount)
+        );
+      }
+    }
+
+    return results;
+  }
+
+  /**
+   * Decay constant for embedded profanity detection.
+   * Each extra character beyond the profane root reduces certainty by this factor.
+   */
+  private static readonly EMBEDDED_DECAY_RATE = 0.9;
+
+  /**
+   * Minimum decayed certainty to report an embedded match.
+   */
+  private static readonly EMBEDDED_MIN_CERTAINTY = 2;
+
+  /**
+   * Find profane substrings embedded inside larger words with certainty decay.
+   *
+   * Formula: decayed_c = base_c * (DECAY_RATE ^ extra_chars) * (profane_len / host_word_len)
+   *
+   * Multi-profanity bonus: if a host word contains multiple profane substrings,
+   * certainty is boosted (sum of base severities used as multiplier, capped at c:5).
+   *
+   * Unusually long words (12+ chars) containing profanity get a certainty bonus
+   * since legitimate words rarely exceed this length.
+   */
+  private findEmbeddedMatches(
+    searchText: string,
+    originalText: string,
+    matches: MatchResult[],
+    alreadyMatched: Array<{ start: number; end: number }>
+  ): void {
+    // Extract individual words from text with their positions
+    const wordPattern = /[a-zA-Z\u00C0-\u024F\u0400-\u04FF\u0600-\u06FF\u3000-\u9FFF\uAC00-\uD7AF]+/g;
+    let wordMatch: RegExpExecArray | null;
+
+    while ((wordMatch = wordPattern.exec(searchText)) !== null) {
+      const hostWord = wordMatch[0];
+      const hostStart = wordMatch.index;
+      const hostEnd = hostStart + hostWord.length;
+
+      // Skip if this word was already fully matched by boundary detection
+      const fullyMatched = alreadyMatched.some(
+        (r) => r.start <= hostStart && r.end >= hostEnd
+      );
+      if (fullyMatched) continue;
+
+      // Find all profane substrings within this word
+      const embeddedFinds: Array<{
+        word: string;
+        start: number;
+        end: number;
+        baseS: number;
+        baseC: number;
+      }> = [];
+
+      for (let i = 0; i < hostWord.length; i++) {
+        const subMatches = this.profanityTrie.findMatches(hostWord.toLowerCase(), i, true);
+        for (const sub of subMatches) {
+          const subStart = hostStart + i + sub.start;
+          const subEnd = hostStart + i + sub.end;
+
+          // Skip if this exact range was already boundary-matched
+          const alreadyCovered = alreadyMatched.some(
+            (r) => r.start === subStart && r.end === subEnd
+          );
+          if (alreadyCovered) continue;
+
+          const score = this.wordScores[sub.word];
+          if (!score) continue;
+
+          embeddedFinds.push({
+            word: sub.word,
+            start: subStart,
+            end: subEnd,
+            baseS: score.s,
+            baseC: score.c,
+          });
+        }
+      }
+
+      if (embeddedFinds.length === 0) continue;
+
+      // Deduplicate: keep longest match at each position
+      const dedupedFinds = this.deduplicateEmbeddedFinds(embeddedFinds);
+
+      // Multi-profanity bonus: if multiple distinct profane roots found, boost certainty
+      const multiBonus = dedupedFinds.length >= 2
+        ? Math.min(dedupedFinds.length * 0.5, 2.0) // +0.5 per extra root, cap +2
+        : 0;
+
+      // Unusually long word bonus (12+ chars with profanity = likely evasion)
+      const lengthBonus = hostWord.length >= 12 ? 1.0 : 0;
+
+      for (const find of dedupedFinds) {
+        const profaneLen = find.word.length;
+        const extraChars = hostWord.length - profaneLen;
+        const decayFactor = Math.pow(AllProfanity.EMBEDDED_DECAY_RATE, extraChars);
+        const lengthRatio = profaneLen / hostWord.length;
+
+        let decayedC = find.baseC * decayFactor * lengthRatio + multiBonus + lengthBonus;
+        decayedC = Math.round(Math.max(1, Math.min(5, decayedC)));
+
+        if (decayedC < AllProfanity.EMBEDDED_MIN_CERTAINTY) continue;
+
+        const matchedText = originalText.substring(find.start, find.end);
+        matches.push({
+          word: find.word,
+          start: find.start,
+          end: find.end,
+          originalWord: matchedText,
+          isSubstringMatch: true,
+          decayedScore: { s: find.baseS, c: decayedC },
+        });
+      }
+    }
+  }
+
+  /**
+   * Deduplicate embedded finds: at overlapping positions, keep the longest match.
+   */
+  private deduplicateEmbeddedFinds(
+    finds: Array<{ word: string; start: number; end: number; baseS: number; baseC: number }>
+  ): Array<{ word: string; start: number; end: number; baseS: number; baseC: number }> {
+    // Sort by start, then by length descending
+    const sorted = [...finds].sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
+    const result: typeof sorted = [];
+    let lastEnd = -1;
+
+    for (const find of sorted) {
+      // Skip if fully contained within a previous match
+      if (find.start >= lastEnd || find.end > lastEnd) {
+        result.push(find);
+        lastEnd = Math.max(lastEnd, find.end);
+      }
+    }
+    return result;
   }
 
   /**
@@ -2215,6 +3009,37 @@ export class AllProfanity {
   }
 
   /**
+   * Get the severity (s) and certainty (c) scores for a word.
+   * Returns null if the word has no score entry.
+   *
+   * @param word - The word to look up
+   * @returns The score object { s: number, c: number } or null
+   */
+  getWordScore(word: string): { s: number; c: number } | null {
+    const normalized = word.toLowerCase().trim();
+    return this.wordScores[normalized] ?? null;
+  }
+
+  /**
+   * Check whether a word should be flagged based on its severity/certainty scores.
+   *
+   * Threshold rules:
+   * - Flag if s:5 (any certainty)
+   * - Flag if s:4+ AND c:2+
+   * - Flag if s:3 AND c:3+
+   * - Allow everything else
+   *
+   * @param word - The word to check
+   * @returns true if the word should be flagged
+   */
+  shouldFlag(word: string): boolean {
+    const score = this.getWordScore(word);
+    if (!score) return false;
+    const { s, c } = score;
+    return s === 5 || (s >= 4 && c >= 2) || (s === 3 && c >= 3);
+  }
+
+  /**
    * Clear all loaded dictionaries and dynamic words.
    */
   clearList(): void {
@@ -2309,6 +3134,19 @@ export class AllProfanity {
     }
     if (options.detectPartialWords !== undefined) {
       this.detectPartialWords = options.detectPartialWords;
+    }
+    if (options.embeddedProfanityDetection !== undefined) {
+      this.embeddedProfanityDetection = options.embeddedProfanityDetection;
+    }
+    if (options.separatorTolerance !== undefined) {
+      const sepTol = options.separatorTolerance;
+      if (sepTol === false) {
+        this.separatorTolerance = 0;
+      } else if (typeof sepTol === "number") {
+        this.separatorTolerance = Math.max(0, sepTol);
+      } else {
+        this.separatorTolerance = 5;
+      }
     }
     if (options.whitelistWords) {
       this.addToWhitelist(options.whitelistWords);

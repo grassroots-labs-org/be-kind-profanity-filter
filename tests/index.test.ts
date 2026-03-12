@@ -1,4 +1,5 @@
 import filter from "../src/index.js";
+import { WordSeverity } from "../src/index.js";
 import allLanguagesBadWords from "../src/languages/english-primary-all-languages.js";
 
 
@@ -6,7 +7,7 @@ import allLanguagesBadWords from "../src/languages/english-primary-all-languages
 const HINDI_BAD_WORD_ROMAN = "chutiya";
 const HINDI_BAD_WORD_DEVANAGARI = "भोसड़ी";
 const HINGLISH_BAD_WORD = "behenchod";
-const HINGLISH_VARIATION = "bc";
+const HINGLISH_VARIATION = "bhosdike";
 const BENGALI_BAD_WORD_SCRIPT = "বাল";
 const BENGALI_BAD_WORD_ROMAN = "bal";
 const TAMIL_BAD_WORD_SCRIPT = "கூதி";
@@ -484,6 +485,168 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
         "bullshit"
       );
       expect(text.substring(fuckPos!.start, fuckPos!.end)).toBe("fuck");
+    });
+  });
+
+  // ==========================================================
+  // Word Scoring Tests
+  // ==========================================================
+  describe("Word Scoring - getWordScore", () => {
+    test("should return severity and certainty for known words", () => {
+      const fuckScore = filter.getWordScore("fuck");
+      expect(fuckScore).toEqual({ s: 3, c: 5 });
+
+      const niggerScore = filter.getWordScore("nigger");
+      expect(niggerScore).toEqual({ s: 5, c: 5 });
+
+      const damnScore = filter.getWordScore("damn");
+      expect(damnScore).not.toBeNull();
+      expect(damnScore!.s).toBeLessThanOrEqual(2);
+    });
+
+    test("should return null for unknown words", () => {
+      expect(filter.getWordScore("excellent")).toBeNull();
+      expect(filter.getWordScore("hello")).toBeNull();
+      expect(filter.getWordScore("basketball")).toBeNull();
+    });
+
+    test("should be case-insensitive", () => {
+      expect(filter.getWordScore("FUCK")).toEqual(filter.getWordScore("fuck"));
+      expect(filter.getWordScore("Shit")).toEqual(filter.getWordScore("shit"));
+    });
+
+    test("should return scores for non-English words", () => {
+      const merdeScore = filter.getWordScore("merde");
+      expect(merdeScore).not.toBeNull();
+      expect(merdeScore!.s).toBeGreaterThanOrEqual(1);
+      expect(merdeScore!.c).toBeGreaterThanOrEqual(1);
+
+      const scheisseScore = filter.getWordScore("scheisse");
+      expect(scheisseScore).not.toBeNull();
+    });
+
+    test("should score evasion variants with c:5", () => {
+      const fcukScore = filter.getWordScore("fcuk");
+      expect(fcukScore).not.toBeNull();
+      expect(fcukScore!.c).toBe(5);
+
+      const n1ggerScore = filter.getWordScore("n1gger");
+      expect(n1ggerScore).not.toBeNull();
+      expect(n1ggerScore!.c).toBe(5);
+      expect(n1ggerScore!.s).toBe(5);
+    });
+  });
+
+  describe("Word Scoring - shouldFlag", () => {
+    test("should flag s:5 words regardless of certainty", () => {
+      // s:5, c:5
+      expect(filter.shouldFlag("nigger")).toBe(true);
+      expect(filter.shouldFlag("cunt")).toBe(true);
+      // s:5, c:2 — common innocent usage but flagged at s:5
+      expect(filter.shouldFlag("gay")).toBe(true);
+    });
+
+    test("should flag s:4+ with c:2+", () => {
+      // s:4, c:5
+      expect(filter.shouldFlag("blowjob")).toBe(true);
+      // s:4, c:4
+      expect(filter.shouldFlag("pussy")).toBe(true);
+      // s:4, c:3
+      expect(filter.shouldFlag("penis")).toBe(true);
+    });
+
+    test("should NOT flag s:4 with c:1", () => {
+      // s:4, c:1 — common innocent usage (name, etc.)
+      expect(filter.shouldFlag("dick")).toBe(false);
+    });
+
+    test("should flag s:3 with c:3+", () => {
+      // s:3, c:5
+      expect(filter.shouldFlag("fuck")).toBe(true);
+      expect(filter.shouldFlag("shit")).toBe(true);
+      // s:3, c:4
+      expect(filter.shouldFlag("bitch")).toBe(true);
+      // s:3, c:3
+      expect(filter.shouldFlag("ass")).toBe(true);
+    });
+
+    test("should NOT flag s:3 with c:2 or less", () => {
+      // s:3, c:2
+      expect(filter.shouldFlag("suck")).toBe(false);
+    });
+
+    test("should NOT flag s:2 words", () => {
+      expect(filter.shouldFlag("hell")).toBe(false);
+      expect(filter.shouldFlag("damn")).toBe(false);
+      expect(filter.shouldFlag("crap")).toBe(false);
+    });
+
+    test("should NOT flag s:1 words", () => {
+      expect(filter.shouldFlag("muppet")).toBe(false);
+      expect(filter.shouldFlag("plonker")).toBe(false);
+    });
+
+    test("should return false for unknown words", () => {
+      expect(filter.shouldFlag("excellent")).toBe(false);
+      expect(filter.shouldFlag("hello")).toBe(false);
+    });
+  });
+
+  describe("Word Scoring - detect() scoredWords and maxSeverity", () => {
+    test("should include scoredWords in detection results", () => {
+      const result = filter.detect("What the fuck is this bullshit?");
+      expect(result.scoredWords).toBeDefined();
+      expect(result.scoredWords.length).toBeGreaterThan(0);
+
+      // fuck and bullshit should both be PROFANE (s:3, c:5)
+      const fuckEntry = result.scoredWords.find((sw) => sw.word === "fuck");
+      expect(fuckEntry).toBeDefined();
+      expect(fuckEntry!.severity).toBe(WordSeverity.PROFANE);
+
+      const bsEntry = result.scoredWords.find((sw) => sw.word === "bullshit");
+      expect(bsEntry).toBeDefined();
+      expect(bsEntry!.severity).toBe(WordSeverity.PROFANE);
+    });
+
+    test("should set maxSeverity to PROFANE when flaggable words detected", () => {
+      const result = filter.detect("This is fucking terrible.");
+      expect(result.maxSeverity).toBe(WordSeverity.PROFANE);
+    });
+
+    test("should return empty scoredWords and null maxSeverity for clean text", () => {
+      const result = filter.detect("This is a perfectly clean sentence.");
+      expect(result.scoredWords).toEqual([]);
+      expect(result.maxSeverity).toBeNull();
+    });
+
+    test("should classify below-threshold words as AMBIVALENT", () => {
+      // hell is s:2, c:2 — below flag threshold
+      const result = filter.detect("hell");
+      const hellEntry = result.scoredWords.find((sw) => sw.word === "hell");
+      expect(hellEntry).toBeDefined();
+      expect(hellEntry!.severity).toBe(WordSeverity.AMBIVALENT);
+    });
+
+    test("should classify damn as AMBIVALENT", () => {
+      // damn is s:2, c:2 — below flag threshold
+      const result = filter.detect("damn");
+      const damnEntry = result.scoredWords.find((sw) => sw.word === "damn");
+      expect(damnEntry).toBeDefined();
+      expect(damnEntry!.severity).toBe(WordSeverity.AMBIVALENT);
+    });
+
+    test("should handle mixed severity words", () => {
+      // hell = AMBIVALENT (s:2,c:2), asshole = PROFANE (s:3,c:5)
+      const result = filter.detect("What the hell kind of asshole does that?");
+      const hellEntry = result.scoredWords.find((sw) => sw.word === "hell");
+      const assholeEntry = result.scoredWords.find((sw) => sw.word === "asshole");
+
+      expect(hellEntry).toBeDefined();
+      expect(hellEntry!.severity).toBe(WordSeverity.AMBIVALENT);
+      expect(assholeEntry).toBeDefined();
+      expect(assholeEntry!.severity).toBe(WordSeverity.PROFANE);
+      // maxSeverity should be PROFANE (highest)
+      expect(result.maxSeverity).toBe(WordSeverity.PROFANE);
     });
   });
 

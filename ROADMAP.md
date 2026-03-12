@@ -15,6 +15,75 @@
 
 ## 🚀 High-Impact, Implementable Features
 
+### 0. Near-Term TODOs (from current development) ✅ 🟢
+
+**Status:** Partially implemented, needs iteration
+
+#### 0a. Context-Triggered Word Detection
+**Problem:** Short ambiguous words like "bj", "dom", "cu" can't be in the word list alone (false positives) but ARE profane with the right context words nearby.
+
+**Approach:** Define context rules per ambiguous word:
+```typescript
+interface ContextRule {
+  word: string;                // ambiguous word to watch for
+  score: { s: number; c: number };  // score when context triggers
+  contextWords: string[];      // danger words that elevate this term
+  windowSize?: number;         // ±N words to check (default: 5)
+}
+// Example:
+{ word: "bj", score: { s:4, c:5 },
+  contextWords: ["girl","boy","man","woman","me","you","give","get","want","suck",...],
+  windowSize: 5 }
+```
+When "bj" appears within ±5 words of any contextWord → flag as profane.
+Also applies to: "dom" (near "sub"/"bdsm"/"slave"), "cu" (near sexual terms), etc.
+
+**Effort:** 2-3 days
+**Priority:** 🔥 HIGH — unblocks adding back removed 2-char entries safely
+
+#### 0b. Separator Tolerance → Full Flagging (currently suspicious-only)
+**Problem:** All separator-tolerant matches (e.g., "fu@ck", "c.u.n.t") currently route to `suspiciousPhrases` only — not flagged as profanity. Need to graduate symbol-only separator matches to full flags while keeping space-bridged matches as suspicious.
+
+**Approach:** Two-tier:
+- Symbol-only gaps (no spaces): flag with certainty proportional to word score
+- Space-containing gaps: suspicious only, with certainty penalty per space boundary
+
+**Effort:** 1 day
+**Priority:** 🔥 HIGH — separator evasion should flag
+
+#### 0c. Forking Trie Walk with Leet Speak
+**Problem:** Current leet speak is a pre-pass (normalize whole text, then walk trie). Can't handle combos like "fv@ck" → leet(v)=u + skip @ → "fuck".
+
+**Approach:** During trie walk, at each character position, fork up to N decision paths:
+1. Match character literally
+2. Match after leet normalization
+3. Skip separator character
+4. Combinations of above
+
+Cap at ~6 concurrent forks to bound performance.
+
+**Effort:** 3-5 days
+**Priority:** 🟡 MEDIUM — catches sophisticated multi-layer evasion
+
+#### 0d. Language-Aware Certainty Weighting
+**Problem:** Non-English words in the word list (e.g., "banda", "nom", "choda") false-positive when English text is analyzed. Need to weight certainty based on detected input language.
+
+**Approach:**
+1. Lightweight language detection (character frequency / common word presence)
+2. If input is English, reduce certainty for words scored as non-English profanity
+3. Store source language metadata per word in scored word list
+
+**Effort:** 1-2 weeks
+**Priority:** 🟡 MEDIUM — reduces cross-language false positives
+
+#### 0e. Clean Up Cyrillic Homoglyph Ghost Words
+**Problem:** 49 entries with mixed Cyrillic+Latin characters (e.g., "соck" with Cyrillic с/о) exist as evasion entries. Some create phantom trie matches (e.g., "CK" → "ck" matching). These should be handled by the homoglyph normalization layer (item 1 below) instead of being literal word list entries.
+
+**Effort:** 1 day (after homoglyph detection is implemented)
+**Priority:** 🟡 MEDIUM
+
+---
+
 ### 1. Unicode Homoglyph Detection ✅ 🟢
 
 **Status:** IMPLEMENTABLE with minimal performance impact
@@ -717,6 +786,11 @@ class IntentClassifier {
 
 | Feature | Effort | Performance Impact | Detection Gain | Priority |
 |---------|--------|-------------------|----------------|----------|
+| Context-Triggered Words | Low (2-3 days) | 🟢 Minimal | Qualitative | 🔥 HIGH |
+| Separator → Full Flag | Low (1 day) | 🟢 None | +20% | 🔥 HIGH |
+| Forking Trie Walk + Leet | Med (3-5 days) | 🟡 Moderate | +15% | 🟡 MEDIUM |
+| Language-Aware Certainty | Med (1-2 weeks) | 🟢 Minimal | Qualitative | 🟡 MEDIUM |
+| Cyrillic Ghost Cleanup | Low (1 day) | 🟢 None | Qualitative | 🟡 MEDIUM |
 | Homoglyph Detection | Low (1-2 days) | 🟢 Minimal | +35% | 🔥 HIGH |
 | Zero-Width Removal | Low (1 day) | 🟢 None | +15% | 🔥 HIGH |
 | Spacing/Punctuation | Low (2-3 days) | 🟢 Minimal | +25% | 🔥 HIGH |

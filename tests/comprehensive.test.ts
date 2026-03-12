@@ -11,8 +11,9 @@ import allLanguagesBadWords from "../src/languages/english-primary-all-languages
  * Filters out multi-word phrases. Allows single-character words for
  * CJK and other non-Latin scripts where single characters are meaningful.
  */
-function pickWords(list: string[], count: number, minLength = 2): string[] {
-  const singleWords = list.filter(
+function pickWords(list: Record<string, { s: number; c: number }> | string[], count: number, minLength = 2): string[] {
+  const words = Array.isArray(list) ? list : Object.keys(list);
+  const singleWords = words.filter(
     (w) => w.length >= minLength && !w.includes(" ")
   );
   return singleWords.slice(0, count);

@@ -12,8 +12,9 @@ import allLanguagesBadWords from "../src/languages/english-primary-all-languages
  */
 
 // Helper: pick N single-word entries (no spaces, length >= 3) from the word list
-function pickWords(words: string[], count: number): string[][] {
-  const singleWords = words.filter(
+function pickWords(words: Record<string, { s: number; c: number }> | string[], count: number): string[][] {
+  const wordList = Array.isArray(words) ? words : Object.keys(words);
+  const singleWords = wordList.filter(
     (w) => !w.includes(" ") && w.length >= 3 && !/[.\/\-_*#@$!+(){}|<>\\]/.test(w)
   );
   // Deduplicate
