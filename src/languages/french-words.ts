@@ -11,6 +11,7 @@ const frenchBadWords: Record<string, { s: number; c: number }> = {
   // ========================================
   "merde": { s: 3, c: 4 }, // Shit
   "putain": { s: 3, c: 4 }, // Whore / Fuck! (very common interjection)
+  "con": { s: 3, c: 4 }, // Idiot/asshole (vulgar)
   "conne": { s: 1, c: 4 }, // Idiot, asshole, cunt (fem./masc.)
   "connard": { s: 3, c: 4 },
   "connasse": { s: 3, c: 4 }, // Bigger asshole/bitch (masc./fem.)
@@ -207,6 +208,8 @@ const frenchBadWords: Record<string, { s: number; c: number }> = {
   "tais-toi!": { s: 3, c: 5 }, // Be quiet! (can be rude depending on tone)
   "enculé de ta race": { s: 3, c: 5 }, // Fuck your race (very offensive)
   "ta race": { s: 3, c: 4 }, // Your race (offensive)
+  "pet": { s: 2, c: 3 }, // Fart
+  "sale": { s: 2, c: 3 }, // Dirty/filthy
   "couillon": { s: 1, c: 4 }, // Idiot / Balls (regional)
   "branlette": { s: 3, c: 4 }, // Handjob
   "tantouse": { s: 3, c: 4 }, // Gay (derogatory)

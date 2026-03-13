@@ -20,6 +20,7 @@ const germanBadWords: Record<string, { s: number; c: number }> = {
   "Hure": { s: 5, c: 4 }, // Whore
   "Schlampe": { s: 4, c: 3 }, // Slut, bitch
   "Mist": { s: 3, c: 4 }, // Manure, crap, damn
+  "mist": { s: 1, c: 3 }, // Crap/manure (mild)
   "Verdammt": { s: 4, c: 3 }, // Damn, damned
   "Arsch": { s: 4, c: 3 }, // Ass
   "Schwanz": { s: 4, c: 4 }, // Tail / Dick, cock (vulgar)
