@@ -616,7 +616,82 @@ Edit `allprofanity.config.json` to enable/disable features. Your IDE will provid
 
 Many words are profane in one language but perfectly innocent in another. For example, "slut" means "end/finish" in Swedish, "fart" means "speed" in Scandinavian languages, and "bite" is a common English word that's vulgar in French. AllProfanity handles these cross-language collisions automatically using a multi-layer language detection and scoring system.
 
-### How It Works
+### Language Detection Architecture
+
+AllProfanity uses a hybrid language detection system with three layers:
+
+**1. ELD N-gram Detection** (`eld/small`)
+We integrate [Nito-ELD](https://github.com/nitotm/efficient-language-detector), a corpus-trained byte-level n-gram language detector supporting 60+ languages. ELD analyzes character sequences (trigrams) and compares them against frequency profiles trained on massive corpora. It provides both per-word scores and full-text Bayesian priors.
+
+*Limitation:* ELD works on UTF-8 byte patterns, so it struggles with accent-stripped text and frequently confuses closely related languages (Swedish ↔ German, Norwegian ↔ Danish). This is why we don't rely on ELD alone.
+
+**2. Trie Vocabulary Detection** (18 languages)
+Per-language tries built from ~200-350 common words each. When a word is looked up, the trie returns a match score (0-1) indicating how strongly the word belongs to that language. Supports accent-tolerant matching (e.g., "gurultu" matches Turkish "gürültü" with a small penalty).
+
+**3. Script Detection**
+Unicode codepoint ranges map characters directly to language families (e.g., Cyrillic → Russian, Devanagari → Hindi). This is deterministic and instant, providing strong signal for non-Latin scripts.
+
+### The `scoreWord()` Function
+
+For each word, `scoreWord()` combines all three layers into a single `Record<string, number>` mapping language codes to confidence scores:
+
+```
+scoreWord("slut") → { sv: 0.8, en: 0.6, de: 0.3, ... }
+                       ↑ Swedish trie match (exact word in vocabulary)
+                            ↑ English trie match (partial/common word)
+                                 ↑ German ELD n-gram signal
+```
+
+Layer weights: Script (1.0) > Trie (0.8) > ELD (0.6) > Suffix (0.3+) > Prefix (0.3+)
+
+### The `detectLanguages()` Function
+
+For full text, `detectLanguages()` runs `scoreWord()` on every word and aggregates results into document-level proportions:
+
+```typescript
+detectLanguages("Programmet börjar klockan åtta och tar slut vid tio")
+// → { languages: [{ language: "de", proportion: 0.6 }, { language: "sv", proportion: 0.3 }, ...] }
+```
+
+*Note:* ELD often classifies Swedish as German due to n-gram similarity. The confusion map (see below) compensates for this.
+
+### Two-Layer Signal Combination
+
+When a collision word is detected, we combine word-level and document-level signals using a **1.5:1 weighted average** favoring the document signal:
+
+```
+amplified[lang] = (scoreWord[lang] × 1.0 + docSignal[lang] × 1.5) / 2.5
+```
+
+The document signal is favored because it provides broader context — a single word's language score can be ambiguous, but the surrounding text usually makes the language clear.
+
+### The Confusion Map
+
+ELD's n-gram model frequently misclassifies Scandinavian languages as German (they share many character patterns). The confusion map treats German signal as partial evidence of Scandinavian:
+
+```
+effectiveAmp["sv"] = max(directAmp["sv"], confusedAmp["de"] × 0.8)
+```
+
+The 0.8 discount prevents over-attribution — German text shouldn't fully count as Swedish, but mostly-German signal in a Scandinavian context should still trigger dampening.
+
+### Certainty Adjustment Formula
+
+Once we have the amplified language signals, `adjustCertaintyForLanguage()` adjusts the word's certainty score:
+
+```
+If innocent language dominates (innocentAmp > profaneAmp):
+  adjusted = certainty × (1 - dampeningFactor × innocentAmp)    ← reduces certainty
+
+If profane language dominates (profaneAmp > innocentAmp):
+  adjusted = certainty × (1 + dampeningFactor × profaneAmp)     ← increases certainty
+
+Result clamped to [0, 5]
+```
+
+The `dampeningFactor` (0-1) controls how aggressively the adjustment works per collision word. Words that are genuinely innocent in another language (e.g., "slut" in Swedish, df=0.9) get heavy dampening, while dangerous dual-meaning words (e.g., "cock" as rooster, df=0.1) barely adjust.
+
+### End-to-End Flow
 
 ```
 Text: "Programmet börjar klockan åtta och tar slut vid tio"
