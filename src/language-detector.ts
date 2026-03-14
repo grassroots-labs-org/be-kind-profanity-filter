@@ -18,8 +18,8 @@
 
 // @ts-ignore — eld ships as JS with .d.ts but no proper ESM types
 import { eld } from "eld/small";
-import { languageTries, phraseSets } from "./language-dicts.ts";
-import { detectRomanization } from "./romanization-detector.ts";
+import { languageTries, phraseSets } from "./language-dicts.js";
+import { detectRomanization } from "./romanization-detector.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -1049,7 +1049,8 @@ export function scoreWord(word: string, eldPenaltyFactor: number = 1.0): WordLan
         const charBonus = Math.pow(1.1, matchedChars);
         effectiveScore = trieScore * TRIE_WEIGHT * 0.1 * Math.min(charBonus, 3);
       }
-      scores[lang] = (scores[lang] || 0) + effectiveScore;
+      const langKey: LanguageCode = lang;
+      scores[langKey] = (scores[langKey] || 0) + effectiveScore;
     }
   }
 

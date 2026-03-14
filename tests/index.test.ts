@@ -494,14 +494,14 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
   describe("Word Scoring - getWordScore", () => {
     test("should return severity and certainty for known words", () => {
       const fuckScore = filter.getWordScore("fuck");
-      expect(fuckScore).toEqual({ s: 3, c: 5 });
+      expect(fuckScore).toEqual(expect.objectContaining({ severity: 3, certainty: 5 }));
 
       const niggerScore = filter.getWordScore("nigger");
-      expect(niggerScore).toEqual({ s: 5, c: 5 });
+      expect(niggerScore).toEqual(expect.objectContaining({ severity: 5, certainty: 5 }));
 
       const damnScore = filter.getWordScore("damn");
       expect(damnScore).not.toBeNull();
-      expect(damnScore!.s).toBeLessThanOrEqual(2);
+      expect(damnScore!.severity).toBeLessThanOrEqual(2);
     });
 
     test("should return null for unknown words", () => {
@@ -518,8 +518,8 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
     test("should return scores for non-English words", () => {
       const merdeScore = filter.getWordScore("merde");
       expect(merdeScore).not.toBeNull();
-      expect(merdeScore!.s).toBeGreaterThanOrEqual(1);
-      expect(merdeScore!.c).toBeGreaterThanOrEqual(1);
+      expect(merdeScore!.severity).toBeGreaterThanOrEqual(1);
+      expect(merdeScore!.certainty).toBeGreaterThanOrEqual(1);
 
       const scheisseScore = filter.getWordScore("scheisse");
       expect(scheisseScore).not.toBeNull();
@@ -528,12 +528,12 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
     test("should score evasion variants with c:5", () => {
       const fcukScore = filter.getWordScore("fcuk");
       expect(fcukScore).not.toBeNull();
-      expect(fcukScore!.c).toBe(5);
+      expect(fcukScore!.certainty).toBe(5);
 
       const n1ggerScore = filter.getWordScore("n1gger");
       expect(n1ggerScore).not.toBeNull();
-      expect(n1ggerScore!.c).toBe(5);
-      expect(n1ggerScore!.s).toBe(5);
+      expect(n1ggerScore!.certainty).toBe(5);
+      expect(n1ggerScore!.severity).toBe(5);
     });
   });
 

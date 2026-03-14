@@ -79,7 +79,7 @@ describe("Separator-Tolerant Detection", () => {
       const result = filter.detect("fu@ck");
       const suspicious = result.suspiciousPhrases.find((sp) => sp.word === "fuck");
       expect(suspicious).toBeDefined();
-      expect(suspicious!.baseScore).toEqual(expect.objectContaining({ s: expect.any(Number), c: expect.any(Number) }));
+      expect(suspicious!.baseScore).toEqual(expect.objectContaining({ severity: expect.any(Number), certainty: expect.any(Number) }));
     });
 
     test("should include space boundary count", () => {

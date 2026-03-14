@@ -1,18 +1,18 @@
 // Consolidated all-languages dictionary import
-import allLanguagesBadWords from "./languages/english-primary-all-languages.ts";
+import allLanguagesBadWords from "./languages/english-primary-all-languages.js";
 
 // Advanced algorithm imports
-import { AhoCorasick, Match as AhoMatch } from "./algos/aho-corasick.ts";
-import { BloomFilter } from "./algos/bloom-filter.ts";
-import { ContextAnalyzer, ContextPatternMatcher } from "./algos/context-patterns.ts";
+import { AhoCorasick, Match as AhoMatch } from "./algos/aho-corasick.js";
+import { BloomFilter } from "./algos/bloom-filter.js";
+import { ContextAnalyzer, ContextPatternMatcher } from "./algos/context-patterns.js";
 
 // Cross-language innocence scoring
-import { detectLanguages, scoreWord } from "./language-detector.ts";
-import innocentWords from "./languages/innocent-words.ts";
-import { adjustCertaintyForLanguage } from "./innocence-scoring.ts";
+import { detectLanguages, scoreWord } from "./language-detector.js";
+import innocentWords from "./languages/innocent-words.js";
+import { adjustCertaintyForLanguage } from "./innocence-scoring.js";
 
 // Export consolidated dictionary for direct access
-export { default as allLanguagesBadWords } from "./languages/english-primary-all-languages.ts";
+export { default as allLanguagesBadWords } from "./languages/english-primary-all-languages.js";
 
 /**
  * Logger interface for AllProfanity library logging operations.
@@ -1001,7 +1001,7 @@ export class AllProfanity {
    * Word score lookup map. Maps lowercase words to their severity and certainty scores.
    * Populated from the scored word list on construction.
    */
-  private readonly wordScores: Record<string, { severity: number; certainty: number; likelihood: number; language: string }> = allLanguagesBadWords || {};
+  private readonly wordScores: Record<string, { severity: number; certainty: number; language: string }> = allLanguagesBadWords || {};
 
   /**
    * Set of abhorrent words/phrases that trigger needsManualReview.
@@ -2033,7 +2033,18 @@ export class AllProfanity {
       matches = this.applyContextAnalysis(validatedText, matches);
     }
 
-    const uniqueMatches = this.deduplicateMatches(matches);
+    const allUniqueMatches = this.deduplicateMatches(matches);
+
+    // Partition: certainty:0 matches become suspicious phrases, not profanity
+    const uniqueMatches = allUniqueMatches.filter((m) => {
+      const score = this.getWordScore(m.word);
+      return !score || score.certainty !== 0;
+    });
+    const suspiciousFromCertaintyZero = allUniqueMatches.filter((m) => {
+      const score = this.getWordScore(m.word);
+      return score && score.certainty === 0;
+    });
+
     const detectedWords = uniqueMatches.map((m) => m.originalWord);
     const severity = this.calculateSeverity(uniqueMatches);
     const cleanedText = this.generateCleanedText(validatedText, uniqueMatches);
@@ -2079,7 +2090,8 @@ export class AllProfanity {
             const TOTAL_WEIGHT = DOC_WEIGHT + WORD_WEIGHT;
             const amplified: Record<string, number> = {};
             for (const lang of new Set([...Object.keys(wordSignal), ...Object.keys(ds)])) {
-              amplified[lang] = ((wordSignal[lang] ?? 0) * WORD_WEIGHT + (ds[lang] ?? 0) * DOC_WEIGHT) / TOTAL_WEIGHT;
+              const lk = lang as keyof typeof wordSignal;
+              amplified[lang] = ((wordSignal[lk] ?? 0) * WORD_WEIGHT + (ds[lk] ?? 0) * DOC_WEIGHT) / TOTAL_WEIGHT;
             }
             const adjustedCertainty = adjustCertaintyForLanguage(
               wordScore.certainty, wordScore.language, innocentEntries, amplified
@@ -2103,7 +2115,9 @@ export class AllProfanity {
       : null;
 
     // Build suspicious phrases from space-bridged separator matches
-    const suspiciousPhrases: SuspiciousPhrase[] = (this._suspiciousMatches || []).map((sm) => {
+    type SuspiciousMatch = { word: string; start: number; end: number; originalWord: string; spaceBoundaries: number };
+    const rawSuspicious: SuspiciousMatch[] = (this._suspiciousMatches as SuspiciousMatch[] | null) ?? [];
+    const suspiciousPhrases: SuspiciousPhrase[] = rawSuspicious.map((sm) => {
       const score = this.getWordScore(sm.word);
       const baseScore = score
         ? { severity: score.severity, certainty: score.certainty }
@@ -2120,6 +2134,21 @@ export class AllProfanity {
       };
     });
     this._suspiciousMatches = null;
+
+    // Append certainty:0 matches as suspicious phrases
+    for (const m of suspiciousFromCertaintyZero) {
+      const score = this.getWordScore(m.word);
+      const context = this.extractSurroundingContext(validatedText, m.start, m.end, 5);
+      suspiciousPhrases.push({
+        word: m.word,
+        originalText: m.originalWord,
+        context,
+        start: m.start,
+        end: m.end,
+        baseScore: { severity: score?.severity ?? 1, certainty: 0 },
+        spaceBoundaries: 0,
+      });
+    }
 
     const result: ProfanityDetectionResult = {
       hasProfanity: uniqueMatches.length > 0,
@@ -2361,8 +2390,8 @@ export class AllProfanity {
         word: string;
         start: number;
         end: number;
-        baseS: number;
-        baseC: number;
+        baseSeverity: number;
+        baseCertainty: number;
       }> = [];
 
       for (let i = 0; i < hostWord.length; i++) {
@@ -3063,7 +3092,7 @@ export class AllProfanity {
    * @param word - The word to look up
    * @returns The score object or null
    */
-  getWordScore(word: string): { severity: number; certainty: number; likelihood: number; language: string } | null {
+  getWordScore(word: string): { severity: number; certainty: number; language: string } | null {
     const normalized = word.toLowerCase().trim();
     return this.wordScores[normalized] ?? null;
   }

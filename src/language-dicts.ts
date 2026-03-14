@@ -5,7 +5,7 @@
  * separate from the detection logic.
  */
 
-import type { LanguageCode } from "./language-detector.ts";
+import type { LanguageCode } from "./language-detector.js";
 
 // ---------------------------------------------------------------------------
 // Vocabulary database — common words for Latin-script disambiguation
