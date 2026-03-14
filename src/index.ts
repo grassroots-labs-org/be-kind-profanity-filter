@@ -6,6 +6,11 @@ import { AhoCorasick, Match as AhoMatch } from "./algos/aho-corasick.ts";
 import { BloomFilter } from "./algos/bloom-filter.ts";
 import { ContextAnalyzer, ContextPatternMatcher } from "./algos/context-patterns.ts";
 
+// Cross-language innocence scoring
+import { detectLanguages, scoreWord } from "./language-detector.ts";
+import innocentWords from "./languages/innocent-words.ts";
+import { adjustCertaintyForLanguage } from "./innocence-scoring.ts";
+
 // Export consolidated dictionary for direct access
 export { default as allLanguagesBadWords } from "./languages/english-primary-all-languages.ts";
 
@@ -575,7 +580,7 @@ export interface SuspiciousPhrase {
   /** End position of the match in the original text */
   end: number;
   /** Base severity/certainty score from the word list */
-  baseScore: { s: number; c: number };
+  baseScore: { severity: number; certainty: number };
   /** Number of space boundaries crossed to form this match */
   spaceBoundaries: number;
 }
@@ -606,7 +611,7 @@ interface MatchResult {
   isSubstringMatch?: boolean;
 
   /** Decayed severity/certainty scores for substring matches */
-  decayedScore?: { s: number; c: number };
+  decayedScore?: { severity: number; certainty: number };
 }
 
 /**
@@ -996,7 +1001,7 @@ export class AllProfanity {
    * Word score lookup map. Maps lowercase words to their severity and certainty scores.
    * Populated from the scored word list on construction.
    */
-  private readonly wordScores: Record<string, { s: number; c: number }> = allLanguagesBadWords || {};
+  private readonly wordScores: Record<string, { severity: number; certainty: number; likelihood: number; language: string }> = allLanguagesBadWords || {};
 
   /**
    * Set of abhorrent words/phrases that trigger needsManualReview.
@@ -2039,16 +2044,49 @@ export class AllProfanity {
       .map((m) => m.originalWord);
     const uniqueAbhorrent = [...new Set(flaggedAbhorrentWords)];
 
+    // Document-level language detection for cross-language innocence scoring
+    const docResult = detectLanguages(text);
+    const docSignal: Record<string, number> = {};
+    for (const lang of docResult.languages) {
+      docSignal[lang.language] = lang.proportion;
+    }
+
     // Build scoredWords: PROFANE if shouldFlag(), AMBIVALENT otherwise
     // For embedded/substring matches, use the decayed scores for flag determination
     const scoredWords: ScoredWord[] = uniqueMatches.map((m) => {
       let wordSev: WordSeverity;
       if (m.isSubstringMatch && m.decayedScore) {
-        const { s, c } = m.decayedScore;
-        const shouldFlagEmbedded = s === 5 || (s >= 4 && c >= 2) || (s === 3 && c >= 3);
+        const { severity, certainty } = m.decayedScore;
+        const shouldFlagEmbedded = severity === 5 || (severity >= 4 && certainty >= 2) || (severity === 3 && certainty >= 3);
         wordSev = shouldFlagEmbedded ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
       } else {
-        wordSev = this.shouldFlag(m.word) ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
+        // Check for cross-language innocence before standard shouldFlag
+        const normalizedWord = m.word.toLowerCase();
+        const innocentEntries = innocentWords[normalizedWord];
+        if (innocentEntries && innocentEntries.length > 0) {
+          const wordScore = this.getWordScore(m.word);
+          if (wordScore) {
+            const wordSignal = scoreWord(normalizedWord);
+            const DOC_WEIGHT = 1.5;
+            const WORD_WEIGHT = 1.0;
+            const TOTAL_WEIGHT = DOC_WEIGHT + WORD_WEIGHT;
+            const amplified: Record<string, number> = {};
+            for (const lang of new Set([...Object.keys(wordSignal), ...Object.keys(docSignal)])) {
+              amplified[lang] = ((wordSignal[lang] ?? 0) * WORD_WEIGHT + (docSignal[lang] ?? 0) * DOC_WEIGHT) / TOTAL_WEIGHT;
+            }
+            const adjustedCertainty = adjustCertaintyForLanguage(
+              wordScore.certainty, wordScore.language, innocentEntries, amplified
+            );
+            const adjustedShouldFlag = wordScore.severity === 5 ||
+              (wordScore.severity >= 4 && adjustedCertainty >= 2) ||
+              (wordScore.severity === 3 && adjustedCertainty >= 3);
+            wordSev = adjustedShouldFlag ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
+          } else {
+            wordSev = this.shouldFlag(m.word) ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
+          }
+        } else {
+          wordSev = this.shouldFlag(m.word) ? WordSeverity.PROFANE : WordSeverity.AMBIVALENT;
+        }
       }
       return { word: m.originalWord, severity: wordSev };
     });
@@ -2059,7 +2097,10 @@ export class AllProfanity {
 
     // Build suspicious phrases from space-bridged separator matches
     const suspiciousPhrases: SuspiciousPhrase[] = (this._suspiciousMatches || []).map((sm) => {
-      const baseScore = this.getWordScore(sm.word) || { s: 1, c: 1 };
+      const score = this.getWordScore(sm.word);
+      const baseScore = score
+        ? { severity: score.severity, certainty: score.certainty }
+        : { severity: 1, certainty: 1 };
       const context = this.extractSurroundingContext(validatedText, sm.start, sm.end, 5);
       return {
         word: sm.word,
@@ -2336,8 +2377,8 @@ export class AllProfanity {
             word: sub.word,
             start: subStart,
             end: subEnd,
-            baseS: score.s,
-            baseC: score.c,
+            baseSeverity: score.severity,
+            baseCertainty: score.certainty,
           });
         }
       }
@@ -2361,10 +2402,10 @@ export class AllProfanity {
         const decayFactor = Math.pow(AllProfanity.EMBEDDED_DECAY_RATE, extraChars);
         const lengthRatio = profaneLen / hostWord.length;
 
-        let decayedC = find.baseC * decayFactor * lengthRatio + multiBonus + lengthBonus;
-        decayedC = Math.round(Math.max(1, Math.min(5, decayedC)));
+        let decayedCertainty = find.baseCertainty * decayFactor * lengthRatio + multiBonus + lengthBonus;
+        decayedCertainty = Math.round(Math.max(1, Math.min(5, decayedCertainty)));
 
-        if (decayedC < AllProfanity.EMBEDDED_MIN_CERTAINTY) continue;
+        if (decayedCertainty < AllProfanity.EMBEDDED_MIN_CERTAINTY) continue;
 
         const matchedText = originalText.substring(find.start, find.end);
         matches.push({
@@ -2373,7 +2414,7 @@ export class AllProfanity {
           end: find.end,
           originalWord: matchedText,
           isSubstringMatch: true,
-          decayedScore: { s: find.baseS, c: decayedC },
+          decayedScore: { severity: find.baseSeverity, certainty: decayedCertainty },
         });
       }
     }
@@ -2383,8 +2424,8 @@ export class AllProfanity {
    * Deduplicate embedded finds: at overlapping positions, keep the longest match.
    */
   private deduplicateEmbeddedFinds(
-    finds: Array<{ word: string; start: number; end: number; baseS: number; baseC: number }>
-  ): Array<{ word: string; start: number; end: number; baseS: number; baseC: number }> {
+    finds: Array<{ word: string; start: number; end: number; baseSeverity: number; baseCertainty: number }>
+  ): Array<{ word: string; start: number; end: number; baseSeverity: number; baseCertainty: number }> {
     // Sort by start, then by length descending
     const sorted = [...finds].sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
     const result: typeof sorted = [];
@@ -3013,9 +3054,9 @@ export class AllProfanity {
    * Returns null if the word has no score entry.
    *
    * @param word - The word to look up
-   * @returns The score object { s: number, c: number } or null
+   * @returns The score object or null
    */
-  getWordScore(word: string): { s: number; c: number } | null {
+  getWordScore(word: string): { severity: number; certainty: number; likelihood: number; language: string } | null {
     const normalized = word.toLowerCase().trim();
     return this.wordScores[normalized] ?? null;
   }
@@ -3035,8 +3076,8 @@ export class AllProfanity {
   shouldFlag(word: string): boolean {
     const score = this.getWordScore(word);
     if (!score) return false;
-    const { s, c } = score;
-    return s === 5 || (s >= 4 && c >= 2) || (s === 3 && c >= 3);
+    const { severity, certainty } = score;
+    return severity === 5 || (severity >= 4 && certainty >= 2) || (severity === 3 && certainty >= 3);
   }
 
   /**
