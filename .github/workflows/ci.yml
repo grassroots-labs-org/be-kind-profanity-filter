@@ -26,14 +26,11 @@ jobs:
         run: npm ci
 
       - name: Run tests with coverage
-        run: npm run test:coverage -- --forceExit
+        run: npm run test:coverage -- --forceExit --coverageReporters=json-summary --coverageReporters=text
 
-      - name: Upload coverage to Codecov
-        if: matrix.node-version == 22
-        uses: codecov/codecov-action@v5
-        with:
-          directory: ./coverage
-          fail_ci_if_error: false
+      - name: Update coverage badge
+        if: matrix.node-version == 22 && github.ref == 'refs/heads/main'
+        uses: we-cli/coverage-badge-action@main
 
   build:
     runs-on: ubuntu-latest
