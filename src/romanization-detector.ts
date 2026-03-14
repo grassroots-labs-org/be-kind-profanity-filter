@@ -844,7 +844,7 @@ export function detectRomanization(text: string): DetectRomanizationResult {
   const result = eld.detect(text);
   const scores = result.getScores();
   const cluster = analyzeCluster(scores);
-  const sortedScores = Object.values(scores).sort((a: number, b: number) => b - a);
+  const sortedScores = (Object.values(scores) as number[]).sort((a, b) => b - a);
   const eldTopScore = (sortedScores[0] ?? 0) as number;
   const r = isRomanized(text, result.language, eldTopScore, result.isReliable(), cluster);
 

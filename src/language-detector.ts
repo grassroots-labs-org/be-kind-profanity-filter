@@ -787,7 +787,7 @@ export function classifyWordScript(word: string): LanguageCode[] {
  */
 function getEldWordScores(word: string): Partial<Record<LanguageCode, number>> {
   const result = eld.detect(word);
-  const scores = result.getScores();
+  const scores = result.getScores() as Record<string, number>;
   const out: Partial<Record<LanguageCode, number>> = {};
   for (const [lang, score] of Object.entries(scores)) {
     if (score > 0.1) {
@@ -803,9 +803,9 @@ function getEldWordScores(word: string): Partial<Record<LanguageCode, number>> {
  */
 function getEldTextPriors(text: string): Partial<Record<LanguageCode, number>> {
   const result = eld.detect(text);
-  const scores = result.getScores();
+  const scores = result.getScores() as Record<string, number>;
   const out: Partial<Record<LanguageCode, number>> = {};
-  const total = Object.values(scores).reduce((s, v) => s + v, 0);
+  const total = Object.values(scores).reduce((s: number, v: number) => s + v, 0);
   if (total <= 0) return out;
   for (const [lang, score] of Object.entries(scores)) {
     if (score > 0) {
