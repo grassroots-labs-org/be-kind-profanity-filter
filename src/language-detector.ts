@@ -42,6 +42,7 @@ export type LanguageCode =
 const TRIE_LANGUAGES = new Set<LanguageCode>([
   "en", "es", "fr", "de", "it", "pt", "nl", "tr",
   "ru", "ar", "zh", "ja", "ko", "hi", "bn", "ta", "te",
+  "sv",
 ]);
 
 export interface LanguageDetection {

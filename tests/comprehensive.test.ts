@@ -1,10 +1,10 @@
-import filter from "../src/index.js";
+import filter from "../src/index.ts";
 
 // Use require for named export to match existing test patterns
 const { AllProfanity } = require("../src/index");
 
 // Consolidated word list for testing
-import allLanguagesBadWords from "../src/languages/english-primary-all-languages.js";
+import allLanguagesBadWords from "../src/languages/english-primary-all-languages.ts";
 
 /**
  * Helper to pick N single-word entries from a word list.

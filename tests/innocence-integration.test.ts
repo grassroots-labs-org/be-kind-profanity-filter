@@ -54,11 +54,11 @@ describe("Swedish collision words — innocence scoring behavior", () => {
     filter = new AllProfanity({ silent: true });
   });
 
-  it("'slut' is detected in Swedish text (word-level signal alone insufficient to dampen)", () => {
+  it("'slut' in Swedish text is dampened to SAFE via trie + confusion map", () => {
     // Swedish text where "slut" means "end/finish"
-    // The language detector does not reliably identify Swedish at the document level
-    // (it often classifies it as German), so the Swedish word-level signal alone
-    // cannot overcome the English profane signal from the document context.
+    // The Swedish trie vocabulary provides strong word-level signal, and the
+    // confusion map treats German ELD signal as partial Swedish evidence.
+    // Combined, this dampens certainty below the flag threshold.
     const text =
       "Programmet börjar klockan åtta och tar slut vid tio på kvällen. " +
       "Vi hoppas att alla har det bra och njuter av evenemanget till slut.";
@@ -67,9 +67,9 @@ describe("Swedish collision words — innocence scoring behavior", () => {
 
     // "slut" is detected — it's in the "all" dictionary with s:3 c:4
     expect(slutWord).toBeDefined();
-    // The innocence scoring runs but Swedish signal is too weak at doc level
-    // to dampen below the flag threshold (c < 3 for s:3)
-    expect(slutWord!.severity).toBe(WordSeverity.PROFANE);
+    // Swedish trie words + confusion map provide enough Swedish signal
+    // to dampen certainty below flag threshold → AMBIVALENT (not flagged)
+    expect(slutWord!.severity).toBe(WordSeverity.AMBIVALENT);
   });
 
   it("'hell' in Swedish/Norwegian text stays AMBIVALENT (already below flag threshold)", () => {

@@ -12,6 +12,66 @@
 
 import type { InnocentEntry } from "./languages/innocent-words.js";
 
+// ---------------------------------------------------------------------------
+// Language family groups — for disambiguation of closely related languages.
+// The ELD n-gram model often confuses languages within the same family
+// (e.g., Swedish ↔ German, Norwegian ↔ Danish). When checking innocent entries,
+// we also consider signal from sibling languages in the same family.
+// ---------------------------------------------------------------------------
+
+const LANGUAGE_FAMILIES: Record<string, string[]> = {
+  germanic_scandinavian: ["sv", "no", "da"],
+  germanic_continental: ["de", "nl"],
+};
+
+/** Build a reverse lookup: language code → family members (including itself) */
+const FAMILY_SIBLINGS: Record<string, string[]> = {};
+for (const members of Object.values(LANGUAGE_FAMILIES)) {
+  for (const lang of members) {
+    FAMILY_SIBLINGS[lang] = members;
+  }
+}
+
+// Cross-family confusion map: languages the detector often confuses with each other.
+// Swedish/Norwegian/Danish are often classified as German by ELD n-gram.
+const CONFUSION_MAP: Record<string, string[]> = {
+  de: ["sv", "no", "da"],  // German signal may actually be Scandinavian
+  sv: ["de", "no", "da"],
+  no: ["de", "sv", "da"],
+  da: ["de", "sv", "no"],
+  nl: ["de"],              // Dutch sometimes classified as German
+};
+
+/**
+ * Get the effective amplified signal for a language, including signal
+ * from languages the detector commonly confuses it with.
+ *
+ * For example, if the innocent language is "sv" (Swedish) but the detector
+ * classified the text as "de" (German), we add the German signal as a
+ * partial boost to the Swedish signal, since it may actually be Swedish.
+ */
+function getEffectiveAmp(language: string, amplified: Record<string, number>): number {
+  const directAmp = amplified[language] ?? 0;
+
+  // Check if any confused languages have signal
+  const confusedWith = CONFUSION_MAP[language];
+  if (!confusedWith) return directAmp;
+
+  let confusedAmp = 0;
+  for (const confused of confusedWith) {
+    const amp = amplified[confused] ?? 0;
+    if (amp > confusedAmp) {
+      confusedAmp = amp;
+    }
+  }
+
+  // Use the higher of direct signal or confused signal (discounted by 0.8)
+  // The discount prevents over-attribution: German text shouldn't fully
+  // count as Swedish, but mostly-German signal in a Scandinavian context
+  // should still trigger dampening.
+  return Math.max(directAmp, confusedAmp * 0.8);
+}
+
 /**
  * Adjust a word's certainty score based on cross-language innocence data
  * and pre-computed amplified language signals.
@@ -35,13 +95,14 @@ export function adjustCertaintyForLanguage(
 
   const profaneAmp = amplified[profaneLanguage] ?? 0;
 
-  // Find the strongest innocent signal among all innocent entries
+  // Find the strongest innocent signal among all innocent entries,
+  // considering language family confusion
   let bestInnocentAmp = 0;
   let bestEntry: InnocentEntry | null = null;
   for (const entry of innocentEntries) {
-    const amp = amplified[entry.language] ?? 0;
-    if (amp > bestInnocentAmp) {
-      bestInnocentAmp = amp;
+    const effectiveAmp = getEffectiveAmp(entry.language, amplified);
+    if (effectiveAmp > bestInnocentAmp) {
+      bestInnocentAmp = effectiveAmp;
       bestEntry = entry;
     }
   }

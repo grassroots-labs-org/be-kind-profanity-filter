@@ -1,5 +1,5 @@
-import { adjustCertaintyForLanguage } from "../src/innocence-scoring.js";
-import type { InnocentEntry } from "../src/languages/innocent-words.js";
+import { adjustCertaintyForLanguage } from "../src/innocence-scoring.ts";
+import type { InnocentEntry } from "../src/languages/innocent-words.ts";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers

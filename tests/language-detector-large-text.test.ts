@@ -1,4 +1,4 @@
-import { detectLanguages, detectBestLanguage } from "../src/language-detector.js";
+import { detectLanguages, detectBestLanguage } from "../src/language-detector.ts";
 
 /**
  * Large text body tests — realistic paragraphs and articles in various languages.

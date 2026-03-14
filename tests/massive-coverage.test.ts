@@ -1,5 +1,5 @@
-import filter from "../src/index.js";
-import allLanguagesBadWords from "../src/languages/english-primary-all-languages.js";
+import filter from "../src/index.ts";
+import allLanguagesBadWords from "../src/languages/english-primary-all-languages.ts";
 
 /**
  * Massive coverage test suite for the profanity filter.
@@ -23,7 +23,11 @@ function pickWords(words: Record<string, { s: number; c: number }> | string[], c
   return selected.map((w) => [w]);
 }
 
-const wordsToTest = pickWords(allLanguagesBadWords, 550);
+// Exclude certainty:0 words — they route to suspicious phrases, not profanity
+const allWords = Object.entries(allLanguagesBadWords)
+  .filter(([, v]) => (v as any).certainty !== 0)
+  .map(([k]) => k);
+const wordsToTest = pickWords(allWords, 550);
 
 describe("Massive Coverage Tests", () => {
   beforeAll(() => {
