@@ -1,5 +1,7 @@
 # AllProfanity
 
+> **PLEASE BE ADVISED:** This repository contains explicit profanity, slurs, hate speech, and other offensive language across its source files, dictionaries, and test suites. This content exists solely for the purpose of building and testing an effective profanity detection system. The inclusion of these words does not reflect the views of the authors or contributors. If you are sensitive to such content, please be aware before browsing the codebase.
+
 A blazing-fast, multi-language profanity filter for JavaScript/TypeScript with advanced algorithms (Aho-Corasick, Bloom Filters) delivering **664% faster performance** on large texts, intelligent leet-speak detection, and pattern-based context analysis.
 
 [![CI](https://github.com/grassroots-labs-org/grassroots-profanity-filter/actions/workflows/ci.yml/badge.svg)](https://github.com/grassroots-labs-org/grassroots-profanity-filter/actions/workflows/ci.yml)
