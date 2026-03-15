@@ -791,6 +791,11 @@ const allLanguagesBadWords: Record<string, { severity: number; certainty: number
   // Fuck spelling variations
   "fuk": { severity: 3, certainty: 5, language: "en" }, // alternate spelling
   "fuc": { severity: 3, certainty: 5, language: "en" }, // truncated
+  "fuccing": { severity: 3, certainty: 5, language: "en" }, // cc substitution
+  "fucing": { severity: 3, certainty: 5, language: "en" }, // single c variant
+  "fuccin": { severity: 3, certainty: 5, language: "en" }, // cc + dropped g
+  "fuccking": { severity: 3, certainty: 5, language: "en" }, // cc + k
+  "faq": { severity: 3, certainty: 1, language: "en" }, // low certainty — collides with "Frequently Asked Questions"
   "fuq": { severity: 3, certainty: 5, language: "en" }, // phonetic
   "foq": { severity: 3, certainty: 5, language: "en" }, // phonetic variant
   "foqq": { severity: 3, certainty: 5, language: "en" }, // doubled q

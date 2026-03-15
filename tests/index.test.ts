@@ -535,8 +535,9 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
       expect(n1ggerScore!.severity).toBe(5);
     });
 
-    test("should detect q-substitution evasion variants of 'fuck'", () => {
+    test("should detect all 'fuck' evasion variants", () => {
       const variants = [
+        // q-substitution
         { word: "foq", s: 3, c: 5 },
         { word: "foqq", s: 3, c: 5 },
         { word: "foqqing", s: 3, c: 5 },
@@ -544,6 +545,30 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
         { word: "faqq", s: 3, c: 5 },
         { word: "faqqing", s: 3, c: 5 },
         { word: "faqing", s: 3, c: 5 },
+        // cc-substitution
+        { word: "fucc", s: 3, c: 5 },
+        { word: "fuccing", s: 3, c: 5 },
+        { word: "fucing", s: 3, c: 5 },
+        { word: "fuccin", s: 3, c: 5 },
+        { word: "fuccking", s: 3, c: 5 },
+        // k-substitution
+        { word: "fuk", s: 3, c: 5 },
+        { word: "fukking", s: 3, c: 4 },
+        { word: "fukkin", s: 3, c: 4 },
+        { word: "fukin", s: 3, c: 4 },
+        // ph-substitution
+        { word: "phuck", s: 3, c: 5 },
+        { word: "phuk", s: 3, c: 5 },
+        // truncated / reordered
+        { word: "fuc", s: 3, c: 5 },
+        { word: "fcuk", s: 3, c: 5 },
+        { word: "fck", s: 3, c: 5 },
+        // phonetic
+        { word: "fuq", s: 3, c: 5 },
+        // standard forms
+        { word: "fuckin", s: 3, c: 5 },
+        { word: "fucking", s: 3, c: 5 },
+        { word: "fuking", s: 3, c: 4 },
       ];
       variants.forEach(({ word, s, c }) => {
         const score = filter.getWordScore(word);
@@ -551,6 +576,13 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
         expect(score!.severity).toBe(s);
         expect(score!.certainty).toBe(c);
       });
+    });
+
+    test("should score 'faq' with low certainty (FAQ acronym collision)", () => {
+      const score = filter.getWordScore("faq");
+      expect(score).not.toBeNull();
+      expect(score!.severity).toBe(3);
+      expect(score!.certainty).toBe(1);
     });
   });
 
