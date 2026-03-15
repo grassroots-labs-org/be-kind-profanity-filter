@@ -654,7 +654,7 @@ describe("Other language pairs — cross-language innocence scoring", () => {
   it("'merde' in English text should be detected alongside English profanity", () => {
     const result = filter.detect("bullshit and merde together");
     expect(result.hasProfanity).toBe(true);
-    expect(result.detectedWords.length).toBeGreaterThanOrEqual(2);
+    expect(result.detectedWords.length).toBe(2);
   });
 
   it("leet speak 'f@ck' should be detected as profanity", () => {
