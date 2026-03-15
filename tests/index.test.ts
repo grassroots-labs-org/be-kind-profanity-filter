@@ -502,8 +502,7 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
       expect(niggerScore).toEqual(expect.objectContaining({ severity: 5, certainty: 5 }));
 
       const damnScore = filter.getWordScore("damn");
-      expect(damnScore).not.toBeNull();
-      expect(damnScore!.severity).toBeLessThanOrEqual(2);
+      expect(damnScore).toEqual(expect.objectContaining({ severity: 2, certainty: 2 }));
     });
 
     test("should return null for unknown words", () => {
@@ -519,12 +518,10 @@ describe("AllProfanity Filter - Upgraded Test Suite", () => {
 
     test("should return scores for non-English words", () => {
       const merdeScore = filter.getWordScore("merde");
-      expect(merdeScore).not.toBeNull();
-      expect(merdeScore!.severity).toBeGreaterThanOrEqual(1);
-      expect(merdeScore!.certainty).toBeGreaterThanOrEqual(1);
+      expect(merdeScore).toEqual(expect.objectContaining({ severity: 4, certainty: 5 }));
 
       const scheisseScore = filter.getWordScore("scheisse");
-      expect(scheisseScore).not.toBeNull();
+      expect(scheisseScore).toEqual(expect.objectContaining({ severity: 3, certainty: 4 }));
     });
 
     test("should score evasion variants with c:5", () => {

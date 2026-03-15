@@ -13,43 +13,37 @@ describe("Separator-Tolerant Detection", () => {
   describe("symbol-separated evasion → suspicious phrases", () => {
     test("should flag 'fu@ck' as suspicious", () => {
       const result = filter.detect("fu@ck");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
-      expect(result.suspiciousPhrases.some((sp) => sp.word === "fuck")).toBe(true);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["fuc", "fuck"]);
     });
 
     test("should flag 'c.u.n.t' as suspicious", () => {
       const result = filter.detect("c.u.n.t");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
-      expect(result.suspiciousPhrases.some((sp) => sp.word === "cunt")).toBe(true);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["c.unt", "cu.nt", "cunt"]);
     });
 
     test("should flag 'b-i-t-c-h' as suspicious", () => {
       const result = filter.detect("b-i-t-c-h");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
-      expect(result.suspiciousPhrases.some((sp) => sp.word === "bitch")).toBe(true);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["bitch"]);
     });
 
     test("should flag 'fu@ck@cu@nt@bi@tch' as suspicious with multiple matches", () => {
       const result = filter.detect("fu@ck@cu@nt@bi@tch");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["fuc", "fuck", "cunt", "bitch"]);
     });
 
     test("should flag 's_h_i_t' as suspicious", () => {
       const result = filter.detect("s_h_i_t");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
-      expect(result.suspiciousPhrases.some((sp) => sp.word === "shit")).toBe(true);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["shit"]);
     });
 
     test("should flag 'f*u*c*k' as suspicious", () => {
       const result = filter.detect("f*u*c*k");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
-      expect(result.suspiciousPhrases.some((sp) => sp.word === "fuck")).toBe(true);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["fuc", "fuck"]);
     });
 
     test("should flag 'a.s.s' as suspicious", () => {
       const result = filter.detect("a.s.s");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
-      expect(result.suspiciousPhrases.some((sp) => sp.word === "ass")).toBe(true);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["a.ss", "ass"]);
     });
   });
 
@@ -57,7 +51,8 @@ describe("Separator-Tolerant Detection", () => {
     test("should flag 'fu ck' as suspicious", () => {
       const result = filter.detect("fu ck");
       // 'fu ck' may also match 'f u c k' from word list — check suspicious
-      expect(result.suspiciousPhrases.length + result.detectedWords.length).toBeGreaterThan(0);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["fuc", "fuck"]);
+      expect(result.detectedWords).toEqual([]);
     });
 
     test("should flag 'sh it' as suspicious", () => {
@@ -72,7 +67,7 @@ describe("Separator-Tolerant Detection", () => {
       const suspicious = result.suspiciousPhrases.find((sp) => sp.word === "fuck");
       expect(suspicious).toBeDefined();
       expect(suspicious!.context).toBeDefined();
-      expect(suspicious!.context.length).toBeGreaterThan(0);
+      expect(suspicious!.context).toBe("I went to the store and fu@ck that was expensive today");
     });
 
     test("should include base score in suspicious phrase", () => {
@@ -85,9 +80,8 @@ describe("Separator-Tolerant Detection", () => {
     test("should include space boundary count", () => {
       const result = filter.detect("fu ck");
       const suspicious = result.suspiciousPhrases.find((sp) => sp.word === "fuck");
-      if (suspicious) {
-        expect(suspicious.spaceBoundaries).toBeGreaterThanOrEqual(1);
-      }
+      expect(suspicious).toBeDefined();
+      expect(suspicious!.spaceBoundaries).toBe(1);
     });
   });
 
@@ -140,9 +134,9 @@ describe("Separator-Tolerant Detection", () => {
 
   describe("enabled by default", () => {
     test("separator tolerance produces suspicious phrases by default", () => {
-      const defaultFilter = new AllProfanity({ enableLeetSpeak: false });
+      const defaultFilter = new AllProfanity({ silent: true, enableLeetSpeak: false });
       const result = defaultFilter.detect("fu@ck");
-      expect(result.suspiciousPhrases.length).toBeGreaterThan(0);
+      expect(result.suspiciousPhrases.map(sp => sp.word)).toEqual(["fuc", "fuck"]);
     });
   });
 });

@@ -37,7 +37,7 @@ describe("Comprehensive Profanity Filter Tests", () => {
     ];
 
     test("should detect profane words from consolidated list", () => {
-      expect(profaneWords.length).toBeGreaterThanOrEqual(10);
+      expect(profaneWords.length).toBe(20);
       profaneWords.forEach((word) => {
         expect(filter.check(word)).toBe(true);
       });
@@ -168,7 +168,7 @@ describe("Comprehensive Profanity Filter Tests", () => {
     test("should detect multiple profane words from different languages", () => {
       const result = filter.detect("bullshit and merde together");
       expect(result.hasProfanity).toBe(true);
-      expect(result.detectedWords.length).toBeGreaterThanOrEqual(2);
+      expect(result.detectedWords).toEqual(["bullshit", "merde"]);
     });
   });
 
@@ -222,7 +222,7 @@ describe("Comprehensive Profanity Filter Tests", () => {
 
     test("should handle very long clean text (1000+ chars)", () => {
       const longText = "This is a clean sentence with no profanity. ".repeat(50);
-      expect(longText.length).toBeGreaterThan(1000);
+      expect(longText.length).toBe(2200);
       expect(filter.check(longText)).toBe(false);
     });
 
@@ -298,7 +298,7 @@ describe("Comprehensive Profanity Filter Tests", () => {
     test("should handle repeated profanity", () => {
       expect(filter.check("fuck fuck fuck")).toBe(true);
       const result = filter.detect("fuck fuck fuck");
-      expect(result.detectedWords.length).toBeGreaterThanOrEqual(1);
+      expect(result.detectedWords).toEqual(["fuck", "fuck", "fuck"]);
     });
   });
 
@@ -385,12 +385,9 @@ describe("Comprehensive Profanity Filter Tests", () => {
       const text = "Start fuck end";
       const result = filter.detect(text);
 
-      expect(result.positions.length).toBeGreaterThanOrEqual(1);
-      const fuckPos = result.positions.find((p) => p.word === "fuck");
-      expect(fuckPos).toBeDefined();
-      if (fuckPos) {
-        expect(text.substring(fuckPos.start, fuckPos.end)).toBe("fuck");
-      }
+      expect(result.positions.length).toBe(1);
+      expect(result.positions[0].word).toBe("fuck");
+      expect(text.substring(result.positions[0].start, result.positions[0].end)).toBe("fuck");
     });
 
     test("should include cleanedText in detection result", () => {
@@ -417,27 +414,21 @@ describe("Comprehensive Profanity Filter Tests", () => {
         "This bullshit sentence has fuck and asshole in it"
       );
       expect(result.hasProfanity).toBe(true);
-      expect(result.detectedWords.length).toBeGreaterThanOrEqual(2);
+      expect(result.detectedWords).toEqual(["bullshit", "fuck", "asshole"]);
     });
 
     test("should clean all profane words", () => {
       const result = filter.clean(
         "This bullshit sentence has fuck and asshole"
       );
-      expect(result).not.toContain("bullshit");
-      expect(result).not.toContain("fuck");
-      expect(result).not.toContain("asshole");
-      expect(result).toContain("This");
-      expect(result).toContain("sentence");
-      expect(result).toContain("has");
-      expect(result).toContain("and");
+      expect(result).toBe("This ******** sentence has **** and *******");
     });
 
     test("should provide positions for each profane word", () => {
       const text = "fuck then bullshit";
       const result = filter.detect(text);
-      expect(result.positions.length).toBeGreaterThanOrEqual(2);
-
+      expect(result.positions.length).toBe(2);
+      expect(result.positions.map(p => p.word)).toEqual(["fuck", "bullshit"]);
       result.positions.forEach((pos) => {
         expect(text.substring(pos.start, pos.end)).toBe(pos.word);
       });
@@ -688,7 +679,7 @@ describe("Comprehensive Profanity Filter Tests", () => {
     test("hitler reference should need manual review", () => {
       const result = filter.detect("hitler did nothing wrong");
       expect(result.needsManualReview).toBe(true);
-      expect(result.flaggedAbhorrentWords.length).toBeGreaterThan(0);
+      expect(result.flaggedAbhorrentWords).toEqual(["hitler did nothing wrong"]);
     });
 
     test("KKK reference should need manual review", () => {
@@ -727,7 +718,7 @@ describe("Comprehensive Profanity Filter Tests", () => {
     test("multiple abhorrent words should all be flagged", () => {
       const result = filter.detect("nazi white power kkk rally");
       expect(result.needsManualReview).toBe(true);
-      expect(result.flaggedAbhorrentWords.length).toBeGreaterThanOrEqual(3);
+      expect(result.flaggedAbhorrentWords).toEqual(["nazi", "white power", "kkk"]);
     });
 
     test("coded hate speech should need manual review", () => {
