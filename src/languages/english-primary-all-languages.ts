@@ -5301,7 +5301,6 @@ const allLanguagesBadWords: Record<string, { severity: number; certainty: number
   "soldiers of odin": { severity: 3, certainty: 4, language: "en" },
   "base nation": { severity: 3, certainty: 4, language: "en" },
   "rise above movement": { severity: 3, certainty: 4, language: "en" },
-  "ram": { severity: 3, certainty: 4, language: "en" },
   "vinlanders social club": { severity: 3, certainty: 4, language: "en" },
   "european kindred": { severity: 3, certainty: 4, language: "en" },
   "nazi low riders": { severity: 3, certainty: 4, language: "en" },
