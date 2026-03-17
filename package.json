@@ -1,7 +1,7 @@
 {
-  "name": "allprofanity",
-  "version": "2.2.1",
-  "description": "A blazing-fast, multi-language profanity filter with advanced algorithms (Aho-Corasick, Bloom Filters) delivering 664% faster performance on large texts, intelligent leet-speak detection, and pattern-based context analysis",
+  "name": "smart-profanity-filter",
+  "version": "0.0.1",
+  "description": "A multi-language profanity filter with with short phrase, leet-speak detection, and language-aware filtering -- based on AllProfanity fork, and internally uses ELD and tries for language awareness",
   "main": "src/index.ts",
   "module": "src/index.ts",
   "types": "src/index.ts",
