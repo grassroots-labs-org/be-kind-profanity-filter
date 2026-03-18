@@ -1163,7 +1163,6 @@ const allLanguagesBadWords: Record<string, { severity: number; certainty: number
   "seppo": { severity: 3, certainty: 4, language: "en" }, // Australian anti-American
   // Internet abbreviations & modern slang (additions)
   "dafuq": { severity: 2, certainty: 3, language: "en" }, // what the fuck
-  "deez nuts": { severity: 2, certainty: 3, language: "en" }, // vulgar meme
   "deeznutz": { severity: 2, certainty: 3, language: "en" }, // vulgar meme
   "diaf": { severity: 5, certainty: 5, language: "en" }, // die in a fire
   "dilligaf": { severity: 2, certainty: 3, language: "en" }, // acronym vulgar
