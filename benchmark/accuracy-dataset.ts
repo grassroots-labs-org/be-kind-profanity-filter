@@ -1,6 +1,6 @@
 // benchmark/accuracy-dataset.ts
 
-export const DATASET_VERSION = 5;
+export const DATASET_VERSION = 6;
 
 export enum Category {
   SINGLE_LANG    = 'single-language',
@@ -316,4 +316,15 @@ export const DATASET: AccuracyCase[] = [
   { text: "canal", expected: false, category: Category.CHALLENGE, language: Language.ENGLISH, note: "E1: contains 'anal' but word too short (4 chars)" },
   { text: "assassin", expected: false, category: Category.CHALLENGE, language: Language.ENGLISH, note: "E1: contains 'ass' but low coverage (37%)" },
   { text: "classical", expected: false, category: Category.CHALLENGE, language: Language.ENGLISH, note: "E1: contains 'ass' but low coverage (33%)" },
+
+  // ── Separator-spaced evasion — profanity with spaces/separators between chars ─
+  { text: "f u c k this", expected: true, category: Category.CHALLENGE, language: Language.ENGLISH, note: "spaced-out fuck" },
+  { text: "s h i t happens", expected: true, category: Category.CHALLENGE, language: Language.ENGLISH, note: "spaced-out shit" },
+  { text: "a.s.s.h.o.l.e", expected: true, category: Category.CHALLENGE, language: Language.ENGLISH, note: "dot-separated asshole" },
+  { text: "b-i-t-c-h", expected: true, category: Category.CHALLENGE, language: Language.ENGLISH, note: "dash-separated bitch" },
+  { text: "f_u_c_k you", expected: true, category: Category.CHALLENGE, language: Language.ENGLISH, note: "underscore-separated fuck" },
+  { text: "c  o  c  k", expected: true, category: Category.CHALLENGE, language: Language.ENGLISH, note: "double-space-separated cock" },
+  // Clean: spaced-out innocent words that should NOT be flagged
+  { text: "h e l l o world", expected: false, category: Category.CHALLENGE, language: Language.ENGLISH, note: "spaced-out hello, not profane" },
+  { text: "s.h.e.l.l", expected: false, category: Category.CHALLENGE, language: Language.ENGLISH, note: "dot-separated shell, not profane" },
 ];
