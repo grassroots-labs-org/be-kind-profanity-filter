@@ -3,7 +3,7 @@ import * as fs from "fs/promises";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
-import { BeKind } from "../src/index.js";
+import { BeKind, allLanguagesBadWords } from "../src/index.js";
 // @ts-ignore CJS interop
 import leoProfanity from "leo-profanity";
 import { Filter as BadWordsFilter } from "bad-words";
@@ -28,7 +28,8 @@ const bekindContext = new BeKind({
   algorithm: { useContextAnalysis: true },
 });
 
-const leo = leoProfanity as { check: (t: string) => boolean };
+const leo = leoProfanity as { check: (t: string) => boolean; add: (words: string | string[]) => void };
+leo.add(Object.keys(allLanguagesBadWords));
 
 const badWords = new BadWordsFilter();
 
@@ -68,16 +69,12 @@ const LIBRARIES: LibraryChecker[] = [
     check: (t) => bekindSensitive.check(t),
   },
   {
-    name: "leo",
+    name: "leo + dict",
     check: (t) => leo.check(t),
   },
   {
     name: "bad-words",
     check: (t) => { try { return badWords.isProfane(t); } catch { return false; } },
-  },
-  {
-    name: "glin (basic)",
-    check: (t) => glinBasic.isProfane(t),
   },
   {
     name: "glin (enhanced)",

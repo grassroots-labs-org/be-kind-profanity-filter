@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-18T15:30:20.310Z",
+  "timestamp": "2026-03-18T18:58:58.015Z",
   "datasetVersion": 6,
   "totalCases": 225,
   "categories": [
@@ -34,13 +34,13 @@
           "casesScored": 65
         },
         {
-          "library": "leo",
-          "tpRate": 0.34,
+          "library": "leo + dict",
+          "tpRate": 0.82,
           "fpRate": 0,
           "precision": 1,
-          "f1": 0.5074626865671642,
-          "truePositives": 17,
-          "falseNegatives": 33,
+          "f1": 0.9010989010989011,
+          "truePositives": 41,
+          "falseNegatives": 9,
           "falsePositives": 0,
           "trueNegatives": 15,
           "casesScored": 65
@@ -53,18 +53,6 @@
           "f1": 0.6842105263157895,
           "truePositives": 26,
           "falseNegatives": 24,
-          "falsePositives": 0,
-          "trueNegatives": 15,
-          "casesScored": 65
-        },
-        {
-          "library": "glin (basic)",
-          "tpRate": 0.72,
-          "fpRate": 0,
-          "precision": 1,
-          "f1": 0.8372093023255813,
-          "truePositives": 36,
-          "falseNegatives": 14,
           "falsePositives": 0,
           "trueNegatives": 15,
           "casesScored": 65
@@ -138,13 +126,13 @@
           "casesScored": 26
         },
         {
-          "library": "leo",
-          "tpRate": 0.6666666666666666,
+          "library": "leo + dict",
+          "tpRate": 1,
           "fpRate": 0,
           "precision": 1,
-          "f1": 0.8,
-          "truePositives": 14,
-          "falseNegatives": 7,
+          "f1": 1,
+          "truePositives": 21,
+          "falseNegatives": 0,
           "falsePositives": 0,
           "trueNegatives": 5,
           "casesScored": 26
@@ -157,18 +145,6 @@
           "f1": 0.7647058823529412,
           "truePositives": 13,
           "falseNegatives": 8,
-          "falsePositives": 0,
-          "trueNegatives": 5,
-          "casesScored": 26
-        },
-        {
-          "library": "glin (basic)",
-          "tpRate": 0.9523809523809523,
-          "fpRate": 0,
-          "precision": 1,
-          "f1": 0.975609756097561,
-          "truePositives": 20,
-          "falseNegatives": 1,
           "falsePositives": 0,
           "trueNegatives": 5,
           "casesScored": 26
@@ -242,15 +218,15 @@
           "casesScored": 48
         },
         {
-          "library": "leo",
+          "library": "leo + dict",
           "tpRate": null,
-          "fpRate": 0.14583333333333334,
+          "fpRate": 0.25,
           "precision": 0,
           "f1": null,
           "truePositives": 0,
           "falseNegatives": 0,
-          "falsePositives": 7,
-          "trueNegatives": 41,
+          "falsePositives": 12,
+          "trueNegatives": 36,
           "casesScored": 48
         },
         {
@@ -263,18 +239,6 @@
           "falseNegatives": 0,
           "falsePositives": 11,
           "trueNegatives": 37,
-          "casesScored": 48
-        },
-        {
-          "library": "glin (basic)",
-          "tpRate": null,
-          "fpRate": 0.1875,
-          "precision": 0,
-          "f1": null,
-          "truePositives": 0,
-          "falseNegatives": 0,
-          "falsePositives": 9,
-          "trueNegatives": 39,
           "casesScored": 48
         },
         {
@@ -346,15 +310,15 @@
           "casesScored": 30
         },
         {
-          "library": "leo",
-          "tpRate": 0,
-          "fpRate": 0,
-          "precision": null,
-          "f1": null,
-          "truePositives": 0,
-          "falseNegatives": 20,
-          "falsePositives": 0,
-          "trueNegatives": 10,
+          "library": "leo + dict",
+          "tpRate": 0.75,
+          "fpRate": 0.1,
+          "precision": 0.9375,
+          "f1": 0.8333333333333334,
+          "truePositives": 15,
+          "falseNegatives": 5,
+          "falsePositives": 1,
+          "trueNegatives": 9,
           "casesScored": 30
         },
         {
@@ -367,18 +331,6 @@
           "falseNegatives": 20,
           "falsePositives": 1,
           "trueNegatives": 9,
-          "casesScored": 30
-        },
-        {
-          "library": "glin (basic)",
-          "tpRate": 0.15,
-          "fpRate": 0,
-          "precision": 1,
-          "f1": 0.2608695652173913,
-          "truePositives": 3,
-          "falseNegatives": 17,
-          "falsePositives": 0,
-          "trueNegatives": 10,
           "casesScored": 30
         },
         {
@@ -450,15 +402,15 @@
           "casesScored": 25
         },
         {
-          "library": "leo",
-          "tpRate": 0.8,
-          "fpRate": 0.3333333333333333,
-          "precision": 0.6153846153846154,
-          "f1": 0.6956521739130435,
-          "truePositives": 8,
-          "falseNegatives": 2,
-          "falsePositives": 5,
-          "trueNegatives": 10,
+          "library": "leo + dict",
+          "tpRate": 1,
+          "fpRate": 0.4666666666666667,
+          "precision": 0.5882352941176471,
+          "f1": 0.7407407407407407,
+          "truePositives": 10,
+          "falseNegatives": 0,
+          "falsePositives": 7,
+          "trueNegatives": 8,
           "casesScored": 25
         },
         {
@@ -471,18 +423,6 @@
           "falseNegatives": 0,
           "falsePositives": 11,
           "trueNegatives": 4,
-          "casesScored": 25
-        },
-        {
-          "library": "glin (basic)",
-          "tpRate": 0.9,
-          "fpRate": 0.5333333333333333,
-          "precision": 0.5294117647058824,
-          "f1": 0.6666666666666667,
-          "truePositives": 9,
-          "falseNegatives": 1,
-          "falsePositives": 8,
-          "trueNegatives": 7,
           "casesScored": 25
         },
         {
@@ -554,7 +494,7 @@
           "casesScored": 5
         },
         {
-          "library": "leo",
+          "library": "leo + dict",
           "tpRate": 0,
           "fpRate": null,
           "precision": null,
@@ -567,18 +507,6 @@
         },
         {
           "library": "bad-words",
-          "tpRate": 0,
-          "fpRate": null,
-          "precision": null,
-          "f1": null,
-          "truePositives": 0,
-          "falseNegatives": 5,
-          "falsePositives": 0,
-          "trueNegatives": 0,
-          "casesScored": 5
-        },
-        {
-          "library": "glin (basic)",
           "tpRate": 0,
           "fpRate": null,
           "precision": null,
@@ -658,7 +586,7 @@
           "casesScored": 7
         },
         {
-          "library": "leo",
+          "library": "leo + dict",
           "tpRate": 0,
           "fpRate": 0,
           "precision": null,
@@ -671,18 +599,6 @@
         },
         {
           "library": "bad-words",
-          "tpRate": 0,
-          "fpRate": 0,
-          "precision": null,
-          "f1": null,
-          "truePositives": 0,
-          "falseNegatives": 5,
-          "falsePositives": 0,
-          "trueNegatives": 2,
-          "casesScored": 7
-        },
-        {
-          "library": "glin (basic)",
           "tpRate": 0,
           "fpRate": 0,
           "precision": null,
@@ -762,13 +678,13 @@
           "casesScored": 19
         },
         {
-          "library": "leo",
-          "tpRate": 0,
+          "library": "leo + dict",
+          "tpRate": 0.2,
           "fpRate": 0.2222222222222222,
-          "precision": 0,
-          "f1": null,
-          "truePositives": 0,
-          "falseNegatives": 10,
+          "precision": 0.5,
+          "f1": 0.28571428571428575,
+          "truePositives": 2,
+          "falseNegatives": 8,
           "falsePositives": 2,
           "trueNegatives": 7,
           "casesScored": 19
@@ -781,18 +697,6 @@
           "f1": 0.25,
           "truePositives": 2,
           "falseNegatives": 8,
-          "falsePositives": 4,
-          "trueNegatives": 5,
-          "casesScored": 19
-        },
-        {
-          "library": "glin (basic)",
-          "tpRate": 0,
-          "fpRate": 0.4444444444444444,
-          "precision": 0,
-          "f1": null,
-          "truePositives": 0,
-          "falseNegatives": 10,
           "falsePositives": 4,
           "trueNegatives": 5,
           "casesScored": 19
@@ -850,22 +754,16 @@
       "avgFpRate": 0.25575396825396823
     },
     {
-      "library": "leo",
-      "overallF1": 0.6677049534934025,
-      "categoriesScored": 3,
-      "avgFpRate": 0.10019841269841269
+      "library": "leo + dict",
+      "overallF1": 0.7521774521774521,
+      "categoriesScored": 5,
+      "avgFpRate": 0.14841269841269839
     },
     {
       "library": "bad-words",
       "overallF1": 0.5860194247478279,
       "categoriesScored": 4,
       "avgFpRate": 0.21527777777777776
-    },
-    {
-      "library": "glin (basic)",
-      "overallF1": 0.6850888225768001,
-      "categoriesScored": 4,
-      "avgFpRate": 0.166468253968254
     },
     {
       "library": "glin (enhanced)",
