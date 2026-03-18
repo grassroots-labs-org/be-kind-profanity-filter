@@ -2219,25 +2219,34 @@ export class BeKind {
       ? Math.max(...scoredWords.map((sw) => sw.severity)) as WordSeverity
       : null;
 
-    // Build suspicious phrases from space-bridged separator matches
+    // Build suspicious phrases from space-bridged separator matches,
+    // filtering out words with high innocence scores (cross-language false positives)
     type SuspiciousMatch = { word: string; start: number; end: number; originalWord: string; spaceBoundaries: number };
     const rawSuspicious: SuspiciousMatch[] = (this._suspiciousMatches as SuspiciousMatch[] | null) ?? [];
-    const suspiciousPhrases: SuspiciousPhrase[] = rawSuspicious.map((sm) => {
-      const score = this.getWordScore(sm.word);
-      const baseScore = score
-        ? { severity: score.severity, certainty: score.certainty }
-        : { severity: 1, certainty: 1 };
-      const context = this.extractSurroundingContext(validatedText, sm.start, sm.end, 5);
-      return {
-        word: sm.word,
-        originalText: sm.originalWord,
-        context,
-        start: sm.start,
-        end: sm.end,
-        baseScore,
-        spaceBoundaries: sm.spaceBoundaries,
-      };
-    });
+    const suspiciousPhrases: SuspiciousPhrase[] = rawSuspicious
+      .filter((sm) => {
+        const entries = innocentWords[sm.word.toLowerCase()];
+        if (!entries || entries.length === 0) return true;
+        // If any innocence entry has a high dampening factor (>= 0.7),
+        // the word is likely innocent and should not be flagged as suspicious
+        return !entries.some(e => e.dampeningFactor >= 0.7);
+      })
+      .map((sm) => {
+        const score = this.getWordScore(sm.word);
+        const baseScore = score
+          ? { severity: score.severity, certainty: score.certainty }
+          : { severity: 1, certainty: 1 };
+        const context = this.extractSurroundingContext(validatedText, sm.start, sm.end, 5);
+        return {
+          word: sm.word,
+          originalText: sm.originalWord,
+          context,
+          start: sm.start,
+          end: sm.end,
+          baseScore,
+          spaceBoundaries: sm.spaceBoundaries,
+        };
+      });
     this._suspiciousMatches = null;
 
     // Append certainty:0 matches as suspicious phrases

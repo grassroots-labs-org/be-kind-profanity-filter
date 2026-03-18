@@ -1,6 +1,6 @@
 # BeKind Profanity Filter
 
-> Forked from [AllProfanity](https://github.com/ayush-jadaun/allprofanity) by Ayush Jadaun. Extended with **romanization profanity detection** (catches Hinglish, transliterated text), **language-aware innocence scoring** (ELD + trie-based detection prevents false positives for cross-language collisions like "slut" in Swedish), and additional language dictionaries. Licensed under MIT.
+> Forked from [AllProfanity](https://github.com/ayush-jadaun/allprofanity) by Ayush Jadaun. Extended with **romanization profanity detection** (catches Hinglish, transliterated text), **language-aware innocence scoring** (ELD + trie-based detection prevents false positives for cross-language collisions like "got" in Turkish), and additional language dictionaries. Licensed under MIT.
 
 > ⚠️ **Early-stage package in progress.** Features available in the original AllProfanity are being actively deprecated, adjusted, or replaced. API surface may change without notice. Contributions and suggestions greatly appreciated.
 
@@ -19,7 +19,7 @@ A multi-language profanity filter with romanization detection, language-aware in
 
 - **Multi-Language Profanity Detection:** 34K+ word dictionary across 16 languages with 18-language detection trie
 - **Romanization Detection:** Catches Hinglish, transliterated Bengali, Tamil, Telugu, and Japanese
-- **Cross-Language Innocence Scoring:** Handles words like "slut" (Swedish: "end") and "fart" (Norwegian: "speed")
+- **Cross-Language Innocence Scoring:** Handles words like "got" (Turkish: "buttocks") and "fart" (Norwegian: "speed")
 - **Context-Aware Analysis:** Booster/reducer patterns detect sexual context, negation, medical usage, and quoted speech
 - **Leet-Speak Detection:** Catches obfuscated profanity (`f#ck`, `a55hole`, `sh1t`)
 - **Word Boundary Detection:** Smart whole-word matching prevents flagging "assassin" or "assistance"
@@ -63,7 +63,7 @@ A multi-language profanity filter with romanization detection, language-aware in
 
 ---
 
-> **Forked from [BeKind](https://github.com/ayush-jadaun/allprofanity)** by Ayush Jadaun. Extended with **romanization profanity detection** (catches Hinglish, transliterated text), **language-aware innocence scoring** (ELD + trie-based detection prevents false positives for cross-language collisions like "slut" in Swedish), and additional language dictionaries. Licensed under MIT.
+> **Forked from [AllProfanity](https://github.com/ayush-jadaun/allprofanity)** by Ayush Jadaun. Extended with **romanization profanity detection** (catches Hinglish, transliterated text), **language-aware innocence scoring** (ELD + trie-based detection prevents false positives for cross-language collisions like "got" in Turkish), and additional language dictionaries. Licensed under MIT.
 
 ## Installation
 
@@ -259,7 +259,7 @@ Measures TP rate (recall), FP rate, and F1 across eight test categories (225 lab
 
 #### False positives / innocent words — 48 cases (clean only, lower FP rate is better)
 
-Includes adversarial cases (`cum laude`, `Dick Van Dyke`, culinary `faggots`, Swedish `slut`). Recall and F1 are undefined (no profane cases).
+Includes adversarial cases (`cum laude`, `Dick Van Dyke`, culinary `faggots`, Turkish `got`). Recall and F1 are undefined (no profane cases).
 
 | Library | FP Rate |
 |---|---|
@@ -313,9 +313,9 @@ Includes adversarial cases (`cum laude`, `Dick Van Dyke`, culinary `faggots`, Sw
 | bad-words | 100% | 48% | 73% | 0.65 |
 | be-kind | 80% | 47% | 60% | 0.59 |
 
-> Semantic context is where all libraries struggle — precision drops below 50% for most. Cases include metalinguistic uses ("the word 'fuck' has uncertain origins"), negation ("she's not a bitch"), and medical context ("rectal cancer screening"). be-kind (ctx) achieves the best F1 (0.76) thanks to context-aware certainty adjustment — boosters confirm profane intent, reducers detect innocent contexts like quotation and negation. leo + dict achieves 100% recall but at the cost of a 47% FP rate.
+> Semantic context is where all libraries struggle — precision drops below 50% for most. Cases include metalinguistic uses, negation, and medical context. be-kind (ctx) achieves the best F1 (0.76) thanks to context-aware certainty adjustment — boosters confirm profane intent, reducers detect innocent contexts like proper nouns and medical terms. leo + dict achieves 100% recall but at the cost of a 47% FP rate.
 
-#### Repeated character evasion — 5 cases (`fuuuuuuuuck`, `cunnnnnnttttt`, etc.)
+#### Repeated character evasion — 5 cases (elongated profanity)
 
 No clean cases in this category — FP rate is undefined.
 
@@ -329,7 +329,7 @@ No clean cases in this category — FP rate is undefined.
 | leo + dict | 0% | — |
 | bad-words | 0% | — |
 
-#### Concatenated / no-space evasion — 7 cases (`urASSHOLEbro`, `youFUCKINGidiot`, etc.)
+#### Concatenated / no-space evasion — 7 cases (profanity embedded in concatenated strings)
 
 | Library | Recall | Precision | FP Rate | F1 |
 |---|---|---|---|---|
@@ -343,7 +343,7 @@ No clean cases in this category — FP rate is undefined.
 
 #### Challenge cases — 19 cases (semantic disambiguation, embedded substrings, separator evasion)
 
-Hard problems: `cock` as rooster, `ass` as donkey, Swedish `slut` = "end", `puta` in etymological discussion, profanity in concatenated strings, and separator-spaced evasion (`f u c k`, `f_u*c k`, `a.s.s.h.o.l.e`).
+Hard problems: `cock` as rooster, `ass` as donkey, Turkish `got` = "buttocks" vs English "got", profanity in concatenated strings, and separator-spaced evasion (`f u c k`, `f_u*c k`, `a.s.s.h.o.l.e`).
 
 | Library | Recall | Precision | FP Rate | F1 |
 |---|---|---|---|---|
@@ -386,7 +386,7 @@ Returns `true` if the text contains any profanity.
 
 ```typescript
 profanity.check('This is a clean sentence.');  // false
-profanity.check('This is a bullshit sentence.'); // true
+profanity.check('This is a b*llsh*t sentence.'); // true
 profanity.check('What the f#ck is this?'); // true (leet-speak)
 profanity.check('यह एक चूतिया परीक्षण है।'); // true (Hindi)
 ```
@@ -404,9 +404,9 @@ Returns a detailed result:
 - `positions: Array<{ word: string, start: number, end: number }>`
 
 ```typescript
-const result = profanity.detect('This is fucking bullshit and chutiya.');
+const result = profanity.detect('This is f**king b*llsh*t and chutiya.');
 console.log(result.hasProfanity); // true
-console.log(result.detectedWords); // ['fucking', 'bullshit', 'chutiya']
+console.log(result.detectedWords); // ['f**king', 'b*llsh*t', 'chutiya']
 console.log(result.severity); // 3 (SEVERE)
 console.log(result.cleanedText); // "This is ******* ******** and ******."
 console.log(result.positions); // e.g. [{word: 'fucking', start: 8, end: 15}, ...]
@@ -419,8 +419,8 @@ console.log(result.positions); // e.g. [{word: 'fucking', start: 8, end: 15}, ..
 Replace each character of profane words with a placeholder (default: `*`).
 
 ```typescript
-profanity.clean('This contains bullshit.'); // "This contains ********."
-profanity.clean('This contains bullshit.', '#'); // "This contains ########."
+profanity.clean('This contains b*llsh*t.'); // "This contains ********."
+profanity.clean('This contains b*llsh*t.', '#'); // "This contains ########."
 profanity.clean('यह एक चूतिया परीक्षण है।'); // e.g. "यह एक ***** परीक्षण है।"
 ```
 
@@ -432,8 +432,8 @@ Replace each profane word with a single placeholder (default: `***`).
 (If the placeholder is omitted, uses `***`.)
 
 ```typescript
-profanity.cleanWithPlaceholder('This contains bullshit.'); // "This contains ***."
-profanity.cleanWithPlaceholder('This contains bullshit.', '[CENSORED]'); // "This contains [CENSORED]."
+profanity.cleanWithPlaceholder('This contains b*llsh*t.'); // "This contains ***."
+profanity.cleanWithPlaceholder('This contains b*llsh*t.', '[CENSORED]'); // "This contains [CENSORED]."
 profanity.cleanWithPlaceholder('यह एक चूतिया परीक्षण है।', '####'); // e.g. "यह एक #### परीक्षण है।"
 ```
 
@@ -459,8 +459,8 @@ profanity.check('Qué puta situación.'); // true
 Remove a word or an array of words from the profanity filter.
 
 ```typescript
-profanity.remove('bullshit');
-profanity.check('This is bullshit.'); // false
+profanity.remove('b*llsh*t');
+profanity.check('This is b*llsh*t.'); // false
 
 profanity.remove(['mierda', 'puta']);
 profanity.check('Esto es mierda.'); // false
@@ -473,11 +473,11 @@ profanity.check('Esto es mierda.'); // false
 Whitelist words so they are never flagged as profane.
 
 ```typescript
-profanity.addToWhitelist(['fuck', 'idiot','shit']);
-profanity.check('He is an fucking idiot.'); // false
-profanity.check('Fuck this shit.'); // false
+profanity.addToWhitelist(['f**k', 'idiot','sh*t']);
+profanity.check('He is an f**king idiot.'); // false
+profanity.check('F**k this sh*t.'); // false
 // Remove from whitelist to restore detection
-profanity.removeFromWhitelist(['fuck', 'idiot','shit']);
+profanity.removeFromWhitelist(['f**k', 'idiot','sh*t']);
 ```
 
 ---
@@ -498,7 +498,7 @@ Set the default placeholder character for `clean()`.
 
 ```typescript
 profanity.setPlaceholder('#');
-profanity.clean('This is bullshit.'); // "This is ########."
+profanity.clean('This is b*llsh*t.'); // "This is ########."
 profanity.setPlaceholder('*'); // Reset to default
 ```
 
@@ -511,7 +511,7 @@ Options include: `enableLeetSpeak`, `caseSensitive`, `strictMode`, `detectPartia
 
 ```typescript
 profanity.updateConfig({ caseSensitive: true, enableLeetSpeak: false });
-profanity.check('FUCK'); // false (if caseSensitive)
+profanity.check('F**K'); // false (if caseSensitive)
 profanity.updateConfig({ caseSensitive: false, enableLeetSpeak: true });
 profanity.check('f#ck'); // true
 ```
@@ -591,9 +591,9 @@ Remove all loaded languages and dynamic words (start with a clean filter).
 
 ```typescript
 profanity.clearList();
-profanity.check('fuck'); // false
+profanity.check('f**k'); // false
 profanity.loadLanguage('english');
-profanity.check('fuck'); // true
+profanity.check('f**k'); // true
 ```
 
 ---
@@ -723,7 +723,7 @@ Edit `bekindprofanityfilter.config.json` to enable/disable features. Your IDE wi
 
 ## Cross-Language Innocence Scoring
 
-Many words are profane in one language but perfectly innocent in another. For example, "slut" means "end/finish" in Swedish, "fart" means "speed" in Scandinavian languages, and "bite" is a common English word that's vulgar in French. BeKind handles these cross-language collisions automatically using a multi-layer language detection and scoring system.
+Many words are profane in one language but perfectly innocent in another. For example, "got" means "buttocks" in Turkish but is an extremely common English word, "fart" means "speed" in Scandinavian languages, and "bite" is a common English word that's vulgar in French. BeKind handles these cross-language collisions automatically using a multi-layer language detection and scoring system.
 
 ### Language Detection Architecture
 
@@ -745,10 +745,10 @@ Unicode codepoint ranges map characters directly to language families (e.g., Cyr
 For each word, `scoreWord()` combines all three layers into a single `Record<string, number>` mapping language codes to confidence scores:
 
 ```
-scoreWord("slut") → { sv: 0.8, en: 0.6, de: 0.3, ... }
-                       ↑ Swedish trie match (exact word in vocabulary)
-                            ↑ English trie match (partial/common word)
-                                 ↑ German ELD n-gram signal
+scoreWord("got") → { en: 0.9, tr: 0.7, de: 0.2, ... }
+                      ↑ English trie match (extremely common word)
+                           ↑ Turkish trie match (profane in Turkish)
+                                ↑ German ELD n-gram signal
 ```
 
 Layer weights: Script (1.0) > Trie (0.8) > ELD (0.6) > Suffix (0.3+) > Prefix (0.3+)
@@ -758,8 +758,8 @@ Layer weights: Script (1.0) > Trie (0.8) > ELD (0.6) > Suffix (0.3+) > Prefix (0
 For full text, `detectLanguages()` runs `scoreWord()` on every word and aggregates results into document-level proportions:
 
 ```typescript
-detectLanguages("Programmet börjar klockan åtta och tar slut vid tio")
-// → { languages: [{ language: "de", proportion: 0.6 }, { language: "sv", proportion: 0.3 }, ...] }
+detectLanguages("We got the tickets and went to the show")
+// → { languages: [{ language: "en", proportion: 0.9 }, { language: "tr", proportion: 0.1 }, ...] }
 ```
 
 *Note:* ELD often classifies Swedish as German due to n-gram similarity. The confusion map (see below) compensates for this.
@@ -798,41 +798,37 @@ If profane language dominates (profaneAmp > innocentAmp):
 Result clamped to [0, 5]
 ```
 
-The `dampeningFactor` (0-1) controls how aggressively the adjustment works per collision word. Words that are genuinely innocent in another language (e.g., "slut" in Swedish, df=0.9) get heavy dampening, while dangerous dual-meaning words (e.g., "cock" as rooster, df=0.1) barely adjust.
+The `dampeningFactor` (0-1) controls how aggressively the adjustment works per collision word. Words that are genuinely innocent in another language (e.g., "got" in English, df=0.95) get heavy dampening, while dangerous dual-meaning words (e.g., "cock" as rooster, df=0.1) barely adjust.
 
 ### End-to-End Flow
 
 ```
-Text: "Programmet börjar klockan åtta och tar slut vid tio"
-                                          ^^^^
-                                          "slut" detected (en: s:3 c:4)
+Text: "All proceeds go to the local food bank"
+                      ^^^^^^
+                      "go t" bridged → "got" detected (tr: s:4 c:4)
 
   1. Collision word matched → check innocent-words map
-     "slut" → innocent in Swedish (meaning: "end/finish", dampeningFactor: 0.9)
+     "got" → innocent in English (meaning: "past tense of get", dampeningFactor: 0.95)
 
   2. Language detection triggered (lazy — only runs on collision matches)
-     Document signal: detectLanguages() → { de: 0.7, en: 0.2, ... }
-     Word signal:     scoreWord("slut")  → { sv: 0.8, en: 0.6, ... }
+     Document signal: detectLanguages() → { en: 0.9, tr: 0.05, ... }
+     Word signal:     scoreWord("got")  → { en: 0.9, tr: 0.7, ... }
 
   3. Weighted average (1.5:1 doc:word ratio)
-     amplified["sv"] = (0.8 × 1.0 + 0.0 × 1.5) / 2.5 = 0.32
-     amplified["de"] = (0.0 × 1.0 + 0.7 × 1.5) / 2.5 = 0.42
-     amplified["en"] = (0.6 × 1.0 + 0.2 × 1.5) / 2.5 = 0.36
+     amplified["en"] = (0.9 × 1.0 + 0.9 × 1.5) / 2.5 = 0.90
+     amplified["tr"] = (0.7 × 1.0 + 0.05 × 1.5) / 2.5 = 0.31
 
-  4. Confusion map: German signal → partial Swedish evidence
-     effectiveAmp["sv"] = max(0.32, 0.42 × 0.8) = 0.336
-
-  5. Innocent language (sv: 0.336) > Profane language (en: 0.36)?
-     → Close, but Swedish trie words boost sv signal further
-     → Certainty dampened: 4 × (1 - 0.9 × 0.336) = 2.79
-     → Below flag threshold (s:3 needs c:3+) → NOT FLAGGED ✓
+  4. Innocent language (en: 0.90) > Profane language (tr: 0.31)?
+     → Yes, English signal dominates
+     → Certainty dampened: 4 × (1 - 0.95 × 0.90) = 0.58
+     → Below flag threshold (s:4 needs c:2+) → NOT FLAGGED ✓
 ```
 
 ### Key Features
 
 - **29 collision words** mapped across 7 languages (English, Swedish, Norwegian, Danish, German, Dutch, French, Spanish)
 - **Per-word dampening factors** control adjustment strength:
-  - `0.9` = heavy dampening (genuinely innocent cross-language, e.g., "slut" in Swedish)
+  - `0.95` = heavy dampening (genuinely innocent cross-language, e.g., "got" in English)
   - `0.1` = barely dampens (almost always used as profanity, e.g., "cock" in English)
 - **Lazy language detection** — `detectLanguages()` only runs when a collision word is matched (zero performance cost for non-collision text)
 - **Confusion map** — handles ELD n-gram detector's known misclassifications (e.g., Swedish often classified as German)
@@ -842,6 +838,7 @@ Text: "Programmet börjar klockan åtta och tar slut vid tio"
 
 | Word | Profane In | Innocent In | Meaning |
 |------|-----------|-------------|---------|
+| got | Turkish | English | past tense of "get" (df: 0.95) |
 | slut | English | Swedish, Danish | end/finish |
 | fart | English | Swedish, Norwegian, Danish | speed |
 | hell | English | Swedish, Norwegian | luck |
@@ -903,7 +900,7 @@ Severity reflects the number and variety of detected profanities:
 - **Mixed Content:** Handles mixed-language and code-switched sentences with language-aware scoring.
 
 ```typescript
-profanity.check('This is bullshit and चूतिया.'); // true (mixed English/Hindi)
+profanity.check('This is b*llsh*t and चूतिया.'); // true (mixed English/Hindi)
 profanity.check('Ce mot est merde and पागल.');   // true (French/Hindi)
 profanity.check('Isso é uma merda.');             // true (Brazilian Portuguese)
 ```
@@ -916,7 +913,7 @@ For sample words in a language (for UIs, admin, etc):
 
 ```typescript
 import { englishBadWords, hindiBadWords } from 'bekindprofanityfilter';
-console.log(englishBadWords.slice(0, 5)); // ["fuck", "shit", ...]
+console.log(englishBadWords.slice(0, 5)); // ["f**k", "sh*t", ...]
 ```
 
 ---
@@ -925,7 +922,7 @@ console.log(englishBadWords.slice(0, 5)); // ["fuck", "shit", ...]
 
 - **No wordlist exposure:** There is no `.list()` function for security and encapsulation. Use exported word arrays for samples.
 - **TRIE-based:** Scales easily to 50,000+ words.
-- **Handles leet-speak:** Catches obfuscated variants like `f#ck`, `a55hole`.
+- **Handles leet-speak:** Catches obfuscated variants like `f#ck`, `a55h*le`.
 
 ---
 
@@ -947,7 +944,7 @@ profanity.addToWhitelist(['anal', 'ass']);
 console.log(profanity.check('He is an associate professor.')); // false
 
 // Severity
-const result = profanity.detect('This is fucking bullshit and chutiya.');
+const result = profanity.detect('This is f**king b*llsh*t and chutiya.');
 console.log(ProfanitySeverity[result.severity]); // "SEVERE"
 
 // Custom dictionary
@@ -957,7 +954,7 @@ console.log(profanity.check('You barnacle-head!')); // true
 
 // Placeholder configuration
 profanity.setPlaceholder('#');
-console.log(profanity.clean('This is bullshit.')); // "This is ########."
+console.log(profanity.clean('This is b*llsh*t.')); // "This is ########."
 profanity.setPlaceholder('*'); // Reset
 ```
 
@@ -991,7 +988,7 @@ A: Yes! BeKind is universal.
 - ✅ Additional language packs (Arabic, Russian, Japanese, Korean, Chinese, Dutch)
 - ✅ Romanization detection (Hinglish and other transliterated scripts)
 - 🚧 Norwegian and Danish trie vocabularies (currently covered via confusion map)
-- 🚧 Repeat character compression (normalize "fuuuuccckkkk" → "fuck" before matching, avoiding the need to enumerate elongations in the dictionary)
+- 🚧 Repeat character compression (normalize elongated words before matching, avoiding the need to enumerate elongations in the dictionary)
 - 🚧 Phonetic matching (sounds-like detection)
 - 🚧 Plugin system for custom detection algorithms
 
@@ -1001,7 +998,7 @@ A: Yes! BeKind is universal.
 
 MIT — See [LICENSE](https://github.com/grassroots-labs-org/be-kind-profanity-filter/blob/main/LICENSE)
 
-This project is a fork of [BeKind](https://github.com/ayush-jadaun/allprofanity) by Ayush Jadaun, also licensed under MIT.
+This project is a fork of [AllProfanity](https://github.com/ayush-jadaun/allprofanity) by Ayush Jadaun, also licensed under MIT.
 
 ---
 

@@ -139,6 +139,9 @@ const innocentWords: Record<string, InnocentEntry[]> = {
   "knockers": [{ language: "en", meaning: "door knockers", dampeningFactor: 0.2 }],
   "beaver":   [{ language: "en", meaning: "animal", dampeningFactor: 0.2 }],
   "muff":     [{ language: "en", meaning: "hand warmer", dampeningFactor: 0.15 }],
+
+  // ── Turkish → innocent in English ──
+  "got":      [{ language: "en", meaning: "past tense of 'get' — extremely common English word", dampeningFactor: 0.95 }],
 };
 
 export default innocentWords;

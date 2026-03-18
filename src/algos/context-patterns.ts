@@ -40,73 +40,26 @@ export interface ContextRule {
 export const UNIVERSAL_CONTEXT_PATTERNS: UniversalContextPattern[] = [
   // === REDUCER PATTERNS ===
 
-  // Negation patterns
-  {
-    type: "negation",
-    pattern:
-      /\b(not|don't|won't|can't|never|ne|pas|nicht|no|नहीं|不|non|niente|нет|nie)\b.{0,30}PROFANE_WORD/i,
-    weight: 0.2,
-    delta: -2,
-    languages: ["*"],
-    description: "Negation words that reduce profanity likelihood",
-    examples: ["not bad", "don't call me that", "never say that"],
-  },
-
-  // Possessive patterns
-  {
-    type: "possessive",
-    pattern: /\b\w+(['s]|du|de|का|की|के|の|del|della|от|od)\s+PROFANE_WORD\b/i,
-    weight: 0.4,
-    delta: -1,
-    languages: ["*"],
-    description: "Possessive constructions that may be innocent",
-    examples: ["dog's mouth", "cat's ass", "bird's ass"],
-  },
-
-  // Article patterns
-  {
-    type: "article",
-    pattern:
-      /\b(the|a|an|le|la|les|un|une|der|die|das|ein|eine|el|la|los|las|il|lo|gli|le)\s+PROFANE_WORD\b/i,
-    weight: 0.6,
-    delta: -1,
-    languages: ["*"],
-    description: "Articles that may indicate neutral reference",
-    examples: ["the ass of the donkey", "a hell of a time"],
-  },
-
-  // Compound word patterns
-  {
-    type: "compound",
-    pattern:
-      /\b(smart|silly|cute|funny|little|big|old|new|good|bad|nice|sweet)\s*[-]?\s*PROFANE_WORD\b/i,
-    weight: 0.5,
-    delta: -1,
-    languages: ["*"],
-    description: "Adjective-noun compounds that may be innocent",
-    examples: ["smart-ass", "silly ass", "cute little ass"],
-  },
-
-  // Proper noun patterns
+  // Proper noun before profane word — require two consecutive capitalized words
+  // to distinguish "Dick Cheney" from "Some dick"
   {
     type: "proper_noun",
-    pattern: /\b[A-Z][a-z]+\s+PROFANE_WORD\b/,
+    pattern: /\b[A-Z][a-z]+\s+PROFANE_WORD\s+[A-Z][a-z]+\b/,
     weight: 0.3,
     delta: -2,
     languages: ["en", "fr", "de", "es", "it"],
-    description: "Proper nouns followed by potential profanity",
-    examples: ["Hell Michigan", "Ass River"],
+    description: "Profane word sandwiched between proper nouns (place/person name)",
+    examples: ["Hell Creek Road", "Fort Dick California"],
   },
-
-  // Quotation patterns
+  // Profane word followed by capitalized word (place names like "Ass Mountain")
   {
-    type: "quotation",
-    pattern: /["'«»„"‚'].*PROFANE_WORD.*["'«»„"‚']/i,
-    weight: 0.7,
+    type: "proper_noun",
+    pattern: /\bPROFANE_WORD\s+[A-Z][a-z]{2,}\b/,
+    weight: 0.3,
     delta: -2,
-    languages: ["*"],
-    description: "Quoted text which may be reporting speech",
-    examples: ['"Don\'t be an ass"', "'What the hell'"],
+    languages: ["en", "fr", "de", "es", "it"],
+    description: "Potential profanity followed by proper noun (place/person name)",
+    examples: ["Ass Mountain", "Dick Cheney", "Hell Creek"],
   },
 
   // Medical/anatomical context
@@ -203,29 +156,9 @@ export const LANGUAGE_SPECIFIC_PATTERNS: Record<
   string,
   UniversalContextPattern[]
 > = {
-  en: [
-    {
-      type: "compound",
-      pattern: /\b(jack|dumb|smart|bad|kick)\s*[-]?\s*PROFANE_WORD\b/i,
-      weight: 0.4,
-      delta: -1,
-      languages: ["en"],
-      description: "English-specific compound patterns",
-      examples: ["jackass", "dumbass", "badass"],
-    },
-  ],
+  en: [],
 
-  fr: [
-    {
-      type: "negation",
-      pattern: /\b(ne|n'|pas|point|jamais|rien|personne)\b.{0,30}PROFANE_WORD/i,
-      weight: 0.2,
-      delta: -2,
-      languages: ["fr"],
-      description: "French negation patterns",
-      examples: ["ne pas dire", "jamais ça"],
-    },
-  ],
+  fr: [],
 
   de: [
     {
@@ -239,17 +172,7 @@ export const LANGUAGE_SPECIFIC_PATTERNS: Record<
     },
   ],
 
-  es: [
-    {
-      type: "possessive",
-      pattern: /\b(el|la|los|las)\s+PROFANE_WORD\s+(de|del|de la)\b/i,
-      weight: 0.4,
-      delta: -1,
-      languages: ["es"],
-      description: "Spanish possessive patterns",
-      examples: ["el culo de la mesa"],
-    },
-  ],
+  es: [],
 };
 
 /**

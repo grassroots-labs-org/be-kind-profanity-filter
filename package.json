@@ -1,7 +1,7 @@
 {
   "name": "bekindprofanityfilter",
-  "version": "0.0.1",
-  "description": "A multi-language profanity filter with romanization detection, language-aware innocence scoring, leet-speak detection, and cross-language collision handling. Forked from BeKind.",
+  "version": "0.0.2",
+  "description": "A multi-language profanity filter with romanization detection, language-aware innocence scoring, leet-speak detection, and cross-language collision handling. Forked from AllProfanity.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,9 +17,7 @@
     "benchmark:accuracy": "bun run benchmark/accuracy-benchmark.ts",
     "clean": "rimraf dist coverage",
     "prepare": "bun run clean && bun run build",
-    "prepublishOnly": "bun test",
-    "preversion": "bun run test",
-    "version": "git add -A src"
+    "publish": "bun test && bun run build"
   },
   "keywords": [
     "profanity",
