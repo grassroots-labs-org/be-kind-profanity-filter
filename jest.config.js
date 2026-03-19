@@ -36,4 +36,5 @@ export default {
   coverageDirectory: "coverage",
   collectCoverageFrom: ["src/**/*.ts", "!src/**/*.d.ts"],
   transformIgnorePatterns: ["/node_modules/(?!(.pnpm/eld@|eld/))"],
+  testPathIgnorePatterns: ["/node_modules/", "grassroots-comparison"],
 };
