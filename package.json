@@ -1,6 +1,6 @@
 {
   "name": "bekindprofanityfilter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A multi-language profanity filter with romanization detection, language-aware innocence scoring, leet-speak detection, and cross-language collision handling. Forked from AllProfanity.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm.min.js",
@@ -90,5 +90,7 @@
   "bin": {
     "bekindprofanityfilter": "./bin/init.js"
   },
-  "dependencies": {}
+  "dependencies": {
+    "eld": "^2.0.2"
+  }
 }
