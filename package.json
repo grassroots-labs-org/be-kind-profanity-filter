@@ -1,13 +1,25 @@
 {
   "name": "bekindprofanityfilter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A multi-language profanity filter with romanization detection, language-aware innocence scoring, leet-speak detection, and cross-language collision handling. Forked from AllProfanity.",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && esbuild dist/esm/index.js --bundle --platform=node --format=cjs --outfile=dist/cjs/index.js --packages=bundle && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -53,6 +65,7 @@
   "devDependencies": {
     "@types/jest": "^29.5.0",
     "bad-words": "^4.0.0",
+    "esbuild": "^0.27.4",
     "glin-profanity": "^3.3.0",
     "jest": "^29.5.0",
     "leo-profanity": "^1.9.0",
