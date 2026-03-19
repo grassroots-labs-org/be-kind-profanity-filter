@@ -1,5257 +1,5260 @@
-const englishBadWords: Record<string, { s: number; c: number }> = {
-    "2g1c": { s: 3, c: 5 },
-    "acrotomophilia": { s: 3, c: 4 },
-    "anal": { s: 4, c: 3 },
-    "anilingus": { s: 4, c: 5 },
-    "anus": { s: 3, c: 4 },
-    "apeshit": { s: 3, c: 5 },
-    "arsehole": { s: 3, c: 4 },
-    "ass": { s: 3, c: 3 },
-    "asshole": { s: 3, c: 5 },
-    "suck": { s: 3, c: 2 },
-    "assmunch": { s: 3, c: 4 },
-    "autoerotic": { s: 3, c: 4 },
-    "babeland": { s: 3, c: 4 },
-    "bangbros": { s: 3, c: 4 },
-    "bareback": { s: 3, c: 4 },
-    "barenaked": { s: 3, c: 4 },
-    "bastard": { s: 3, c: 4 },
-    "bastardo": { s: 5, c: 4 },
-    "bastinado": { s: 3, c: 4 },
-    "bbw": { s: 3, c: 4 },
-    "bdsm": { s: 3, c: 4 },
-    "beaner": { s: 4, c: 4 },
-    "beaners": { s: 4, c: 4 },
-    "bestiality": { s: 3, c: 4 },
-    "bimbos": { s: 3, c: 4 },
-    "birdlock": { s: 3, c: 4 },
-    "bitch": { s: 3, c: 4 },
-    "bitches": { s: 3, c: 4 },
-    "blowjob": { s: 4, c: 5 },
-    "blumpkin": { s: 3, c: 4 },
-    "bollocks": { s: 3, c: 4 },
-    "bondage": { s: 3, c: 4 },
-    "boner": { s: 3, c: 4 },
-    "boob": { s: 3, c: 4 },
-    "boobs": { s: 4, c: 4 },
-    "bra": { s: 2, c: 2 },
-    "bukkake": { s: 4, c: 5 },
-    "bulldyke": { s: 5, c: 5 },
-    "bullshit": { s: 3, c: 5 },
-    "bunghole": { s: 3, c: 4 },
-    "busty": { s: 3, c: 4 },
-    "butt": { s: 3, c: 4 },
-    "buttcheeks": { s: 3, c: 4 },
-    "butthole": { s: 3, c: 4 },
-    "camgirl": { s: 4, c: 5 },
-    "camslut": { s: 3, c: 4 },
-    "camwhore": { s: 5, c: 4 },
-    "carpetmuncher": { s: 3, c: 4 },
-    "circlejerk": { s: 3, c: 4 },
-    "clit": { s: 3, c: 4 },
-    "clitoris": { s: 4, c: 3 },
-    "clusterfuck": { s: 3, c: 5 },
-    "cock": { s: 4, c: 3 },
-    "cocks": { s: 4, c: 4 },
-    "coprolagnia": { s: 3, c: 4 },
-    "coprophilia": { s: 3, c: 4 },
-    "cornhole": { s: 3, c: 4 },
-    "coon": { s: 5, c: 4 },
-    "coons": { s: 5, c: 5 },
-    "creampie": { s: 4, c: 5 },
-    "cum": { s: 4, c: 5 },
-    "cumming": { s: 4, c: 5 },
-    "cunnilingus": { s: 4, c: 3 },
-    "cunt": { s: 5, c: 5 },
-    "darkie": { s: 3, c: 4 },
-    "daterape": { s: 5, c: 5 },
-    "deepthroat": { s: 4, c: 5 },
-    "dendrophilia": { s: 3, c: 4 },
-    "dick": { s: 4, c: 1 },
-    "dildo": { s: 5, c: 5 },
-    "dingleberry": { s: 3, c: 4 },
-    "dingleberries": { s: 3, c: 4 },
-    "doggiestyle": { s: 3, c: 4 },
-    "doggystyle": { s: 3, c: 4 },
-    "dolcett": { s: 3, c: 4 },
-    "domination": { s: 3, c: 4 },
-    "dominatrix": { s: 3, c: 4 },
-    "dommes": { s: 3, c: 4 },
-    "dvda": { s: 3, c: 4 },
-    "ecchi": { s: 3, c: 4 },
-    "ejaculation": { s: 3, c: 4 },
-    "erotic": { s: 3, c: 4 },
-    "erotism": { s: 3, c: 4 },
-    "escort": { s: 3, c: 4 },
-    "eunuch": { s: 3, c: 4 },
-    "faggot": { s: 5, c: 4 },
-    "fecal": { s: 3, c: 4 },
-    "felch": { s: 3, c: 4 },
-    "fellatio": { s: 4, c: 3 },
-    "fack": { s: 3, c: 3 },
-    "feltch": { s: 3, c: 4 },
-    "femdom": { s: 3, c: 4 },
-    "figging": { s: 3, c: 4 },
-    "fingerbang": { s: 3, c: 4 },
-    "fingering": { s: 3, c: 4 },
-    "fisting": { s: 4, c: 5 },
-    "footjob": { s: 4, c: 5 },
-    "frotting": { s: 3, c: 4 },
-    "fuck": { s: 3, c: 5 },
-    "fuckin": { s: 3, c: 5 },
-    "fucking": { s: 3, c: 5 },
-    "fucktards": { s: 3, c: 5 },
-    "fudgepacker": { s: 3, c: 4 },
-    "futanari": { s: 3, c: 4 },
-    "genitals": { s: 3, c: 4 },
-    "goatcx": { s: 3, c: 4 },
-    "goatse": { s: 3, c: 4 },
-    "gokkun": { s: 3, c: 4 },
-    "goodpoop": { s: 3, c: 4 },
-    "goregasm": { s: 3, c: 4 },
-    "grope": { s: 3, c: 4 },
-    "g-spot": { s: 3, c: 4 },
-    "guro": { s: 3, c: 4 },
-    "handjob": { s: 4, c: 5 },
-    "hardcore": { s: 3, c: 4 },
-    "hentai": { s: 3, c: 4 },
-    "homoerotic": { s: 3, c: 4 },
-    "honkey": { s: 3, c: 4 },
-    "hooker": { s: 3, c: 4 },
-    "humping": { s: 3, c: 4 },
-    "incest": { s: 3, c: 4 },
-    "intercourse": { s: 3, c: 4 },
-    "jailbait": { s: 5, c: 5 },
-    "jigaboo": { s: 3, c: 4 },
-    "jiggaboo": { s: 3, c: 4 },
-    "jiggerboo": { s: 3, c: 4 },
-    "jizz": { s: 4, c: 5 },
-    "juggs": { s: 3, c: 4 },
-    "kike": { s: 5, c: 5 },
-    "kinbaku": { s: 3, c: 4 },
-    "kinkster": { s: 3, c: 4 },
-    "kinky": { s: 3, c: 4 },
-    "knobbing": { s: 3, c: 4 },
-    "knockers": { s: 2, c: 2 },
-    "lingerie": { s: 2, c: 2 },
-    "lolita": { s: 3, c: 4 },
-    "lovemaking": { s: 3, c: 4 },
-    "masturbate": { s: 4, c: 4 },
-    "milf": { s: 5, c: 5 },
-    "muff": { s: 2, c: 2 },
-    "motherfucker": { s: 5, c: 5 },
-    "muffdiving": { s: 3, c: 4 },
-    "nambla": { s: 3, c: 4 },
-    "nawashi": { s: 3, c: 4 },
-    "neonazi": { s: 5, c: 5 },
-    "nigga": { s: 5, c: 5 },
-    "nigger": { s: 5, c: 5 },
-    "nimphomania": { s: 3, c: 4 },
-    "nipple": { s: 4, c: 4 },
-    "nipples": { s: 4, c: 4 },
-    "nude": { s: 3, c: 4 },
-    "nudity": { s: 3, c: 4 },
-    "nympho": { s: 3, c: 4 },
-    "nymphomania": { s: 3, c: 4 },
-    "octopussy": { s: 4, c: 4 },
-    "omorashi": { s: 3, c: 4 },
-    "orgasm": { s: 4, c: 3 },
-    "orgy": { s: 3, c: 5 },
-    "paedophile": { s: 3, c: 4 },
-    "paki": { s: 3, c: 4 },
-    "panties": { s: 3, c: 4 },
-    "panty": { s: 3, c: 4 },
-    "pedobear": { s: 3, c: 4 },
-    "pedophile": { s: 5, c: 5 },
-    "pegging": { s: 4, c: 4 },
-    "penis": { s: 4, c: 3 },
-    "pissing": { s: 3, c: 4 },
-    "pisspig": { s: 3, c: 4 },
-    "playboy": { s: 3, c: 4 },
-    "ponyplay": { s: 3, c: 4 },
-    "poof": { s: 5, c: 4 },
-    "poofs": { s: 5, c: 4 },
-    "poofter": { s: 5, c: 4 },
-    "poofters": { s: 5, c: 4 },
-    "poon": { s: 3, c: 4 },
-    "poontang": { s: 3, c: 4 },
-    "punany": { s: 3, c: 4 },
-    "poopchute": { s: 3, c: 4 },
-    "porn": { s: 3, c: 4 },
-    "porno": { s: 3, c: 4 },
-    "pornography": { s: 3, c: 4 },
-    "pthc": { s: 3, c: 4 },
-    "pubes": { s: 3, c: 4 },
-    "pussy": { s: 4, c: 4 },
-    "queaf": { s: 3, c: 4 },
-    "queef": { s: 4, c: 5 },
-    "quim": { s: 3, c: 4 },
-    "raghead": { s: 5, c: 5 },
-    "rape": { s: 3, c: 4 },
-    "raping": { s: 3, c: 4 },
-    "rapist": { s: 5, c: 5 },
-    "rectum": { s: 3, c: 4 },
-    "rimjob": { s: 4, c: 5 },
-    "rimming": { s: 3, c: 4 },
-    "sadism": { s: 3, c: 4 },
-    "santorum": { s: 3, c: 4 },
-    "scat": { s: 3, c: 4 },
-    "schlong": { s: 3, c: 4 },
-    "scissoring": { s: 3, c: 4 },
-    "semen": { s: 4, c: 3 },
-    "sex": { s: 3, c: 3 },
-    "sexo": { s: 3, c: 4 },
-    "sexy": { s: 3, c: 4 },
-    "shemale": { s: 5, c: 5 },
-    "shibari": { s: 3, c: 4 },
-    "shit": { s: 3, c: 5 },
-    "shitblimp": { s: 3, c: 5 },
-    "shitty": { s: 3, c: 4 },
-    "shota": { s: 3, c: 4 },
-    "shrimping": { s: 3, c: 4 },
-    "skeet": { s: 3, c: 4 },
-    "slanteye": { s: 3, c: 4 },
-    "slut": { s: 3, c: 4 },
-    "s&m": { s: 3, c: 4 },
-    "smut": { s: 3, c: 4 },
-    "snatch": { s: 3, c: 4 },
-    "snowballing": { s: 3, c: 4 },
-    "sodomize": { s: 3, c: 4 },
-    "sodomy": { s: 3, c: 4 },
-    "spic": { s: 5, c: 4 },
-    "splooge": { s: 3, c: 4 },
-    "spooge": { s: 3, c: 4 },
-    "spunk": { s: 3, c: 4 },
-    "strapon": { s: 4, c: 4 },
-    "strappado": { s: 3, c: 4 },
-    "sucks": { s: 3, c: 4 },
-    "swastika": { s: 5, c: 5 },
-    "swinger": { s: 3, c: 4 },
-    "thong": { s: 2, c: 2 },
-    "threesome": { s: 3, c: 4 },
-    "throating": { s: 3, c: 4 },
-    "tit": { s: 3, c: 4 },
-    "tits": { s: 4, c: 4 },
-    "titties": { s: 4, c: 5 },
-    "titty": { s: 4, c: 4 },
-    "topless": { s: 3, c: 4 },
-    "tosser": { s: 1, c: 2 },
-    "towelhead": { s: 5, c: 5 },
-    "tranny": { s: 5, c: 5 },
-    "tribadism": { s: 3, c: 4 },
-    "tubgirl": { s: 3, c: 4 },
-    "tushy": { s: 3, c: 4 },
-    "twat": { s: 3, c: 4 },
-    "twink": { s: 3, c: 4 },
-    "twinkie": { s: 3, c: 4 },
-    "undressing": { s: 3, c: 4 },
-    "upskirt": { s: 3, c: 4 },
-    "urophilia": { s: 3, c: 4 },
-    "vagina": { s: 4, c: 3 },
-    "vibrator": { s: 3, c: 4 },
-    "vorarephilia": { s: 3, c: 4 },
-    "voyeur": { s: 3, c: 4 },
-    "vulva": { s: 4, c: 3 },
-    "wank": { s: 3, c: 4 },
-    "wetback": { s: 3, c: 4 },
-    "xxx": { s: 3, c: 4 },
-    "yaoi": { s: 3, c: 4 },
-    "yiffy": { s: 3, c: 4 },
-    "zoophilia": { s: 3, c: 4 },
+const _d: Record<string, [number, number]> = {
+    "2g1c": [3, 5],
+    "acrotomophilia": [3, 4],
+    "anal": [4, 3],
+    "anilingus": [4, 5],
+    "anus": [3, 4],
+    "apeshit": [3, 5],
+    "arsehole": [3, 4],
+    "ass": [3, 3],
+    "asshole": [3, 5],
+    "suck": [3, 2],
+    "assmunch": [3, 4],
+    "autoerotic": [3, 4],
+    "babeland": [3, 4],
+    "bangbros": [3, 4],
+    "bareback": [3, 4],
+    "barenaked": [3, 4],
+    "bastard": [3, 4],
+    "bastardo": [5, 4],
+    "bastinado": [3, 4],
+    "bbw": [3, 4],
+    "bdsm": [3, 4],
+    "beaner": [4, 4],
+    "beaners": [4, 4],
+    "bestiality": [3, 4],
+    "bimbos": [3, 4],
+    "birdlock": [3, 4],
+    "bitch": [3, 4],
+    "bitches": [3, 4],
+    "blowjob": [4, 5],
+    "blumpkin": [3, 4],
+    "bollocks": [3, 4],
+    "bondage": [3, 4],
+    "boner": [3, 4],
+    "boob": [3, 4],
+    "boobs": [4, 4],
+    "bra": [2, 2],
+    "bukkake": [4, 5],
+    "bulldyke": [5, 5],
+    "bullshit": [3, 5],
+    "bunghole": [3, 4],
+    "busty": [3, 4],
+    "butt": [3, 4],
+    "buttcheeks": [3, 4],
+    "butthole": [3, 4],
+    "camgirl": [4, 5],
+    "camslut": [3, 4],
+    "camwhore": [5, 4],
+    "carpetmuncher": [3, 4],
+    "circlejerk": [3, 4],
+    "clit": [3, 4],
+    "clitoris": [4, 3],
+    "clusterfuck": [3, 5],
+    "cock": [4, 3],
+    "cocks": [4, 4],
+    "coprolagnia": [3, 4],
+    "coprophilia": [3, 4],
+    "cornhole": [3, 4],
+    "coon": [5, 4],
+    "coons": [5, 5],
+    "creampie": [4, 5],
+    "cum": [4, 5],
+    "cumming": [4, 5],
+    "cunnilingus": [4, 3],
+    "cunt": [5, 5],
+    "darkie": [3, 4],
+    "daterape": [5, 5],
+    "deepthroat": [4, 5],
+    "dendrophilia": [3, 4],
+    "dick": [4, 1],
+    "dildo": [5, 5],
+    "dingleberry": [3, 4],
+    "dingleberries": [3, 4],
+    "doggiestyle": [3, 4],
+    "doggystyle": [3, 4],
+    "dolcett": [3, 4],
+    "domination": [3, 4],
+    "dominatrix": [3, 4],
+    "dommes": [3, 4],
+    "dvda": [3, 4],
+    "ecchi": [3, 4],
+    "ejaculation": [3, 4],
+    "erotic": [3, 4],
+    "erotism": [3, 4],
+    "escort": [3, 4],
+    "eunuch": [3, 4],
+    "faggot": [5, 4],
+    "fecal": [3, 4],
+    "felch": [3, 4],
+    "fellatio": [4, 3],
+    "fack": [3, 3],
+    "feltch": [3, 4],
+    "femdom": [3, 4],
+    "figging": [3, 4],
+    "fingerbang": [3, 4],
+    "fingering": [3, 4],
+    "fisting": [4, 5],
+    "footjob": [4, 5],
+    "frotting": [3, 4],
+    "fuck": [3, 5],
+    "fuckin": [3, 5],
+    "fucking": [3, 5],
+    "fucktards": [3, 5],
+    "fudgepacker": [3, 4],
+    "futanari": [3, 4],
+    "genitals": [3, 4],
+    "goatcx": [3, 4],
+    "goatse": [3, 4],
+    "gokkun": [3, 4],
+    "goodpoop": [3, 4],
+    "goregasm": [3, 4],
+    "grope": [3, 4],
+    "g-spot": [3, 4],
+    "guro": [3, 4],
+    "handjob": [4, 5],
+    "hardcore": [3, 4],
+    "hentai": [3, 4],
+    "homoerotic": [3, 4],
+    "honkey": [3, 4],
+    "hooker": [3, 4],
+    "humping": [3, 4],
+    "incest": [3, 4],
+    "intercourse": [3, 4],
+    "jailbait": [5, 5],
+    "jigaboo": [3, 4],
+    "jiggaboo": [3, 4],
+    "jiggerboo": [3, 4],
+    "jizz": [4, 5],
+    "juggs": [3, 4],
+    "kike": [5, 5],
+    "kinbaku": [3, 4],
+    "kinkster": [3, 4],
+    "kinky": [3, 4],
+    "knobbing": [3, 4],
+    "knockers": [2, 2],
+    "lingerie": [2, 2],
+    "lolita": [3, 4],
+    "lovemaking": [3, 4],
+    "masturbate": [4, 4],
+    "milf": [5, 5],
+    "muff": [2, 2],
+    "motherfucker": [5, 5],
+    "muffdiving": [3, 4],
+    "nambla": [3, 4],
+    "nawashi": [3, 4],
+    "neonazi": [5, 5],
+    "nigga": [5, 5],
+    "nigger": [5, 5],
+    "nimphomania": [3, 4],
+    "nipple": [4, 4],
+    "nipples": [4, 4],
+    "nude": [3, 4],
+    "nudity": [3, 4],
+    "nympho": [3, 4],
+    "nymphomania": [3, 4],
+    "octopussy": [4, 4],
+    "omorashi": [3, 4],
+    "orgasm": [4, 3],
+    "orgy": [3, 5],
+    "paedophile": [3, 4],
+    "paki": [3, 4],
+    "panties": [3, 4],
+    "panty": [3, 4],
+    "pedobear": [3, 4],
+    "pedophile": [5, 5],
+    "pegging": [4, 4],
+    "penis": [4, 3],
+    "pissing": [3, 4],
+    "pisspig": [3, 4],
+    "playboy": [3, 4],
+    "ponyplay": [3, 4],
+    "poof": [5, 4],
+    "poofs": [5, 4],
+    "poofter": [5, 4],
+    "poofters": [5, 4],
+    "poon": [3, 4],
+    "poontang": [3, 4],
+    "punany": [3, 4],
+    "poopchute": [3, 4],
+    "porn": [3, 4],
+    "porno": [3, 4],
+    "pornography": [3, 4],
+    "pthc": [3, 4],
+    "pubes": [3, 4],
+    "pussy": [4, 4],
+    "queaf": [3, 4],
+    "queef": [4, 5],
+    "quim": [3, 4],
+    "raghead": [5, 5],
+    "rape": [3, 4],
+    "raping": [3, 4],
+    "rapist": [5, 5],
+    "rectum": [3, 4],
+    "rimjob": [4, 5],
+    "rimming": [3, 4],
+    "sadism": [3, 4],
+    "santorum": [3, 4],
+    "scat": [3, 4],
+    "schlong": [3, 4],
+    "scissoring": [3, 4],
+    "semen": [4, 3],
+    "sex": [3, 3],
+    "sexo": [3, 4],
+    "sexy": [3, 4],
+    "shemale": [5, 5],
+    "shibari": [3, 4],
+    "shit": [3, 5],
+    "shitblimp": [3, 5],
+    "shitty": [3, 4],
+    "shota": [3, 4],
+    "shrimping": [3, 4],
+    "skeet": [3, 4],
+    "slanteye": [3, 4],
+    "slut": [3, 4],
+    "s&m": [3, 4],
+    "smut": [3, 4],
+    "snatch": [3, 4],
+    "snowballing": [3, 4],
+    "sodomize": [3, 4],
+    "sodomy": [3, 4],
+    "spic": [5, 4],
+    "splooge": [3, 4],
+    "spooge": [3, 4],
+    "spunk": [3, 4],
+    "strapon": [4, 4],
+    "strappado": [3, 4],
+    "sucks": [3, 4],
+    "swastika": [5, 5],
+    "swinger": [3, 4],
+    "thong": [2, 2],
+    "threesome": [3, 4],
+    "throating": [3, 4],
+    "tit": [3, 4],
+    "tits": [4, 4],
+    "titties": [4, 5],
+    "titty": [4, 4],
+    "topless": [3, 4],
+    "tosser": [1, 2],
+    "towelhead": [5, 5],
+    "tranny": [5, 5],
+    "tribadism": [3, 4],
+    "tubgirl": [3, 4],
+    "tushy": [3, 4],
+    "twat": [3, 4],
+    "twink": [3, 4],
+    "twinkie": [3, 4],
+    "undressing": [3, 4],
+    "upskirt": [3, 4],
+    "urophilia": [3, 4],
+    "vagina": [4, 3],
+    "vibrator": [3, 4],
+    "vorarephilia": [3, 4],
+    "voyeur": [3, 4],
+    "vulva": [4, 3],
+    "wank": [3, 4],
+    "wetback": [3, 4],
+    "xxx": [3, 4],
+    "yaoi": [3, 4],
+    "yiffy": [3, 4],
+    "zoophilia": [3, 4],
 
     // Additional high-signal profanity
-    "asswipe": { s: 3, c: 4 },
-    "ballsack": { s: 4, c: 5 },
-    "bastards": { s: 5, c: 4 },
-    "bitchass": { s: 3, c: 5 },
-    "cockhead": { s: 4, c: 4 },
-    "cocksucker": { s: 5, c: 5 },
-    "cocksucking": { s: 4, c: 4 },
-    "cumshot": { s: 4, c: 5 },
-    "cumslut": { s: 3, c: 4 },
-    "cuntface": { s: 5, c: 5 },
-    "dago": { s: 3, c: 4 },
-    "dagos": { s: 3, c: 4 },
-    "dickhead": { s: 4, c: 4 },
-    "dickweed": { s: 4, c: 4 },
-    "dilf": { s: 5, c: 5 },
-    "dipshit": { s: 3, c: 5 },
-    "douchebag": { s: 3, c: 4 },
-    "douche": { s: 3, c: 4 },
-    "dumbass": { s: 3, c: 4 },
-    "dumbfuck": { s: 3, c: 5 },
-    "fag": { s: 5, c: 4 },
-    "fags": { s: 5, c: 4 },
-    "fatass": { s: 3, c: 4 },
-    "fuckboy": { s: 3, c: 5 },
-    "fuckface": { s: 5, c: 5 },
-    "fuckhead": { s: 3, c: 5 },
-    "fuckoff": { s: 3, c: 5 },
-    "fuckwit": { s: 3, c: 5 },
-    "gay": { s: 5, c: 2 },
-    "goddamn": { s: 2, c: 3 },
-    "goddamnit": { s: 3, c: 4 },
-    "gook": { s: 3, c: 4 },
-    "gooks": { s: 3, c: 4 },
-    "gtfo": { s: 3, c: 5 },
-    "horseshit": { s: 3, c: 5 },
-    "jackass": { s: 3, c: 4 },
-    "jackoff": { s: 3, c: 4 },
-    "jerkoff": { s: 3, c: 4 },
-    "knobhead": { s: 3, c: 4 },
-    "minge": { s: 3, c: 4 },
-    "motherfucking": { s: 3, c: 5 },
-    "muthafucka": { s: 3, c: 5 },
-    "numbnuts": { s: 3, c: 4 },
-    "peckerhead": { s: 3, c: 4 },
-    "piss": { s: 3, c: 3 },
-    "pissoff": { s: 3, c: 4 },
-    "retard": { s: 5, c: 4 },
-    "retarded": { s: 5, c: 4 },
-    "shitass": { s: 3, c: 5 },
-    "shitface": { s: 3, c: 5 },
-    "shitfaced": { s: 3, c: 5 },
-    "shithead": { s: 3, c: 5 },
-    "shitstain": { s: 3, c: 5 },
-    "skank": { s: 3, c: 4 },
-    "slutbag": { s: 3, c: 4 },
-    "spick": { s: 5, c: 4 },
-    "stfu": { s: 3, c: 5 },
-    "wanker": { s: 3, c: 4 },
-    "whore": { s: 5, c: 4 },
-    "wtf": { s: 2, c: 2 },
+    "asswipe": [3, 4],
+    "ballsack": [4, 5],
+    "bastards": [5, 4],
+    "bitchass": [3, 5],
+    "cockhead": [4, 4],
+    "cocksucker": [5, 5],
+    "cocksucking": [4, 4],
+    "cumshot": [4, 5],
+    "cumslut": [3, 4],
+    "cuntface": [5, 5],
+    "dago": [3, 4],
+    "dagos": [3, 4],
+    "dickhead": [4, 4],
+    "dickweed": [4, 4],
+    "dilf": [5, 5],
+    "dipshit": [3, 5],
+    "douchebag": [3, 4],
+    "douche": [3, 4],
+    "dumbass": [3, 4],
+    "dumbfuck": [3, 5],
+    "fag": [5, 4],
+    "fags": [5, 4],
+    "fatass": [3, 4],
+    "fuckboy": [3, 5],
+    "fuckface": [5, 5],
+    "fuckhead": [3, 5],
+    "fuckoff": [3, 5],
+    "fuckwit": [3, 5],
+    "gay": [5, 2],
+    "goddamn": [2, 3],
+    "goddamnit": [3, 4],
+    "gook": [3, 4],
+    "gooks": [3, 4],
+    "gtfo": [3, 5],
+    "horseshit": [3, 5],
+    "jackass": [3, 4],
+    "jackoff": [3, 4],
+    "jerkoff": [3, 4],
+    "knobhead": [3, 4],
+    "minge": [3, 4],
+    "motherfucking": [3, 5],
+    "muthafucka": [3, 5],
+    "numbnuts": [3, 4],
+    "peckerhead": [3, 4],
+    "piss": [3, 3],
+    "pissoff": [3, 4],
+    "retard": [5, 4],
+    "retarded": [5, 4],
+    "shitass": [3, 5],
+    "shitface": [3, 5],
+    "shitfaced": [3, 5],
+    "shithead": [3, 5],
+    "shitstain": [3, 5],
+    "skank": [3, 4],
+    "slutbag": [3, 4],
+    "spick": [5, 4],
+    "stfu": [3, 5],
+    "wanker": [3, 4],
+    "whore": [5, 4],
+    "wtf": [2, 2],
 
     // Compound insults
-    "assclown": { s: 3, c: 4 },
-    "asshat": { s: 3, c: 4 },
-    "asslicker": { s: 3, c: 4 },
-    "assbag": { s: 3, c: 4 },
-    "arsewipe": { s: 1, c: 4 },
-    "ballbuster": { s: 1, c: 4 },
-    "ballsdeep": { s: 1, c: 4 },
-    "bastardized": { s: 5, c: 4 },
-    "bitchface": { s: 3, c: 4 },
-    "bitchtits": { s: 3, c: 4 },
-    "cockbite": { s: 4, c: 4 },
-    "cockface": { s: 4, c: 4 },
-    "cockgobbler": { s: 4, c: 4 },
-    "cocklicker": { s: 4, c: 4 },
-    "cockmonger": { s: 4, c: 4 },
-    "cockjockey": { s: 4, c: 4 },
-    "cocknose": { s: 4, c: 4 },
-    "cockring": { s: 4, c: 4 },
-    "cocksmith": { s: 4, c: 4 },
-    "cocksmoker": { s: 4, c: 4 },
-    "cockwomble": { s: 4, c: 4 },
-    "crapbag": { s: 2, c: 4 },
-    "crapface": { s: 2, c: 4 },
-    "cumbubble": { s: 4, c: 5 },
-    "cumdumpster": { s: 4, c: 5 },
-    "cumguzzler": { s: 5, c: 5 },
-    "cumrag": { s: 4, c: 5 },
-    "cumstain": { s: 4, c: 5 },
-    "cuntbag": { s: 5, c: 5 },
-    "cunting": { s: 5, c: 5 },
-    "cuntrag": { s: 5, c: 5 },
-    "dickbag": { s: 4, c: 4 },
-    "dickbreath": { s: 4, c: 4 },
-    "dickface": { s: 4, c: 4 },
-    "dickless": { s: 4, c: 4 },
-    "dicklicker": { s: 4, c: 4 },
-    "dicknose": { s: 4, c: 4 },
-    "dicksneeze": { s: 4, c: 4 },
-    "dicksplash": { s: 4, c: 4 },
-    "dicktease": { s: 4, c: 4 },
-    "fuckass": { s: 3, c: 5 },
-    "fuckbag": { s: 3, c: 5 },
-    "fuckball": { s: 3, c: 5 },
-    "fuckbrains": { s: 3, c: 5 },
-    "fucker": { s: 3, c: 5 },
-    "fuckers": { s: 3, c: 5 },
-    "fuckhole": { s: 3, c: 5 },
-    "fuckknuckle": { s: 3, c: 5 },
-    "fucknugget": { s: 3, c: 5 },
-    "fuckstain": { s: 3, c: 5 },
-    "fuckstick": { s: 3, c: 5 },
-    "fucktard": { s: 3, c: 5 },
-    "fucktoy": { s: 3, c: 5 },
-    "fucktrumpet": { s: 3, c: 5 },
-    "fuckup": { s: 3, c: 5 },
-    "fuckwad": { s: 3, c: 5 },
-    "jackhole": { s: 1, c: 4 },
-    "jizzface": { s: 4, c: 5 },
-    "jizzmopper": { s: 4, c: 5 },
-    "jizzrag": { s: 4, c: 5 },
-    "jizzstain": { s: 4, c: 5 },
-    "knobend": { s: 3, c: 4 },
-    "knobgobbler": { s: 3, c: 4 },
-    "knobber": { s: 3, c: 4 },
-    "nutsack": { s: 1, c: 4 },
-    "pissbaby": { s: 3, c: 4 },
-    "pissflaps": { s: 3, c: 4 },
-    "pisshead": { s: 3, c: 4 },
-    "shitstick": { s: 3, c: 5 },
-    "shitbird": { s: 3, c: 5 },
-    "shitbag": { s: 3, c: 5 },
-    "shitbox": { s: 3, c: 5 },
-    "shitbreath": { s: 3, c: 5 },
-    "shitbrains": { s: 3, c: 5 },
-    "shitcanned": { s: 3, c: 5 },
-    "shitcunt": { s: 5, c: 5 },
-    "shitdick": { s: 3, c: 5 },
-    "shiteater": { s: 3, c: 5 },
-    "shitfuck": { s: 3, c: 5 },
-    "shitgibbon": { s: 3, c: 5 },
-    "shithole": { s: 3, c: 5 },
-    "shithouse": { s: 3, c: 5 },
-    "shitlord": { s: 3, c: 5 },
-    "shitstorm": { s: 3, c: 5 },
-    "slutbucket": { s: 3, c: 4 },
-    "slutface": { s: 3, c: 4 },
-    "smartass": { s: 3, c: 4 },
-    "thundercunt": { s: 5, c: 5 },
-    "twatface": { s: 4, c: 4 },
-    "twatwaffle": { s: 4, c: 4 },
-    "wankstain": { s: 3, c: 4 },
+    "assclown": [3, 4],
+    "asshat": [3, 4],
+    "asslicker": [3, 4],
+    "assbag": [3, 4],
+    "arsewipe": [1, 4],
+    "ballbuster": [1, 4],
+    "ballsdeep": [1, 4],
+    "bastardized": [5, 4],
+    "bitchface": [3, 4],
+    "bitchtits": [3, 4],
+    "cockbite": [4, 4],
+    "cockface": [4, 4],
+    "cockgobbler": [4, 4],
+    "cocklicker": [4, 4],
+    "cockmonger": [4, 4],
+    "cockjockey": [4, 4],
+    "cocknose": [4, 4],
+    "cockring": [4, 4],
+    "cocksmith": [4, 4],
+    "cocksmoker": [4, 4],
+    "cockwomble": [4, 4],
+    "crapbag": [2, 4],
+    "crapface": [2, 4],
+    "cumbubble": [4, 5],
+    "cumdumpster": [4, 5],
+    "cumguzzler": [5, 5],
+    "cumrag": [4, 5],
+    "cumstain": [4, 5],
+    "cuntbag": [5, 5],
+    "cunting": [5, 5],
+    "cuntrag": [5, 5],
+    "dickbag": [4, 4],
+    "dickbreath": [4, 4],
+    "dickface": [4, 4],
+    "dickless": [4, 4],
+    "dicklicker": [4, 4],
+    "dicknose": [4, 4],
+    "dicksneeze": [4, 4],
+    "dicksplash": [4, 4],
+    "dicktease": [4, 4],
+    "fuckass": [3, 5],
+    "fuckbag": [3, 5],
+    "fuckball": [3, 5],
+    "fuckbrains": [3, 5],
+    "fucker": [3, 5],
+    "fuckers": [3, 5],
+    "fuckhole": [3, 5],
+    "fuckknuckle": [3, 5],
+    "fucknugget": [3, 5],
+    "fuckstain": [3, 5],
+    "fuckstick": [3, 5],
+    "fucktard": [3, 5],
+    "fucktoy": [3, 5],
+    "fucktrumpet": [3, 5],
+    "fuckup": [3, 5],
+    "fuckwad": [3, 5],
+    "jackhole": [1, 4],
+    "jizzface": [4, 5],
+    "jizzmopper": [4, 5],
+    "jizzrag": [4, 5],
+    "jizzstain": [4, 5],
+    "knobend": [3, 4],
+    "knobgobbler": [3, 4],
+    "knobber": [3, 4],
+    "nutsack": [1, 4],
+    "pissbaby": [3, 4],
+    "pissflaps": [3, 4],
+    "pisshead": [3, 4],
+    "shitstick": [3, 5],
+    "shitbird": [3, 5],
+    "shitbag": [3, 5],
+    "shitbox": [3, 5],
+    "shitbreath": [3, 5],
+    "shitbrains": [3, 5],
+    "shitcanned": [3, 5],
+    "shitcunt": [5, 5],
+    "shitdick": [3, 5],
+    "shiteater": [3, 5],
+    "shitfuck": [3, 5],
+    "shitgibbon": [3, 5],
+    "shithole": [3, 5],
+    "shithouse": [3, 5],
+    "shitlord": [3, 5],
+    "shitstorm": [3, 5],
+    "slutbucket": [3, 4],
+    "slutface": [3, 4],
+    "smartass": [3, 4],
+    "thundercunt": [5, 5],
+    "twatface": [4, 4],
+    "twatwaffle": [4, 4],
+    "wankstain": [3, 4],
 
     // British slang
-    "arse": { s: 3, c: 4 },
-    "arsed": { s: 3, c: 4 },
-    "arseface": { s: 3, c: 4 },
-    "bellend": { s: 3, c: 4 },
-    "berk": { s: 1, c: 2 },
-    "blighter": { s: 3, c: 4 },
-    "bloodyell": { s: 3, c: 4 },
-    "bloody hell": { s: 2, c: 4 },
-    "bugger": { s: 2, c: 3 },
-    "buggered": { s: 3, c: 4 },
-    "buggery": { s: 3, c: 4 },
-    "chav": { s: 3, c: 4 },
-    "gobshite": { s: 3, c: 5 },
-    "knacker": { s: 3, c: 4 },
-    "knackers": { s: 3, c: 4 },
-    "minger": { s: 3, c: 4 },
-    "mingin": { s: 3, c: 4 },
-    "muppet": { s: 1, c: 2 },
-    "nobhead": { s: 3, c: 4 },
-    "nonce": { s: 5, c: 4 },
-    "pillock": { s: 1, c: 2 },
-    "plonker": { s: 1, c: 2 },
-    "scrubber": { s: 3, c: 4 },
-    "shag": { s: 3, c: 4 },
-    "shagged": { s: 3, c: 4 },
-    "shagging": { s: 3, c: 4 },
-    "shite": { s: 3, c: 5 },
-    "slag": { s: 3, c: 4 },
-    "slagheap": { s: 3, c: 4 },
-    "slapper": { s: 3, c: 4 },
-    "sod off": { s: 3, c: 5 },
-    "sodding": { s: 3, c: 4 },
-    "tart": { s: 3, c: 4 },
-    "twit": { s: 1, c: 2 },
-    "wankbadger": { s: 3, c: 4 },
-    "wazzock": { s: 1, c: 2 },
+    "arse": [3, 4],
+    "arsed": [3, 4],
+    "arseface": [3, 4],
+    "bellend": [3, 4],
+    "berk": [1, 2],
+    "blighter": [3, 4],
+    "bloodyell": [3, 4],
+    "bloody hell": [2, 4],
+    "bugger": [2, 3],
+    "buggered": [3, 4],
+    "buggery": [3, 4],
+    "chav": [3, 4],
+    "gobshite": [3, 5],
+    "knacker": [3, 4],
+    "knackers": [3, 4],
+    "minger": [3, 4],
+    "mingin": [3, 4],
+    "muppet": [1, 2],
+    "nobhead": [3, 4],
+    "nonce": [5, 4],
+    "pillock": [1, 2],
+    "plonker": [1, 2],
+    "scrubber": [3, 4],
+    "shag": [3, 4],
+    "shagged": [3, 4],
+    "shagging": [3, 4],
+    "shite": [3, 5],
+    "slag": [3, 4],
+    "slagheap": [3, 4],
+    "slapper": [3, 4],
+    "sod off": [3, 5],
+    "sodding": [3, 4],
+    "tart": [3, 4],
+    "twit": [1, 2],
+    "wankbadger": [3, 4],
+    "wazzock": [1, 2],
 
     // Australian slang
-    "bogan": { s: 1, c: 2 },
-    "drongo": { s: 1, c: 2 },
+    "bogan": [1, 2],
+    "drongo": [1, 2],
 
     // Internet abbreviations & modern slang
-    "fml": { s: 2, c: 2 },
-    "gilf": { s: 2, c: 3 },
-    "gdilf": { s: 2, c: 3 },
-    "lmao": { s: 2, c: 2 },
-    "lmfao": { s: 2, c: 3 },
-    "stfd": { s: 2, c: 3 },
-    "thot": { s: 3, c: 4 },
+    "fml": [2, 2],
+    "gilf": [2, 3],
+    "gdilf": [2, 3],
+    "lmao": [2, 2],
+    "lmfao": [2, 3],
+    "stfd": [2, 3],
+    "thot": [3, 4],
 
     // Slurs (content filter)
-    "chink": { s: 5, c: 3 },
-    "chinks": { s: 5, c: 4 },
-    "cracker": { s: 4, c: 1 },
-    "crackers": { s: 3, c: 4 },
-    "dyke": { s: 5, c: 4 },
-    "dykes": { s: 5, c: 4 },
-    "fgt": { s: 5, c: 4 },
-    "gringo": { s: 5, c: 4 },
-    "guido": { s: 5, c: 4 },
-    "gyp": { s: 5, c: 4 },
-    "gypped": { s: 5, c: 4 },
-    "heeb": { s: 5, c: 4 },
-    "homo": { s: 5, c: 4 },
-    "injun": { s: 5, c: 4 },
-    "jap": { s: 5, c: 4 },
-    "japs": { s: 5, c: 4 },
-    "kaffir": { s: 5, c: 4 },
-    "kraut": { s: 5, c: 4 },
-    "lesbo": { s: 5, c: 4 },
-    "mick": { s: 5, c: 4 },
-    "mong": { s: 5, c: 4 },
-    "nig": { s: 5, c: 4 },
-    "niggaz": { s: 5, c: 5 },
-    "niggers": { s: 5, c: 5 },
-    "porch monkey": { s: 5, c: 5 },
-    "redneck": { s: 5, c: 4 },
-    "redskin": { s: 5, c: 4 },
-    "sambo": { s: 5, c: 4 },
-    "spaz": { s: 5, c: 4 },
-    "spazz": { s: 5, c: 4 },
-    "spazzes": { s: 5, c: 4 },
-    "sperg": { s: 5, c: 4 },
-    "spook": { s: 5, c: 4 },
-    "tar baby": { s: 5, c: 5 },
-    "wankers": { s: 5, c: 4 },
-    "wetbacks": { s: 5, c: 4 },
-    "white trash": { s: 5, c: 5 },
-    "whitey": { s: 5, c: 4 },
-    "wog": { s: 5, c: 4 },
-    "wop": { s: 5, c: 4 },
-    "wops": { s: 5, c: 4 },
-    "zipperhead": { s: 5, c: 5 },
+    "chink": [5, 3],
+    "chinks": [5, 4],
+    "cracker": [4, 1],
+    "crackers": [3, 4],
+    "dyke": [5, 4],
+    "dykes": [5, 4],
+    "fgt": [5, 4],
+    "gringo": [5, 4],
+    "guido": [5, 4],
+    "gyp": [5, 4],
+    "gypped": [5, 4],
+    "heeb": [5, 4],
+    "homo": [5, 4],
+    "injun": [5, 4],
+    "jap": [5, 4],
+    "japs": [5, 4],
+    "kaffir": [5, 4],
+    "kraut": [5, 4],
+    "lesbo": [5, 4],
+    "mick": [5, 4],
+    "mong": [5, 4],
+    "nig": [5, 4],
+    "niggaz": [5, 5],
+    "niggers": [5, 5],
+    "porch monkey": [5, 5],
+    "redneck": [5, 4],
+    "redskin": [5, 4],
+    "sambo": [5, 4],
+    "spaz": [5, 4],
+    "spazz": [5, 4],
+    "spazzes": [5, 4],
+    "sperg": [5, 4],
+    "spook": [5, 4],
+    "tar baby": [5, 5],
+    "wankers": [5, 4],
+    "wetbacks": [5, 4],
+    "white trash": [5, 5],
+    "whitey": [5, 4],
+    "wog": [5, 4],
+    "wop": [5, 4],
+    "wops": [5, 4],
+    "zipperhead": [5, 5],
 
     // Compound phrases
-    "batshit": { s: 3, c: 5 },
-    "blow me": { s: 3, c: 5 },
-    "blowjobs": { s: 4, c: 5 },
-    "bull shit": { s: 3, c: 5 },
-    "eat a dick": { s: 4, c: 5 },
-    "eat shit": { s: 3, c: 5 },
-    "f u": { s: 3, c: 5 },
-    "foff": { s: 3, c: 5 },
-    "fuck off": { s: 3, c: 5 },
-    "fuck you": { s: 3, c: 5 },
-    "fuckyou": { s: 3, c: 5 },
-    "gangbang": { s: 3, c: 5 },
-    "gangbanged": { s: 3, c: 5 },
-    "gangbanging": { s: 3, c: 5 },
-    "get fucked": { s: 3, c: 5 },
-    "go fuck yourself": { s: 3, c: 5 },
-    "go to hell": { s: 3, c: 5 },
-    "gfy": { s: 3, c: 5 },
-    "goddammit": { s: 2, c: 3 },
-    "horse shit": { s: 3, c: 5 },
-    "jack off": { s: 3, c: 5 },
-    "jerking off": { s: 3, c: 5 },
-    "kiss my ass": { s: 3, c: 5 },
-    "motherfuckers": { s: 5, c: 5 },
-    "mothafuckin": { s: 3, c: 5 },
-    "motherfuckin": { s: 3, c: 5 },
-    "motherfuckingcocksucking": { s: 3, c: 5 },
-    "piss off": { s: 3, c: 5 },
-    "pissed off": { s: 3, c: 4 },
-    "piece of shit": { s: 3, c: 5 },
-    "pos": { s: 3, c: 5 },
-    "suck my dick": { s: 4, c: 5 },
-    "suck it": { s: 3, c: 5 },
-    "son of a bitch": { s: 3, c: 5 },
-    "son of a whore": { s: 5, c: 5 },
+    "batshit": [3, 5],
+    "blow me": [3, 5],
+    "blowjobs": [4, 5],
+    "bull shit": [3, 5],
+    "eat a dick": [4, 5],
+    "eat shit": [3, 5],
+    "f u": [3, 5],
+    "foff": [3, 5],
+    "fuck off": [3, 5],
+    "fuck you": [3, 5],
+    "fuckyou": [3, 5],
+    "gangbang": [3, 5],
+    "gangbanged": [3, 5],
+    "gangbanging": [3, 5],
+    "get fucked": [3, 5],
+    "go fuck yourself": [3, 5],
+    "go to hell": [3, 5],
+    "gfy": [3, 5],
+    "goddammit": [2, 3],
+    "horse shit": [3, 5],
+    "jack off": [3, 5],
+    "jerking off": [3, 5],
+    "kiss my ass": [3, 5],
+    "motherfuckers": [5, 5],
+    "mothafuckin": [3, 5],
+    "motherfuckin": [3, 5],
+    "motherfuckingcocksucking": [3, 5],
+    "piss off": [3, 5],
+    "pissed off": [3, 4],
+    "piece of shit": [3, 5],
+    "pos": [3, 5],
+    "suck my dick": [4, 5],
+    "suck it": [3, 5],
+    "son of a bitch": [3, 5],
+    "son of a whore": [5, 5],
 
     // More sexual terms
-    "anal beads": { s: 4, c: 5 },
-    "ballgag": { s: 4, c: 4 },
-    "bondaged": { s: 4, c: 4 },
-    "cameltoe": { s: 4, c: 4 },
-    "clitoral": { s: 4, c: 4 },
-    "cumface": { s: 4, c: 5 },
-    "cunts": { s: 5, c: 5 },
-    "dildos": { s: 5, c: 5 },
-    "donkeypunch": { s: 4, c: 4 },
-    "doublepenetration": { s: 4, c: 4 },
-    "facial": { s: 4, c: 4 },
-    "felching": { s: 4, c: 4 },
-    "fleshlight": { s: 4, c: 5 },
-    "gangbangs": { s: 4, c: 4 },
-    "gooch": { s: 4, c: 4 },
-    "grool": { s: 4, c: 5 },
-    "handjobs": { s: 4, c: 5 },
-    "hogtied": { s: 4, c: 4 },
-    "hookers": { s: 4, c: 4 },
-    "horny": { s: 3, c: 4 },
-    "masturbating": { s: 4, c: 4 },
-    "masturbation": { s: 4, c: 4 },
-    "milfs": { s: 5, c: 5 },
-    "nudes": { s: 4, c: 4 },
-    "pecker": { s: 4, c: 4 },
-    "pornhub": { s: 4, c: 4 },
-    "pornstar": { s: 4, c: 4 },
-    "prostitution": { s: 4, c: 4 },
-    "pussies": { s: 4, c: 4 },
-    "queafing": { s: 4, c: 4 },
-    "quickie": { s: 4, c: 4 },
-    "shibaried": { s: 4, c: 4 },
-    "slutty": { s: 3, c: 4 },
-    "smegma": { s: 4, c: 4 },
-    "twerk": { s: 4, c: 4 },
-    "twerking": { s: 4, c: 4 },
-    "vaginal": { s: 4, c: 4 },
-    "vibrators": { s: 4, c: 4 },
-    "whorehouse": { s: 5, c: 4 },
-    "whoring": { s: 4, c: 4 },
+    "anal beads": [4, 5],
+    "ballgag": [4, 4],
+    "bondaged": [4, 4],
+    "cameltoe": [4, 4],
+    "clitoral": [4, 4],
+    "cumface": [4, 5],
+    "cunts": [5, 5],
+    "dildos": [5, 5],
+    "donkeypunch": [4, 4],
+    "doublepenetration": [4, 4],
+    "facial": [4, 4],
+    "felching": [4, 4],
+    "fleshlight": [4, 5],
+    "gangbangs": [4, 4],
+    "gooch": [4, 4],
+    "grool": [4, 5],
+    "handjobs": [4, 5],
+    "hogtied": [4, 4],
+    "hookers": [4, 4],
+    "horny": [3, 4],
+    "masturbating": [4, 4],
+    "masturbation": [4, 4],
+    "milfs": [5, 5],
+    "nudes": [4, 4],
+    "pecker": [4, 4],
+    "pornhub": [4, 4],
+    "pornstar": [4, 4],
+    "prostitution": [4, 4],
+    "pussies": [4, 4],
+    "queafing": [4, 4],
+    "quickie": [4, 4],
+    "shibaried": [4, 4],
+    "slutty": [3, 4],
+    "smegma": [4, 4],
+    "twerk": [4, 4],
+    "twerking": [4, 4],
+    "vaginal": [4, 4],
+    "vibrators": [4, 4],
+    "whorehouse": [5, 4],
+    "whoring": [4, 4],
 
     // More general insults
-    "assbandit": { s: 3, c: 4 },
-    "dirtbag": { s: 1, c: 4 },
-    "dirtysanchez": { s: 1, c: 4 },
-    "doubledonger": { s: 1, c: 4 },
-    "douchecanoe": { s: 3, c: 4 },
-    "douchenozzle": { s: 3, c: 4 },
-    "dumbbitch": { s: 3, c: 4 },
-    "dumbshit": { s: 3, c: 5 },
-    "fatfuck": { s: 3, c: 5 },
-    "fubar": { s: 1, c: 4 },
-    "halfwit": { s: 1, c: 4 },
-    "numbskull": { s: 1, c: 4 },
-    "peckerwood": { s: 1, c: 4 },
-    "scumbag": { s: 3, c: 4 },
-    "sleazebag": { s: 3, c: 4 },
-    "taint": { s: 1, c: 4 },
-    "tramp": { s: 1, c: 4 },
-    "trash": { s: 1, c: 4 },
-    "twathead": { s: 4, c: 4 },
-    "twatknacker": { s: 4, c: 4 },
+    "assbandit": [3, 4],
+    "dirtbag": [1, 4],
+    "dirtysanchez": [1, 4],
+    "doubledonger": [1, 4],
+    "douchecanoe": [3, 4],
+    "douchenozzle": [3, 4],
+    "dumbbitch": [3, 4],
+    "dumbshit": [3, 5],
+    "fatfuck": [3, 5],
+    "fubar": [1, 4],
+    "halfwit": [1, 4],
+    "numbskull": [1, 4],
+    "peckerwood": [1, 4],
+    "scumbag": [3, 4],
+    "sleazebag": [3, 4],
+    "taint": [1, 4],
+    "tramp": [1, 4],
+    "trash": [1, 4],
+    "twathead": [4, 4],
+    "twatknacker": [4, 4],
 
     // Fuck spelling variations
-    "fuk": { s: 3, c: 5 }, // alternate spelling
-    "fuc": { s: 3, c: 5 }, // truncated
-    "fuq": { s: 3, c: 5 }, // phonetic
-    "fux": { s: 3, c: 5 }, // alternate spelling
-    "phuck": { s: 3, c: 5 }, // ph substitution
-    "phuk": { s: 3, c: 5 }, // ph substitution
-    "phuc": { s: 3, c: 5 }, // ph substitution
-    "fxck": { s: 3, c: 4 }, // vowel swap
-    "fck": { s: 3, c: 5 }, // consonants only
-    "fk": { s: 3, c: 5 }, // minimal evasion
-    "fcuk": { s: 3, c: 5 }, // transposition
-    "fcking": { s: 3, c: 4 }, // vowel removed
-    "fking": { s: 3, c: 5 }, // truncated
-    "fuking": { s: 3, c: 4 }, // single consonant
-    "fukking": { s: 3, c: 4 }, // alternate
-    "fukkin": { s: 3, c: 4 }, // alternate
-    "fukin": { s: 3, c: 4 }, // alternate
-    "phucking": { s: 3, c: 5 }, // ph substitution
-    "focked": { s: 3, c: 5 }, // phonetic
-    "fokking": { s: 3, c: 4 }, // Afrikaans-style
-    "fugged": { s: 2, c: 3 }, // euphemism
-    "fuggin": { s: 2, c: 3 }, // euphemism
-    "effing": { s: 2, c: 2 }, // euphemism
-    "eff": { s: 2, c: 3 }, // euphemism
-    "effoff": { s: 2, c: 3 }, // euphemism
-    "effyou": { s: 2, c: 3 }, // euphemism
-    "feck": { s: 3, c: 4 }, // Irish variant
-    "fecking": { s: 3, c: 4 }, // Irish variant
-    "fecker": { s: 3, c: 4 }, // Irish variant
-    "frigging": { s: 2, c: 2 }, // euphemism
-    "frickin": { s: 2, c: 3 }, // euphemism
-    "fricken": { s: 2, c: 3 }, // euphemism
-    "frikkin": { s: 2, c: 3 }, // euphemism
-    "freaking": { s: 2, c: 2 }, // euphemism
-    "fricking": { s: 2, c: 3 }, // euphemism
-    "fugly": { s: 3, c: 4 }, // fucking ugly
+    "fuk": [3, 5], // alternate spelling
+    "fuc": [3, 5], // truncated
+    "fuq": [3, 5], // phonetic
+    "fux": [3, 5], // alternate spelling
+    "phuck": [3, 5], // ph substitution
+    "phuk": [3, 5], // ph substitution
+    "phuc": [3, 5], // ph substitution
+    "fxck": [3, 4], // vowel swap
+    "fck": [3, 5], // consonants only
+    "fk": [3, 5], // minimal evasion
+    "fcuk": [3, 5], // transposition
+    "fcking": [3, 4], // vowel removed
+    "fking": [3, 5], // truncated
+    "fuking": [3, 4], // single consonant
+    "fukking": [3, 4], // alternate
+    "fukkin": [3, 4], // alternate
+    "fukin": [3, 4], // alternate
+    "phucking": [3, 5], // ph substitution
+    "focked": [3, 5], // phonetic
+    "fokking": [3, 4], // Afrikaans-style
+    "fugged": [2, 3], // euphemism
+    "fuggin": [2, 3], // euphemism
+    "effing": [2, 2], // euphemism
+    "eff": [2, 3], // euphemism
+    "effoff": [2, 3], // euphemism
+    "effyou": [2, 3], // euphemism
+    "feck": [3, 4], // Irish variant
+    "fecking": [3, 4], // Irish variant
+    "fecker": [3, 4], // Irish variant
+    "frigging": [2, 2], // euphemism
+    "frickin": [2, 3], // euphemism
+    "fricken": [2, 3], // euphemism
+    "frikkin": [2, 3], // euphemism
+    "freaking": [2, 2], // euphemism
+    "fricking": [2, 3], // euphemism
+    "fugly": [3, 4], // fucking ugly
 
     // Fuck compounds (additions)
-    "fuckboi": { s: 3, c: 5 }, // alternate spelling
-    "fuckbuddy": { s: 3, c: 5 }, // sexual partner
-    "fucknut": { s: 3, c: 5 }, // compound insult
-    "fuckwipe": { s: 3, c: 5 }, // compound insult
-    "fuckrag": { s: 3, c: 5 }, // compound insult
-    "fuckweasel": { s: 3, c: 5 }, // compound insult
-    "fuckmuppet": { s: 3, c: 5 }, // compound insult
-    "fuckmonkey": { s: 3, c: 5 }, // compound insult
-    "fucktwat": { s: 3, c: 5 }, // compound insult
-    "fuckpig": { s: 3, c: 5 }, // compound insult
-    "fucktwit": { s: 3, c: 5 }, // compound insult
-    "fuckwagon": { s: 3, c: 5 }, // compound insult
-    "fuckwaffle": { s: 3, c: 5 }, // compound insult
-    "brainfuck": { s: 3, c: 5 }, // compound
-    "mindfuck": { s: 3, c: 5 }, // compound
-    "ratfuck": { s: 3, c: 5 }, // compound
-    "ratfucker": { s: 3, c: 5 }, // compound
-    "skullfuck": { s: 3, c: 5 }, // violent sexual
-    "skullfucked": { s: 3, c: 5 }, // violent sexual
-    "starfucker": { s: 3, c: 5 }, // groupie insult
-    "titfuck": { s: 3, c: 5 }, // sexual act
-    "unfuckable": { s: 3, c: 5 }, // insult
-    "whatthefuck": { s: 3, c: 5 }, // compound phrase
-    "clusterf": { s: 3, c: 5 }, // truncated clusterfuck
-    "clusterfucker": { s: 3, c: 5 }, // compound
-    "mothafucka": { s: 3, c: 5 }, // alternate spelling
-    "mothafucker": { s: 3, c: 5 }, // alternate spelling
-    "mothafuckers": { s: 3, c: 5 }, // alternate spelling
-    "motherfuck": { s: 3, c: 5 }, // truncated
-    "motherfuckaz": { s: 3, c: 5 }, // alternate spelling
-    "mutha": { s: 3, c: 5 }, // truncated
-    "muthafuck": { s: 3, c: 5 }, // alternate spelling
-    "muthafucker": { s: 3, c: 5 }, // alternate spelling
-    "muthafucking": { s: 3, c: 5 }, // alternate spelling
-    "mutherfucker": { s: 3, c: 5 }, // alternate spelling
+    "fuckboi": [3, 5], // alternate spelling
+    "fuckbuddy": [3, 5], // sexual partner
+    "fucknut": [3, 5], // compound insult
+    "fuckwipe": [3, 5], // compound insult
+    "fuckrag": [3, 5], // compound insult
+    "fuckweasel": [3, 5], // compound insult
+    "fuckmuppet": [3, 5], // compound insult
+    "fuckmonkey": [3, 5], // compound insult
+    "fucktwat": [3, 5], // compound insult
+    "fuckpig": [3, 5], // compound insult
+    "fucktwit": [3, 5], // compound insult
+    "fuckwagon": [3, 5], // compound insult
+    "fuckwaffle": [3, 5], // compound insult
+    "brainfuck": [3, 5], // compound
+    "mindfuck": [3, 5], // compound
+    "ratfuck": [3, 5], // compound
+    "ratfucker": [3, 5], // compound
+    "skullfuck": [3, 5], // violent sexual
+    "skullfucked": [3, 5], // violent sexual
+    "starfucker": [3, 5], // groupie insult
+    "titfuck": [3, 5], // sexual act
+    "unfuckable": [3, 5], // insult
+    "whatthefuck": [3, 5], // compound phrase
+    "clusterf": [3, 5], // truncated clusterfuck
+    "clusterfucker": [3, 5], // compound
+    "mothafucka": [3, 5], // alternate spelling
+    "mothafucker": [3, 5], // alternate spelling
+    "mothafuckers": [3, 5], // alternate spelling
+    "motherfuck": [3, 5], // truncated
+    "motherfuckaz": [3, 5], // alternate spelling
+    "mutha": [3, 5], // truncated
+    "muthafuck": [3, 5], // alternate spelling
+    "muthafucker": [3, 5], // alternate spelling
+    "muthafucking": [3, 5], // alternate spelling
+    "mutherfucker": [3, 5], // alternate spelling
 
     // Shit spelling variations
-    "sht": { s: 3, c: 5 }, // consonants only
-    "shyt": { s: 3, c: 5 }, // alternate spelling
-    "sh1t": { s: 3, c: 5 }, // leet speak
-    "shiit": { s: 3, c: 5 }, // elongated
-    "shiet": { s: 3, c: 5 }, // alternate spelling
-    "shiz": { s: 3, c: 4 }, // truncated
-    "shizzle": { s: 3, c: 4 }, // slang variant
+    "sht": [3, 5], // consonants only
+    "shyt": [3, 5], // alternate spelling
+    "sh1t": [3, 5], // leet speak
+    "shiit": [3, 5], // elongated
+    "shiet": [3, 5], // alternate spelling
+    "shiz": [3, 4], // truncated
+    "shizzle": [3, 4], // slang variant
 
     // Shit compounds (additions)
-    "shitshow": { s: 3, c: 5 }, // compound
-    "bullshitter": { s: 3, c: 5 }, // compound
-    "bullshitting": { s: 3, c: 5 }, // compound
-    "chickenshit": { s: 3, c: 5 }, // compound
-    "dipshits": { s: 3, c: 5 }, // plural
-    "dogshit": { s: 3, c: 5 }, // compound
-    "ratshit": { s: 3, c: 5 }, // compound
-    "shitrag": { s: 3, c: 5 }, // compound insult
-    "shitpile": { s: 3, c: 5 }, // compound
-    "shitpot": { s: 3, c: 5 }, // compound
-    "shitwad": { s: 3, c: 5 }, // compound insult
-    "shitweasel": { s: 3, c: 5 }, // compound insult
-    "shitwit": { s: 3, c: 5 }, // compound insult
-    "shitlips": { s: 3, c: 5 }, // compound insult
-    "shitlist": { s: 3, c: 5 }, // compound
-    "shitsack": { s: 3, c: 5 }, // compound insult
-    "shitsipper": { s: 3, c: 5 }, // compound insult
-    "shitspitter": { s: 3, c: 5 }, // compound insult
-    "shittier": { s: 3, c: 5 }, // comparative
-    "shittiest": { s: 3, c: 5 }, // superlative
-    "shitting": { s: 3, c: 5 }, // gerund
-    "shitforbrains": { s: 3, c: 5 }, // compound insult
-    "craphead": { s: 3, c: 5 }, // compound
-    "crapass": { s: 3, c: 5 }, // compound
-    "craphole": { s: 3, c: 5 }, // compound
-    "craptastic": { s: 3, c: 5 }, // sarcastic compound
-    "crappy": { s: 3, c: 5 }, // adjective
+    "shitshow": [3, 5], // compound
+    "bullshitter": [3, 5], // compound
+    "bullshitting": [3, 5], // compound
+    "chickenshit": [3, 5], // compound
+    "dipshits": [3, 5], // plural
+    "dogshit": [3, 5], // compound
+    "ratshit": [3, 5], // compound
+    "shitrag": [3, 5], // compound insult
+    "shitpile": [3, 5], // compound
+    "shitpot": [3, 5], // compound
+    "shitwad": [3, 5], // compound insult
+    "shitweasel": [3, 5], // compound insult
+    "shitwit": [3, 5], // compound insult
+    "shitlips": [3, 5], // compound insult
+    "shitlist": [3, 5], // compound
+    "shitsack": [3, 5], // compound insult
+    "shitsipper": [3, 5], // compound insult
+    "shitspitter": [3, 5], // compound insult
+    "shittier": [3, 5], // comparative
+    "shittiest": [3, 5], // superlative
+    "shitting": [3, 5], // gerund
+    "shitforbrains": [3, 5], // compound insult
+    "craphead": [3, 5], // compound
+    "crapass": [3, 5], // compound
+    "craphole": [3, 5], // compound
+    "craptastic": [3, 5], // sarcastic compound
+    "crappy": [3, 5], // adjective
 
     // Ass spelling variations and compounds (additions)
-    "a$$": { s: 3, c: 5 }, // symbol substitution
-    "azz": { s: 3, c: 5 }, // alternate spelling
-    "arsehat": { s: 3, c: 5 }, // British compound
-    "arselicker": { s: 3, c: 5 }, // British compound
-    "arsebandit": { s: 3, c: 5 }, // British compound
-    "asscrack": { s: 3, c: 5 }, // body part
-    "assfuck": { s: 3, c: 5 }, // compound
-    "assfucker": { s: 3, c: 5 }, // compound
-    "assgoblin": { s: 3, c: 5 }, // compound insult
-    "assholes": { s: 3, c: 5 }, // plural
-    "assjacker": { s: 3, c: 5 }, // compound insult
-    "asslick": { s: 3, c: 5 }, // compound
-    "assmuncher": { s: 3, c: 5 }, // compound insult
-    "assnugget": { s: 3, c: 5 }, // compound insult
-    "asspacker": { s: 3, c: 5 }, // compound insult
-    "asspirate": { s: 3, c: 5 }, // pun compound
-    "asswad": { s: 3, c: 5 }, // compound insult
-    "badass": { s: 3, c: 5 }, // compound
-    "candyass": { s: 3, c: 5 }, // compound insult
-    "hardass": { s: 3, c: 5 }, // compound
-    "kickass": { s: 3, c: 5 }, // compound
-    "lameass": { s: 3, c: 5 }, // compound insult
-    "lardass": { s: 3, c: 5 }, // compound insult
-    "lazyass": { s: 3, c: 5 }, // compound insult
-    "sorryass": { s: 3, c: 5 }, // compound insult
-    "stupidass": { s: 3, c: 5 }, // compound insult
-    "uglyass": { s: 3, c: 5 }, // compound insult
-    "wiseass": { s: 3, c: 5 }, // compound insult
+    "a$$": [3, 5], // symbol substitution
+    "azz": [3, 5], // alternate spelling
+    "arsehat": [3, 5], // British compound
+    "arselicker": [3, 5], // British compound
+    "arsebandit": [3, 5], // British compound
+    "asscrack": [3, 5], // body part
+    "assfuck": [3, 5], // compound
+    "assfucker": [3, 5], // compound
+    "assgoblin": [3, 5], // compound insult
+    "assholes": [3, 5], // plural
+    "assjacker": [3, 5], // compound insult
+    "asslick": [3, 5], // compound
+    "assmuncher": [3, 5], // compound insult
+    "assnugget": [3, 5], // compound insult
+    "asspacker": [3, 5], // compound insult
+    "asspirate": [3, 5], // pun compound
+    "asswad": [3, 5], // compound insult
+    "badass": [3, 5], // compound
+    "candyass": [3, 5], // compound insult
+    "hardass": [3, 5], // compound
+    "kickass": [3, 5], // compound
+    "lameass": [3, 5], // compound insult
+    "lardass": [3, 5], // compound insult
+    "lazyass": [3, 5], // compound insult
+    "sorryass": [3, 5], // compound insult
+    "stupidass": [3, 5], // compound insult
+    "uglyass": [3, 5], // compound insult
+    "wiseass": [3, 5], // compound insult
 
     // Dick spelling variations and compounds (additions)
-    "dik": { s: 3, c: 5 }, // alternate spelling
-    "dck": { s: 3, c: 5 }, // vowel removed
-    "d1ck": { s: 4, c: 5 }, // leet speak
-    "dikhead": { s: 3, c: 5 }, // alternate spelling
-    "dickbrain": { s: 4, c: 5 }, // compound insult
-    "dickfor": { s: 4, c: 5 }, // compound insult
-    "dickfuck": { s: 3, c: 5 }, // compound insult
-    "dickmunch": { s: 4, c: 5 }, // compound insult
-    "dickmonger": { s: 4, c: 5 }, // compound insult
-    "dickrot": { s: 4, c: 5 }, // compound insult
-    "dickslap": { s: 4, c: 5 }, // compound
-    "dicksmack": { s: 4, c: 5 }, // compound
-    "dicksucker": { s: 5, c: 5 }, // compound insult
-    "dicksucking": { s: 4, c: 5 }, // compound
-    "dicktip": { s: 4, c: 5 }, // compound
-    "dickwad": { s: 4, c: 5 }, // compound insult
-    "dickwhistle": { s: 4, c: 5 }, // compound insult
-    "dickworm": { s: 4, c: 5 }, // compound insult
-    "dickhole": { s: 4, c: 5 }, // compound insult
+    "dik": [3, 5], // alternate spelling
+    "dck": [3, 5], // vowel removed
+    "d1ck": [4, 5], // leet speak
+    "dikhead": [3, 5], // alternate spelling
+    "dickbrain": [4, 5], // compound insult
+    "dickfor": [4, 5], // compound insult
+    "dickfuck": [3, 5], // compound insult
+    "dickmunch": [4, 5], // compound insult
+    "dickmonger": [4, 5], // compound insult
+    "dickrot": [4, 5], // compound insult
+    "dickslap": [4, 5], // compound
+    "dicksmack": [4, 5], // compound
+    "dicksucker": [5, 5], // compound insult
+    "dicksucking": [4, 5], // compound
+    "dicktip": [4, 5], // compound
+    "dickwad": [4, 5], // compound insult
+    "dickwhistle": [4, 5], // compound insult
+    "dickworm": [4, 5], // compound insult
+    "dickhole": [4, 5], // compound insult
 
     // Bitch spelling variations and compounds (additions)
-    "b1tch": { s: 3, c: 5 }, // leet speak
-    "biatch": { s: 3, c: 5 }, // phonetic variant
-    "beyotch": { s: 3, c: 5 }, // phonetic variant
-    "beeyotch": { s: 3, c: 5 }, // phonetic variant
-    "biotch": { s: 3, c: 5 }, // phonetic variant
-    "bish": { s: 3, c: 5 }, // truncated
-    "bitchboy": { s: 3, c: 5 }, // compound insult
-    "bitchcakes": { s: 3, c: 5 }, // compound insult
-    "bitched": { s: 3, c: 5 }, // past tense
-    "bitchiest": { s: 3, c: 5 }, // superlative
-    "bitchin": { s: 3, c: 5 }, // adjective
-    "bitching": { s: 3, c: 5 }, // gerund
-    "bitchmode": { s: 3, c: 5 }, // compound
-    "bitchslap": { s: 3, c: 5 }, // compound
-    "bitchy": { s: 3, c: 4 }, // adjective
-    "sonofabitch": { s: 3, c: 5 }, // compound phrase
-    "sunuvabitch": { s: 3, c: 5 }, // phonetic variant
-    "sumbitch": { s: 3, c: 5 }, // truncated
+    "b1tch": [3, 5], // leet speak
+    "biatch": [3, 5], // phonetic variant
+    "beyotch": [3, 5], // phonetic variant
+    "beeyotch": [3, 5], // phonetic variant
+    "biotch": [3, 5], // phonetic variant
+    "bish": [3, 5], // truncated
+    "bitchboy": [3, 5], // compound insult
+    "bitchcakes": [3, 5], // compound insult
+    "bitched": [3, 5], // past tense
+    "bitchiest": [3, 5], // superlative
+    "bitchin": [3, 5], // adjective
+    "bitching": [3, 5], // gerund
+    "bitchmode": [3, 5], // compound
+    "bitchslap": [3, 5], // compound
+    "bitchy": [3, 4], // adjective
+    "sonofabitch": [3, 5], // compound phrase
+    "sunuvabitch": [3, 5], // phonetic variant
+    "sumbitch": [3, 5], // truncated
 
     // Cock spelling variations and compounds (additions)
-    "c0ck": { s: 4, c: 5 }, // leet speak
-    "cawk": { s: 3, c: 5 }, // phonetic
-    "cockcheese": { s: 4, c: 5 }, // compound insult
-    "cockend": { s: 4, c: 5 }, // compound insult
-    "cockholster": { s: 4, c: 5 }, // compound insult
-    "cockmuncher": { s: 4, c: 5 }, // compound insult
-    "cockup": { s: 4, c: 5 }, // compound
-    "cockwash": { s: 4, c: 5 }, // compound insult
+    "c0ck": [4, 5], // leet speak
+    "cawk": [3, 5], // phonetic
+    "cockcheese": [4, 5], // compound insult
+    "cockend": [4, 5], // compound insult
+    "cockholster": [4, 5], // compound insult
+    "cockmuncher": [4, 5], // compound insult
+    "cockup": [4, 5], // compound
+    "cockwash": [4, 5], // compound insult
 
     // Cunt variations and compounds (additions)
-    "c0nt": { s: 5, c: 5 }, // leet speak
-    "cuntbucket": { s: 5, c: 5 }, // compound insult
-    "cuntfaced": { s: 5, c: 5 }, // compound insult
-    "cuntflap": { s: 5, c: 5 }, // body part vulgar
-    "cuntflaps": { s: 5, c: 5 }, // body part vulgar
-    "cunthair": { s: 5, c: 5 }, // compound
-    "cunthole": { s: 5, c: 5 }, // compound
-    "cuntkicker": { s: 5, c: 5 }, // compound insult
-    "cuntlicker": { s: 5, c: 5 }, // compound insult
-    "cuntlips": { s: 5, c: 5 }, // compound
-    "cuntpunt": { s: 5, c: 5 }, // compound
-    "cuntsucker": { s: 5, c: 5 }, // compound insult
-    "cuntwipe": { s: 5, c: 5 }, // compound insult
+    "c0nt": [5, 5], // leet speak
+    "cuntbucket": [5, 5], // compound insult
+    "cuntfaced": [5, 5], // compound insult
+    "cuntflap": [5, 5], // body part vulgar
+    "cuntflaps": [5, 5], // body part vulgar
+    "cunthair": [5, 5], // compound
+    "cunthole": [5, 5], // compound
+    "cuntkicker": [5, 5], // compound insult
+    "cuntlicker": [5, 5], // compound insult
+    "cuntlips": [5, 5], // compound
+    "cuntpunt": [5, 5], // compound
+    "cuntsucker": [5, 5], // compound insult
+    "cuntwipe": [5, 5], // compound insult
 
     // Racial/ethnic slurs (additions)
-    "abbo": { s: 5, c: 4 }, // anti-Aboriginal
-    "abo": { s: 5, c: 4 }, // anti-Aboriginal
-    "blackie": { s: 5, c: 4 }, // racial slur
-    "bluegum": { s: 5, c: 4 }, // racial slur
-    "boong": { s: 5, c: 4 }, // anti-Aboriginal
-    "burrhead": { s: 5, c: 4 }, // racial slur
-    "camel jockey": { s: 5, c: 5 }, // anti-Arab
-    "chinaman": { s: 5, c: 4 }, // anti-Chinese
-    "chinky": { s: 5, c: 4 }, // anti-Asian
-    "coconut": { s: 3, c: 4 }, // racial slur
-    "coolie": { s: 5, c: 4 }, // anti-Asian labor slur
-    "coonass": { s: 5, c: 4 }, // regional slur
-    "curry muncher": { s: 5, c: 5 }, // anti-South Asian
-    "darkies": { s: 5, c: 4 }, // racial slur plural
-    "darky": { s: 5, c: 4 }, // racial slur
-    "dothead": { s: 5, c: 4 }, // anti-South Asian
-    "gator bait": { s: 5, c: 4 }, // racial slur
-    "golliwog": { s: 5, c: 4 }, // racial caricature
-    "gollywog": { s: 5, c: 4 }, // racial caricature
-    "greaseball": { s: 5, c: 4 }, // ethnic slur
-    "greaser": { s: 5, c: 4 }, // ethnic slur
-    "guinea": { s: 5, c: 4 }, // anti-Italian
-    "hajji": { s: 5, c: 4 }, // anti-Arab
-    "haji": { s: 5, c: 4 }, // anti-Arab
-    "halfbreed": { s: 5, c: 4 }, // mixed race slur
-    "half-breed": { s: 5, c: 4 }, // mixed race slur
-    "honky": { s: 5, c: 4 }, // anti-white slur
-    "hunky": { s: 5, c: 4 }, // ethnic slur
-    "jungle bunny": { s: 5, c: 5 }, // racial slur
-    "kikes": { s: 5, c: 5 }, // plural anti-Semitic
-    "limey": { s: 5, c: 4 }, // anti-British
-    "mulatto": { s: 5, c: 4 }, // mixed race slur
-    "nagger": { s: 5, c: 5 }, // near-homophone evasion
-    "naggers": { s: 5, c: 5 }, // near-homophone evasion
-    "negroid": { s: 5, c: 4 }, // racial slur
-    "negra": { s: 5, c: 4 }, // racial slur
-    "negras": { s: 5, c: 4 }, // racial slur
-    "negroes": { s: 5, c: 4 }, // racial slur
-    "nigar": { s: 5, c: 5 }, // alternate spelling
-    "niggah": { s: 5, c: 5 }, // alternate spelling
-    "niggas": { s: 5, c: 5 }, // alternate spelling
-    "nigguh": { s: 5, c: 5 }, // alternate spelling
-    "niggahs": { s: 5, c: 5 }, // alternate spelling
-    "niggor": { s: 5, c: 5 }, // alternate spelling
-    "nigor": { s: 5, c: 5 }, // alternate spelling
-    "niglet": { s: 5, c: 4 }, // racial slur diminutive
-    "niglets": { s: 5, c: 4 }, // racial slur diminutive
-    "nigra": { s: 5, c: 4 }, // racial slur
-    "nigras": { s: 5, c: 4 }, // racial slur
-    "pakis": { s: 5, c: 4 }, // plural anti-Pakistani
-    "picaninny": { s: 5, c: 4 }, // racial slur
-    "pickaninny": { s: 5, c: 4 }, // racial slur
-    "pikey": { s: 5, c: 4 }, // anti-Traveler slur
-    "porchmonkey": { s: 5, c: 4 }, // racial slur compound
-    "ragheads": { s: 5, c: 5 }, // plural anti-Arab
-    "sandnigger": { s: 5, c: 5 }, // compound racial slur
-    "sandnigga": { s: 5, c: 5 }, // compound racial slur
-    "shitskin": { s: 5, c: 5 }, // racial slur
-    "slant": { s: 5, c: 4 }, // anti-Asian
-    "slanteyes": { s: 5, c: 4 }, // anti-Asian
-    "slopes": { s: 5, c: 4 }, // anti-Asian
-    "spearchucker": { s: 5, c: 5 }, // racial slur
-    "spics": { s: 5, c: 5 }, // plural anti-Latino
-    "spicks": { s: 5, c: 5 }, // alternate spelling
-    "squaw": { s: 5, c: 4 }, // anti-Native American
-    "tar-baby": { s: 5, c: 4 }, // racial slur
-    "tarbaby": { s: 5, c: 4 }, // racial slur
-    "towelheads": { s: 5, c: 5 }, // plural anti-Arab
-    "uncle tom": { s: 5, c: 4 }, // racial slur
-    "wigger": { s: 5, c: 4 }, // racial mockery
-    "wigga": { s: 5, c: 4 }, // racial mockery
-    "woggy": { s: 5, c: 4 }, // racial slur
-    "yellowbone": { s: 5, c: 4 }, // colorist slur
-    "zipperheads": { s: 5, c: 5 }, // plural anti-Asian
+    "abbo": [5, 4], // anti-Aboriginal
+    "abo": [5, 4], // anti-Aboriginal
+    "blackie": [5, 4], // racial slur
+    "bluegum": [5, 4], // racial slur
+    "boong": [5, 4], // anti-Aboriginal
+    "burrhead": [5, 4], // racial slur
+    "camel jockey": [5, 5], // anti-Arab
+    "chinaman": [5, 4], // anti-Chinese
+    "chinky": [5, 4], // anti-Asian
+    "coconut": [3, 4], // racial slur
+    "coolie": [5, 4], // anti-Asian labor slur
+    "coonass": [5, 4], // regional slur
+    "curry muncher": [5, 5], // anti-South Asian
+    "darkies": [5, 4], // racial slur plural
+    "darky": [5, 4], // racial slur
+    "dothead": [5, 4], // anti-South Asian
+    "gator bait": [5, 4], // racial slur
+    "golliwog": [5, 4], // racial caricature
+    "gollywog": [5, 4], // racial caricature
+    "greaseball": [5, 4], // ethnic slur
+    "greaser": [5, 4], // ethnic slur
+    "guinea": [5, 4], // anti-Italian
+    "hajji": [5, 4], // anti-Arab
+    "haji": [5, 4], // anti-Arab
+    "halfbreed": [5, 4], // mixed race slur
+    "half-breed": [5, 4], // mixed race slur
+    "honky": [5, 4], // anti-white slur
+    "hunky": [5, 4], // ethnic slur
+    "jungle bunny": [5, 5], // racial slur
+    "kikes": [5, 5], // plural anti-Semitic
+    "limey": [5, 4], // anti-British
+    "mulatto": [5, 4], // mixed race slur
+    "nagger": [5, 5], // near-homophone evasion
+    "naggers": [5, 5], // near-homophone evasion
+    "negroid": [5, 4], // racial slur
+    "negra": [5, 4], // racial slur
+    "negras": [5, 4], // racial slur
+    "negroes": [5, 4], // racial slur
+    "nigar": [5, 5], // alternate spelling
+    "niggah": [5, 5], // alternate spelling
+    "niggas": [5, 5], // alternate spelling
+    "nigguh": [5, 5], // alternate spelling
+    "niggahs": [5, 5], // alternate spelling
+    "niggor": [5, 5], // alternate spelling
+    "nigor": [5, 5], // alternate spelling
+    "niglet": [5, 4], // racial slur diminutive
+    "niglets": [5, 4], // racial slur diminutive
+    "nigra": [5, 4], // racial slur
+    "nigras": [5, 4], // racial slur
+    "pakis": [5, 4], // plural anti-Pakistani
+    "picaninny": [5, 4], // racial slur
+    "pickaninny": [5, 4], // racial slur
+    "pikey": [5, 4], // anti-Traveler slur
+    "porchmonkey": [5, 4], // racial slur compound
+    "ragheads": [5, 5], // plural anti-Arab
+    "sandnigger": [5, 5], // compound racial slur
+    "sandnigga": [5, 5], // compound racial slur
+    "shitskin": [5, 5], // racial slur
+    "slant": [5, 4], // anti-Asian
+    "slanteyes": [5, 4], // anti-Asian
+    "slopes": [5, 4], // anti-Asian
+    "spearchucker": [5, 5], // racial slur
+    "spics": [5, 5], // plural anti-Latino
+    "spicks": [5, 5], // alternate spelling
+    "squaw": [5, 4], // anti-Native American
+    "tar-baby": [5, 4], // racial slur
+    "tarbaby": [5, 4], // racial slur
+    "towelheads": [5, 5], // plural anti-Arab
+    "uncle tom": [5, 4], // racial slur
+    "wigger": [5, 4], // racial mockery
+    "wigga": [5, 4], // racial mockery
+    "woggy": [5, 4], // racial slur
+    "yellowbone": [5, 4], // colorist slur
+    "zipperheads": [5, 5], // plural anti-Asian
 
     // Homophobic slurs (additions)
-    "bumboy": { s: 5, c: 4 }, // homophobic
-    "bum boy": { s: 5, c: 4 }, // homophobic
-    "bumbandit": { s: 5, c: 4 }, // homophobic
-    "buttboy": { s: 5, c: 4 }, // homophobic
-    "cocksuckers": { s: 5, c: 5 }, // plural
-    "faggots": { s: 5, c: 5 }, // plural
-    "faggotry": { s: 5, c: 4 }, // noun form
-    "faggy": { s: 5, c: 4 }, // adjective
-    "fagot": { s: 5, c: 5 }, // alternate spelling
-    "fagots": { s: 5, c: 5 }, // alternate spelling plural
-    "fairy": { s: 3, c: 4 }, // homophobic
-    "flamer": { s: 5, c: 4 }, // homophobic
-    "flamers": { s: 5, c: 4 }, // homophobic
-    "fruity": { s: 5, c: 4 }, // homophobic
-    "gayass": { s: 3, c: 4 }, // compound
-    "gaylord": { s: 3, c: 4 }, // compound insult
-    "gaywad": { s: 3, c: 4 }, // compound insult
-    "lesbos": { s: 3, c: 4 }, // plural
-    "lezzo": { s: 3, c: 4 }, // slang
-    "lezzy": { s: 3, c: 4 }, // slang
-    "moffie": { s: 5, c: 4 }, // South African homophobic
-    "nancyboy": { s: 5, c: 4 }, // homophobic
-    "pansy": { s: 5, c: 4 }, // homophobic
-    "pansies": { s: 5, c: 4 }, // homophobic plural
-    "pillow biter": { s: 5, c: 4 }, // homophobic
-    "pillowbiter": { s: 5, c: 4 }, // homophobic
-    "pooftah": { s: 5, c: 4 }, // homophobic
-    "ponce": { s: 5, c: 4 }, // homophobic
-    "queerbait": { s: 5, c: 4 }, // homophobic
-    "queerboy": { s: 5, c: 4 }, // homophobic
-    "queers": { s: 3, c: 4 }, // plural
-    "rug muncher": { s: 5, c: 4 }, // homophobic
-    "rugmuncher": { s: 5, c: 4 }, // homophobic
-    "shirtlifter": { s: 5, c: 4 }, // homophobic
-    "shirt lifter": { s: 5, c: 4 }, // homophobic
-    "sissy": { s: 5, c: 4 }, // homophobic
-    "sodomite": { s: 5, c: 4 }, // homophobic
-    "sodomites": { s: 5, c: 4 }, // homophobic plural
+    "bumboy": [5, 4], // homophobic
+    "bum boy": [5, 4], // homophobic
+    "bumbandit": [5, 4], // homophobic
+    "buttboy": [5, 4], // homophobic
+    "cocksuckers": [5, 5], // plural
+    "faggots": [5, 5], // plural
+    "faggotry": [5, 4], // noun form
+    "faggy": [5, 4], // adjective
+    "fagot": [5, 5], // alternate spelling
+    "fagots": [5, 5], // alternate spelling plural
+    "fairy": [3, 4], // homophobic
+    "flamer": [5, 4], // homophobic
+    "flamers": [5, 4], // homophobic
+    "fruity": [5, 4], // homophobic
+    "gayass": [3, 4], // compound
+    "gaylord": [3, 4], // compound insult
+    "gaywad": [3, 4], // compound insult
+    "lesbos": [3, 4], // plural
+    "lezzo": [3, 4], // slang
+    "lezzy": [3, 4], // slang
+    "moffie": [5, 4], // South African homophobic
+    "nancyboy": [5, 4], // homophobic
+    "pansy": [5, 4], // homophobic
+    "pansies": [5, 4], // homophobic plural
+    "pillow biter": [5, 4], // homophobic
+    "pillowbiter": [5, 4], // homophobic
+    "pooftah": [5, 4], // homophobic
+    "ponce": [5, 4], // homophobic
+    "queerbait": [5, 4], // homophobic
+    "queerboy": [5, 4], // homophobic
+    "queers": [3, 4], // plural
+    "rug muncher": [5, 4], // homophobic
+    "rugmuncher": [5, 4], // homophobic
+    "shirtlifter": [5, 4], // homophobic
+    "shirt lifter": [5, 4], // homophobic
+    "sissy": [5, 4], // homophobic
+    "sodomite": [5, 4], // homophobic
+    "sodomites": [5, 4], // homophobic plural
 
     // Sexist/misogynistic (additions)
-    "bimbo": { s: 3, c: 4 }, // sexist insult
-    "floozy": { s: 3, c: 4 }, // sexist insult
-    "frump": { s: 3, c: 4 }, // sexist insult
-    "harridan": { s: 3, c: 4 }, // sexist insult
-    "hooters": { s: 3, c: 4 }, // vulgar body reference
-    "hussy": { s: 3, c: 4 }, // sexist insult
-    "jezebel": { s: 3, c: 4 }, // sexist insult
-    "piece of ass": { s: 3, c: 4 }, // objectifying
-    "sket": { s: 3, c: 4 }, // British sexist slang
-    "skankbag": { s: 3, c: 4 }, // compound insult
-    "skankface": { s: 3, c: 4 }, // compound insult
-    "skanky": { s: 3, c: 4 }, // adjective
-    "slags": { s: 3, c: 4 }, // plural
-    "slutshame": { s: 3, c: 4 }, // compound
-    "slutshaming": { s: 3, c: 4 }, // compound
-    "sluts": { s: 3, c: 4 }, // plural
-    "trollop": { s: 3, c: 4 }, // sexist insult
-    "trollops": { s: 3, c: 4 }, // plural
-    "wench": { s: 3, c: 4 }, // sexist insult
-    "whorebag": { s: 5, c: 4 }, // compound insult
-    "whores": { s: 5, c: 5 }, // plural
-    "whorey": { s: 5, c: 4 }, // adjective
-    "whorish": { s: 3, c: 4 }, // adjective
+    "bimbo": [3, 4], // sexist insult
+    "floozy": [3, 4], // sexist insult
+    "frump": [3, 4], // sexist insult
+    "harridan": [3, 4], // sexist insult
+    "hooters": [3, 4], // vulgar body reference
+    "hussy": [3, 4], // sexist insult
+    "jezebel": [3, 4], // sexist insult
+    "piece of ass": [3, 4], // objectifying
+    "sket": [3, 4], // British sexist slang
+    "skankbag": [3, 4], // compound insult
+    "skankface": [3, 4], // compound insult
+    "skanky": [3, 4], // adjective
+    "slags": [3, 4], // plural
+    "slutshame": [3, 4], // compound
+    "slutshaming": [3, 4], // compound
+    "sluts": [3, 4], // plural
+    "trollop": [3, 4], // sexist insult
+    "trollops": [3, 4], // plural
+    "wench": [3, 4], // sexist insult
+    "whorebag": [5, 4], // compound insult
+    "whores": [5, 5], // plural
+    "whorey": [5, 4], // adjective
+    "whorish": [3, 4], // adjective
 
     // British slang (additions)
-    "git": { s: 1, c: 2 }, // British insult
-    "gits": { s: 3, c: 4 }, // plural
-    "manky": { s: 3, c: 4 }, // British dirty/bad
-    "naff off": { s: 3, c: 4 }, // British go away
-    "pisstake": { s: 3, c: 4 }, // British mockery
-    "scrote": { s: 3, c: 4 }, // British insult
-    "shagger": { s: 3, c: 4 }, // British sexual
-    "slaggy": { s: 3, c: 4 }, // British adjective
-    "sodoff": { s: 3, c: 4 }, // compound
-    "toerag": { s: 3, c: 4 }, // British insult
-    "tosspot": { s: 3, c: 4 }, // British insult
-    "twatbadger": { s: 4, c: 4 }, // compound insult
-    "twonk": { s: 3, c: 4 }, // British insult
-    "pleb": { s: 1, c: 2 }, // British classist insult
+    "git": [1, 2], // British insult
+    "gits": [3, 4], // plural
+    "manky": [3, 4], // British dirty/bad
+    "naff off": [3, 4], // British go away
+    "pisstake": [3, 4], // British mockery
+    "scrote": [3, 4], // British insult
+    "shagger": [3, 4], // British sexual
+    "slaggy": [3, 4], // British adjective
+    "sodoff": [3, 4], // compound
+    "toerag": [3, 4], // British insult
+    "tosspot": [3, 4], // British insult
+    "twatbadger": [4, 4], // compound insult
+    "twonk": [3, 4], // British insult
+    "pleb": [1, 2], // British classist insult
 
     // Australian slang (additions)
-    "rooting": { s: 3, c: 4 }, // Australian sexual
-    "root rat": { s: 3, c: 4 }, // Australian sexual
-    "rootrat": { s: 3, c: 4 }, // Australian sexual
-    "seppo": { s: 3, c: 4 }, // Australian anti-American
+    "rooting": [3, 4], // Australian sexual
+    "root rat": [3, 4], // Australian sexual
+    "rootrat": [3, 4], // Australian sexual
+    "seppo": [3, 4], // Australian anti-American
 
     // Internet abbreviations & modern slang (additions)
-    "dafuq": { s: 2, c: 3 }, // what the fuck
-    "deez nuts": { s: 2, c: 3 }, // vulgar meme
-    "deeznutz": { s: 2, c: 3 }, // vulgar meme
-    "diaf": { s: 5, c: 5 }, // die in a fire
-    "dilligaf": { s: 2, c: 3 }, // acronym vulgar
-    "esad": { s: 5, c: 5 }, // eat shit and die
-    "ffs": { s: 3, c: 5 }, // for fuck's sake
-    "foad": { s: 5, c: 5 }, // fuck off and die
-    "gfys": { s: 2, c: 3 }, // go fuck yourself
-    "gyat": { s: 2, c: 3 }, // sexualized exclamation
-    "gyatt": { s: 2, c: 3 }, // sexualized exclamation
-    "idgaf": { s: 2, c: 3 }, // I don't give a fuck
-    "incel": { s: 2, c: 3 }, // involuntary celibate insult
-    "jfc": { s: 2, c: 3 }, // Jesus fucking Christ
-    "kms": { s: 2, c: 3 }, // kill myself
-    "kys": { s: 5, c: 5 }, // kill yourself
-    "ligma": { s: 2, c: 3 }, // vulgar meme
-    "ligmaballs": { s: 2, c: 3 }, // vulgar meme
-    "mofo": { s: 2, c: 3 }, // motherfucker variant
-    "ngr": { s: 2, c: 3 }, // abbreviated slur
-    "omfg": { s: 2, c: 3 }, // oh my fucking god
-    "smfh": { s: 2, c: 3 }, // shaking my fucking head
-    "smh": { s: 2, c: 2 }, // shaking my head
-    "sugma": { s: 2, c: 3 }, // vulgar meme
-    "sugmaballs": { s: 2, c: 3 }, // vulgar meme
-    "yomama": { s: 2, c: 3 }, // your mama insult
-    "yo mama": { s: 2, c: 3 }, // your mama insult
+    "dafuq": [2, 3], // what the fuck
+    "deez nuts": [2, 3], // vulgar meme
+    "deeznutz": [2, 3], // vulgar meme
+    "diaf": [5, 5], // die in a fire
+    "dilligaf": [2, 3], // acronym vulgar
+    "esad": [5, 5], // eat shit and die
+    "ffs": [3, 5], // for fuck's sake
+    "foad": [5, 5], // fuck off and die
+    "gfys": [2, 3], // go fuck yourself
+    "gyat": [2, 3], // sexualized exclamation
+    "gyatt": [2, 3], // sexualized exclamation
+    "idgaf": [2, 3], // I don't give a fuck
+    "incel": [2, 3], // involuntary celibate insult
+    "jfc": [2, 3], // Jesus fucking Christ
+    "kms": [2, 3], // kill myself
+    "kys": [5, 5], // kill yourself
+    "ligma": [2, 3], // vulgar meme
+    "ligmaballs": [2, 3], // vulgar meme
+    "mofo": [2, 3], // motherfucker variant
+    "ngr": [2, 3], // abbreviated slur
+    "omfg": [2, 3], // oh my fucking god
+    "smfh": [2, 3], // shaking my fucking head
+    "smh": [2, 2], // shaking my head
+    "sugma": [2, 3], // vulgar meme
+    "sugmaballs": [2, 3], // vulgar meme
+    "yomama": [2, 3], // your mama insult
+    "yo mama": [2, 3], // your mama insult
 
     // Euphemistic spellings / filter evasion (additions)
-    "a hole": { s: 3, c: 5 }, // spaced a-hole
-    "a-hole": { s: 3, c: 5 }, // hyphenated
-    "ahole": { s: 3, c: 5 }, // compound
-    "a55": { s: 3, c: 5 }, // leet speak
-    "a55hole": { s: 3, c: 5 }, // leet speak
-    "azzhole": { s: 3, c: 5 }, // alternate spelling
-    "b!tch": { s: 3, c: 5 }, // symbol substitution
-    "b00bs": { s: 3, c: 5 }, // leet speak
-    "b1atch": { s: 3, c: 5 }, // leet speak
-    "beotch": { s: 3, c: 5 }, // phonetic variant
-    "bi+ch": { s: 3, c: 5 }, // symbol substitution
-    "cnt": { s: 5, c: 5 }, // consonants only
-    "c0cks": { s: 3, c: 5 }, // leet speak
-    "d!ck": { s: 3, c: 5 }, // symbol substitution
-    "d!k": { s: 3, c: 5 }, // symbol substitution
-    "f ck": { s: 3, c: 5 }, // spaced
-    "f u c k": { s: 3, c: 5 }, // fully spaced
-    "f-ck": { s: 3, c: 5 }, // hyphenated
-    "f_ck": { s: 3, c: 5 }, // underscored
-    "fawk": { s: 3, c: 5 }, // phonetic
-    "fawking": { s: 3, c: 5 }, // phonetic
-    "fkn": { s: 3, c: 5 }, // abbreviated
-    "fku": { s: 3, c: 5 }, // abbreviated fuck you
-    "fooking": { s: 3, c: 5 }, // dialectal
-    "fookin": { s: 3, c: 5 }, // dialectal
-    "friggin": { s: 2, c: 5 }, // euphemism
-    "frkin": { s: 3, c: 5 }, // abbreviated
-    "fudge": { s: 2, c: 5 }, // euphemism for fuck
-    "fudger": { s: 2, c: 5 }, // euphemism
-    "fvck": { s: 3, c: 5 }, // vowel swap
-    "fvcking": { s: 3, c: 5 }, // vowel swap
-    "h0e": { s: 5, c: 5 }, // leet speak
-    "h0r": { s: 3, c: 5 }, // leet speak
-    "ho3": { s: 3, c: 5 }, // leet speak
-    "horsesh1t": { s: 3, c: 5 }, // leet speak
-    "mfer": { s: 3, c: 5 }, // abbreviation
-    "mfr": { s: 3, c: 5 }, // abbreviation
-    "motha": { s: 3, c: 5 }, // truncated
-    "mothaf": { s: 3, c: 5 }, // truncated
-    "n1gga": { s: 3, c: 5 }, // leet speak
-    "n1gger": { s: 5, c: 5 }, // leet speak
-    "niqqer": { s: 3, c: 5 }, // character swap
-    "niqqa": { s: 5, c: 5 }, // character swap
-    "p0rn": { s: 3, c: 5 }, // leet speak
-    "p1ss": { s: 3, c: 5 }, // leet speak
-    "pr0n": { s: 3, c: 5 }, // leet speak for porn
-    "pr1ck": { s: 3, c: 5 }, // leet speak
-    "prik": { s: 3, c: 5 }, // alternate spelling
-    "pu55y": { s: 3, c: 5 }, // leet speak
-    "pussay": { s: 3, c: 5 }, // phonetic
-    "puzzy": { s: 3, c: 5 }, // alternate spelling
-    "pvssy": { s: 3, c: 5 }, // character swap
-    "s h i t": { s: 3, c: 5 }, // fully spaced
-    "sh!t": { s: 3, c: 5 }, // symbol substitution
-    "sh!thead": { s: 3, c: 5 }, // symbol substitution
-    "sk4nk": { s: 3, c: 5 }, // leet speak
-    "sl00t": { s: 3, c: 5 }, // leet speak
-    "sl0t": { s: 3, c: 5 }, // leet speak
-    "slvt": { s: 3, c: 5 }, // character swap
-    "tw4t": { s: 3, c: 5 }, // leet speak
-    "w4nk": { s: 3, c: 5 }, // leet speak
-    "wh0re": { s: 5, c: 5 }, // leet speak
-    "wh0r": { s: 3, c: 5 }, // leet speak
+    "a hole": [3, 5], // spaced a-hole
+    "a-hole": [3, 5], // hyphenated
+    "ahole": [3, 5], // compound
+    "a55": [3, 5], // leet speak
+    "a55hole": [3, 5], // leet speak
+    "azzhole": [3, 5], // alternate spelling
+    "b!tch": [3, 5], // symbol substitution
+    "b00bs": [3, 5], // leet speak
+    "b1atch": [3, 5], // leet speak
+    "beotch": [3, 5], // phonetic variant
+    "bi+ch": [3, 5], // symbol substitution
+    "cnt": [5, 5], // consonants only
+    "c0cks": [3, 5], // leet speak
+    "d!ck": [3, 5], // symbol substitution
+    "d!k": [3, 5], // symbol substitution
+    "f ck": [3, 5], // spaced
+    "f u c k": [3, 5], // fully spaced
+    "f-ck": [3, 5], // hyphenated
+    "f_ck": [3, 5], // underscored
+    "fawk": [3, 5], // phonetic
+    "fawking": [3, 5], // phonetic
+    "fkn": [3, 5], // abbreviated
+    "fku": [3, 5], // abbreviated fuck you
+    "fooking": [3, 5], // dialectal
+    "fookin": [3, 5], // dialectal
+    "friggin": [2, 5], // euphemism
+    "frkin": [3, 5], // abbreviated
+    "fudge": [2, 5], // euphemism for fuck
+    "fudger": [2, 5], // euphemism
+    "fvck": [3, 5], // vowel swap
+    "fvcking": [3, 5], // vowel swap
+    "h0e": [5, 5], // leet speak
+    "h0r": [3, 5], // leet speak
+    "ho3": [3, 5], // leet speak
+    "horsesh1t": [3, 5], // leet speak
+    "mfer": [3, 5], // abbreviation
+    "mfr": [3, 5], // abbreviation
+    "motha": [3, 5], // truncated
+    "mothaf": [3, 5], // truncated
+    "n1gga": [3, 5], // leet speak
+    "n1gger": [5, 5], // leet speak
+    "niqqer": [3, 5], // character swap
+    "niqqa": [5, 5], // character swap
+    "p0rn": [3, 5], // leet speak
+    "p1ss": [3, 5], // leet speak
+    "pr0n": [3, 5], // leet speak for porn
+    "pr1ck": [3, 5], // leet speak
+    "prik": [3, 5], // alternate spelling
+    "pu55y": [3, 5], // leet speak
+    "pussay": [3, 5], // phonetic
+    "puzzy": [3, 5], // alternate spelling
+    "pvssy": [3, 5], // character swap
+    "s h i t": [3, 5], // fully spaced
+    "sh!t": [3, 5], // symbol substitution
+    "sh!thead": [3, 5], // symbol substitution
+    "sk4nk": [3, 5], // leet speak
+    "sl00t": [3, 5], // leet speak
+    "sl0t": [3, 5], // leet speak
+    "slvt": [3, 5], // character swap
+    "tw4t": [3, 5], // leet speak
+    "w4nk": [3, 5], // leet speak
+    "wh0re": [5, 5], // leet speak
+    "wh0r": [3, 5], // leet speak
 
     // Drug-related vulgar terms
-    "crackhead": { s: 2, c: 3 }, // drug user insult
-    "crackheads": { s: 2, c: 3 }, // plural
-    "crackwhore": { s: 5, c: 4 }, // compound insult
-    "methhead": { s: 2, c: 3 }, // drug user insult
-    "methheads": { s: 2, c: 3 }, // plural
-    "pothead": { s: 2, c: 3 }, // drug user insult
-    "potheads": { s: 2, c: 3 }, // plural
-    "stoner": { s: 2, c: 3 }, // drug user
-    "stoners": { s: 2, c: 3 }, // plural
-    "tweaker": { s: 2, c: 3 }, // drug user insult
-    "tweakers": { s: 2, c: 3 }, // plural
-    "junkie": { s: 2, c: 3 }, // drug user insult
-    "junkies": { s: 2, c: 3 }, // plural
-    "dopehead": { s: 2, c: 3 }, // drug user insult
-    "dopeheads": { s: 2, c: 3 }, // plural
-    "pillhead": { s: 2, c: 3 }, // drug user insult
-    "acidhead": { s: 2, c: 3 }, // drug user insult
-    "basehead": { s: 2, c: 3 }, // drug user insult
-    "baseheads": { s: 2, c: 3 }, // plural
-    "cokewhore": { s: 5, c: 4 }, // compound insult
-    "cokehead": { s: 2, c: 3 }, // drug user insult
-    "cokeheads": { s: 2, c: 3 }, // plural
-    "druggie": { s: 2, c: 3 }, // drug user insult
-    "druggies": { s: 2, c: 3 }, // plural
+    "crackhead": [2, 3], // drug user insult
+    "crackheads": [2, 3], // plural
+    "crackwhore": [5, 4], // compound insult
+    "methhead": [2, 3], // drug user insult
+    "methheads": [2, 3], // plural
+    "pothead": [2, 3], // drug user insult
+    "potheads": [2, 3], // plural
+    "stoner": [2, 3], // drug user
+    "stoners": [2, 3], // plural
+    "tweaker": [2, 3], // drug user insult
+    "tweakers": [2, 3], // plural
+    "junkie": [2, 3], // drug user insult
+    "junkies": [2, 3], // plural
+    "dopehead": [2, 3], // drug user insult
+    "dopeheads": [2, 3], // plural
+    "pillhead": [2, 3], // drug user insult
+    "acidhead": [2, 3], // drug user insult
+    "basehead": [2, 3], // drug user insult
+    "baseheads": [2, 3], // plural
+    "cokewhore": [5, 4], // compound insult
+    "cokehead": [2, 3], // drug user insult
+    "cokeheads": [2, 3], // plural
+    "druggie": [2, 3], // drug user insult
+    "druggies": [2, 3], // plural
 
     // Violent/threatening terms
-    "go die": { s: 5, c: 5 }, // threat
-    "kill yourself": { s: 5, c: 5 }, // threat
-    "killyourself": { s: 5, c: 5 }, // compound threat
-    "killurself": { s: 5, c: 5 }, // abbreviated threat
-    "neck yourself": { s: 5, c: 5 }, // threat
-    "eat a bullet": { s: 5, c: 5 }, // violent threat
-    "drink bleach": { s: 5, c: 5 }, // violent threat
-    "drinkbleach": { s: 5, c: 5 }, // compound threat
-    "hang yourself": { s: 5, c: 5 }, // violent threat
-    "slit your wrists": { s: 5, c: 5 }, // violent threat
-    "jump off a bridge": { s: 5, c: 5 }, // violent threat
-    "end yourself": { s: 5, c: 5 }, // threat
-    "off yourself": { s: 5, c: 5 }, // threat
-    "unalive": { s: 2, c: 3 }, // euphemism for kill
-    "unalive yourself": { s: 5, c: 5 }, // euphemism threat
+    "go die": [5, 5], // threat
+    "kill yourself": [5, 5], // threat
+    "killyourself": [5, 5], // compound threat
+    "killurself": [5, 5], // abbreviated threat
+    "neck yourself": [5, 5], // threat
+    "eat a bullet": [5, 5], // violent threat
+    "drink bleach": [5, 5], // violent threat
+    "drinkbleach": [5, 5], // compound threat
+    "hang yourself": [5, 5], // violent threat
+    "slit your wrists": [5, 5], // violent threat
+    "jump off a bridge": [5, 5], // violent threat
+    "end yourself": [5, 5], // threat
+    "off yourself": [5, 5], // threat
+    "unalive": [2, 3], // euphemism for kill
+    "unalive yourself": [5, 5], // euphemism threat
 
     // Body part vulgarities and variations (additions)
-    "ballsac": { s: 4, c: 5 }, // alternate spelling
-    "balls": { s: 3, c: 4 }, // vulgar body reference
-    "bawsack": { s: 4, c: 3 }, // dialectal
-    "bigtits": { s: 4, c: 4 }, // compound
-    "bollock": { s: 4, c: 3 }, // singular
-    "bollox": { s: 4, c: 5 }, // alternate spelling
-    "buttfuck": { s: 4, c: 5 }, // compound
-    "buttfucker": { s: 4, c: 5 }, // compound
-    "buttplug": { s: 4, c: 4 }, // sexual object
-    "chesticles": { s: 4, c: 4 }, // slang portmanteau
-    "choade": { s: 4, c: 5 }, // alternate spelling
-    "chode": { s: 4, c: 4 }, // vulgar body reference
-    "clunge": { s: 4, c: 4 }, // British vulgar
-    "coochie": { s: 4, c: 4 }, // vulgar slang
-    "coochy": { s: 4, c: 4 }, // vulgar slang
-    "cooter": { s: 4, c: 4 }, // vulgar slang
-    "gash": { s: 4, c: 4 }, // vulgar body reference
-    "gonads": { s: 4, c: 4 }, // vulgar body reference
-    "mooseknuckle": { s: 4, c: 4 }, // vulgar body reference
-    "nadgers": { s: 4, c: 4 }, // British slang
-    "nads": { s: 4, c: 4 }, // slang for gonads
-    "nards": { s: 4, c: 4 }, // slang for gonads
-    "phallus": { s: 4, c: 3 }, // penis reference
-    "poonani": { s: 4, c: 4 }, // vulgar slang
-    "pootang": { s: 4, c: 4 }, // vulgar slang
-    "pube": { s: 4, c: 3 }, // singular
-    "pudenda": { s: 4, c: 4 }, // vulgar body reference
-    "teabag": { s: 4, c: 3 }, // sexual act
-    "teabagging": { s: 4, c: 3 }, // sexual act
-    "wang": { s: 4, c: 1 }, // vulgar body reference
-    "weiner": { s: 4, c: 5 }, // alternate spelling
-    "willy": { s: 4, c: 4 }, // British slang
-    "wiener": { s: 4, c: 4 }, // vulgar body reference
+    "ballsac": [4, 5], // alternate spelling
+    "balls": [3, 4], // vulgar body reference
+    "bawsack": [4, 3], // dialectal
+    "bigtits": [4, 4], // compound
+    "bollock": [4, 3], // singular
+    "bollox": [4, 5], // alternate spelling
+    "buttfuck": [4, 5], // compound
+    "buttfucker": [4, 5], // compound
+    "buttplug": [4, 4], // sexual object
+    "chesticles": [4, 4], // slang portmanteau
+    "choade": [4, 5], // alternate spelling
+    "chode": [4, 4], // vulgar body reference
+    "clunge": [4, 4], // British vulgar
+    "coochie": [4, 4], // vulgar slang
+    "coochy": [4, 4], // vulgar slang
+    "cooter": [4, 4], // vulgar slang
+    "gash": [4, 4], // vulgar body reference
+    "gonads": [4, 4], // vulgar body reference
+    "mooseknuckle": [4, 4], // vulgar body reference
+    "nadgers": [4, 4], // British slang
+    "nads": [4, 4], // slang for gonads
+    "nards": [4, 4], // slang for gonads
+    "phallus": [4, 3], // penis reference
+    "poonani": [4, 4], // vulgar slang
+    "pootang": [4, 4], // vulgar slang
+    "pube": [4, 3], // singular
+    "pudenda": [4, 4], // vulgar body reference
+    "teabag": [4, 3], // sexual act
+    "teabagging": [4, 3], // sexual act
+    "wang": [4, 1], // vulgar body reference
+    "weiner": [4, 5], // alternate spelling
+    "willy": [4, 4], // British slang
+    "wiener": [4, 4], // vulgar body reference
 
     // Additional compound insults and vulgarity
-    "arsetard": { s: 5, c: 4 }, // compound insult
-    "assbrain": { s: 3, c: 4 }, // compound insult
-    "assbreath": { s: 3, c: 4 }, // compound insult
-    "asscheek": { s: 3, c: 4 }, // body reference
-    "asscheeks": { s: 3, c: 4 }, // body reference
-    "assface": { s: 3, c: 4 }, // compound insult
-    "asshammer": { s: 3, c: 4 }, // compound insult
-    "asshead": { s: 3, c: 4 }, // compound insult
-    "asshopper": { s: 3, c: 4 }, // compound insult
-    "assjockey": { s: 3, c: 4 }, // compound insult
-    "asskisser": { s: 3, c: 4 }, // compound insult
-    "assmonkey": { s: 3, c: 4 }, // compound insult
-    "bitchwhore": { s: 3, c: 4 }, // compound insult
-    "bollocking": { s: 3, c: 4 }, // British gerund
-    "bumblefuck": { s: 3, c: 5 }, // compound
-    "buttcrack": { s: 1, c: 4 }, // body reference
-    "buttface": { s: 1, c: 4 }, // compound insult
-    "butthead": { s: 1, c: 4 }, // compound insult
-    "buttlicker": { s: 1, c: 4 }, // compound insult
-    "buttmunch": { s: 1, c: 4 }, // compound insult
-    "buttmuncher": { s: 1, c: 4 }, // compound insult
-    "buttwipe": { s: 1, c: 4 }, // compound insult
-    "choad": { s: 1, c: 4 }, // vulgar body reference
-    "choadsmoker": { s: 1, c: 4 }, // compound insult
-    "cockblock": { s: 4, c: 4 }, // compound
-    "cockbreath": { s: 4, c: 4 }, // compound insult
-    "cumsock": { s: 4, c: 5 }, // compound
-    "cumwad": { s: 4, c: 5 }, // compound
-    "cuntlapper": { s: 5, c: 5 }, // compound insult
-    "cuntpuncher": { s: 5, c: 5 }, // compound insult
-    "cuntwaffle": { s: 5, c: 5 }, // compound insult
-    "damnit": { s: 2, c: 3 }, // mild profanity
-    "dickbutt": { s: 4, c: 4 }, // compound insult
-    "dickcheese": { s: 4, c: 4 }, // compound insult
-    "dickjuice": { s: 4, c: 4 }, // compound
-    "dicklick": { s: 4, c: 4 }, // compound
-    "dickpull": { s: 4, c: 4 }, // compound
-    "dicksnot": { s: 4, c: 4 }, // compound insult
-    "dicksuck": { s: 4, c: 4 }, // compound
-    "dillweed": { s: 1, c: 4 }, // insult
-    "dongface": { s: 1, c: 4 }, // compound insult
-    "douchelord": { s: 3, c: 4 }, // compound insult
-    "douchewad": { s: 3, c: 4 }, // compound insult
-    "felcher": { s: 1, c: 4 }, // sexual act reference
-    "fucked": { s: 3, c: 5 }, // past tense
-    "fuckheads": { s: 3, c: 5 }, // plural
-    "fuckpile": { s: 3, c: 5 }, // compound insult
-    "fucksicle": { s: 3, c: 5 }, // compound insult
-    "gayfuck": { s: 3, c: 5 }, // compound insult
-    "gayshit": { s: 3, c: 5 }, // compound insult
-    "goddamned": { s: 1, c: 4 }, // profanity
-    "hellhole": { s: 1, c: 4 }, // compound
-    "hoebag": { s: 1, c: 4 }, // compound insult
-    "horsefucker": { s: 3, c: 5 }, // compound insult
-    "jagoff": { s: 1, c: 4 }, // regional insult
-    "jizzball": { s: 4, c: 5 }, // compound insult
-    "jizzbag": { s: 4, c: 5 }, // compound insult
-    "jizzbreath": { s: 4, c: 5 }, // compound insult
-    "jizzjar": { s: 4, c: 5 }, // compound insult
-    "knobchops": { s: 3, c: 4 }, // compound insult
-    "knobgoblin": { s: 3, c: 4 }, // compound insult
-    "knobjockey": { s: 3, c: 4 }, // compound insult
-    "knobrash": { s: 3, c: 4 }, // compound insult
-    "manwhore": { s: 5, c: 4 }, // compound insult
-    "meatflap": { s: 1, c: 4 }, // vulgar body reference
-    "munter": { s: 1, c: 4 }, // British insult
-    "nutjob": { s: 1, c: 4 }, // insult
-    "peckerbrain": { s: 1, c: 4 }, // compound insult
-    "peckerface": { s: 1, c: 4 }, // compound insult
-    "penisbreath": { s: 1, c: 4 }, // compound insult
-    "penisface": { s: 1, c: 4 }, // compound insult
-    "penishead": { s: 1, c: 4 }, // compound insult
-    "peniswrinkle": { s: 1, c: 4 }, // compound insult
-    "pigfucker": { s: 3, c: 5 }, // compound insult
-    "polesmoker": { s: 1, c: 4 }, // compound insult
-    "poonhound": { s: 1, c: 4 }, // compound insult
-    "prick": { s: 1, c: 4 }, // vulgar insult
-    "pricks": { s: 1, c: 4 }, // plural
-    "pricklick": { s: 1, c: 4 }, // compound insult
-    "prickteaser": { s: 1, c: 4 }, // compound insult
-    "prickweed": { s: 1, c: 4 }, // compound insult
-    "scroat": { s: 1, c: 5 }, // alternate spelling
-    "shitfucker": { s: 3, c: 5 }, // compound insult
-    "shitgobbler": { s: 3, c: 5 }, // compound insult
-    "shitlicker": { s: 3, c: 5 }, // compound insult
-    "shitmuncher": { s: 3, c: 5 }, // compound insult
-    "shitsucker": { s: 3, c: 5 }, // compound insult
-    "slutmonger": { s: 3, c: 4 }, // compound insult
-    "slutwhore": { s: 5, c: 4 }, // compound insult
-    "snatchface": { s: 1, c: 4 }, // compound insult
-    "sonnofabitch": { s: 3, c: 5 }, // alternate spelling
-    "spunkbubble": { s: 1, c: 4 }, // compound insult
-    "spunkface": { s: 1, c: 4 }, // compound insult
-    "spunkmonkey": { s: 1, c: 4 }, // compound insult
-    "spunkrat": { s: 1, c: 4 }, // compound insult
-    "titfucker": { s: 3, c: 5 }, // compound insult
-    "titlicker": { s: 4, c: 4 }, // compound insult
-    "titsucker": { s: 4, c: 4 }, // compound insult
-    "turdburgler": { s: 1, c: 4 }, // compound insult
-    "turdburglar": { s: 1, c: 4 }, // compound insult
-    "turdface": { s: 1, c: 4 }, // compound insult
-    "twatburger": { s: 4, c: 4 }, // compound insult
-    "twatgoblin": { s: 4, c: 4 }, // compound insult
-    "twatlips": { s: 4, c: 4 }, // compound insult
-    "twatmonger": { s: 4, c: 4 }, // compound insult
-    "twatmuffin": { s: 4, c: 4 }, // compound insult
-    "twatpuddle": { s: 4, c: 4 }, // compound insult
-    "twatsicle": { s: 4, c: 4 }, // compound insult
-    "twatsplat": { s: 4, c: 4 }, // compound insult
-    "wankface": { s: 3, c: 4 }, // compound insult
-    "wankpheasant": { s: 3, c: 4 }, // compound insult
-    "wankpuffin": { s: 3, c: 4 }, // compound insult
-    "wankshaft": { s: 3, c: 4 }, // compound insult
-    "wanksock": { s: 3, c: 4 }, // compound insult
-    "wankspot": { s: 3, c: 4 }, // compound insult
-    "wanking": { s: 3, c: 4 }, // gerund
+    "arsetard": [5, 4], // compound insult
+    "assbrain": [3, 4], // compound insult
+    "assbreath": [3, 4], // compound insult
+    "asscheek": [3, 4], // body reference
+    "asscheeks": [3, 4], // body reference
+    "assface": [3, 4], // compound insult
+    "asshammer": [3, 4], // compound insult
+    "asshead": [3, 4], // compound insult
+    "asshopper": [3, 4], // compound insult
+    "assjockey": [3, 4], // compound insult
+    "asskisser": [3, 4], // compound insult
+    "assmonkey": [3, 4], // compound insult
+    "bitchwhore": [3, 4], // compound insult
+    "bollocking": [3, 4], // British gerund
+    "bumblefuck": [3, 5], // compound
+    "buttcrack": [1, 4], // body reference
+    "buttface": [1, 4], // compound insult
+    "butthead": [1, 4], // compound insult
+    "buttlicker": [1, 4], // compound insult
+    "buttmunch": [1, 4], // compound insult
+    "buttmuncher": [1, 4], // compound insult
+    "buttwipe": [1, 4], // compound insult
+    "choad": [1, 4], // vulgar body reference
+    "choadsmoker": [1, 4], // compound insult
+    "cockblock": [4, 4], // compound
+    "cockbreath": [4, 4], // compound insult
+    "cumsock": [4, 5], // compound
+    "cumwad": [4, 5], // compound
+    "cuntlapper": [5, 5], // compound insult
+    "cuntpuncher": [5, 5], // compound insult
+    "cuntwaffle": [5, 5], // compound insult
+    "damnit": [2, 3], // mild profanity
+    "dickbutt": [4, 4], // compound insult
+    "dickcheese": [4, 4], // compound insult
+    "dickjuice": [4, 4], // compound
+    "dicklick": [4, 4], // compound
+    "dickpull": [4, 4], // compound
+    "dicksnot": [4, 4], // compound insult
+    "dicksuck": [4, 4], // compound
+    "dillweed": [1, 4], // insult
+    "dongface": [1, 4], // compound insult
+    "douchelord": [3, 4], // compound insult
+    "douchewad": [3, 4], // compound insult
+    "felcher": [1, 4], // sexual act reference
+    "fucked": [3, 5], // past tense
+    "fuckheads": [3, 5], // plural
+    "fuckpile": [3, 5], // compound insult
+    "fucksicle": [3, 5], // compound insult
+    "gayfuck": [3, 5], // compound insult
+    "gayshit": [3, 5], // compound insult
+    "goddamned": [1, 4], // profanity
+    "hellhole": [1, 4], // compound
+    "hoebag": [1, 4], // compound insult
+    "horsefucker": [3, 5], // compound insult
+    "jagoff": [1, 4], // regional insult
+    "jizzball": [4, 5], // compound insult
+    "jizzbag": [4, 5], // compound insult
+    "jizzbreath": [4, 5], // compound insult
+    "jizzjar": [4, 5], // compound insult
+    "knobchops": [3, 4], // compound insult
+    "knobgoblin": [3, 4], // compound insult
+    "knobjockey": [3, 4], // compound insult
+    "knobrash": [3, 4], // compound insult
+    "manwhore": [5, 4], // compound insult
+    "meatflap": [1, 4], // vulgar body reference
+    "munter": [1, 4], // British insult
+    "nutjob": [1, 4], // insult
+    "peckerbrain": [1, 4], // compound insult
+    "peckerface": [1, 4], // compound insult
+    "penisbreath": [1, 4], // compound insult
+    "penisface": [1, 4], // compound insult
+    "penishead": [1, 4], // compound insult
+    "peniswrinkle": [1, 4], // compound insult
+    "pigfucker": [3, 5], // compound insult
+    "polesmoker": [1, 4], // compound insult
+    "poonhound": [1, 4], // compound insult
+    "prick": [1, 4], // vulgar insult
+    "pricks": [1, 4], // plural
+    "pricklick": [1, 4], // compound insult
+    "prickteaser": [1, 4], // compound insult
+    "prickweed": [1, 4], // compound insult
+    "scroat": [1, 5], // alternate spelling
+    "shitfucker": [3, 5], // compound insult
+    "shitgobbler": [3, 5], // compound insult
+    "shitlicker": [3, 5], // compound insult
+    "shitmuncher": [3, 5], // compound insult
+    "shitsucker": [3, 5], // compound insult
+    "slutmonger": [3, 4], // compound insult
+    "slutwhore": [5, 4], // compound insult
+    "snatchface": [1, 4], // compound insult
+    "sonnofabitch": [3, 5], // alternate spelling
+    "spunkbubble": [1, 4], // compound insult
+    "spunkface": [1, 4], // compound insult
+    "spunkmonkey": [1, 4], // compound insult
+    "spunkrat": [1, 4], // compound insult
+    "titfucker": [3, 5], // compound insult
+    "titlicker": [4, 4], // compound insult
+    "titsucker": [4, 4], // compound insult
+    "turdburgler": [1, 4], // compound insult
+    "turdburglar": [1, 4], // compound insult
+    "turdface": [1, 4], // compound insult
+    "twatburger": [4, 4], // compound insult
+    "twatgoblin": [4, 4], // compound insult
+    "twatlips": [4, 4], // compound insult
+    "twatmonger": [4, 4], // compound insult
+    "twatmuffin": [4, 4], // compound insult
+    "twatpuddle": [4, 4], // compound insult
+    "twatsicle": [4, 4], // compound insult
+    "twatsplat": [4, 4], // compound insult
+    "wankface": [3, 4], // compound insult
+    "wankpheasant": [3, 4], // compound insult
+    "wankpuffin": [3, 4], // compound insult
+    "wankshaft": [3, 4], // compound insult
+    "wanksock": [3, 4], // compound insult
+    "wankspot": [3, 4], // compound insult
+    "wanking": [3, 4], // gerund
 
     // Ableist slurs
-    "cripple": { s: 5, c: 4 }, // ableist slur
-    "crippled": { s: 5, c: 4 }, // ableist slur
-    "gimp": { s: 5, c: 4 }, // ableist slur
-    "gimpy": { s: 5, c: 4 }, // ableist slur
-    "moron": { s: 1, c: 4 }, // ableist insult
-    "imbecile": { s: 5, c: 4 }, // ableist insult
-    "retards": { s: 5, c: 5 }, // plural
-    "retardation": { s: 5, c: 4 }, // ableist
-    "spastic": { s: 5, c: 3 }, // ableist slur
-    "spastics": { s: 5, c: 4 }, // plural
-    "spazzy": { s: 5, c: 4 }, // ableist slur
-    "tard": { s: 5, c: 4 }, // truncated slur
-    "tards": { s: 5, c: 4 }, // plural
-    "windowlicker": { s: 5, c: 4 }, // ableist slur
-    "window licker": { s: 5, c: 5 }, // ableist slur
+    "cripple": [5, 4], // ableist slur
+    "crippled": [5, 4], // ableist slur
+    "gimp": [5, 4], // ableist slur
+    "gimpy": [5, 4], // ableist slur
+    "moron": [1, 4], // ableist insult
+    "imbecile": [5, 4], // ableist insult
+    "retards": [5, 5], // plural
+    "retardation": [5, 4], // ableist
+    "spastic": [5, 3], // ableist slur
+    "spastics": [5, 4], // plural
+    "spazzy": [5, 4], // ableist slur
+    "tard": [5, 4], // truncated slur
+    "tards": [5, 4], // plural
+    "windowlicker": [5, 4], // ableist slur
+    "window licker": [5, 5], // ableist slur
 
     // Religious/blasphemous
-    "christfucker": { s: 3, c: 5 }, // blasphemous compound
-    "goddam": { s: 2, c: 3 }, // blasphemous
-    "jesusfuck": { s: 3, c: 5 }, // blasphemous compound
-    "jesushchrist": { s: 2, c: 3 }, // blasphemous
+    "christfucker": [3, 5], // blasphemous compound
+    "goddam": [2, 3], // blasphemous
+    "jesusfuck": [3, 5], // blasphemous compound
+    "jesushchrist": [2, 3], // blasphemous
 
     // Miscellaneous profanity
-    "ballbreaker": { s: 3, c: 4 }, // compound insult
-    "ballcrusher": { s: 3, c: 4 }, // compound insult
-    "barfbag": { s: 3, c: 4 }, // insult
-    "bastardface": { s: 5, c: 4 }, // compound insult
-    "bumfuck": { s: 3, c: 5 }, // compound
-    "bumfucker": { s: 3, c: 5 }, // compound
-    "buttbandit": { s: 3, c: 4 }, // compound insult
-    "buttbreath": { s: 3, c: 4 }, // compound insult
-    "buttfucking": { s: 3, c: 5 }, // gerund
-    "cocksplat": { s: 4, c: 4 }, // compound insult
-    "cornholer": { s: 3, c: 4 }, // compound insult
-    "crapfest": { s: 3, c: 4 }, // compound
-    "crapola": { s: 3, c: 4 }, // slang
-    "dicksplat": { s: 4, c: 4 }, // compound insult
-    "dipwad": { s: 3, c: 4 }, // insult
-    "dobber": { s: 3, c: 4 }, // Scottish/British insult
-    "fartface": { s: 3, c: 4 }, // compound insult
-    "fartknacker": { s: 3, c: 4 }, // compound insult
-    "fartblossom": { s: 3, c: 4 }, // compound insult
-    "gutter slut": { s: 3, c: 4 }, // compound insult
-    "gutterslut": { s: 3, c: 4 }, // compound insult
-    "jackwagon": { s: 3, c: 4 }, // compound insult
-    "jizzgobbler": { s: 4, c: 5 }, // compound insult
-    "knobnose": { s: 3, c: 4 }, // compound insult
-    "knobrot": { s: 3, c: 4 }, // compound insult
-    "knobshine": { s: 3, c: 4 }, // compound insult
-    "pissant": { s: 3, c: 4 }, // compound insult
-    "pissbucket": { s: 3, c: 4 }, // compound insult
-    "pisser": { s: 3, c: 4 }, // insult
-    "pissface": { s: 3, c: 4 }, // compound insult
-    "pisspot": { s: 3, c: 4 }, // compound insult
-    "putz": { s: 3, c: 4 }, // Yiddish insult
-    "ratbag": { s: 3, c: 4 }, // insult
-    "scrotum": { s: 3, c: 4 }, // vulgar body reference
-    "shit stain": { s: 3, c: 5 }, // spaced variant
-    "shitestain": { s: 3, c: 5 }, // compound insult
-    "shitheel": { s: 3, c: 5 }, // compound insult
-    "shitkicker": { s: 3, c: 5 }, // compound insult
-    "shitpants": { s: 3, c: 5 }, // compound insult
-    "skaghead": { s: 3, c: 4 }, // drug-related insult
-    "slagbag": { s: 3, c: 4 }, // compound insult
-    "snotface": { s: 3, c: 4 }, // compound insult
-    "snotnose": { s: 3, c: 4 }, // compound insult
-    "spunkjockey": { s: 3, c: 4 }, // compound insult
-    "tossbag": { s: 3, c: 4 }, // compound insult
-    "turdhead": { s: 3, c: 4 }, // compound insult
-    "turdpile": { s: 3, c: 4 }, // compound
-    "turds": { s: 3, c: 4 }, // plural
-    "twattery": { s: 4, c: 4 }, // noun form
-    "twatting": { s: 4, c: 4 }, // gerund
-    "wankbucket": { s: 3, c: 4 }, // compound insult
+    "ballbreaker": [3, 4], // compound insult
+    "ballcrusher": [3, 4], // compound insult
+    "barfbag": [3, 4], // insult
+    "bastardface": [5, 4], // compound insult
+    "bumfuck": [3, 5], // compound
+    "bumfucker": [3, 5], // compound
+    "buttbandit": [3, 4], // compound insult
+    "buttbreath": [3, 4], // compound insult
+    "buttfucking": [3, 5], // gerund
+    "cocksplat": [4, 4], // compound insult
+    "cornholer": [3, 4], // compound insult
+    "crapfest": [3, 4], // compound
+    "crapola": [3, 4], // slang
+    "dicksplat": [4, 4], // compound insult
+    "dipwad": [3, 4], // insult
+    "dobber": [3, 4], // Scottish/British insult
+    "fartface": [3, 4], // compound insult
+    "fartknacker": [3, 4], // compound insult
+    "fartblossom": [3, 4], // compound insult
+    "gutter slut": [3, 4], // compound insult
+    "gutterslut": [3, 4], // compound insult
+    "jackwagon": [3, 4], // compound insult
+    "jizzgobbler": [4, 5], // compound insult
+    "knobnose": [3, 4], // compound insult
+    "knobrot": [3, 4], // compound insult
+    "knobshine": [3, 4], // compound insult
+    "pissant": [3, 4], // compound insult
+    "pissbucket": [3, 4], // compound insult
+    "pisser": [3, 4], // insult
+    "pissface": [3, 4], // compound insult
+    "pisspot": [3, 4], // compound insult
+    "putz": [3, 4], // Yiddish insult
+    "ratbag": [3, 4], // insult
+    "scrotum": [3, 4], // vulgar body reference
+    "shit stain": [3, 5], // spaced variant
+    "shitestain": [3, 5], // compound insult
+    "shitheel": [3, 5], // compound insult
+    "shitkicker": [3, 5], // compound insult
+    "shitpants": [3, 5], // compound insult
+    "skaghead": [3, 4], // drug-related insult
+    "slagbag": [3, 4], // compound insult
+    "snotface": [3, 4], // compound insult
+    "snotnose": [3, 4], // compound insult
+    "spunkjockey": [3, 4], // compound insult
+    "tossbag": [3, 4], // compound insult
+    "turdhead": [3, 4], // compound insult
+    "turdpile": [3, 4], // compound
+    "turds": [3, 4], // plural
+    "twattery": [4, 4], // noun form
+    "twatting": [4, 4], // gerund
+    "wankbucket": [3, 4], // compound insult
 
     // ===== LEETSPEAK & CHARACTER SUBSTITUTION EVASIONS =====
 
     // Fuck - leetspeak and symbol substitutions
-    "f*ck": { s: 3, c: 5 }, // asterisk substitution
-    "f**k": { s: 3, c: 5 }, // double asterisk
-    "fu*k": { s: 3, c: 5 }, // asterisk in middle
-    "f.u.c.k": { s: 3, c: 5 }, // dotted
-    "f-u-c-k": { s: 3, c: 5 }, // hyphenated
-    "f_u_c_k": { s: 3, c: 5 }, // underscored
-    "f*u*c*k": { s: 3, c: 5 }, // asterisk separated
-    "f.uck": { s: 3, c: 5 }, // partial dot
-    "fu.ck": { s: 3, c: 5 }, // partial dot
-    "fuc.k": { s: 3, c: 5 }, // partial dot
-    "f-uck": { s: 3, c: 5 }, // partial hyphen
-    "fu-ck": { s: 3, c: 5 }, // partial hyphen
-    "fuc-k": { s: 3, c: 5 }, // partial hyphen
-    "f_uck": { s: 3, c: 5 }, // partial underscore
-    "fu_ck": { s: 3, c: 5 }, // partial underscore
-    "fuc_k": { s: 3, c: 5 }, // partial underscore
-    "fucc": { s: 3, c: 5 }, // double c evasion
-    "fukk": { s: 3, c: 5 }, // double k evasion
-    "fukkk": { s: 3, c: 5 }, // triple k evasion
-    "phukk": { s: 3, c: 5 }, // ph + double k
-    "phucc": { s: 3, c: 5 }, // ph + double c
-    "phuq": { s: 3, c: 5 }, // ph + q evasion
-    "phk": { s: 3, c: 5 }, // abbreviated ph
-    "frick": { s: 2, c: 5 }, // euphemistic evasion
-    "frig": { s: 2, c: 5 }, // euphemistic evasion
-    "fak": { s: 3, c: 5 }, // phonetic evasion
-    "fak3": { s: 3, c: 5 }, // phonetic + leet
-    "fukc": { s: 3, c: 5 }, // transposed
-    "fuqq": { s: 3, c: 5 }, // double q evasion
-    "f0ck": { s: 3, c: 5 }, // zero substitution
-    "fvk": { s: 3, c: 5 }, // vowel swap abbreviated
-    "fuhk": { s: 3, c: 5 }, // phonetic spelling
-    "fahk": { s: 3, c: 5 }, // phonetic spelling
-    "fux0r": { s: 3, c: 5 }, // leet speak variant
-    "f4ck": { s: 3, c: 5 }, // number substitution
-    "fu(k": { s: 3, c: 5 }, // parenthesis evasion
-    "fü ck": { s: 3, c: 5 }, // umlaut + space
-    "fück": { s: 3, c: 5 }, // umlaut evasion
-    "fùck": { s: 3, c: 5 }, // grave accent evasion
-    "fûck": { s: 3, c: 5 }, // circumflex evasion
-    "fúck": { s: 3, c: 5 }, // acute accent evasion
-    "fụck": { s: 3, c: 5 }, // underdot evasion
-    "fưck": { s: 3, c: 5 }, // horn accent evasion
+    "f*ck": [3, 5], // asterisk substitution
+    "f**k": [3, 5], // double asterisk
+    "fu*k": [3, 5], // asterisk in middle
+    "f.u.c.k": [3, 5], // dotted
+    "f-u-c-k": [3, 5], // hyphenated
+    "f_u_c_k": [3, 5], // underscored
+    "f*u*c*k": [3, 5], // asterisk separated
+    "f.uck": [3, 5], // partial dot
+    "fu.ck": [3, 5], // partial dot
+    "fuc.k": [3, 5], // partial dot
+    "f-uck": [3, 5], // partial hyphen
+    "fu-ck": [3, 5], // partial hyphen
+    "fuc-k": [3, 5], // partial hyphen
+    "f_uck": [3, 5], // partial underscore
+    "fu_ck": [3, 5], // partial underscore
+    "fuc_k": [3, 5], // partial underscore
+    "fucc": [3, 5], // double c evasion
+    "fukk": [3, 5], // double k evasion
+    "fukkk": [3, 5], // triple k evasion
+    "phukk": [3, 5], // ph + double k
+    "phucc": [3, 5], // ph + double c
+    "phuq": [3, 5], // ph + q evasion
+    "phk": [3, 5], // abbreviated ph
+    "frick": [2, 5], // euphemistic evasion
+    "frig": [2, 5], // euphemistic evasion
+    "fak": [3, 5], // phonetic evasion
+    "fak3": [3, 5], // phonetic + leet
+    "fukc": [3, 5], // transposed
+    "fuqq": [3, 5], // double q evasion
+    "f0ck": [3, 5], // zero substitution
+    "fvk": [3, 5], // vowel swap abbreviated
+    "fuhk": [3, 5], // phonetic spelling
+    "fahk": [3, 5], // phonetic spelling
+    "fux0r": [3, 5], // leet speak variant
+    "f4ck": [3, 5], // number substitution
+    "fu(k": [3, 5], // parenthesis evasion
+    "fü ck": [3, 5], // umlaut + space
+    "fück": [3, 5], // umlaut evasion
+    "fùck": [3, 5], // grave accent evasion
+    "fûck": [3, 5], // circumflex evasion
+    "fúck": [3, 5], // acute accent evasion
+    "fụck": [3, 5], // underdot evasion
+    "fưck": [3, 5], // horn accent evasion
 
     // Shit - leetspeak and symbol substitutions
-    "sh*t": { s: 3, c: 5 }, // asterisk substitution
-    "s.h.i.t": { s: 3, c: 5 }, // dotted
-    "s-h-i-t": { s: 3, c: 5 }, // hyphenated
-    "s_h_i_t": { s: 3, c: 5 }, // underscored
-    "s*h*i*t": { s: 3, c: 5 }, // asterisk separated
-    "$hit": { s: 3, c: 5 }, // dollar sign substitution
-    "$h!t": { s: 3, c: 5 }, // dollar + exclamation
-    "$h1t": { s: 3, c: 5 }, // dollar + number
-    "shi+": { s: 3, c: 5 }, // plus sign substitution
-    "sh17": { s: 3, c: 5 }, // full leet
-    "5hit": { s: 3, c: 5 }, // number substitution
-    "5h1t": { s: 3, c: 5 }, // full number substitution
-    "5h!t": { s: 3, c: 5 }, // number + symbol
-    "sh1te": { s: 3, c: 5 }, // leet variant
-    "shyt3": { s: 3, c: 5 }, // alternate + leet
-    "shiit3": { s: 3, c: 5 }, // elongated + leet
-    "sh!tty": { s: 3, c: 5 }, // symbol + adjective
-    "sh!tstain": { s: 3, c: 5 }, // symbol in compound
-    "sh!thole": { s: 3, c: 5 }, // symbol in compound
-    "sh!tface": { s: 3, c: 5 }, // symbol in compound
-    "$hitty": { s: 3, c: 5 }, // dollar in adjective
-    "$hithole": { s: 3, c: 5 }, // dollar in compound
-    "$hithead": { s: 3, c: 5 }, // dollar in compound
-    "$hitface": { s: 3, c: 5 }, // dollar in compound
-    "$hitstain": { s: 3, c: 5 }, // dollar in compound
-    "s.hit": { s: 3, c: 5 }, // partial dot
-    "sh.it": { s: 3, c: 5 }, // partial dot
-    "shi.t": { s: 3, c: 5 }, // partial dot
+    "sh*t": [3, 5], // asterisk substitution
+    "s.h.i.t": [3, 5], // dotted
+    "s-h-i-t": [3, 5], // hyphenated
+    "s_h_i_t": [3, 5], // underscored
+    "s*h*i*t": [3, 5], // asterisk separated
+    "$hit": [3, 5], // dollar sign substitution
+    "$h!t": [3, 5], // dollar + exclamation
+    "$h1t": [3, 5], // dollar + number
+    "shi+": [3, 5], // plus sign substitution
+    "sh17": [3, 5], // full leet
+    "5hit": [3, 5], // number substitution
+    "5h1t": [3, 5], // full number substitution
+    "5h!t": [3, 5], // number + symbol
+    "sh1te": [3, 5], // leet variant
+    "shyt3": [3, 5], // alternate + leet
+    "shiit3": [3, 5], // elongated + leet
+    "sh!tty": [3, 5], // symbol + adjective
+    "sh!tstain": [3, 5], // symbol in compound
+    "sh!thole": [3, 5], // symbol in compound
+    "sh!tface": [3, 5], // symbol in compound
+    "$hitty": [3, 5], // dollar in adjective
+    "$hithole": [3, 5], // dollar in compound
+    "$hithead": [3, 5], // dollar in compound
+    "$hitface": [3, 5], // dollar in compound
+    "$hitstain": [3, 5], // dollar in compound
+    "s.hit": [3, 5], // partial dot
+    "sh.it": [3, 5], // partial dot
+    "shi.t": [3, 5], // partial dot
 
     // Bitch - leetspeak and symbol substitutions
-    "b*tch": { s: 3, c: 5 }, // asterisk substitution
-    "b.i.t.c.h": { s: 3, c: 5 }, // dotted
-    "b-i-t-c-h": { s: 3, c: 5 }, // hyphenated
-    "b_i_t_c_h": { s: 3, c: 5 }, // underscored
-    "b!+ch": { s: 3, c: 5 }, // symbol substitution
-    "b17ch": { s: 3, c: 5 }, // leet speak
-    "b1+ch": { s: 3, c: 5 }, // leet + symbol
-    "bytch": { s: 3, c: 5 }, // y substitution
-    "bych": { s: 3, c: 5 }, // abbreviated
-    "bich": { s: 3, c: 5 }, // abbreviated
-    "bltch": { s: 3, c: 5 }, // l substitution
-    "b!tches": { s: 3, c: 5 }, // symbol + plural
-    "b1tches": { s: 3, c: 5 }, // leet + plural
+    "b*tch": [3, 5], // asterisk substitution
+    "b.i.t.c.h": [3, 5], // dotted
+    "b-i-t-c-h": [3, 5], // hyphenated
+    "b_i_t_c_h": [3, 5], // underscored
+    "b!+ch": [3, 5], // symbol substitution
+    "b17ch": [3, 5], // leet speak
+    "b1+ch": [3, 5], // leet + symbol
+    "bytch": [3, 5], // y substitution
+    "bych": [3, 5], // abbreviated
+    "bich": [3, 5], // abbreviated
+    "bltch": [3, 5], // l substitution
+    "b!tches": [3, 5], // symbol + plural
+    "b1tches": [3, 5], // leet + plural
 
     // Cunt - leetspeak and symbol substitutions
-    "c*nt": { s: 3, c: 5 }, // asterisk substitution
-    "c.u.n.t": { s: 3, c: 5 }, // dotted
-    "c-u-n-t": { s: 3, c: 5 }, // hyphenated
-    "c_u_n_t": { s: 3, c: 5 }, // underscored
-    "cvnt": { s: 3, c: 5 }, // v substitution
-    "kunt": { s: 5, c: 5 }, // k substitution
-    "kunts": { s: 3, c: 5 }, // k substitution plural
-    "kunte": { s: 3, c: 5 }, // k substitution variant
-    "cnut": { s: 3, c: 5 }, // transposed
-    "c*nts": { s: 3, c: 5 }, // asterisk + plural
-    "cvnts": { s: 3, c: 5 }, // v substitution + plural
-    "cuntz": { s: 5, c: 5 }, // z substitution
-    "cun+": { s: 3, c: 5 }, // plus substitution
+    "c*nt": [3, 5], // asterisk substitution
+    "c.u.n.t": [3, 5], // dotted
+    "c-u-n-t": [3, 5], // hyphenated
+    "c_u_n_t": [3, 5], // underscored
+    "cvnt": [3, 5], // v substitution
+    "kunt": [5, 5], // k substitution
+    "kunts": [3, 5], // k substitution plural
+    "kunte": [3, 5], // k substitution variant
+    "cnut": [3, 5], // transposed
+    "c*nts": [3, 5], // asterisk + plural
+    "cvnts": [3, 5], // v substitution + plural
+    "cuntz": [5, 5], // z substitution
+    "cun+": [3, 5], // plus substitution
 
     // Ass - leetspeak and symbol substitutions
-    "@ss": { s: 3, c: 5 }, // at sign substitution
-    "@$$": { s: 3, c: 5 }, // at + dollar signs
-    "a$s": { s: 3, c: 5 }, // partial dollar sign
-    "@s$": { s: 3, c: 5 }, // mixed symbols
-    "@$s": { s: 3, c: 5 }, // mixed symbols
-    "a.s.s": { s: 3, c: 5 }, // dotted
-    "a-s-s": { s: 3, c: 5 }, // hyphenated
-    "a_s_s": { s: 3, c: 5 }, // underscored
-    "@sshole": { s: 3, c: 5 }, // at sign compound
-    "@$$hole": { s: 3, c: 5 }, // at + dollar compound
-    "a$$hole": { s: 3, c: 5 }, // dollar compound
-    "@sswipe": { s: 3, c: 5 }, // at sign compound
-    "a$$wipe": { s: 3, c: 5 }, // dollar compound
+    "@ss": [3, 5], // at sign substitution
+    "@$$": [3, 5], // at + dollar signs
+    "a$s": [3, 5], // partial dollar sign
+    "@s$": [3, 5], // mixed symbols
+    "@$s": [3, 5], // mixed symbols
+    "a.s.s": [3, 5], // dotted
+    "a-s-s": [3, 5], // hyphenated
+    "a_s_s": [3, 5], // underscored
+    "@sshole": [3, 5], // at sign compound
+    "@$$hole": [3, 5], // at + dollar compound
+    "a$$hole": [3, 5], // dollar compound
+    "@sswipe": [3, 5], // at sign compound
+    "a$$wipe": [3, 5], // dollar compound
 
     // Nigger - leetspeak and symbol substitutions
-    "n*gger": { s: 3, c: 5 }, // asterisk substitution
-    "n*gga": { s: 3, c: 5 }, // asterisk substitution
-    "n!gger": { s: 3, c: 5 }, // exclamation substitution
-    "n!gga": { s: 3, c: 5 }, // exclamation substitution
-    "nigg3r": { s: 5, c: 5 }, // leet speak
-    "n1gg3r": { s: 3, c: 5 }, // full leet
-    "n!gg3r": { s: 3, c: 5 }, // symbol + leet
-    "n.i.g.g.e.r": { s: 3, c: 5 }, // dotted
-    "n-i-g-g-e-r": { s: 3, c: 5 }, // hyphenated
-    "n_i_g_g_e_r": { s: 3, c: 5 }, // underscored
-    "n1g": { s: 3, c: 5 }, // abbreviated leet
-    "n!g": { s: 3, c: 5 }, // abbreviated symbol
-    "nigg": { s: 3, c: 5 }, // truncated
-    "nigz": { s: 3, c: 5 }, // z substitution
-    "niggz": { s: 3, c: 5 }, // z substitution
-    "n1ggaz": { s: 3, c: 5 }, // leet variant
-    "nigg4": { s: 3, c: 5 }, // leet variant
-    "nigg4h": { s: 3, c: 5 }, // leet variant
-    "nigg4z": { s: 3, c: 5 }, // leet variant
-    "n1664": { s: 3, c: 5 }, // full number substitution
-    "nlgger": { s: 3, c: 5 }, // l substitution
-    "nlgga": { s: 3, c: 5 }, // l substitution
-    "n*ggers": { s: 3, c: 5 }, // asterisk + plural
-    "n1ggers": { s: 3, c: 5 }, // leet + plural
-    "n!ggers": { s: 3, c: 5 }, // symbol + plural
-    "nigg3rs": { s: 3, c: 5 }, // leet + plural
+    "n*gger": [3, 5], // asterisk substitution
+    "n*gga": [3, 5], // asterisk substitution
+    "n!gger": [3, 5], // exclamation substitution
+    "n!gga": [3, 5], // exclamation substitution
+    "nigg3r": [5, 5], // leet speak
+    "n1gg3r": [3, 5], // full leet
+    "n!gg3r": [3, 5], // symbol + leet
+    "n.i.g.g.e.r": [3, 5], // dotted
+    "n-i-g-g-e-r": [3, 5], // hyphenated
+    "n_i_g_g_e_r": [3, 5], // underscored
+    "n1g": [3, 5], // abbreviated leet
+    "n!g": [3, 5], // abbreviated symbol
+    "nigg": [3, 5], // truncated
+    "nigz": [3, 5], // z substitution
+    "niggz": [3, 5], // z substitution
+    "n1ggaz": [3, 5], // leet variant
+    "nigg4": [3, 5], // leet variant
+    "nigg4h": [3, 5], // leet variant
+    "nigg4z": [3, 5], // leet variant
+    "n1664": [3, 5], // full number substitution
+    "nlgger": [3, 5], // l substitution
+    "nlgga": [3, 5], // l substitution
+    "n*ggers": [3, 5], // asterisk + plural
+    "n1ggers": [3, 5], // leet + plural
+    "n!ggers": [3, 5], // symbol + plural
+    "nigg3rs": [3, 5], // leet + plural
 
     // Cock - leetspeak and symbol substitutions
-    "c*ck": { s: 3, c: 5 }, // asterisk substitution
-    "c.o.c.k": { s: 3, c: 5 }, // dotted
-    "c-o-c-k": { s: 3, c: 5 }, // hyphenated
-    "c_o_c_k": { s: 3, c: 5 }, // underscored
-    "c0cksucker": { s: 3, c: 5 }, // leet compound
-    "c*cksucker": { s: 3, c: 5 }, // asterisk compound
-    "cocc": { s: 3, c: 5 }, // double c evasion
-    "kocc": { s: 3, c: 5 }, // k + double c
-    "kok": { s: 3, c: 5 }, // phonetic
-    "kock": { s: 3, c: 5 }, // k substitution
-    "k0ck": { s: 3, c: 5 }, // k + zero
+    "c*ck": [3, 5], // asterisk substitution
+    "c.o.c.k": [3, 5], // dotted
+    "c-o-c-k": [3, 5], // hyphenated
+    "c_o_c_k": [3, 5], // underscored
+    "c0cksucker": [3, 5], // leet compound
+    "c*cksucker": [3, 5], // asterisk compound
+    "cocc": [3, 5], // double c evasion
+    "kocc": [3, 5], // k + double c
+    "kok": [3, 5], // phonetic
+    "kock": [3, 5], // k substitution
+    "k0ck": [3, 5], // k + zero
 
     // Dick - leetspeak and symbol substitutions
-    "d*ck": { s: 3, c: 5 }, // asterisk substitution
-    "d.i.c.k": { s: 3, c: 5 }, // dotted
-    "d-i-c-k": { s: 3, c: 5 }, // hyphenated
-    "d_i_c_k": { s: 3, c: 5 }, // underscored
-    "d!ckhead": { s: 3, c: 5 }, // symbol compound
-    "d1ckhead": { s: 3, c: 5 }, // leet compound
-    "d!cksucker": { s: 3, c: 5 }, // symbol compound
-    "d1cksucker": { s: 3, c: 5 }, // leet compound
-    "dicc": { s: 3, c: 5 }, // double c evasion
-    "dikk": { s: 3, c: 5 }, // double k evasion
-    "diq": { s: 3, c: 5 }, // q substitution
-    "diqq": { s: 3, c: 5 }, // double q
+    "d*ck": [3, 5], // asterisk substitution
+    "d.i.c.k": [3, 5], // dotted
+    "d-i-c-k": [3, 5], // hyphenated
+    "d_i_c_k": [3, 5], // underscored
+    "d!ckhead": [3, 5], // symbol compound
+    "d1ckhead": [3, 5], // leet compound
+    "d!cksucker": [3, 5], // symbol compound
+    "d1cksucker": [3, 5], // leet compound
+    "dicc": [3, 5], // double c evasion
+    "dikk": [3, 5], // double k evasion
+    "diq": [3, 5], // q substitution
+    "diqq": [3, 5], // double q
 
     // Pussy - leetspeak and symbol substitutions
-    "p*ssy": { s: 3, c: 5 }, // asterisk substitution
-    "pu$$y": { s: 3, c: 5 }, // dollar substitution - already exists context
-    "pu5sy": { s: 3, c: 5 }, // number substitution
-    "pus$y": { s: 3, c: 5 }, // partial dollar
-    "pu$$ies": { s: 3, c: 5 }, // dollar + plural
-    "pu$$": { s: 3, c: 5 }, // truncated dollar
-    "p.u.s.s.y": { s: 3, c: 5 }, // dotted
-    "p-u-s-s-y": { s: 3, c: 5 }, // hyphenated
-    "p_u_s_s_y": { s: 3, c: 5 }, // underscored
-    "pvssi": { s: 3, c: 5 }, // v + i substitution
-    "pvss1": { s: 3, c: 5 }, // v + number
-    "pu22y": { s: 3, c: 5 }, // number substitution
-    "puzz1": { s: 3, c: 5 }, // z + number
+    "p*ssy": [3, 5], // asterisk substitution
+    "pu$$y": [3, 5], // dollar substitution - already exists context
+    "pu5sy": [3, 5], // number substitution
+    "pus$y": [3, 5], // partial dollar
+    "pu$$ies": [3, 5], // dollar + plural
+    "pu$$": [3, 5], // truncated dollar
+    "p.u.s.s.y": [3, 5], // dotted
+    "p-u-s-s-y": [3, 5], // hyphenated
+    "p_u_s_s_y": [3, 5], // underscored
+    "pvssi": [3, 5], // v + i substitution
+    "pvss1": [3, 5], // v + number
+    "pu22y": [3, 5], // number substitution
+    "puzz1": [3, 5], // z + number
 
     // Whore - leetspeak and symbol substitutions
-    "wh*re": { s: 3, c: 5 }, // asterisk substitution
-    "wh0r3": { s: 3, c: 5 }, // full leet
-    "w.h.o.r.e": { s: 3, c: 5 }, // dotted
-    "w-h-o-r-e": { s: 3, c: 5 }, // hyphenated
-    "w_h_o_r_e": { s: 3, c: 5 }, // underscored
-    "wh0res": { s: 3, c: 5 }, // leet plural
-    "whor3": { s: 3, c: 5 }, // partial leet
-    "wh*res": { s: 3, c: 5 }, // asterisk plural
-    "whoar": { s: 3, c: 5 }, // phonetic
-    "hoar": { s: 3, c: 5 }, // archaic/phonetic
-    "wore": { s: 3, c: 5 }, // deliberate misspelling
+    "wh*re": [3, 5], // asterisk substitution
+    "wh0r3": [3, 5], // full leet
+    "w.h.o.r.e": [3, 5], // dotted
+    "w-h-o-r-e": [3, 5], // hyphenated
+    "w_h_o_r_e": [3, 5], // underscored
+    "wh0res": [3, 5], // leet plural
+    "whor3": [3, 5], // partial leet
+    "wh*res": [3, 5], // asterisk plural
+    "whoar": [3, 5], // phonetic
+    "hoar": [3, 5], // archaic/phonetic
+    "wore": [3, 5], // deliberate misspelling
 
     // Slut - leetspeak and symbol substitutions
-    "s1ut": { s: 3, c: 5 }, // leet
-    "$lut": { s: 3, c: 5 }, // dollar substitution
-    "$l00t": { s: 3, c: 5 }, // dollar + leet
-    "s.l.u.t": { s: 3, c: 5 }, // dotted
-    "s-l-u-t": { s: 3, c: 5 }, // hyphenated
-    "s_l_u_t": { s: 3, c: 5 }, // underscored
-    "$lutty": { s: 3, c: 5 }, // dollar + adjective
-    "sl*t": { s: 3, c: 5 }, // asterisk substitution
-    "slvts": { s: 3, c: 5 }, // v + plural
+    "s1ut": [3, 5], // leet
+    "$lut": [3, 5], // dollar substitution
+    "$l00t": [3, 5], // dollar + leet
+    "s.l.u.t": [3, 5], // dotted
+    "s-l-u-t": [3, 5], // hyphenated
+    "s_l_u_t": [3, 5], // underscored
+    "$lutty": [3, 5], // dollar + adjective
+    "sl*t": [3, 5], // asterisk substitution
+    "slvts": [3, 5], // v + plural
 
     // Faggot - leetspeak and symbol substitutions
-    "f*ggot": { s: 3, c: 5 }, // asterisk substitution
-    "f4ggot": { s: 3, c: 5 }, // number substitution
-    "f4g": { s: 3, c: 5 }, // number substitution
-    "f@g": { s: 3, c: 5 }, // at sign substitution
-    "f@ggot": { s: 3, c: 5 }, // at sign substitution
-    "f@gs": { s: 3, c: 5 }, // at sign + plural
-    "f.a.g": { s: 3, c: 5 }, // dotted
-    "f-a-g": { s: 3, c: 5 }, // hyphenated
-    "f4gg0t": { s: 3, c: 5 }, // full leet
-    "fagg0t": { s: 5, c: 5 }, // partial leet
-    "f@gg0t": { s: 3, c: 5 }, // symbol + leet
-    "phaggot": { s: 3, c: 5 }, // ph substitution
-    "phag": { s: 3, c: 5 }, // ph substitution
-    "faget": { s: 5, c: 5 }, // misspelling
-    "fagit": { s: 5, c: 5 }, // misspelling
-    "faggit": { s: 5, c: 5 }, // misspelling
-    "fagget": { s: 5, c: 5 }, // misspelling
-    "faqqot": { s: 3, c: 5 }, // q substitution
+    "f*ggot": [3, 5], // asterisk substitution
+    "f4ggot": [3, 5], // number substitution
+    "f4g": [3, 5], // number substitution
+    "f@g": [3, 5], // at sign substitution
+    "f@ggot": [3, 5], // at sign substitution
+    "f@gs": [3, 5], // at sign + plural
+    "f.a.g": [3, 5], // dotted
+    "f-a-g": [3, 5], // hyphenated
+    "f4gg0t": [3, 5], // full leet
+    "fagg0t": [5, 5], // partial leet
+    "f@gg0t": [3, 5], // symbol + leet
+    "phaggot": [3, 5], // ph substitution
+    "phag": [3, 5], // ph substitution
+    "faget": [5, 5], // misspelling
+    "fagit": [5, 5], // misspelling
+    "faggit": [5, 5], // misspelling
+    "fagget": [5, 5], // misspelling
+    "faqqot": [3, 5], // q substitution
 
     // ===== HOMOGLYPH / UNICODE EVASIONS =====
     // Cyrillic and Greek lookalike substitutions
 
     // Fuck with Cyrillic/Greek chars
-    "fuсk": { s: 3, c: 4 }, // Cyrillic с (es) for c
-    "fuϲk": { s: 3, c: 4 }, // Greek small lunate sigma for c
-    "fυck": { s: 3, c: 4 }, // Greek upsilon for u
-    "fμck": { s: 3, c: 4 }, // Greek mu for u
-    "fuсks": { s: 3, c: 4 }, // Cyrillic с + plural
-    "fuсking": { s: 3, c: 4 }, // Cyrillic с + gerund
-    "fuckіng": { s: 3, c: 5 }, // Cyrillic і for i
+    "fuсk": [3, 4], // Cyrillic с (es) for c
+    "fuϲk": [3, 4], // Greek small lunate sigma for c
+    "fυck": [3, 4], // Greek upsilon for u
+    "fμck": [3, 4], // Greek mu for u
+    "fuсks": [3, 4], // Cyrillic с + plural
+    "fuсking": [3, 4], // Cyrillic с + gerund
+    "fuckіng": [3, 5], // Cyrillic і for i
 
     // Shit with Cyrillic/Greek chars
-    "shіt": { s: 3, c: 4 }, // Cyrillic і for i
-    "shіts": { s: 3, c: 4 }, // Cyrillic і + plural
-    "shіtty": { s: 3, c: 4 }, // Cyrillic і + adjective
-    "ѕhit": { s: 3, c: 4 }, // Cyrillic ѕ for s
-    "shіthead": { s: 3, c: 4 }, // Cyrillic і + compound
+    "shіt": [3, 4], // Cyrillic і for i
+    "shіts": [3, 4], // Cyrillic і + plural
+    "shіtty": [3, 4], // Cyrillic і + adjective
+    "ѕhit": [3, 4], // Cyrillic ѕ for s
+    "shіthead": [3, 4], // Cyrillic і + compound
 
     // Bitch with Cyrillic/Greek chars
-    "bіtch": { s: 3, c: 4 }, // Cyrillic і for i
-    "bіtches": { s: 3, c: 4 }, // Cyrillic і + plural
-    "bitсh": { s: 3, c: 4 }, // Cyrillic с for c
+    "bіtch": [3, 4], // Cyrillic і for i
+    "bіtches": [3, 4], // Cyrillic і + plural
+    "bitсh": [3, 4], // Cyrillic с for c
 
     // Ass with Cyrillic/Greek chars
-    "аss": { s: 3, c: 4 }, // Cyrillic а for a
-    "аsshole": { s: 3, c: 4 }, // Cyrillic а + compound
-    "аsswipe": { s: 3, c: 4 }, // Cyrillic а + compound
+    "аss": [3, 4], // Cyrillic а for a
+    "аsshole": [3, 4], // Cyrillic а + compound
+    "аsswipe": [3, 4], // Cyrillic а + compound
 
     // Nigger with Cyrillic/Greek chars
-    "nіgger": { s: 3, c: 4 }, // Cyrillic і for i
-    "nіgga": { s: 3, c: 4 }, // Cyrillic і for i
-    "niggеr": { s: 3, c: 4 }, // Cyrillic е for e
-    "nіggеr": { s: 3, c: 4 }, // Cyrillic і + е
+    "nіgger": [3, 4], // Cyrillic і for i
+    "nіgga": [3, 4], // Cyrillic і for i
+    "niggеr": [3, 4], // Cyrillic е for e
+    "nіggеr": [3, 4], // Cyrillic і + е
 
     // Cunt with Cyrillic/Greek chars
-    "сunt": { s: 3, c: 4 }, // Cyrillic с for c
-    "сunts": { s: 3, c: 4 }, // Cyrillic с + plural
+    "сunt": [3, 4], // Cyrillic с for c
+    "сunts": [3, 4], // Cyrillic с + plural
 
     // Cock with Cyrillic/Greek chars
-    "сock": { s: 3, c: 4 }, // Cyrillic с for c
-    "соck": { s: 3, c: 4 }, // Cyrillic с + о
-    "сосk": { s: 3, c: 4 }, // full Cyrillic с and о
+    "сock": [3, 4], // Cyrillic с for c
+    "соck": [3, 4], // Cyrillic с + о
+    "сосk": [3, 4], // full Cyrillic с and о
 
     // Dick with Cyrillic/Greek chars
-    "dіck": { s: 3, c: 4 }, // Cyrillic і for i
-    "dісk": { s: 3, c: 4 }, // Cyrillic і + с
+    "dіck": [3, 4], // Cyrillic і for i
+    "dісk": [3, 4], // Cyrillic і + с
 
     // Pussy with Cyrillic/Greek chars
-    "рussy": { s: 3, c: 4 }, // Cyrillic р for p
-    "рussу": { s: 3, c: 4 }, // Cyrillic р + у
+    "рussy": [3, 4], // Cyrillic р for p
+    "рussу": [3, 4], // Cyrillic р + у
 
     // Whore with Cyrillic/Greek chars
-    "whоre": { s: 3, c: 4 }, // Cyrillic о for o
-    "whоres": { s: 3, c: 4 }, // Cyrillic о + plural
+    "whоre": [3, 4], // Cyrillic о for o
+    "whоres": [3, 4], // Cyrillic о + plural
 
     // ===== SPACING / SEPARATOR EVASIONS =====
 
     // Already have "f u c k", adding remaining major words
-    "b i t c h": { s: 3, c: 5 }, // fully spaced
-    "c u n t": { s: 3, c: 5 }, // fully spaced
-    "a s s": { s: 3, c: 5 }, // fully spaced
-    "d i c k": { s: 3, c: 5 }, // fully spaced
-    "c o c k": { s: 3, c: 5 }, // fully spaced
-    "p u s s y": { s: 3, c: 5 }, // fully spaced
-    "w h o r e": { s: 3, c: 5 }, // fully spaced
-    "n i g g e r": { s: 3, c: 5 }, // fully spaced
-    "n i g g a": { s: 3, c: 5 }, // fully spaced
-    "f a g": { s: 3, c: 5 }, // fully spaced
-    "f a g g o t": { s: 3, c: 5 }, // fully spaced
-    "s l u t": { s: 3, c: 5 }, // fully spaced
+    "b i t c h": [3, 5], // fully spaced
+    "c u n t": [3, 5], // fully spaced
+    "a s s": [3, 5], // fully spaced
+    "d i c k": [3, 5], // fully spaced
+    "c o c k": [3, 5], // fully spaced
+    "p u s s y": [3, 5], // fully spaced
+    "w h o r e": [3, 5], // fully spaced
+    "n i g g e r": [3, 5], // fully spaced
+    "n i g g a": [3, 5], // fully spaced
+    "f a g": [3, 5], // fully spaced
+    "f a g g o t": [3, 5], // fully spaced
+    "s l u t": [3, 5], // fully spaced
 
     // ===== COMMON INTENTIONAL MISSPELLINGS =====
 
     // Fuck misspellings
-    "fawkin": { s: 3, c: 5 }, // phonetic gerund
-    "fyck": { s: 3, c: 5 }, // vowel swap
-    "feck off": { s: 3, c: 5 }, // Irish compound
-    "fook": { s: 3, c: 5 }, // dialectal
-    "foook": { s: 3, c: 5 }, // elongated
-    "fuuuck": { s: 3, c: 5 }, // elongated
-    "fuuuuck": { s: 3, c: 5 }, // elongated
-    "fffuck": { s: 3, c: 5 }, // repeated consonant
-    "fuhck": { s: 3, c: 5 }, // inserted h
-    "phux": { s: 3, c: 5 }, // ph + x
-    "phux0r": { s: 3, c: 5 }, // leet ph variant
-    "fux0red": { s: 3, c: 5 }, // leet past tense
-    "fuckkkk": { s: 3, c: 5 }, // elongated k
-    "fuuuuk": { s: 3, c: 5 }, // elongated u + k
-    "f00k": { s: 3, c: 5 }, // zero substitution
-    "fuq off": { s: 3, c: 5 }, // phonetic compound
-    "fuqoff": { s: 3, c: 5 }, // phonetic compound
-    "fuqyou": { s: 3, c: 5 }, // phonetic compound
-    "phuckoff": { s: 3, c: 5 }, // ph compound
-    "phuckyou": { s: 3, c: 5 }, // ph compound
+    "fawkin": [3, 5], // phonetic gerund
+    "fyck": [3, 5], // vowel swap
+    "feck off": [3, 5], // Irish compound
+    "fook": [3, 5], // dialectal
+    "foook": [3, 5], // elongated
+    "fuuuck": [3, 5], // elongated
+    "fuuuuck": [3, 5], // elongated
+    "fffuck": [3, 5], // repeated consonant
+    "fuhck": [3, 5], // inserted h
+    "phux": [3, 5], // ph + x
+    "phux0r": [3, 5], // leet ph variant
+    "fux0red": [3, 5], // leet past tense
+    "fuckkkk": [3, 5], // elongated k
+    "fuuuuk": [3, 5], // elongated u + k
+    "f00k": [3, 5], // zero substitution
+    "fuq off": [3, 5], // phonetic compound
+    "fuqoff": [3, 5], // phonetic compound
+    "fuqyou": [3, 5], // phonetic compound
+    "phuckoff": [3, 5], // ph compound
+    "phuckyou": [3, 5], // ph compound
 
     // Shit misspellings
-    "shyte": { s: 3, c: 5 }, // y substitution
-    "shiite": { s: 3, c: 5 }, // elongated i
-    "sheit": { s: 3, c: 5 }, // German-influenced
-    "chit": { s: 3, c: 5 }, // deliberate
-    "sheeit": { s: 3, c: 5 }, // elongated
-    "sheeeit": { s: 3, c: 5 }, // elongated
-    "shiznit": { s: 3, c: 5 }, // slang variant
-    "shiznitz": { s: 3, c: 5 }, // slang variant
-    "shizz": { s: 3, c: 5 }, // slang variant
-    "shat": { s: 3, c: 5 }, // past tense
-    "chitty": { s: 3, c: 5 }, // deliberate misspelling
+    "shyte": [3, 5], // y substitution
+    "shiite": [3, 5], // elongated i
+    "sheit": [3, 5], // German-influenced
+    "chit": [3, 5], // deliberate
+    "sheeit": [3, 5], // elongated
+    "sheeeit": [3, 5], // elongated
+    "shiznit": [3, 5], // slang variant
+    "shiznitz": [3, 5], // slang variant
+    "shizz": [3, 5], // slang variant
+    "shat": [3, 5], // past tense
+    "chitty": [3, 5], // deliberate misspelling
 
     // Bitch misspellings
-    "beatch": { s: 3, c: 5 }, // phonetic
-    "biach": { s: 3, c: 5 }, // phonetic
-    "beeyatch": { s: 3, c: 5 }, // phonetic elongated
-    "beeatch": { s: 3, c: 5 }, // phonetic elongated
-    "bioch": { s: 3, c: 5 }, // phonetic
-    "byatch": { s: 3, c: 5 }, // y substitution
-    "biznatch": { s: 3, c: 5 }, // slang variant
-    "biznitch": { s: 3, c: 5 }, // slang variant
-    "beyatch": { s: 3, c: 5 }, // phonetic
-    "biatches": { s: 3, c: 5 }, // phonetic plural
-    "bitchez": { s: 3, c: 5 }, // z substitution
-    "bitchz": { s: 3, c: 5 }, // z ending
-    "bixch": { s: 3, c: 5 }, // x substitution
+    "beatch": [3, 5], // phonetic
+    "biach": [3, 5], // phonetic
+    "beeyatch": [3, 5], // phonetic elongated
+    "beeatch": [3, 5], // phonetic elongated
+    "bioch": [3, 5], // phonetic
+    "byatch": [3, 5], // y substitution
+    "biznatch": [3, 5], // slang variant
+    "biznitch": [3, 5], // slang variant
+    "beyatch": [3, 5], // phonetic
+    "biatches": [3, 5], // phonetic plural
+    "bitchez": [3, 5], // z substitution
+    "bitchz": [3, 5], // z ending
+    "bixch": [3, 5], // x substitution
 
     // Ass misspellings
-    "azs": { s: 3, c: 5 }, // z substitution
-    "ase": { s: 3, c: 5 }, // misspelling
-    "aarse": { s: 3, c: 5 }, // elongated
-    "aaass": { s: 3, c: 5 }, // elongated
-    "a5s": { s: 3, c: 5 }, // number substitution
-    "as5": { s: 3, c: 5 }, // number substitution
+    "azs": [3, 5], // z substitution
+    "ase": [3, 5], // misspelling
+    "aarse": [3, 5], // elongated
+    "aaass": [3, 5], // elongated
+    "a5s": [3, 5], // number substitution
+    "as5": [3, 5], // number substitution
 
     // Cunt misspellings
-    "cuht": { s: 3, c: 5 }, // phonetic
-    "kuntz": { s: 3, c: 5 }, // k + z
-    "koont": { s: 3, c: 5 }, // phonetic
-    "kuhnt": { s: 3, c: 5 }, // phonetic
+    "cuht": [3, 5], // phonetic
+    "kuntz": [3, 5], // k + z
+    "koont": [3, 5], // phonetic
+    "kuhnt": [3, 5], // phonetic
 
     // Dick misspellings
-    "deek": { s: 3, c: 5 }, // phonetic
-    "dyck": { s: 3, c: 5 }, // y substitution
-    "dyk": { s: 3, c: 5 }, // y substitution short
+    "deek": [3, 5], // phonetic
+    "dyck": [3, 5], // y substitution
+    "dyk": [3, 5], // y substitution short
 
     // ===== MORE COMPOUND WORDS AND PHRASES =====
 
     // Fuck phrases
-    "fuckthis": { s: 3, c: 5 }, // compound phrase
-    "fuckthat": { s: 3, c: 5 }, // compound phrase
-    "fuckall": { s: 3, c: 5 }, // compound phrase
-    "fuckit": { s: 3, c: 5 }, // compound phrase
-    "fuckme": { s: 3, c: 5 }, // compound phrase
-    "fuckher": { s: 3, c: 5 }, // compound phrase
-    "fuckhim": { s: 3, c: 5 }, // compound phrase
-    "fuckem": { s: 3, c: 5 }, // compound phrase
-    "fuckthem": { s: 3, c: 5 }, // compound phrase
-    "fuckeverything": { s: 3, c: 5 }, // compound phrase
-    "fucklife": { s: 3, c: 5 }, // compound phrase
-    "fuckyourself": { s: 3, c: 5 }, // compound phrase
-    "gofuckyourself": { s: 3, c: 5 }, // compound phrase
-    "shutthefuckup": { s: 3, c: 5 }, // compound phrase
-    "whatthef": { s: 3, c: 4 }, // truncated compound
-    "holy fuck": { s: 3, c: 5 }, // exclamatory phrase
-    "holyfuck": { s: 3, c: 5 }, // compound exclamatory
-    "fuckno": { s: 3, c: 5 }, // compound phrase
-    "fuckyes": { s: 3, c: 5 }, // compound phrase
-    "fuck this": { s: 3, c: 5 }, // spaced phrase
-    "fuck that": { s: 3, c: 5 }, // spaced phrase
-    "fuck it": { s: 3, c: 5 }, // spaced phrase
-    "fuck me": { s: 3, c: 5 }, // spaced phrase
-    "fuck him": { s: 3, c: 5 }, // spaced phrase
-    "fuck her": { s: 3, c: 5 }, // spaced phrase
-    "fuck em": { s: 3, c: 5 }, // spaced phrase
-    "fuck them": { s: 3, c: 5 }, // spaced phrase
-    "fuck everything": { s: 3, c: 5 }, // spaced phrase
-    "fuck life": { s: 3, c: 5 }, // spaced phrase
-    "fuck yourself": { s: 3, c: 5 }, // spaced phrase
-    "shut the fuck up": { s: 3, c: 5 }, // spaced phrase
+    "fuckthis": [3, 5], // compound phrase
+    "fuckthat": [3, 5], // compound phrase
+    "fuckall": [3, 5], // compound phrase
+    "fuckit": [3, 5], // compound phrase
+    "fuckme": [3, 5], // compound phrase
+    "fuckher": [3, 5], // compound phrase
+    "fuckhim": [3, 5], // compound phrase
+    "fuckem": [3, 5], // compound phrase
+    "fuckthem": [3, 5], // compound phrase
+    "fuckeverything": [3, 5], // compound phrase
+    "fucklife": [3, 5], // compound phrase
+    "fuckyourself": [3, 5], // compound phrase
+    "gofuckyourself": [3, 5], // compound phrase
+    "shutthefuckup": [3, 5], // compound phrase
+    "whatthef": [3, 4], // truncated compound
+    "holy fuck": [3, 5], // exclamatory phrase
+    "holyfuck": [3, 5], // compound exclamatory
+    "fuckno": [3, 5], // compound phrase
+    "fuckyes": [3, 5], // compound phrase
+    "fuck this": [3, 5], // spaced phrase
+    "fuck that": [3, 5], // spaced phrase
+    "fuck it": [3, 5], // spaced phrase
+    "fuck me": [3, 5], // spaced phrase
+    "fuck him": [3, 5], // spaced phrase
+    "fuck her": [3, 5], // spaced phrase
+    "fuck em": [3, 5], // spaced phrase
+    "fuck them": [3, 5], // spaced phrase
+    "fuck everything": [3, 5], // spaced phrase
+    "fuck life": [3, 5], // spaced phrase
+    "fuck yourself": [3, 5], // spaced phrase
+    "shut the fuck up": [3, 5], // spaced phrase
 
     // Shit phrases
-    "holyshit": { s: 3, c: 5 }, // compound phrase
-    "holy shit": { s: 3, c: 5 }, // spaced phrase
-    "ohshit": { s: 3, c: 5 }, // compound phrase
-    "oh shit": { s: 3, c: 5 }, // spaced phrase
-    "noshit": { s: 3, c: 5 }, // compound phrase
-    "no shit": { s: 3, c: 5 }, // spaced phrase
-    "fullofshit": { s: 3, c: 5 }, // compound phrase
-    "full of shit": { s: 3, c: 5 }, // spaced phrase
-    "eatshit": { s: 3, c: 5 }, // compound phrase
-    "shittalker": { s: 3, c: 5 }, // compound
-    "shittalking": { s: 3, c: 5 }, // compound
-    "shit talker": { s: 3, c: 5 }, // spaced
-    "shit talking": { s: 3, c: 5 }, // spaced
-    "apeshit crazy": { s: 3, c: 5 }, // compound phrase
-    "batshit crazy": { s: 3, c: 5 }, // compound phrase
+    "holyshit": [3, 5], // compound phrase
+    "holy shit": [3, 5], // spaced phrase
+    "ohshit": [3, 5], // compound phrase
+    "oh shit": [3, 5], // spaced phrase
+    "noshit": [3, 5], // compound phrase
+    "no shit": [3, 5], // spaced phrase
+    "fullofshit": [3, 5], // compound phrase
+    "full of shit": [3, 5], // spaced phrase
+    "eatshit": [3, 5], // compound phrase
+    "shittalker": [3, 5], // compound
+    "shittalking": [3, 5], // compound
+    "shit talker": [3, 5], // spaced
+    "shit talking": [3, 5], // spaced
+    "apeshit crazy": [3, 5], // compound phrase
+    "batshit crazy": [3, 5], // compound phrase
 
     // Bitch phrases
-    "dumb bitch": { s: 3, c: 5 }, // spaced
-    "stupidbitch": { s: 3, c: 4 }, // compound
-    "stupid bitch": { s: 3, c: 5 }, // spaced
-    "crazybitch": { s: 3, c: 4 }, // compound
-    "crazy bitch": { s: 3, c: 5 }, // spaced
-    "littlebitch": { s: 3, c: 4 }, // compound
-    "little bitch": { s: 3, c: 5 }, // spaced
-    "bitchplease": { s: 3, c: 4 }, // compound
-    "bitch please": { s: 3, c: 5 }, // spaced
-    "bitch ass": { s: 3, c: 5 }, // spaced
+    "dumb bitch": [3, 5], // spaced
+    "stupidbitch": [3, 4], // compound
+    "stupid bitch": [3, 5], // spaced
+    "crazybitch": [3, 4], // compound
+    "crazy bitch": [3, 5], // spaced
+    "littlebitch": [3, 4], // compound
+    "little bitch": [3, 5], // spaced
+    "bitchplease": [3, 4], // compound
+    "bitch please": [3, 5], // spaced
+    "bitch ass": [3, 5], // spaced
 
     // Ass phrases
-    "eatmyass": { s: 3, c: 4 }, // compound phrase
-    "eat my ass": { s: 3, c: 5 }, // spaced phrase
-    "kissmyass": { s: 3, c: 4 }, // compound phrase
-    "lickmyass": { s: 3, c: 4 }, // compound phrase
-    "lick my ass": { s: 3, c: 5 }, // spaced phrase
-    "up your ass": { s: 3, c: 5 }, // spaced phrase
-    "upyourass": { s: 3, c: 4 }, // compound phrase
-    "shove it up your ass": { s: 3, c: 4 }, // full phrase
-    "stick it up your ass": { s: 3, c: 4 }, // full phrase
+    "eatmyass": [3, 4], // compound phrase
+    "eat my ass": [3, 5], // spaced phrase
+    "kissmyass": [3, 4], // compound phrase
+    "lickmyass": [3, 4], // compound phrase
+    "lick my ass": [3, 5], // spaced phrase
+    "up your ass": [3, 5], // spaced phrase
+    "upyourass": [3, 4], // compound phrase
+    "shove it up your ass": [3, 4], // full phrase
+    "stick it up your ass": [3, 4], // full phrase
 
     // Dick phrases
-    "suckmydick": { s: 4, c: 4 }, // compound phrase
-    "suck my cock": { s: 4, c: 5 }, // spaced phrase
-    "suckmycock": { s: 4, c: 4 }, // compound phrase
-    "eatadick": { s: 4, c: 4 }, // compound phrase
-    "suckadick": { s: 4, c: 4 }, // compound phrase
-    "suck a dick": { s: 4, c: 5 }, // spaced phrase
+    "suckmydick": [4, 4], // compound phrase
+    "suck my cock": [4, 5], // spaced phrase
+    "suckmycock": [4, 4], // compound phrase
+    "eatadick": [4, 4], // compound phrase
+    "suckadick": [4, 4], // compound phrase
+    "suck a dick": [4, 5], // spaced phrase
 
     // Mixed vulgar phrases
-    "bite me": { s: 3, c: 4 }, // aggressive phrase
-    "biteme": { s: 3, c: 4 }, // compound
-    "blowme": { s: 3, c: 4 }, // compound
-    "screw you": { s: 3, c: 4 }, // aggressive phrase
-    "screwyou": { s: 3, c: 4 }, // compound
-    "screw off": { s: 3, c: 4 }, // aggressive phrase
-    "screwoff": { s: 3, c: 4 }, // compound
-    "piss on you": { s: 3, c: 4 }, // aggressive phrase
-    "pissonyou": { s: 3, c: 4 }, // compound
-    "youreacunt": { s: 5, c: 5 }, // compound phrase
-    "youre a cunt": { s: 5, c: 5 }, // spaced phrase
-    "youre a bitch": { s: 3, c: 5 }, // spaced phrase
-    "youreabitch": { s: 3, c: 4 }, // compound phrase
-    "die in a fire": { s: 3, c: 4 }, // aggressive phrase
-    "dieinafire": { s: 3, c: 4 }, // compound
-    "eat dirt": { s: 3, c: 4 }, // aggressive phrase
-    "get bent": { s: 3, c: 4 }, // aggressive phrase
-    "getbent": { s: 3, c: 4 }, // compound
-    "up yours": { s: 3, c: 4 }, // aggressive phrase
-    "upyours": { s: 3, c: 4 }, // compound
-    "go screw yourself": { s: 3, c: 4 }, // aggressive phrase
-    "sod you": { s: 3, c: 4 }, // British aggressive
-    "bugger off": { s: 3, c: 4 }, // British aggressive
-    "buggeroff": { s: 3, c: 4 }, // compound
-    "bollocks to you": { s: 3, c: 4 }, // British aggressive
+    "bite me": [3, 4], // aggressive phrase
+    "biteme": [3, 4], // compound
+    "blowme": [3, 4], // compound
+    "screw you": [3, 4], // aggressive phrase
+    "screwyou": [3, 4], // compound
+    "screw off": [3, 4], // aggressive phrase
+    "screwoff": [3, 4], // compound
+    "piss on you": [3, 4], // aggressive phrase
+    "pissonyou": [3, 4], // compound
+    "youreacunt": [5, 5], // compound phrase
+    "youre a cunt": [5, 5], // spaced phrase
+    "youre a bitch": [3, 5], // spaced phrase
+    "youreabitch": [3, 4], // compound phrase
+    "die in a fire": [3, 4], // aggressive phrase
+    "dieinafire": [3, 4], // compound
+    "eat dirt": [3, 4], // aggressive phrase
+    "get bent": [3, 4], // aggressive phrase
+    "getbent": [3, 4], // compound
+    "up yours": [3, 4], // aggressive phrase
+    "upyours": [3, 4], // compound
+    "go screw yourself": [3, 4], // aggressive phrase
+    "sod you": [3, 4], // British aggressive
+    "bugger off": [3, 4], // British aggressive
+    "buggeroff": [3, 4], // compound
+    "bollocks to you": [3, 4], // British aggressive
 
     // ===== ADDITIONAL SLUR VARIATIONS =====
 
     // N-word extended variations
-    "n1g nog": { s: 3, c: 5 }, // leet slur
-    "nig nog": { s: 3, c: 4 }, // slur compound
-    "nignог": { s: 3, c: 4 }, // Cyrillic о variant
-    "niggardly": { s: 5, c: 5 }, // near-homophone (controversial)
-    "nigglet": { s: 3, c: 4 }, // diminutive slur
-    "jiggaboos": { s: 3, c: 4 }, // plural
-    "nignog": { s: 3, c: 4 }, // compound slur
+    "n1g nog": [3, 5], // leet slur
+    "nig nog": [3, 4], // slur compound
+    "nignог": [3, 4], // Cyrillic о variant
+    "niggardly": [5, 5], // near-homophone (controversial)
+    "nigglet": [3, 4], // diminutive slur
+    "jiggaboos": [3, 4], // plural
+    "nignog": [3, 4], // compound slur
 
     // Homophobic extended variations
-    "battyboy": { s: 5, c: 4 }, // homophobic
-    "batty boy": { s: 5, c: 5 }, // homophobic spaced
-    "battyman": { s: 5, c: 4 }, // homophobic
-    "batty man": { s: 5, c: 5 }, // homophobic spaced
-    "chi chi man": { s: 5, c: 4 }, // homophobic
-    "chichiman": { s: 5, c: 4 }, // homophobic compound
-    "fudge packer": { s: 5, c: 5 }, // spaced
-    "fudgepackers": { s: 5, c: 4 }, // plural
-    "uphill gardener": { s: 2, c: 3 }, // homophobic euphemism
-    "uphillgardener": { s: 5, c: 4 }, // compound
-    "bender": { s: 5, c: 4 }, // British homophobic
-    "benders": { s: 5, c: 4 }, // plural
-    "bent": { s: 5, c: 4 }, // British homophobic
-    "buftie": { s: 5, c: 4 }, // Scottish homophobic
-    "bufty": { s: 5, c: 4 }, // Scottish homophobic
-    "woofter": { s: 5, c: 4 }, // British homophobic
-    "wooftah": { s: 5, c: 4 }, // British homophobic
+    "battyboy": [5, 4], // homophobic
+    "batty boy": [5, 5], // homophobic spaced
+    "battyman": [5, 4], // homophobic
+    "batty man": [5, 5], // homophobic spaced
+    "chi chi man": [5, 4], // homophobic
+    "chichiman": [5, 4], // homophobic compound
+    "fudge packer": [5, 5], // spaced
+    "fudgepackers": [5, 4], // plural
+    "uphill gardener": [2, 3], // homophobic euphemism
+    "uphillgardener": [5, 4], // compound
+    "bender": [5, 4], // British homophobic
+    "benders": [5, 4], // plural
+    "bent": [5, 4], // British homophobic
+    "buftie": [5, 4], // Scottish homophobic
+    "bufty": [5, 4], // Scottish homophobic
+    "woofter": [5, 4], // British homophobic
+    "wooftah": [5, 4], // British homophobic
 
     // Racial slur extended variations
-    "ch1nk": { s: 5, c: 5 }, // leet
-    "ch!nk": { s: 5, c: 5 }, // symbol
-    "ch!nks": { s: 5, c: 5 }, // symbol plural
-    "g00k": { s: 5, c: 5 }, // leet
-    "g0ok": { s: 5, c: 5 }, // partial leet
-    "k!ke": { s: 5, c: 5 }, // symbol
-    "k1ke": { s: 5, c: 5 }, // leet
-    "k1kes": { s: 5, c: 5 }, // leet plural
-    "sp!c": { s: 5, c: 5 }, // symbol
-    "sp!ck": { s: 5, c: 5 }, // symbol
-    "sp1c": { s: 5, c: 5 }, // leet
-    "w3tback": { s: 5, c: 5 }, // leet
-    "w3tbacks": { s: 5, c: 5 }, // leet plural
-    "b3aner": { s: 5, c: 5 }, // leet
-    "b3aners": { s: 5, c: 5 }, // leet plural
-    "crakka": { s: 5, c: 5 }, // alternate spelling
-    "cracka": { s: 5, c: 5 }, // alternate spelling
-    "cr@cker": { s: 5, c: 5 }, // symbol
-    "p@ki": { s: 5, c: 5 }, // symbol
-    "p@kis": { s: 5, c: 5 }, // symbol plural
-    "p4ki": { s: 5, c: 5 }, // leet
-    "p4kis": { s: 5, c: 5 }, // leet plural
-    "r3dskin": { s: 5, c: 5 }, // leet
-    "t0welhead": { s: 5, c: 5 }, // leet
-    "r4ghead": { s: 5, c: 5 }, // leet
-    "c00n": { s: 5, c: 5 }, // leet
-    "c0on": { s: 5, c: 5 }, // partial leet
-    "c00ns": { s: 5, c: 5 }, // leet plural
-    "j!gaboo": { s: 5, c: 5 }, // symbol
-    "j1gaboo": { s: 5, c: 5 }, // leet
+    "ch1nk": [5, 5], // leet
+    "ch!nk": [5, 5], // symbol
+    "ch!nks": [5, 5], // symbol plural
+    "g00k": [5, 5], // leet
+    "g0ok": [5, 5], // partial leet
+    "k!ke": [5, 5], // symbol
+    "k1ke": [5, 5], // leet
+    "k1kes": [5, 5], // leet plural
+    "sp!c": [5, 5], // symbol
+    "sp!ck": [5, 5], // symbol
+    "sp1c": [5, 5], // leet
+    "w3tback": [5, 5], // leet
+    "w3tbacks": [5, 5], // leet plural
+    "b3aner": [5, 5], // leet
+    "b3aners": [5, 5], // leet plural
+    "crakka": [5, 5], // alternate spelling
+    "cracka": [5, 5], // alternate spelling
+    "cr@cker": [5, 5], // symbol
+    "p@ki": [5, 5], // symbol
+    "p@kis": [5, 5], // symbol plural
+    "p4ki": [5, 5], // leet
+    "p4kis": [5, 5], // leet plural
+    "r3dskin": [5, 5], // leet
+    "t0welhead": [5, 5], // leet
+    "r4ghead": [5, 5], // leet
+    "c00n": [5, 5], // leet
+    "c0on": [5, 5], // partial leet
+    "c00ns": [5, 5], // leet plural
+    "j!gaboo": [5, 5], // symbol
+    "j1gaboo": [5, 5], // leet
 
     // Transphobic slurs
-    "trannies": { s: 5, c: 5 }, // plural
-    "heshe": { s: 5, c: 5 }, // transphobic compound
-    "he-she": { s: 5, c: 5 }, // transphobic hyphenated
-    "shemales": { s: 5, c: 4 }, // plural
-    "ladyboy": { s: 5, c: 5 }, // derogatory
-    "ladyboys": { s: 5, c: 5 }, // plural
+    "trannies": [5, 5], // plural
+    "heshe": [5, 5], // transphobic compound
+    "he-she": [5, 5], // transphobic hyphenated
+    "shemales": [5, 4], // plural
+    "ladyboy": [5, 5], // derogatory
+    "ladyboys": [5, 5], // plural
 
     // ===== ADDITIONAL FILTER EVASION PATTERNS =====
 
     // Words with repeating characters (elongation evasion)
-    "fuuuuuck": { s: 3, c: 5 }, // extra elongated
-    "shiiit": { s: 3, c: 5 }, // elongated i
-    "shiiiiit": { s: 3, c: 5 }, // extra elongated
-    "biiiitch": { s: 3, c: 5 }, // elongated i
-    "assssss": { s: 3, c: 5 }, // elongated s
-    "diiick": { s: 3, c: 5 }, // elongated i
-    "cuuunt": { s: 3, c: 5 }, // elongated u
-    "niggger": { s: 3, c: 5 }, // elongated g
-    "faaag": { s: 3, c: 5 }, // elongated a
-    "sluuut": { s: 3, c: 5 }, // elongated u
-    "coooock": { s: 3, c: 5 }, // elongated o
+    "fuuuuuck": [3, 5], // extra elongated
+    "shiiit": [3, 5], // elongated i
+    "shiiiiit": [3, 5], // extra elongated
+    "biiiitch": [3, 5], // elongated i
+    "assssss": [3, 5], // elongated s
+    "diiick": [3, 5], // elongated i
+    "cuuunt": [3, 5], // elongated u
+    "niggger": [3, 5], // elongated g
+    "faaag": [3, 5], // elongated a
+    "sluuut": [3, 5], // elongated u
+    "coooock": [3, 5], // elongated o
 
     // Words with inserted characters (padding evasion)
-    "b.itch": { s: 3, c: 5 }, // inserted dot
-    "bi.tch": { s: 3, c: 5 }, // inserted dot
-    "c.unt": { s: 3, c: 5 }, // inserted dot
-    "cu.nt": { s: 3, c: 5 }, // inserted dot
-    "a.ss": { s: 3, c: 5 }, // inserted dot
-    "d.ick": { s: 3, c: 5 }, // inserted dot
-    "di.ck": { s: 3, c: 5 }, // inserted dot
-    "c.ock": { s: 3, c: 5 }, // inserted dot
-    "co.ck": { s: 3, c: 5 }, // inserted dot
-    "n.igger": { s: 3, c: 5 }, // inserted dot
-    "ni.gger": { s: 3, c: 5 }, // inserted dot
-    "nig.ger": { s: 3, c: 5 }, // inserted dot
-    "nigg.er": { s: 3, c: 5 }, // inserted dot
-    "f/uck": { s: 3, c: 5 }, // inserted slash
-    "s/hit": { s: 3, c: 5 }, // inserted slash
-    "b/itch": { s: 3, c: 5 }, // inserted slash
-    "c/unt": { s: 3, c: 5 }, // inserted slash
-    "d/ick": { s: 3, c: 5 }, // inserted slash
-    "c/ock": { s: 3, c: 5 }, // inserted slash
+    "b.itch": [3, 5], // inserted dot
+    "bi.tch": [3, 5], // inserted dot
+    "c.unt": [3, 5], // inserted dot
+    "cu.nt": [3, 5], // inserted dot
+    "a.ss": [3, 5], // inserted dot
+    "d.ick": [3, 5], // inserted dot
+    "di.ck": [3, 5], // inserted dot
+    "c.ock": [3, 5], // inserted dot
+    "co.ck": [3, 5], // inserted dot
+    "n.igger": [3, 5], // inserted dot
+    "ni.gger": [3, 5], // inserted dot
+    "nig.ger": [3, 5], // inserted dot
+    "nigg.er": [3, 5], // inserted dot
+    "f/uck": [3, 5], // inserted slash
+    "s/hit": [3, 5], // inserted slash
+    "b/itch": [3, 5], // inserted slash
+    "c/unt": [3, 5], // inserted slash
+    "d/ick": [3, 5], // inserted slash
+    "c/ock": [3, 5], // inserted slash
 
     // Mixed case common evasions (for case-insensitive matching reference)
-    "cOcK": { s: 4, c: 3 }, // mixed case evasion for cock
+    "cOcK": [4, 3], // mixed case evasion for cock
 
     // Reversed/scrambled (common deliberate ones)
-    "kcuf": { s: 3, c: 4 }, // reversed fuck
-    "tihs": { s: 3, c: 4 }, // reversed shit
+    "kcuf": [3, 4], // reversed fuck
+    "tihs": [3, 4], // reversed shit
 
     // ===== ABBREVIATION AND ACRONYM EVASIONS =====
-    "wthf": { s: 3, c: 5 }, // rearranged wtf
-    "rtfm": { s: 3, c: 5 }, // read the fucking manual
-    "snafu": { s: 3, c: 5 }, // situation normal all fucked up
-    "bohica": { s: 3, c: 5 }, // bend over here it comes again
-    "lmfaooo": { s: 3, c: 5 }, // elongated
-    "lmaoo": { s: 3, c: 5 }, // elongated
-    "roflmfao": { s: 3, c: 5 }, // compound acronym
-    "pmsl": { s: 3, c: 5 }, // pissing myself laughing
-    "ctfu": { s: 3, c: 5 }, // cracking the fuck up
-    "btfo": { s: 3, c: 5 }, // blown the fuck out
-    "dtf": { s: 3, c: 5 }, // down to fuck
-    "nsfW": { s: 3, c: 5 }, // not safe for work
-    "smfd": { s: 3, c: 5 }, // suck my fucking dick
-    "kmsl": { s: 3, c: 5 }, // killing myself laughing
-    "smd": { s: 3, c: 5 }, // suck my dick
-    "bfd": { s: 3, c: 5 }, // big fucking deal
-    "mfing": { s: 3, c: 5 }, // motherfucking abbreviated
-    "mfker": { s: 3, c: 5 }, // motherfucker abbreviated
+    "wthf": [3, 5], // rearranged wtf
+    "rtfm": [3, 5], // read the fucking manual
+    "snafu": [3, 5], // situation normal all fucked up
+    "bohica": [3, 5], // bend over here it comes again
+    "lmfaooo": [3, 5], // elongated
+    "lmaoo": [3, 5], // elongated
+    "roflmfao": [3, 5], // compound acronym
+    "pmsl": [3, 5], // pissing myself laughing
+    "ctfu": [3, 5], // cracking the fuck up
+    "btfo": [3, 5], // blown the fuck out
+    "dtf": [3, 5], // down to fuck
+    "nsfW": [3, 5], // not safe for work
+    "smfd": [3, 5], // suck my fucking dick
+    "kmsl": [3, 5], // killing myself laughing
+    "smd": [3, 5], // suck my dick
+    "bfd": [3, 5], // big fucking deal
+    "mfing": [3, 5], // motherfucking abbreviated
+    "mfker": [3, 5], // motherfucker abbreviated
 
     // ===== ADDITIONAL SEXUAL TERM EVASIONS =====
-    "p0rno": { s: 4, c: 5 }, // leet
-    "p0rnography": { s: 4, c: 5 }, // leet
-    "pr0nz": { s: 4, c: 5 }, // leet plural
-    "pr0no": { s: 4, c: 5 }, // leet
-    "b00b": { s: 4, c: 5 }, // leet
-    "b00bies": { s: 4, c: 5 }, // leet
-    "b00bz": { s: 4, c: 5 }, // leet
-    "b0obs": { s: 4, c: 5 }, // leet
-    "bewbs": { s: 4, c: 5 }, // phonetic
-    "bewbz": { s: 4, c: 5 }, // phonetic
-    "t1ts": { s: 4, c: 5 }, // leet
-    "t1tties": { s: 4, c: 5 }, // leet
-    "t!ts": { s: 4, c: 5 }, // symbol
-    "t!tties": { s: 4, c: 5 }, // symbol
-    "d1ldo": { s: 4, c: 5 }, // leet
-    "d!ldo": { s: 4, c: 5 }, // symbol
-    "v1brator": { s: 4, c: 5 }, // leet
-    "vag1na": { s: 4, c: 5 }, // leet
-    "p3nis": { s: 4, c: 5 }, // leet
-    "p3n1s": { s: 4, c: 5 }, // full leet
-    "pen1s": { s: 4, c: 5 }, // partial leet
-    "pen!s": { s: 4, c: 5 }, // symbol
-    "cl1t": { s: 4, c: 5 }, // leet
-    "cl!t": { s: 4, c: 5 }, // symbol
-    "cl1toris": { s: 4, c: 5 }, // leet
-    "an4l": { s: 4, c: 5 }, // leet
-    "an@l": { s: 4, c: 5 }, // symbol
-    "0rgasm": { s: 4, c: 5 }, // leet
-    "0rgy": { s: 4, c: 5 }, // leet
-    "r4pe": { s: 4, c: 5 }, // leet
-    "r@pe": { s: 4, c: 5 }, // symbol
-    "r4pist": { s: 4, c: 5 }, // leet
-    "r@pist": { s: 4, c: 5 }, // symbol
-    "h0rny": { s: 4, c: 5 }, // leet
-    "h0rney": { s: 4, c: 5 }, // leet misspelling
-    "j1zz": { s: 4, c: 5 }, // leet
-    "j!zz": { s: 4, c: 5 }, // symbol
-    "cum shot": { s: 4, c: 5 }, // spaced
-    "creamp1e": { s: 4, c: 5 }, // leet
-    "bl0wjob": { s: 4, c: 5 }, // leet
-    "bl0wj0b": { s: 4, c: 5 }, // full leet
-    "handjb": { s: 4, c: 5 }, // abbreviated
-    "h4ndjob": { s: 4, c: 5 }, // leet
-    "rimj0b": { s: 4, c: 5 }, // leet
-    "b0ner": { s: 4, c: 5 }, // leet
-    "b0ners": { s: 4, c: 5 }, // leet plural
-    "er3ction": { s: 4, c: 5 }, // leet
-    "erect1on": { s: 4, c: 5 }, // leet
-    "m4sturbate": { s: 4, c: 5 }, // leet
-    "m@sturbate": { s: 4, c: 5 }, // symbol
-    "masturb8": { s: 4, c: 5 }, // number substitution
+    "p0rno": [4, 5], // leet
+    "p0rnography": [4, 5], // leet
+    "pr0nz": [4, 5], // leet plural
+    "pr0no": [4, 5], // leet
+    "b00b": [4, 5], // leet
+    "b00bies": [4, 5], // leet
+    "b00bz": [4, 5], // leet
+    "b0obs": [4, 5], // leet
+    "bewbs": [4, 5], // phonetic
+    "bewbz": [4, 5], // phonetic
+    "t1ts": [4, 5], // leet
+    "t1tties": [4, 5], // leet
+    "t!ts": [4, 5], // symbol
+    "t!tties": [4, 5], // symbol
+    "d1ldo": [4, 5], // leet
+    "d!ldo": [4, 5], // symbol
+    "v1brator": [4, 5], // leet
+    "vag1na": [4, 5], // leet
+    "p3nis": [4, 5], // leet
+    "p3n1s": [4, 5], // full leet
+    "pen1s": [4, 5], // partial leet
+    "pen!s": [4, 5], // symbol
+    "cl1t": [4, 5], // leet
+    "cl!t": [4, 5], // symbol
+    "cl1toris": [4, 5], // leet
+    "an4l": [4, 5], // leet
+    "an@l": [4, 5], // symbol
+    "0rgasm": [4, 5], // leet
+    "0rgy": [4, 5], // leet
+    "r4pe": [4, 5], // leet
+    "r@pe": [4, 5], // symbol
+    "r4pist": [4, 5], // leet
+    "r@pist": [4, 5], // symbol
+    "h0rny": [4, 5], // leet
+    "h0rney": [4, 5], // leet misspelling
+    "j1zz": [4, 5], // leet
+    "j!zz": [4, 5], // symbol
+    "cum shot": [4, 5], // spaced
+    "creamp1e": [4, 5], // leet
+    "bl0wjob": [4, 5], // leet
+    "bl0wj0b": [4, 5], // full leet
+    "handjb": [4, 5], // abbreviated
+    "h4ndjob": [4, 5], // leet
+    "rimj0b": [4, 5], // leet
+    "b0ner": [4, 5], // leet
+    "b0ners": [4, 5], // leet plural
+    "er3ction": [4, 5], // leet
+    "erect1on": [4, 5], // leet
+    "m4sturbate": [4, 5], // leet
+    "m@sturbate": [4, 5], // symbol
+    "masturb8": [4, 5], // number substitution
 
     // ===== ADDITIONAL INSULT EVASION SPELLINGS =====
-    "r3tard": { s: 5, c: 5 }, // leet
-    "r3tarded": { s: 5, c: 5 }, // leet
-    "r3t4rd": { s: 1, c: 5 }, // full leet
-    "ret4rd": { s: 1, c: 5 }, // partial leet
-    "re+ard": { s: 1, c: 5 }, // symbol
-    "r*tard": { s: 5, c: 5 }, // asterisk
-    "r*tarded": { s: 5, c: 5 }, // asterisk
-    "cr1pple": { s: 1, c: 5 }, // leet
-    "sp4stic": { s: 1, c: 5 }, // leet
-    "sp@stic": { s: 1, c: 5 }, // symbol
-    "sp4z": { s: 1, c: 5 }, // leet
-    "sp@z": { s: 1, c: 5 }, // symbol
-    "m0r0n": { s: 1, c: 5 }, // leet
-    "1mb3cile": { s: 1, c: 5 }, // leet
-    "1mbecile": { s: 1, c: 5 }, // partial leet
+    "r3tard": [5, 5], // leet
+    "r3tarded": [5, 5], // leet
+    "r3t4rd": [1, 5], // full leet
+    "ret4rd": [1, 5], // partial leet
+    "re+ard": [1, 5], // symbol
+    "r*tard": [5, 5], // asterisk
+    "r*tarded": [5, 5], // asterisk
+    "cr1pple": [1, 5], // leet
+    "sp4stic": [1, 5], // leet
+    "sp@stic": [1, 5], // symbol
+    "sp4z": [1, 5], // leet
+    "sp@z": [1, 5], // symbol
+    "m0r0n": [1, 5], // leet
+    "1mb3cile": [1, 5], // leet
+    "1mbecile": [1, 5], // partial leet
 
     // ===== ADDITIONAL COMPOUND PHRASES =====
-    "burn in hell": { s: 3, c: 5 }, // aggressive phrase
-    "burninhell": { s: 3, c: 5 }, // compound
-    "rot in hell": { s: 3, c: 5 }, // aggressive phrase
-    "rotinhell": { s: 3, c: 5 }, // compound
-    "damn you": { s: 1, c: 5 }, // mild aggressive
-    "damnyou": { s: 3, c: 5 }, // compound
-    "screw this": { s: 3, c: 5 }, // aggressive
-    "screwthis": { s: 3, c: 5 }, // compound
-    "frigoff": { s: 2, c: 3 }, // euphemistic compound
-    "frig off": { s: 2, c: 5 }, // euphemistic spaced
-    "eff off": { s: 2, c: 5 }, // euphemistic spaced
-    "eff you": { s: 2, c: 5 }, // euphemistic spaced
-    "f.u.": { s: 3, c: 5 }, // dotted abbreviation
-    "f-u": { s: 3, c: 5 }, // hyphenated
-    "s t f u": { s: 3, c: 5 }, // spaced
-    "g t f o": { s: 3, c: 5 }, // spaced
-    "w t f": { s: 3, c: 5 }, // spaced
-    "k y s": { s: 5, c: 5 }, // spaced (kill yourself)
-    "k.y.s": { s: 3, c: 5 }, // dotted
-    "k-y-s": { s: 3, c: 5 }, // hyphenated
+    "burn in hell": [3, 5], // aggressive phrase
+    "burninhell": [3, 5], // compound
+    "rot in hell": [3, 5], // aggressive phrase
+    "rotinhell": [3, 5], // compound
+    "damn you": [1, 5], // mild aggressive
+    "damnyou": [3, 5], // compound
+    "screw this": [3, 5], // aggressive
+    "screwthis": [3, 5], // compound
+    "frigoff": [2, 3], // euphemistic compound
+    "frig off": [2, 5], // euphemistic spaced
+    "eff off": [2, 5], // euphemistic spaced
+    "eff you": [2, 5], // euphemistic spaced
+    "f.u.": [3, 5], // dotted abbreviation
+    "f-u": [3, 5], // hyphenated
+    "s t f u": [3, 5], // spaced
+    "g t f o": [3, 5], // spaced
+    "w t f": [3, 5], // spaced
+    "k y s": [5, 5], // spaced (kill yourself)
+    "k.y.s": [3, 5], // dotted
+    "k-y-s": [3, 5], // hyphenated
 
     // ===== PHONETIC SPELLING EVASIONS =====
-    "eff u see kay": { s: 3, c: 5 }, // spelled out fuck
-    "see you next tuesday": { s: 3, c: 5 }, // spelled out cunt
-    "ess aych eye tee": { s: 3, c: 5 }, // spelled out shit
-    "ay ess ess": { s: 3, c: 5 }, // spelled out ass
-    "bee eye tee see aych": { s: 3, c: 5 }, // spelled out bitch
+    "eff u see kay": [3, 5], // spelled out fuck
+    "see you next tuesday": [3, 5], // spelled out cunt
+    "ess aych eye tee": [3, 5], // spelled out shit
+    "ay ess ess": [3, 5], // spelled out ass
+    "bee eye tee see aych": [3, 5], // spelled out bitch
 
     // ===== ADDITIONAL DRUG-RELATED INSULTS =====
-    "crack whore": { s: 5, c: 5 }, // spaced variant
-    "meth whore": { s: 5, c: 4 }, // compound
-    "methwhore": { s: 5, c: 4 }, // compound
-    "smackhead": { s: 2, c: 3 }, // drug user insult
-    "smackheads": { s: 2, c: 3 }, // plural
-    "crackho": { s: 2, c: 3 }, // compound
-    "dope fiend": { s: 2, c: 3 }, // drug user insult
-    "dopefiend": { s: 2, c: 3 }, // compound
+    "crack whore": [5, 5], // spaced variant
+    "meth whore": [5, 4], // compound
+    "methwhore": [5, 4], // compound
+    "smackhead": [2, 3], // drug user insult
+    "smackheads": [2, 3], // plural
+    "crackho": [2, 3], // compound
+    "dope fiend": [2, 3], // drug user insult
+    "dopefiend": [2, 3], // compound
 
     // ===== ADDITIONAL VIOLENT/THREATENING =====
-    "curb stomp": { s: 5, c: 5 }, // violent act
-    "curbstomp": { s: 5, c: 5 }, // compound
-    "curbstomping": { s: 5, c: 5 }, // gerund
-    "die slow": { s: 5, c: 5 }, // threat
-    "dieslow": { s: 5, c: 5 }, // compound
-    "choke on it": { s: 5, c: 5 }, // aggressive
-    "i hope you die": { s: 5, c: 5 }, // threat
-    "ihopeyoudie": { s: 5, c: 5 }, // compound
-    "hope you die": { s: 5, c: 5 }, // threat
-    "hopeyoudie": { s: 5, c: 5 }, // compound
-    "get cancer": { s: 5, c: 5 }, // aggressive
-    "getcancer": { s: 5, c: 5 }, // compound
+    "curb stomp": [5, 5], // violent act
+    "curbstomp": [5, 5], // compound
+    "curbstomping": [5, 5], // gerund
+    "die slow": [5, 5], // threat
+    "dieslow": [5, 5], // compound
+    "choke on it": [5, 5], // aggressive
+    "i hope you die": [5, 5], // threat
+    "ihopeyoudie": [5, 5], // compound
+    "hope you die": [5, 5], // threat
+    "hopeyoudie": [5, 5], // compound
+    "get cancer": [5, 5], // aggressive
+    "getcancer": [5, 5], // compound
 
     // ===== SYMBOL-HEAVY EVASIONS =====
-    "f#ck": { s: 3, c: 5 }, // hash substitution
-    "f#cking": { s: 3, c: 5 }, // hash compound
-    "f#cker": { s: 3, c: 5 }, // hash compound
-    "sh#t": { s: 3, c: 5 }, // hash substitution
-    "b#tch": { s: 3, c: 5 }, // hash substitution
-    "d#ck": { s: 3, c: 5 }, // hash substitution
-    "c#ck": { s: 3, c: 5 }, // hash substitution
-    "c#nt": { s: 3, c: 5 }, // hash substitution
-    "n#gger": { s: 3, c: 5 }, // hash substitution
-    "n#gga": { s: 3, c: 5 }, // hash substitution
-    "a##": { s: 3, c: 5 }, // hash substitution
-    "wh#re": { s: 3, c: 5 }, // hash substitution
-    "sl#t": { s: 3, c: 5 }, // hash substitution
-    "f@ck": { s: 3, c: 5 }, // at substitution
-    "f@cking": { s: 3, c: 5 }, // at compound
-    "f@cker": { s: 3, c: 5 }, // at compound
-    "@sshat": { s: 3, c: 5 }, // at compound
-    "@ssclown": { s: 3, c: 5 }, // at compound
-    "@ssface": { s: 3, c: 5 }, // at compound
-    "$h!tty": { s: 3, c: 5 }, // dollar + symbol
-    "$h!tstain": { s: 3, c: 5 }, // dollar + symbol compound
-    "$h!thead": { s: 3, c: 5 }, // dollar + symbol compound
-    "$h!thole": { s: 3, c: 5 }, // dollar + symbol compound
-    "$h!tface": { s: 3, c: 5 }, // dollar + symbol compound
-    "$kank": { s: 3, c: 5 }, // dollar substitution
-    "$luts": { s: 3, c: 5 }, // dollar plural
+    "f#ck": [3, 5], // hash substitution
+    "f#cking": [3, 5], // hash compound
+    "f#cker": [3, 5], // hash compound
+    "sh#t": [3, 5], // hash substitution
+    "b#tch": [3, 5], // hash substitution
+    "d#ck": [3, 5], // hash substitution
+    "c#ck": [3, 5], // hash substitution
+    "c#nt": [3, 5], // hash substitution
+    "n#gger": [3, 5], // hash substitution
+    "n#gga": [3, 5], // hash substitution
+    "a##": [3, 5], // hash substitution
+    "wh#re": [3, 5], // hash substitution
+    "sl#t": [3, 5], // hash substitution
+    "f@ck": [3, 5], // at substitution
+    "f@cking": [3, 5], // at compound
+    "f@cker": [3, 5], // at compound
+    "@sshat": [3, 5], // at compound
+    "@ssclown": [3, 5], // at compound
+    "@ssface": [3, 5], // at compound
+    "$h!tty": [3, 5], // dollar + symbol
+    "$h!tstain": [3, 5], // dollar + symbol compound
+    "$h!thead": [3, 5], // dollar + symbol compound
+    "$h!thole": [3, 5], // dollar + symbol compound
+    "$h!tface": [3, 5], // dollar + symbol compound
+    "$kank": [3, 5], // dollar substitution
+    "$luts": [3, 5], // dollar plural
 
     // ===== ADDITIONAL MODERN SLANG / INTERNET =====
-    "degenerate": { s: 2, c: 3 }, // internet insult
-    "neckbeard": { s: 2, c: 3 }, // internet insult
-    "simp": { s: 2, c: 3 }, // modern insult
-    "simping": { s: 2, c: 3 }, // modern insult gerund
-    "cuck": { s: 2, c: 3 }, // modern insult
-    "cucks": { s: 2, c: 3 }, // plural
-    "cuckold": { s: 2, c: 3 }, // sexual insult
-    "cucked": { s: 2, c: 3 }, // past tense
-    "cucking": { s: 2, c: 3 }, // gerund
-    "cuckboy": { s: 2, c: 3 }, // compound
-    "beta male": { s: 2, c: 3 }, // modern insult
-    "betamale": { s: 2, c: 3 }, // compound
-    "soyboy": { s: 2, c: 3 }, // modern insult
-    "triggered": { s: 2, c: 3 }, // mocking term
-    "landwhale": { s: 2, c: 3 }, // body-shaming
-    "land whale": { s: 2, c: 5 }, // body-shaming spaced
-    "femoid": { s: 2, c: 3 }, // incel terminology
-    "foid": { s: 2, c: 3 }, // incel terminology
-    "roastie": { s: 2, c: 3 }, // incel terminology
-    "manlet": { s: 2, c: 3 }, // body-shaming
-    "dicklet": { s: 4, c: 3 }, // body-shaming
-    "coomer": { s: 2, c: 3 }, // internet insult
-    "coomers": { s: 2, c: 3 }, // plural
-    "cooming": { s: 2, c: 3 }, // gerund
-    "gooner": { s: 2, c: 3 }, // internet insult
-    "gooning": { s: 2, c: 3 }, // gerund
-    "based retard": { s: 5, c: 4 }, // compound internet insult
-    "cope": { s: 2, c: 3 }, // dismissive internet term
-    "seethe": { s: 2, c: 3 }, // dismissive internet term
-    "copium": { s: 2, c: 3 }, // internet mocking
-    "dilate": { s: 5, c: 3 }, // transphobic internet slang
-    "an hero": { s: 5, c: 5 }, // suicide reference meme
-    "anhero": { s: 5, c: 5 }, // suicide reference compound
-    "rope yourself": { s: 5, c: 5 }, // suicide reference
-    "ropeyourself": { s: 2, c: 3 }, // compound
+    "degenerate": [2, 3], // internet insult
+    "neckbeard": [2, 3], // internet insult
+    "simp": [2, 3], // modern insult
+    "simping": [2, 3], // modern insult gerund
+    "cuck": [2, 3], // modern insult
+    "cucks": [2, 3], // plural
+    "cuckold": [2, 3], // sexual insult
+    "cucked": [2, 3], // past tense
+    "cucking": [2, 3], // gerund
+    "cuckboy": [2, 3], // compound
+    "beta male": [2, 3], // modern insult
+    "betamale": [2, 3], // compound
+    "soyboy": [2, 3], // modern insult
+    "triggered": [2, 3], // mocking term
+    "landwhale": [2, 3], // body-shaming
+    "land whale": [2, 5], // body-shaming spaced
+    "femoid": [2, 3], // incel terminology
+    "foid": [2, 3], // incel terminology
+    "roastie": [2, 3], // incel terminology
+    "manlet": [2, 3], // body-shaming
+    "dicklet": [4, 3], // body-shaming
+    "coomer": [2, 3], // internet insult
+    "coomers": [2, 3], // plural
+    "cooming": [2, 3], // gerund
+    "gooner": [2, 3], // internet insult
+    "gooning": [2, 3], // gerund
+    "based retard": [5, 4], // compound internet insult
+    "cope": [2, 3], // dismissive internet term
+    "seethe": [2, 3], // dismissive internet term
+    "copium": [2, 3], // internet mocking
+    "dilate": [5, 3], // transphobic internet slang
+    "an hero": [5, 5], // suicide reference meme
+    "anhero": [5, 5], // suicide reference compound
+    "rope yourself": [5, 5], // suicide reference
+    "ropeyourself": [2, 3], // compound
 
     // ===== WORD BOUNDARY EVASION (no spaces) =====
-    "pissbrain": { s: 3, c: 5 }, // compound insult
-    "pissdrinker": { s: 3, c: 5 }, // compound insult
-    "bellendface": { s: 3, c: 5 }, // compound insult
-    "twatfaced": { s: 4, c: 5 }, // compound
-    "arsefaced": { s: 3, c: 5 }, // compound
-    "pissbreath": { s: 3, c: 5 }, // compound insult
-    "shitbreathed": { s: 3, c: 5 }, // compound
-    "dickbreathed": { s: 4, c: 5 }, // compound
-    "cumbreath": { s: 4, c: 5 }, // compound insult
-    "cuntbreath": { s: 5, c: 5 }, // compound insult
+    "pissbrain": [3, 5], // compound insult
+    "pissdrinker": [3, 5], // compound insult
+    "bellendface": [3, 5], // compound insult
+    "twatfaced": [4, 5], // compound
+    "arsefaced": [3, 5], // compound
+    "pissbreath": [3, 5], // compound insult
+    "shitbreathed": [3, 5], // compound
+    "dickbreathed": [4, 5], // compound
+    "cumbreath": [4, 5], // compound insult
+    "cuntbreath": [5, 5], // compound insult
 
     // ===== EMOJI DESCRIPTION EVASIONS (text versions) =====
-    "middle finger": { s: 3, c: 5 }, // gesture
-    "flip the bird": { s: 3, c: 5 }, // gesture phrase
-    "flipthebird": { s: 3, c: 5 }, // compound
-    "the finger": { s: 3, c: 5 }, // gesture
+    "middle finger": [3, 5], // gesture
+    "flip the bird": [3, 5], // gesture phrase
+    "flipthebird": [3, 5], // compound
+    "the finger": [3, 5], // gesture
 
     // ===== ADDITIONAL MISSED COMMON WORDS =====
-    "wankered": { s: 3, c: 4 }, // British drunk/insult
-    "bollixed": { s: 3, c: 4 }, // British ruined
-    "knackered": { s: 1, c: 4 }, // British exhausted (mild)
-    "bloody": { s: 1, c: 4 }, // British mild profanity
-    "dammit": { s: 1, c: 4 }, // mild profanity
-    "crapstain": { s: 3, c: 4 }, // compound insult
-    "crapweasel": { s: 3, c: 4 }, // compound insult
-    "scumbucket": { s: 4, c: 5 }, // compound insult
-    "sleazeball": { s: 3, c: 4 }, // compound insult
-    "buttpirate": { s: 3, c: 4 }, // compound insult
-    "butt pirate": { s: 3, c: 5 }, // spaced
-    "turd": { s: 1, c: 4 }, // mild profanity
-    "turdbrain": { s: 3, c: 4 }, // compound insult
-    "turdmuncher": { s: 3, c: 4 }, // compound insult
-    "turdwhistle": { s: 3, c: 4 }, // compound insult
-    "douchewaffle": { s: 3, c: 4 }, // compound insult
-    "douchefart": { s: 3, c: 4 }, // compound insult
-    "assbucket": { s: 3, c: 4 }, // compound insult
-    "asscandle": { s: 3, c: 4 }, // compound insult
-    "assmaggot": { s: 3, c: 4 }, // compound insult
-    "dickmaggot": { s: 4, c: 4 }, // compound insult
-    "shitmaggot": { s: 3, c: 5 }, // compound insult
-    "cumwipe": { s: 4, c: 5 }, // compound insult
-    "jizzwipe": { s: 4, c: 5 }, // compound insult
-    "slutpuppy": { s: 3, c: 4 }, // compound insult
-    "whorefaced": { s: 5, c: 4 }, // compound insult
-    "pisstaker": { s: 3, c: 4 }, // British compound
-    "pisstaking": { s: 3, c: 4 }, // British compound
+    "wankered": [3, 4], // British drunk/insult
+    "bollixed": [3, 4], // British ruined
+    "knackered": [1, 4], // British exhausted (mild)
+    "bloody": [1, 4], // British mild profanity
+    "dammit": [1, 4], // mild profanity
+    "crapstain": [3, 4], // compound insult
+    "crapweasel": [3, 4], // compound insult
+    "scumbucket": [4, 5], // compound insult
+    "sleazeball": [3, 4], // compound insult
+    "buttpirate": [3, 4], // compound insult
+    "butt pirate": [3, 5], // spaced
+    "turd": [1, 4], // mild profanity
+    "turdbrain": [3, 4], // compound insult
+    "turdmuncher": [3, 4], // compound insult
+    "turdwhistle": [3, 4], // compound insult
+    "douchewaffle": [3, 4], // compound insult
+    "douchefart": [3, 4], // compound insult
+    "assbucket": [3, 4], // compound insult
+    "asscandle": [3, 4], // compound insult
+    "assmaggot": [3, 4], // compound insult
+    "dickmaggot": [4, 4], // compound insult
+    "shitmaggot": [3, 5], // compound insult
+    "cumwipe": [4, 5], // compound insult
+    "jizzwipe": [4, 5], // compound insult
+    "slutpuppy": [3, 4], // compound insult
+    "whorefaced": [5, 4], // compound insult
+    "pisstaker": [3, 4], // British compound
+    "pisstaking": [3, 4], // British compound
 
     // ===== ADDITIONAL LEET SPEAK COMBINATIONS =====
-    "4ss": { s: 3, c: 5 }, // full leet a
-    "4ssh0le": { s: 3, c: 5 }, // full leet
-    "4$$h0l3": { s: 3, c: 5 }, // full leet + symbols
-    "b!7ch": { s: 3, c: 5 }, // symbol + leet
-    "c0c|<": { s: 3, c: 5 }, // pipe + angle bracket
-    "d1c|<": { s: 3, c: 5 }, // pipe + angle bracket
-    "n1qq4": { s: 3, c: 5 }, // leet + q substitution
-    "n1qq3r": { s: 3, c: 5 }, // leet + q substitution
-    "ph4g": { s: 3, c: 5 }, // leet ph
-    "ph4gg07": { s: 3, c: 5 }, // full leet ph
-    "pu$$1": { s: 3, c: 5 }, // dollar + leet
-    "pu$$13s": { s: 3, c: 5 }, // dollar + leet plural
-    "r3+ard": { s: 3, c: 5 }, // leet + symbol
-    "r3+4rd": { s: 3, c: 5 }, // full leet + symbol
-    "sh!+": { s: 3, c: 5 }, // symbol substitution
-    "sh!7": { s: 3, c: 5 }, // symbol + leet
-    "$h!7": { s: 3, c: 5 }, // dollar + symbol + leet
-    "w4nk3r": { s: 3, c: 5 }, // full leet
-    "wh0r3s": { s: 3, c: 5 }, // leet plural
-    "a$sh0le": { s: 3, c: 5 }, // mixed symbols
-    "@$$h0l3": { s: 3, c: 5 }, // full symbol + leet
-    "b00bj0b": { s: 3, c: 5 }, // leet compound
-    "bl0wj0bs": { s: 3, c: 5 }, // leet plural
-    "c0cksuck3r": { s: 3, c: 5 }, // leet compound
-    "d1ckh3ad": { s: 3, c: 5 }, // leet compound
-    "f4gg07s": { s: 3, c: 5 }, // leet plural
-    "m07h3rfuck3r": { s: 3, c: 5 }, // leet compound
-    "n1gg3rs": { s: 3, c: 5 }, // leet plural
+    "4ss": [3, 5], // full leet a
+    "4ssh0le": [3, 5], // full leet
+    "4$$h0l3": [3, 5], // full leet + symbols
+    "b!7ch": [3, 5], // symbol + leet
+    "c0c|<": [3, 5], // pipe + angle bracket
+    "d1c|<": [3, 5], // pipe + angle bracket
+    "n1qq4": [3, 5], // leet + q substitution
+    "n1qq3r": [3, 5], // leet + q substitution
+    "ph4g": [3, 5], // leet ph
+    "ph4gg07": [3, 5], // full leet ph
+    "pu$$1": [3, 5], // dollar + leet
+    "pu$$13s": [3, 5], // dollar + leet plural
+    "r3+ard": [3, 5], // leet + symbol
+    "r3+4rd": [3, 5], // full leet + symbol
+    "sh!+": [3, 5], // symbol substitution
+    "sh!7": [3, 5], // symbol + leet
+    "$h!7": [3, 5], // dollar + symbol + leet
+    "w4nk3r": [3, 5], // full leet
+    "wh0r3s": [3, 5], // leet plural
+    "a$sh0le": [3, 5], // mixed symbols
+    "@$$h0l3": [3, 5], // full symbol + leet
+    "b00bj0b": [3, 5], // leet compound
+    "bl0wj0bs": [3, 5], // leet plural
+    "c0cksuck3r": [3, 5], // leet compound
+    "d1ckh3ad": [3, 5], // leet compound
+    "f4gg07s": [3, 5], // leet plural
+    "m07h3rfuck3r": [3, 5], // leet compound
+    "n1gg3rs": [3, 5], // leet plural
 
     // Wikipedia profanity list - additional entries
-    "chicken shit": { s: 3, c: 5 }, // cowardly (compound)
-    "ching chong": { s: 3, c: 4 }, // anti-Asian slur
-    "chingchong": { s: 3, c: 4 }, // anti-Asian slur
-    "crap": { s: 2, c: 4 }, // mild expletive
-    "damn": { s: 2, c: 2 },
-    "damnation": { s: 3, c: 4 }, // religious curse
-    "enshittification": { s: 3, c: 5 }, // degradation of platforms
-    "healslut": { s: 3, c: 4 }, // gaming sexual slur
-    "hell": { s: 2, c: 2 },
-    "hori": { s: 3, c: 4 }, // anti-Polynesian slur (NZ)
-    "jesus fucking christ": { s: 3, c: 5 }, // blasphemous compound
-    "niggerhead": { s: 5, c: 5 }, // racial slur compound
-    "pajeet": { s: 3, c: 4 }, // anti-Indian slur
-    "polaco": { s: 5, c: 4 }, // ethnic slur (against Poles/Brazilians)
-    "ratfucking": { s: 3, c: 5 }, // political sabotage slur
-    "taking the piss": { s: 3, c: 4 }, // British vulgar idiom
-    "take the piss": { s: 3, c: 4 }, // British vulgar idiom
-    "unclefucker": { s: 3, c: 5 }, // compound insult
-    "uncle fucker": { s: 3, c: 5 }, // compound insult spaced
-    "shitposting": { s: 3, c: 5 }, // internet vulgar term
-    "shitpost": { s: 3, c: 5 }, // internet vulgar term
-    "shitposter": { s: 3, c: 5 }, // internet vulgar term
-    "serving cunt": { s: 5, c: 5 }, // vulgar slang
-    "russian warship go fuck yourself": { s: 3, c: 5 }, // wartime phrase
+    "chicken shit": [3, 5], // cowardly (compound)
+    "ching chong": [3, 4], // anti-Asian slur
+    "chingchong": [3, 4], // anti-Asian slur
+    "crap": [2, 4], // mild expletive
+    "damn": [2, 2],
+    "damnation": [3, 4], // religious curse
+    "enshittification": [3, 5], // degradation of platforms
+    "healslut": [3, 4], // gaming sexual slur
+    "hell": [2, 2],
+    "hori": [3, 4], // anti-Polynesian slur (NZ)
+    "jesus fucking christ": [3, 5], // blasphemous compound
+    "niggerhead": [5, 5], // racial slur compound
+    "pajeet": [3, 4], // anti-Indian slur
+    "polaco": [5, 4], // ethnic slur (against Poles/Brazilians)
+    "ratfucking": [3, 5], // political sabotage slur
+    "taking the piss": [3, 4], // British vulgar idiom
+    "take the piss": [3, 4], // British vulgar idiom
+    "unclefucker": [3, 5], // compound insult
+    "uncle fucker": [3, 5], // compound insult spaced
+    "shitposting": [3, 5], // internet vulgar term
+    "shitpost": [3, 5], // internet vulgar term
+    "shitposter": [3, 5], // internet vulgar term
+    "serving cunt": [5, 5], // vulgar slang
+    "russian warship go fuck yourself": [3, 5], // wartime phrase
 
     // Racial/ethnic slurs - comprehensive coverage
     // (excluding words with common innocent meanings: slope, frog, nip, banana, coconut, oreo, kebab, septic, taffy, jock, tinker, mongrel, mammy, hun, jerry, paddy, yank, hunky, knacker)
-    "slopehead": { s: 3, c: 4 }, // anti-Asian slur compound
-    "sand nigger": { s: 5, c: 5 }, // anti-Arab slur
-    "sand niggers": { s: 5, c: 5 }, // anti-Arab slur plural
-    "sandniggers": { s: 5, c: 5 }, // anti-Arab slur compound plural
-    "yid": { s: 3, c: 4 }, // anti-Jewish slur
-    "yids": { s: 3, c: 4 }, // anti-Jewish slur plural
-    "hymie": { s: 3, c: 4 }, // anti-Jewish slur
-    "hymies": { s: 3, c: 4 }, // anti-Jewish slur plural
-    "hymietown": { s: 3, c: 4 }, // anti-Jewish slur compound
-    "shylock": { s: 3, c: 4 }, // anti-Jewish slur
-    "shylocks": { s: 3, c: 4 }, // anti-Jewish slur plural
-    "gyppo": { s: 3, c: 4 }, // anti-Romani slur
-    "gyppos": { s: 3, c: 4 }, // anti-Romani slur plural
-    "gypo": { s: 3, c: 4 }, // anti-Romani slur variant
-    "cholo": { s: 3, c: 4 }, // anti-Mexican slur
-    "cholos": { s: 3, c: 4 }, // anti-Mexican slur plural
-    "chola": { s: 3, c: 4 }, // anti-Mexican slur feminine
-    "eurotrash": { s: 3, c: 4 }, // anti-European slur
-    "camel jockeys": { s: 5, c: 5 }, // anti-Arab slur plural
-    "prairie nigger": { s: 5, c: 5 }, // anti-Native American slur
-    "timber nigger": { s: 5, c: 5 }, // anti-Native American slur
-    "jungle bunnies": { s: 5, c: 5 }, // anti-Black slur plural
-    "porch monkeys": { s: 5, c: 5 }, // anti-Black slur plural
-    "moon cricket": { s: 3, c: 4 }, // anti-Black slur
-    "mudshark": { s: 5, c: 4 }, // interracial slur
-    "race traitor": { s: 3, c: 4 }, // white supremacist slur
-    "subhuman": { s: 5, c: 5 }, // dehumanizing slur
-    "subhumans": { s: 5, c: 5 }, // dehumanizing slur plural
-    "untermensch": { s: 5, c: 5 }, // Nazi dehumanizing slur
-    "untermenschen": { s: 5, c: 5 }, // Nazi dehumanizing slur plural
-    "shitskins": { s: 5, c: 5 }, // racist slur plural
-    "house nigger": { s: 5, c: 5 }, // anti-Black slur
-    "field nigger": { s: 5, c: 5 }, // anti-Black slur
-    "spear chucker": { s: 3, c: 4 }, // anti-Black slur
-    "pickaninnies": { s: 3, c: 4 }, // anti-Black slur plural
-    "quadroon": { s: 5, c: 4 }, // racist term
-    "octoroon": { s: 5, c: 4 }, // racist term
-    "half caste": { s: 3, c: 4 }, // anti-mixed-race slur
-    "halfcaste": { s: 3, c: 4 }, // anti-mixed-race slur
-    "currymuncher": { s: 3, c: 4 }, // anti-South Asian slur
-    "goatfucker": { s: 5, c: 5 }, // anti-Middle Eastern slur
-    "goat fucker": { s: 3, c: 5 }, // anti-Middle Eastern slur
-    "remove kebab": { s: 3, c: 4 }, // anti-Muslim/anti-Balkan hate phrase
-    "dune coon": { s: 5, c: 4 }, // anti-Arab slur
-    "dunecoon": { s: 5, c: 4 }, // anti-Arab slur compound
-    "border hopper": { s: 3, c: 4 }, // anti-Mexican slur
-    "fenian": { s: 3, c: 4 }, // anti-Irish Catholic slur
-    "fenians": { s: 3, c: 4 }, // anti-Irish Catholic slur plural
-    "proddy": { s: 3, c: 4 }, // anti-Protestant slur
-    "pikeys": { s: 3, c: 4 }, // anti-Traveller/Romani slur plural
-    "didicoy": { s: 3, c: 4 }, // anti-Romani slur
-    "gippo": { s: 3, c: 4 }, // anti-Romani slur
-    "bohunk": { s: 3, c: 4 }, // anti-Eastern European slur
-    "polack": { s: 3, c: 4 }, // anti-Polish slur
-    "polacks": { s: 3, c: 4 }, // anti-Polish slur plural
-    "russki": { s: 3, c: 4 }, // anti-Russian slur
-    "russkies": { s: 3, c: 4 }, // anti-Russian slur plural
-    "trailer trash": { s: 3, c: 4 }, // classist slur
-    "knuckle dragger": { s: 5, c: 4 }, // racist slur
-    "coal burner": { s: 5, c: 4 }, // interracial slur
-    "mud people": { s: 3, c: 4 }, // white supremacist slur
-    "anchor baby": { s: 3, c: 4 }, // anti-immigrant slur
-    "fence jumper": { s: 3, c: 4 }, // anti-Mexican slur
-    "border bunny": { s: 3, c: 4 }, // anti-Mexican slur
-    "half breed": { s: 3, c: 4 }, // anti-mixed-race slur
-    "dot head": { s: 3, c: 4 }, // anti-Indian slur
-    "orangeman": { s: 3, c: 4 }, // sectarian slur
-    "commie": { s: 3, c: 4 }, // political slur
-    "commies": { s: 3, c: 4 }, // political slur plural
-    "pinko": { s: 3, c: 4 }, // political slur
-    "pinkos": { s: 3, c: 4 }, // political slur plural
-    "cheese eating surrender monkey": { s: 3, c: 4 }, // anti-French slur
+    "slopehead": [3, 4], // anti-Asian slur compound
+    "sand nigger": [5, 5], // anti-Arab slur
+    "sand niggers": [5, 5], // anti-Arab slur plural
+    "sandniggers": [5, 5], // anti-Arab slur compound plural
+    "yid": [3, 4], // anti-Jewish slur
+    "yids": [3, 4], // anti-Jewish slur plural
+    "hymie": [3, 4], // anti-Jewish slur
+    "hymies": [3, 4], // anti-Jewish slur plural
+    "hymietown": [3, 4], // anti-Jewish slur compound
+    "shylock": [3, 4], // anti-Jewish slur
+    "shylocks": [3, 4], // anti-Jewish slur plural
+    "gyppo": [3, 4], // anti-Romani slur
+    "gyppos": [3, 4], // anti-Romani slur plural
+    "gypo": [3, 4], // anti-Romani slur variant
+    "cholo": [3, 4], // anti-Mexican slur
+    "cholos": [3, 4], // anti-Mexican slur plural
+    "chola": [3, 4], // anti-Mexican slur feminine
+    "eurotrash": [3, 4], // anti-European slur
+    "camel jockeys": [5, 5], // anti-Arab slur plural
+    "prairie nigger": [5, 5], // anti-Native American slur
+    "timber nigger": [5, 5], // anti-Native American slur
+    "jungle bunnies": [5, 5], // anti-Black slur plural
+    "porch monkeys": [5, 5], // anti-Black slur plural
+    "moon cricket": [3, 4], // anti-Black slur
+    "mudshark": [5, 4], // interracial slur
+    "race traitor": [3, 4], // white supremacist slur
+    "subhuman": [5, 5], // dehumanizing slur
+    "subhumans": [5, 5], // dehumanizing slur plural
+    "untermensch": [5, 5], // Nazi dehumanizing slur
+    "untermenschen": [5, 5], // Nazi dehumanizing slur plural
+    "shitskins": [5, 5], // racist slur plural
+    "house nigger": [5, 5], // anti-Black slur
+    "field nigger": [5, 5], // anti-Black slur
+    "spear chucker": [3, 4], // anti-Black slur
+    "pickaninnies": [3, 4], // anti-Black slur plural
+    "quadroon": [5, 4], // racist term
+    "octoroon": [5, 4], // racist term
+    "half caste": [3, 4], // anti-mixed-race slur
+    "halfcaste": [3, 4], // anti-mixed-race slur
+    "currymuncher": [3, 4], // anti-South Asian slur
+    "goatfucker": [5, 5], // anti-Middle Eastern slur
+    "goat fucker": [3, 5], // anti-Middle Eastern slur
+    "remove kebab": [3, 4], // anti-Muslim/anti-Balkan hate phrase
+    "dune coon": [5, 4], // anti-Arab slur
+    "dunecoon": [5, 4], // anti-Arab slur compound
+    "border hopper": [3, 4], // anti-Mexican slur
+    "fenian": [3, 4], // anti-Irish Catholic slur
+    "fenians": [3, 4], // anti-Irish Catholic slur plural
+    "proddy": [3, 4], // anti-Protestant slur
+    "pikeys": [3, 4], // anti-Traveller/Romani slur plural
+    "didicoy": [3, 4], // anti-Romani slur
+    "gippo": [3, 4], // anti-Romani slur
+    "bohunk": [3, 4], // anti-Eastern European slur
+    "polack": [3, 4], // anti-Polish slur
+    "polacks": [3, 4], // anti-Polish slur plural
+    "russki": [3, 4], // anti-Russian slur
+    "russkies": [3, 4], // anti-Russian slur plural
+    "trailer trash": [3, 4], // classist slur
+    "knuckle dragger": [5, 4], // racist slur
+    "coal burner": [5, 4], // interracial slur
+    "mud people": [3, 4], // white supremacist slur
+    "anchor baby": [3, 4], // anti-immigrant slur
+    "fence jumper": [3, 4], // anti-Mexican slur
+    "border bunny": [3, 4], // anti-Mexican slur
+    "half breed": [3, 4], // anti-mixed-race slur
+    "dot head": [3, 4], // anti-Indian slur
+    "orangeman": [3, 4], // sectarian slur
+    "commie": [3, 4], // political slur
+    "commies": [3, 4], // political slur plural
+    "pinko": [3, 4], // political slur
+    "pinkos": [3, 4], // political slur plural
+    "cheese eating surrender monkey": [3, 4], // anti-French slur
 
     // ===== COMPOUND INSULTS (adjective+noun) =====
-    "stupid fuck": { s: 3, c: 5 },
-    "stupidfuck": { s: 3, c: 5 },
-    "stupid cunt": { s: 5, c: 5 },
-    "stupidcunt": { s: 5, c: 5 },
-    "stupid whore": { s: 5, c: 4 },
-    "stupidwhore": { s: 5, c: 4 },
-    "stupid slut": { s: 3, c: 4 },
-    "stupidslut": { s: 3, c: 4 },
-    "stupid dick": { s: 4, c: 4 },
-    "stupiddick": { s: 4, c: 4 },
-    "stupid prick": { s: 1, c: 4 },
-    "stupidprick": { s: 1, c: 4 },
-    "stupid twat": { s: 4, c: 4 },
-    "stupidtwat": { s: 4, c: 4 },
-    "stupid cow": { s: 1, c: 4 },
-    "stupidcow": { s: 1, c: 4 },
-    "stupid pig": { s: 1, c: 4 },
-    "stupidpig": { s: 1, c: 4 },
-    "stupid turd": { s: 1, c: 4 },
-    "stupidturd": { s: 1, c: 4 },
-    "stupid wanker": { s: 3, c: 4 },
-    "stupidwanker": { s: 3, c: 4 },
-    "ugly fuck": { s: 3, c: 5 },
-    "uglyfuck": { s: 3, c: 5 },
-    "ugly cunt": { s: 5, c: 5 },
-    "uglycunt": { s: 5, c: 5 },
-    "ugly whore": { s: 5, c: 4 },
-    "uglywhore": { s: 5, c: 4 },
-    "ugly slut": { s: 3, c: 4 },
-    "uglyslut": { s: 3, c: 4 },
-    "ugly bitch": { s: 3, c: 4 },
-    "uglybitch": { s: 3, c: 4 },
-    "ugly cow": { s: 1, c: 4 },
-    "uglycow": { s: 1, c: 4 },
-    "ugly twat": { s: 4, c: 4 },
-    "uglytwat": { s: 4, c: 4 },
-    "ugly pig": { s: 1, c: 4 },
-    "uglypig": { s: 1, c: 4 },
-    "ugly bastard": { s: 5, c: 4 },
-    "uglybastard": { s: 5, c: 4 },
-    "fat fuck": { s: 3, c: 5 },
-    "fatfucker": { s: 3, c: 5 },
-    "fat cunt": { s: 5, c: 5 },
-    "fatcunt": { s: 5, c: 5 },
-    "fat bitch": { s: 3, c: 4 },
-    "fatbitch": { s: 3, c: 4 },
-    "fat whore": { s: 5, c: 4 },
-    "fatwhore": { s: 5, c: 4 },
-    "fat slut": { s: 3, c: 4 },
-    "fatslut": { s: 3, c: 4 },
-    "fat cow": { s: 1, c: 4 },
-    "fatcow": { s: 1, c: 4 },
-    "fat pig": { s: 1, c: 4 },
-    "fatpig": { s: 1, c: 4 },
-    "fat twat": { s: 4, c: 4 },
-    "fattwat": { s: 4, c: 4 },
-    "fat prick": { s: 1, c: 4 },
-    "fatprick": { s: 1, c: 4 },
-    "fat turd": { s: 1, c: 4 },
-    "fatturd": { s: 1, c: 4 },
-    "fat bastard": { s: 5, c: 4 },
-    "fatbastard": { s: 5, c: 4 },
-    "dumb cunt": { s: 5, c: 5 },
-    "dumbcunt": { s: 5, c: 5 },
-    "dumb whore": { s: 5, c: 4 },
-    "dumbwhore": { s: 5, c: 4 },
-    "dumb slut": { s: 3, c: 4 },
-    "dumbslut": { s: 3, c: 4 },
-    "dumb twat": { s: 4, c: 4 },
-    "dumbtwat": { s: 4, c: 4 },
-    "dumb prick": { s: 1, c: 4 },
-    "dumbprick": { s: 1, c: 4 },
-    "dumb cow": { s: 1, c: 4 },
-    "dumbcow": { s: 1, c: 4 },
-    "dumb pig": { s: 1, c: 4 },
-    "dumbpig": { s: 1, c: 4 },
-    "dumb turd": { s: 1, c: 4 },
-    "dumbturd": { s: 1, c: 4 },
-    "dumb bastard": { s: 5, c: 4 },
-    "dumbbastard": { s: 5, c: 4 },
-    "dirty fuck": { s: 3, c: 5 },
-    "dirtyfuck": { s: 3, c: 5 },
-    "dirty cunt": { s: 5, c: 5 },
-    "dirtycunt": { s: 5, c: 5 },
-    "dirty whore": { s: 5, c: 4 },
-    "dirtywhore": { s: 5, c: 4 },
-    "dirty slut": { s: 3, c: 4 },
-    "dirtyslut": { s: 3, c: 4 },
-    "dirty bitch": { s: 3, c: 4 },
-    "dirtybitch": { s: 3, c: 4 },
-    "dirty bastard": { s: 5, c: 4 },
-    "dirtybastard": { s: 5, c: 4 },
-    "dirty skank": { s: 1, c: 4 },
-    "dirtyskank": { s: 1, c: 4 },
-    "dirty pig": { s: 1, c: 4 },
-    "dirtypig": { s: 1, c: 4 },
-    "dirty tramp": { s: 1, c: 4 },
-    "dirtytramp": { s: 1, c: 4 },
-    "dirty hoe": { s: 1, c: 4 },
-    "dirtyhoe": { s: 1, c: 4 },
-    "nasty bitch": { s: 3, c: 4 },
-    "nastybitch": { s: 3, c: 4 },
-    "nasty whore": { s: 5, c: 4 },
-    "nastywhore": { s: 5, c: 4 },
-    "nasty slut": { s: 3, c: 4 },
-    "nastyslut": { s: 3, c: 4 },
-    "nasty cunt": { s: 5, c: 5 },
-    "nastycunt": { s: 5, c: 5 },
-    "nasty fuck": { s: 3, c: 5 },
-    "nastyfuck": { s: 3, c: 5 },
-    "nasty skank": { s: 1, c: 4 },
-    "nastyskank": { s: 1, c: 4 },
-    "nasty pig": { s: 1, c: 4 },
-    "nastypig": { s: 1, c: 4 },
-    "nasty bastard": { s: 5, c: 4 },
-    "nastybastard": { s: 5, c: 4 },
-    "nasty hoe": { s: 1, c: 4 },
-    "nastyhoe": { s: 1, c: 4 },
-    "filthy fuck": { s: 3, c: 5 },
-    "filthyfuck": { s: 3, c: 5 },
-    "filthy cunt": { s: 5, c: 5 },
-    "filthycunt": { s: 5, c: 5 },
-    "filthy whore": { s: 5, c: 4 },
-    "filthywhore": { s: 5, c: 4 },
-    "filthy slut": { s: 3, c: 4 },
-    "filthyslut": { s: 3, c: 4 },
-    "filthy bitch": { s: 3, c: 4 },
-    "filthybitch": { s: 3, c: 4 },
-    "filthy bastard": { s: 5, c: 4 },
-    "filthybastard": { s: 5, c: 4 },
-    "filthy pig": { s: 1, c: 4 },
-    "filthypig": { s: 1, c: 4 },
-    "filthy skank": { s: 1, c: 4 },
-    "filthyskank": { s: 1, c: 4 },
-    "filthy animal": { s: 1, c: 4 },
-    "filthyanimal": { s: 1, c: 4 },
-    "filthy hoe": { s: 1, c: 4 },
-    "filthyhoe": { s: 1, c: 4 },
-    "lazy fuck": { s: 3, c: 5 },
-    "lazyfuck": { s: 3, c: 5 },
-    "lazy cunt": { s: 5, c: 5 },
-    "lazycunt": { s: 5, c: 5 },
-    "lazy bitch": { s: 3, c: 4 },
-    "lazybitch": { s: 3, c: 4 },
-    "lazy bastard": { s: 5, c: 4 },
-    "lazybastard": { s: 5, c: 4 },
-    "lazy prick": { s: 1, c: 4 },
-    "lazyprick": { s: 1, c: 4 },
-    "lazy twat": { s: 4, c: 4 },
-    "lazytwat": { s: 4, c: 4 },
-    "lazy slob": { s: 1, c: 4 },
-    "lazyslob": { s: 1, c: 4 },
-    "cheap whore": { s: 5, c: 4 },
-    "cheapwhore": { s: 5, c: 4 },
-    "cheap slut": { s: 3, c: 4 },
-    "cheapslut": { s: 3, c: 4 },
-    "cheap skank": { s: 1, c: 4 },
-    "cheapskank": { s: 1, c: 4 },
-    "crazy fuck": { s: 3, c: 5 },
-    "crazyfuck": { s: 3, c: 5 },
-    "crazy cunt": { s: 5, c: 5 },
-    "crazycunt": { s: 5, c: 5 },
-    "crazy bastard": { s: 5, c: 4 },
-    "crazybastard": { s: 5, c: 4 },
-    "sick fuck": { s: 3, c: 5 },
-    "sickfuck": { s: 3, c: 5 },
-    "sick bastard": { s: 5, c: 4 },
-    "sickbastard": { s: 5, c: 4 },
-    "sick cunt": { s: 5, c: 5 },
-    "sickcunt": { s: 5, c: 5 },
-    "sick pervert": { s: 1, c: 4 },
-    "sickpervert": { s: 1, c: 4 },
-    "worthless fuck": { s: 3, c: 5 },
-    "worthlessfuck": { s: 3, c: 5 },
-    "worthless cunt": { s: 5, c: 5 },
-    "worthlesscunt": { s: 5, c: 5 },
-    "worthless bitch": { s: 3, c: 4 },
-    "worthlessbitch": { s: 3, c: 4 },
-    "worthless whore": { s: 5, c: 4 },
-    "worthlesswhore": { s: 5, c: 4 },
-    "worthless piece of shit": { s: 3, c: 5 },
-    "worthless turd": { s: 1, c: 4 },
-    "worthlessturd": { s: 1, c: 4 },
-    "worthless bastard": { s: 5, c: 4 },
-    "worthlessbastard": { s: 5, c: 4 },
-    "pathetic fuck": { s: 3, c: 5 },
-    "patheticfuck": { s: 3, c: 5 },
-    "pathetic cunt": { s: 5, c: 5 },
-    "patheticcunt": { s: 5, c: 5 },
-    "pathetic loser": { s: 1, c: 4 },
-    "patheticloser": { s: 1, c: 4 },
-    "pathetic bitch": { s: 3, c: 4 },
-    "patheticbitch": { s: 3, c: 4 },
-    "pathetic bastard": { s: 5, c: 4 },
-    "patheticbastard": { s: 5, c: 4 },
-    "useless fuck": { s: 3, c: 5 },
-    "uselessfuck": { s: 3, c: 5 },
-    "useless cunt": { s: 5, c: 5 },
-    "uselesscunt": { s: 5, c: 5 },
-    "useless bitch": { s: 3, c: 4 },
-    "uselessbitch": { s: 3, c: 4 },
-    "useless twat": { s: 4, c: 4 },
-    "uselesstwat": { s: 4, c: 4 },
-    "useless prick": { s: 1, c: 4 },
-    "uselessprick": { s: 1, c: 4 },
-    "useless bastard": { s: 5, c: 4 },
-    "uselessbastard": { s: 5, c: 4 },
-    "little fuck": { s: 3, c: 5 },
-    "littlefuck": { s: 3, c: 5 },
-    "little shit": { s: 3, c: 5 },
-    "littleshit": { s: 3, c: 5 },
-    "little prick": { s: 1, c: 4 },
-    "littleprick": { s: 1, c: 4 },
-    "little dick": { s: 4, c: 4 },
-    "littledick": { s: 4, c: 4 },
-    "little cunt": { s: 5, c: 5 },
-    "littlecunt": { s: 5, c: 5 },
-    "little twat": { s: 4, c: 4 },
-    "littletwat": { s: 4, c: 4 },
-    "little wanker": { s: 3, c: 4 },
-    "littlewanker": { s: 3, c: 4 },
-    "bloody idiot": { s: 1, c: 4 },
-    "bloodyidiot": { s: 1, c: 4 },
-    "bloody fool": { s: 1, c: 4 },
-    "bloodyfool": { s: 1, c: 4 },
-    "bloody wanker": { s: 3, c: 4 },
-    "bloodywanker": { s: 3, c: 4 },
-    "bloody tosser": { s: 1, c: 4 },
-    "bloodytosser": { s: 1, c: 4 },
-    "bloody bastard": { s: 5, c: 4 },
-    "bloodybastard": { s: 5, c: 4 },
-    "bloody muppet": { s: 1, c: 4 },
-    "bloodymuppet": { s: 1, c: 4 },
-    "absolute cunt": { s: 5, c: 5 },
-    "absolutecunt": { s: 5, c: 5 },
-    "absolute twat": { s: 4, c: 4 },
-    "absolutetwat": { s: 4, c: 4 },
-    "absolute wanker": { s: 3, c: 4 },
-    "absolutewanker": { s: 3, c: 4 },
-    "absolute bellend": { s: 1, c: 4 },
-    "absolutebellend": { s: 1, c: 4 },
-    "total dickhead": { s: 4, c: 4 },
-    "totaldickhead": { s: 4, c: 4 },
-    "total prick": { s: 1, c: 4 },
-    "totalprick": { s: 1, c: 4 },
-    "total cunt": { s: 5, c: 5 },
-    "totalcunt": { s: 5, c: 5 },
-    "total wanker": { s: 3, c: 4 },
-    "totalwanker": { s: 3, c: 4 },
-    "total twat": { s: 4, c: 4 },
-    "totaltwat": { s: 4, c: 4 },
-    "complete twat": { s: 4, c: 4 },
-    "completetwat": { s: 4, c: 4 },
-    "complete cunt": { s: 5, c: 5 },
-    "completecunt": { s: 5, c: 5 },
-    "complete wanker": { s: 3, c: 4 },
-    "completewanker": { s: 3, c: 4 },
-    "utter cunt": { s: 5, c: 5 },
-    "uttercunt": { s: 5, c: 5 },
-    "utter twat": { s: 4, c: 4 },
-    "uttertwat": { s: 4, c: 4 },
-    "utter bellend": { s: 1, c: 4 },
-    "utterbellend": { s: 1, c: 4 },
-    "massive cunt": { s: 5, c: 5 },
-    "massivecunt": { s: 5, c: 5 },
-    "massive twat": { s: 3, c: 4 },
-    "massivetwat": { s: 3, c: 4 },
-    "massive dickhead": { s: 4, c: 4 },
-    "massivedickhead": { s: 4, c: 4 },
-    "right cunt": { s: 5, c: 5 },
-    "rightcunt": { s: 5, c: 5 },
-    "right twat": { s: 4, c: 4 },
-    "righttwat": { s: 4, c: 4 },
-    "right bellend": { s: 1, c: 4 },
-    "rightbellend": { s: 1, c: 4 },
-    "proper cunt": { s: 5, c: 5 },
-    "propercunt": { s: 5, c: 5 },
-    "proper twat": { s: 4, c: 4 },
-    "propertwat": { s: 4, c: 4 },
-    "proper bellend": { s: 1, c: 4 },
-    "properbellend": { s: 1, c: 4 },
-    "fucking idiot": { s: 3, c: 5 },
-    "fuckingidiot": { s: 3, c: 5 },
-    "fucking moron": { s: 3, c: 5 },
-    "fuckingmoron": { s: 3, c: 5 },
-    "fucking loser": { s: 3, c: 5 },
-    "fuckingloser": { s: 3, c: 5 },
-    "fucking retard": { s: 3, c: 5 },
-    "fuckingretard": { s: 3, c: 5 },
-    "fucking bitch": { s: 3, c: 5 },
-    "fuckingbitch": { s: 3, c: 5 },
-    "fucking cunt": { s: 3, c: 5 },
-    "fuckingcunt": { s: 3, c: 5 },
-    "fucking whore": { s: 3, c: 5 },
-    "fuckingwhore": { s: 3, c: 5 },
-    "fucking slut": { s: 3, c: 5 },
-    "fuckingslut": { s: 3, c: 5 },
-    "fucking pig": { s: 3, c: 5 },
-    "fuckingpig": { s: 3, c: 5 },
-    "fucking bastard": { s: 3, c: 5 },
-    "fuckingbastard": { s: 3, c: 5 },
-    "fucking twat": { s: 3, c: 5 },
-    "fuckingtwat": { s: 3, c: 5 },
-    "fucking prick": { s: 3, c: 5 },
-    "fuckingprick": { s: 3, c: 5 },
-    "fucking dickhead": { s: 3, c: 5 },
-    "fuckingdickhead": { s: 3, c: 5 },
-    "fucking wanker": { s: 3, c: 5 },
-    "fuckingwanker": { s: 3, c: 5 },
-    "fucking tosser": { s: 3, c: 5 },
-    "fuckingtosser": { s: 3, c: 5 },
-    "fucking bellend": { s: 3, c: 5 },
-    "fuckingbellend": { s: 3, c: 5 },
-    "fucking clown": { s: 3, c: 5 },
-    "fuckingclown": { s: 3, c: 5 },
-    "fucking donkey": { s: 3, c: 5 },
-    "fuckingdonkey": { s: 3, c: 5 },
-    "fucking waste": { s: 3, c: 5 },
-    "fuckingwaste": { s: 3, c: 5 },
-    "fucking scum": { s: 3, c: 5 },
-    "fuckingscum": { s: 3, c: 5 },
-    "goddamn idiot": { s: 1, c: 4 },
-    "goddamnidiot": { s: 1, c: 4 },
-    "goddamn fool": { s: 1, c: 4 },
-    "goddamnfool": { s: 1, c: 4 },
-    "goddamn bastard": { s: 5, c: 4 },
-    "goddamnbastard": { s: 5, c: 4 },
+    "stupid fuck": [3, 5],
+    "stupidfuck": [3, 5],
+    "stupid cunt": [5, 5],
+    "stupidcunt": [5, 5],
+    "stupid whore": [5, 4],
+    "stupidwhore": [5, 4],
+    "stupid slut": [3, 4],
+    "stupidslut": [3, 4],
+    "stupid dick": [4, 4],
+    "stupiddick": [4, 4],
+    "stupid prick": [1, 4],
+    "stupidprick": [1, 4],
+    "stupid twat": [4, 4],
+    "stupidtwat": [4, 4],
+    "stupid cow": [1, 4],
+    "stupidcow": [1, 4],
+    "stupid pig": [1, 4],
+    "stupidpig": [1, 4],
+    "stupid turd": [1, 4],
+    "stupidturd": [1, 4],
+    "stupid wanker": [3, 4],
+    "stupidwanker": [3, 4],
+    "ugly fuck": [3, 5],
+    "uglyfuck": [3, 5],
+    "ugly cunt": [5, 5],
+    "uglycunt": [5, 5],
+    "ugly whore": [5, 4],
+    "uglywhore": [5, 4],
+    "ugly slut": [3, 4],
+    "uglyslut": [3, 4],
+    "ugly bitch": [3, 4],
+    "uglybitch": [3, 4],
+    "ugly cow": [1, 4],
+    "uglycow": [1, 4],
+    "ugly twat": [4, 4],
+    "uglytwat": [4, 4],
+    "ugly pig": [1, 4],
+    "uglypig": [1, 4],
+    "ugly bastard": [5, 4],
+    "uglybastard": [5, 4],
+    "fat fuck": [3, 5],
+    "fatfucker": [3, 5],
+    "fat cunt": [5, 5],
+    "fatcunt": [5, 5],
+    "fat bitch": [3, 4],
+    "fatbitch": [3, 4],
+    "fat whore": [5, 4],
+    "fatwhore": [5, 4],
+    "fat slut": [3, 4],
+    "fatslut": [3, 4],
+    "fat cow": [1, 4],
+    "fatcow": [1, 4],
+    "fat pig": [1, 4],
+    "fatpig": [1, 4],
+    "fat twat": [4, 4],
+    "fattwat": [4, 4],
+    "fat prick": [1, 4],
+    "fatprick": [1, 4],
+    "fat turd": [1, 4],
+    "fatturd": [1, 4],
+    "fat bastard": [5, 4],
+    "fatbastard": [5, 4],
+    "dumb cunt": [5, 5],
+    "dumbcunt": [5, 5],
+    "dumb whore": [5, 4],
+    "dumbwhore": [5, 4],
+    "dumb slut": [3, 4],
+    "dumbslut": [3, 4],
+    "dumb twat": [4, 4],
+    "dumbtwat": [4, 4],
+    "dumb prick": [1, 4],
+    "dumbprick": [1, 4],
+    "dumb cow": [1, 4],
+    "dumbcow": [1, 4],
+    "dumb pig": [1, 4],
+    "dumbpig": [1, 4],
+    "dumb turd": [1, 4],
+    "dumbturd": [1, 4],
+    "dumb bastard": [5, 4],
+    "dumbbastard": [5, 4],
+    "dirty fuck": [3, 5],
+    "dirtyfuck": [3, 5],
+    "dirty cunt": [5, 5],
+    "dirtycunt": [5, 5],
+    "dirty whore": [5, 4],
+    "dirtywhore": [5, 4],
+    "dirty slut": [3, 4],
+    "dirtyslut": [3, 4],
+    "dirty bitch": [3, 4],
+    "dirtybitch": [3, 4],
+    "dirty bastard": [5, 4],
+    "dirtybastard": [5, 4],
+    "dirty skank": [1, 4],
+    "dirtyskank": [1, 4],
+    "dirty pig": [1, 4],
+    "dirtypig": [1, 4],
+    "dirty tramp": [1, 4],
+    "dirtytramp": [1, 4],
+    "dirty hoe": [1, 4],
+    "dirtyhoe": [1, 4],
+    "nasty bitch": [3, 4],
+    "nastybitch": [3, 4],
+    "nasty whore": [5, 4],
+    "nastywhore": [5, 4],
+    "nasty slut": [3, 4],
+    "nastyslut": [3, 4],
+    "nasty cunt": [5, 5],
+    "nastycunt": [5, 5],
+    "nasty fuck": [3, 5],
+    "nastyfuck": [3, 5],
+    "nasty skank": [1, 4],
+    "nastyskank": [1, 4],
+    "nasty pig": [1, 4],
+    "nastypig": [1, 4],
+    "nasty bastard": [5, 4],
+    "nastybastard": [5, 4],
+    "nasty hoe": [1, 4],
+    "nastyhoe": [1, 4],
+    "filthy fuck": [3, 5],
+    "filthyfuck": [3, 5],
+    "filthy cunt": [5, 5],
+    "filthycunt": [5, 5],
+    "filthy whore": [5, 4],
+    "filthywhore": [5, 4],
+    "filthy slut": [3, 4],
+    "filthyslut": [3, 4],
+    "filthy bitch": [3, 4],
+    "filthybitch": [3, 4],
+    "filthy bastard": [5, 4],
+    "filthybastard": [5, 4],
+    "filthy pig": [1, 4],
+    "filthypig": [1, 4],
+    "filthy skank": [1, 4],
+    "filthyskank": [1, 4],
+    "filthy animal": [1, 4],
+    "filthyanimal": [1, 4],
+    "filthy hoe": [1, 4],
+    "filthyhoe": [1, 4],
+    "lazy fuck": [3, 5],
+    "lazyfuck": [3, 5],
+    "lazy cunt": [5, 5],
+    "lazycunt": [5, 5],
+    "lazy bitch": [3, 4],
+    "lazybitch": [3, 4],
+    "lazy bastard": [5, 4],
+    "lazybastard": [5, 4],
+    "lazy prick": [1, 4],
+    "lazyprick": [1, 4],
+    "lazy twat": [4, 4],
+    "lazytwat": [4, 4],
+    "lazy slob": [1, 4],
+    "lazyslob": [1, 4],
+    "cheap whore": [5, 4],
+    "cheapwhore": [5, 4],
+    "cheap slut": [3, 4],
+    "cheapslut": [3, 4],
+    "cheap skank": [1, 4],
+    "cheapskank": [1, 4],
+    "crazy fuck": [3, 5],
+    "crazyfuck": [3, 5],
+    "crazy cunt": [5, 5],
+    "crazycunt": [5, 5],
+    "crazy bastard": [5, 4],
+    "crazybastard": [5, 4],
+    "sick fuck": [3, 5],
+    "sickfuck": [3, 5],
+    "sick bastard": [5, 4],
+    "sickbastard": [5, 4],
+    "sick cunt": [5, 5],
+    "sickcunt": [5, 5],
+    "sick pervert": [1, 4],
+    "sickpervert": [1, 4],
+    "worthless fuck": [3, 5],
+    "worthlessfuck": [3, 5],
+    "worthless cunt": [5, 5],
+    "worthlesscunt": [5, 5],
+    "worthless bitch": [3, 4],
+    "worthlessbitch": [3, 4],
+    "worthless whore": [5, 4],
+    "worthlesswhore": [5, 4],
+    "worthless piece of shit": [3, 5],
+    "worthless turd": [1, 4],
+    "worthlessturd": [1, 4],
+    "worthless bastard": [5, 4],
+    "worthlessbastard": [5, 4],
+    "pathetic fuck": [3, 5],
+    "patheticfuck": [3, 5],
+    "pathetic cunt": [5, 5],
+    "patheticcunt": [5, 5],
+    "pathetic loser": [1, 4],
+    "patheticloser": [1, 4],
+    "pathetic bitch": [3, 4],
+    "patheticbitch": [3, 4],
+    "pathetic bastard": [5, 4],
+    "patheticbastard": [5, 4],
+    "useless fuck": [3, 5],
+    "uselessfuck": [3, 5],
+    "useless cunt": [5, 5],
+    "uselesscunt": [5, 5],
+    "useless bitch": [3, 4],
+    "uselessbitch": [3, 4],
+    "useless twat": [4, 4],
+    "uselesstwat": [4, 4],
+    "useless prick": [1, 4],
+    "uselessprick": [1, 4],
+    "useless bastard": [5, 4],
+    "uselessbastard": [5, 4],
+    "little fuck": [3, 5],
+    "littlefuck": [3, 5],
+    "little shit": [3, 5],
+    "littleshit": [3, 5],
+    "little prick": [1, 4],
+    "littleprick": [1, 4],
+    "little dick": [4, 4],
+    "littledick": [4, 4],
+    "little cunt": [5, 5],
+    "littlecunt": [5, 5],
+    "little twat": [4, 4],
+    "littletwat": [4, 4],
+    "little wanker": [3, 4],
+    "littlewanker": [3, 4],
+    "bloody idiot": [1, 4],
+    "bloodyidiot": [1, 4],
+    "bloody fool": [1, 4],
+    "bloodyfool": [1, 4],
+    "bloody wanker": [3, 4],
+    "bloodywanker": [3, 4],
+    "bloody tosser": [1, 4],
+    "bloodytosser": [1, 4],
+    "bloody bastard": [5, 4],
+    "bloodybastard": [5, 4],
+    "bloody muppet": [1, 4],
+    "bloodymuppet": [1, 4],
+    "absolute cunt": [5, 5],
+    "absolutecunt": [5, 5],
+    "absolute twat": [4, 4],
+    "absolutetwat": [4, 4],
+    "absolute wanker": [3, 4],
+    "absolutewanker": [3, 4],
+    "absolute bellend": [1, 4],
+    "absolutebellend": [1, 4],
+    "total dickhead": [4, 4],
+    "totaldickhead": [4, 4],
+    "total prick": [1, 4],
+    "totalprick": [1, 4],
+    "total cunt": [5, 5],
+    "totalcunt": [5, 5],
+    "total wanker": [3, 4],
+    "totalwanker": [3, 4],
+    "total twat": [4, 4],
+    "totaltwat": [4, 4],
+    "complete twat": [4, 4],
+    "completetwat": [4, 4],
+    "complete cunt": [5, 5],
+    "completecunt": [5, 5],
+    "complete wanker": [3, 4],
+    "completewanker": [3, 4],
+    "utter cunt": [5, 5],
+    "uttercunt": [5, 5],
+    "utter twat": [4, 4],
+    "uttertwat": [4, 4],
+    "utter bellend": [1, 4],
+    "utterbellend": [1, 4],
+    "massive cunt": [5, 5],
+    "massivecunt": [5, 5],
+    "massive twat": [3, 4],
+    "massivetwat": [3, 4],
+    "massive dickhead": [4, 4],
+    "massivedickhead": [4, 4],
+    "right cunt": [5, 5],
+    "rightcunt": [5, 5],
+    "right twat": [4, 4],
+    "righttwat": [4, 4],
+    "right bellend": [1, 4],
+    "rightbellend": [1, 4],
+    "proper cunt": [5, 5],
+    "propercunt": [5, 5],
+    "proper twat": [4, 4],
+    "propertwat": [4, 4],
+    "proper bellend": [1, 4],
+    "properbellend": [1, 4],
+    "fucking idiot": [3, 5],
+    "fuckingidiot": [3, 5],
+    "fucking moron": [3, 5],
+    "fuckingmoron": [3, 5],
+    "fucking loser": [3, 5],
+    "fuckingloser": [3, 5],
+    "fucking retard": [3, 5],
+    "fuckingretard": [3, 5],
+    "fucking bitch": [3, 5],
+    "fuckingbitch": [3, 5],
+    "fucking cunt": [3, 5],
+    "fuckingcunt": [3, 5],
+    "fucking whore": [3, 5],
+    "fuckingwhore": [3, 5],
+    "fucking slut": [3, 5],
+    "fuckingslut": [3, 5],
+    "fucking pig": [3, 5],
+    "fuckingpig": [3, 5],
+    "fucking bastard": [3, 5],
+    "fuckingbastard": [3, 5],
+    "fucking twat": [3, 5],
+    "fuckingtwat": [3, 5],
+    "fucking prick": [3, 5],
+    "fuckingprick": [3, 5],
+    "fucking dickhead": [3, 5],
+    "fuckingdickhead": [3, 5],
+    "fucking wanker": [3, 5],
+    "fuckingwanker": [3, 5],
+    "fucking tosser": [3, 5],
+    "fuckingtosser": [3, 5],
+    "fucking bellend": [3, 5],
+    "fuckingbellend": [3, 5],
+    "fucking clown": [3, 5],
+    "fuckingclown": [3, 5],
+    "fucking donkey": [3, 5],
+    "fuckingdonkey": [3, 5],
+    "fucking waste": [3, 5],
+    "fuckingwaste": [3, 5],
+    "fucking scum": [3, 5],
+    "fuckingscum": [3, 5],
+    "goddamn idiot": [1, 4],
+    "goddamnidiot": [1, 4],
+    "goddamn fool": [1, 4],
+    "goddamnfool": [1, 4],
+    "goddamn bastard": [5, 4],
+    "goddamnbastard": [5, 4],
     // ===== YOUR MOM/DAD VARIANTS =====
-    "your mom": { s: 5, c: 5 },
-    "your mum": { s: 5, c: 5 },
-    "your mama": { s: 5, c: 5 },
-    "your mother": { s: 5, c: 5 },
-    "yourmom": { s: 5, c: 5 },
-    "yourmum": { s: 5, c: 5 },
-    "yourmama": { s: 5, c: 5 },
-    "yourmother": { s: 5, c: 5 },
-    "ur mom": { s: 5, c: 5 },
-    "ur mum": { s: 5, c: 5 },
-    "ur mama": { s: 5, c: 5 },
-    "urmom": { s: 5, c: 5 },
-    "urmum": { s: 5, c: 5 },
-    "urmama": { s: 5, c: 5 },
-    "ya mom": { s: 5, c: 5 },
-    "ya mum": { s: 5, c: 5 },
-    "yamom": { s: 5, c: 5 },
-    "yamum": { s: 5, c: 5 },
-    "yo momma": { s: 5, c: 5 },
-    "yomomma": { s: 5, c: 5 },
-    "your mom is a whore": { s: 5, c: 5 },
-    "your mom is a slut": { s: 5, c: 5 },
-    "your mum is a slag": { s: 5, c: 5 },
-    "your mom sucks": { s: 5, c: 5 },
-    "your mum sucks": { s: 5, c: 5 },
-    "your dad": { s: 5, c: 5 },
-    "your father": { s: 5, c: 5 },
-    "yourdad": { s: 5, c: 5 },
-    "ur dad": { s: 5, c: 5 },
-    "urdad": { s: 5, c: 5 },
-    "ya dad": { s: 5, c: 5 },
-    "your momma so fat": { s: 5, c: 5 },
-    "your mama so ugly": { s: 5, c: 5 },
-    "yo mama so stupid": { s: 5, c: 5 },
-    "your moms a hoe": { s: 5, c: 5 },
-    "your mums a hoe": { s: 5, c: 5 },
-    "your mum is a hoe": { s: 5, c: 5 },
-    "your mom is a hoe": { s: 5, c: 5 },
-    "motherlover": { s: 5, c: 5 },
-    "motherhumper": { s: 5, c: 5 },
-    "mothersucker": { s: 5, c: 5 },
-    "motherflicker": { s: 5, c: 5 },
-    "mothertrucker": { s: 5, c: 5 },
+    "your mom": [5, 5],
+    "your mum": [5, 5],
+    "your mama": [5, 5],
+    "your mother": [5, 5],
+    "yourmom": [5, 5],
+    "yourmum": [5, 5],
+    "yourmama": [5, 5],
+    "yourmother": [5, 5],
+    "ur mom": [5, 5],
+    "ur mum": [5, 5],
+    "ur mama": [5, 5],
+    "urmom": [5, 5],
+    "urmum": [5, 5],
+    "urmama": [5, 5],
+    "ya mom": [5, 5],
+    "ya mum": [5, 5],
+    "yamom": [5, 5],
+    "yamum": [5, 5],
+    "yo momma": [5, 5],
+    "yomomma": [5, 5],
+    "your mom is a whore": [5, 5],
+    "your mom is a slut": [5, 5],
+    "your mum is a slag": [5, 5],
+    "your mom sucks": [5, 5],
+    "your mum sucks": [5, 5],
+    "your dad": [5, 5],
+    "your father": [5, 5],
+    "yourdad": [5, 5],
+    "ur dad": [5, 5],
+    "urdad": [5, 5],
+    "ya dad": [5, 5],
+    "your momma so fat": [5, 5],
+    "your mama so ugly": [5, 5],
+    "yo mama so stupid": [5, 5],
+    "your moms a hoe": [5, 5],
+    "your mums a hoe": [5, 5],
+    "your mum is a hoe": [5, 5],
+    "your mom is a hoe": [5, 5],
+    "motherlover": [5, 5],
+    "motherhumper": [5, 5],
+    "mothersucker": [5, 5],
+    "motherflicker": [5, 5],
+    "mothertrucker": [5, 5],
     // ===== BODY PART VULGARITIES =====
-    "assflap": { s: 4, c: 3 },
-    "assflaps": { s: 4, c: 3 },
-    "assgape": { s: 4, c: 3 },
-    "assring": { s: 4, c: 3 },
-    "ballhair": { s: 4, c: 3 },
-    "beefcurtains": { s: 4, c: 3 },
-    "beef curtains": { s: 4, c: 3 },
-    "bellendcheese": { s: 4, c: 3 },
-    "bungholio": { s: 4, c: 3 },
-    "buttflap": { s: 4, c: 3 },
-    "buttflaps": { s: 4, c: 3 },
-    "cameltoeing": { s: 4, c: 3 },
-    "cockvein": { s: 4, c: 3 },
-    "cockwart": { s: 4, c: 3 },
-    "cuntjuice": { s: 5, c: 5 },
-    "cuntlip": { s: 5, c: 5 },
-    "cuntwart": { s: 5, c: 5 },
-    "dickskin": { s: 4, c: 3 },
-    "dicksweat": { s: 4, c: 3 },
-    "dickvein": { s: 4, c: 3 },
-    "fanny": { s: 4, c: 3 },
-    "fannies": { s: 4, c: 3 },
-    "fannyflap": { s: 4, c: 3 },
-    "fannyflaps": { s: 4, c: 3 },
-    "foreskin": { s: 4, c: 3 },
-    "grundle": { s: 4, c: 3 },
-    "knobcheese": { s: 4, c: 3 },
-    "ladybits": { s: 4, c: 3 },
-    "mangina": { s: 4, c: 3 },
-    "mansausage": { s: 4, c: 3 },
-    "meatcurtains": { s: 4, c: 3 },
-    "meat curtains": { s: 4, c: 3 },
-    "nutsac": { s: 4, c: 3 },
-    "perineum": { s: 4, c: 3 },
-    "shlong": { s: 4, c: 3 },
-    "stiffy": { s: 4, c: 3 },
-    "stiffie": { s: 4, c: 3 },
-    "teats": { s: 4, c: 3 },
-    "todger": { s: 4, c: 3 },
-    "trouser snake": { s: 4, c: 3 },
-    "trousersnake": { s: 4, c: 3 },
-    "vajayjay": { s: 4, c: 3 },
-    "vajazzle": { s: 4, c: 3 },
-    "vagene": { s: 4, c: 3 },
-    "vag": { s: 4, c: 5 },
-    "wanger": { s: 4, c: 3 },
-    "weenie": { s: 4, c: 3 },
-    "winky": { s: 4, c: 3 },
-    "winkle": { s: 4, c: 3 },
+    "assflap": [4, 3],
+    "assflaps": [4, 3],
+    "assgape": [4, 3],
+    "assring": [4, 3],
+    "ballhair": [4, 3],
+    "beefcurtains": [4, 3],
+    "beef curtains": [4, 3],
+    "bellendcheese": [4, 3],
+    "bungholio": [4, 3],
+    "buttflap": [4, 3],
+    "buttflaps": [4, 3],
+    "cameltoeing": [4, 3],
+    "cockvein": [4, 3],
+    "cockwart": [4, 3],
+    "cuntjuice": [5, 5],
+    "cuntlip": [5, 5],
+    "cuntwart": [5, 5],
+    "dickskin": [4, 3],
+    "dicksweat": [4, 3],
+    "dickvein": [4, 3],
+    "fanny": [4, 3],
+    "fannies": [4, 3],
+    "fannyflap": [4, 3],
+    "fannyflaps": [4, 3],
+    "foreskin": [4, 3],
+    "grundle": [4, 3],
+    "knobcheese": [4, 3],
+    "ladybits": [4, 3],
+    "mangina": [4, 3],
+    "mansausage": [4, 3],
+    "meatcurtains": [4, 3],
+    "meat curtains": [4, 3],
+    "nutsac": [4, 3],
+    "perineum": [4, 3],
+    "shlong": [4, 3],
+    "stiffy": [4, 3],
+    "stiffie": [4, 3],
+    "teats": [4, 3],
+    "todger": [4, 3],
+    "trouser snake": [4, 3],
+    "trousersnake": [4, 3],
+    "vajayjay": [4, 3],
+    "vajazzle": [4, 3],
+    "vagene": [4, 3],
+    "vag": [4, 5],
+    "wanger": [4, 3],
+    "weenie": [4, 3],
+    "winky": [4, 3],
+    "winkle": [4, 3],
     // ===== SEXUAL ACT DESCRIPTIONS =====
-    "analplay": { s: 4, c: 4 },
-    "anal play": { s: 4, c: 4 },
-    "analsex": { s: 4, c: 4 },
-    "anal sex": { s: 4, c: 4 },
-    "analfuck": { s: 4, c: 5 },
-    "anal fuck": { s: 4, c: 5 },
-    "analfucking": { s: 4, c: 5 },
-    "anal fucking": { s: 4, c: 5 },
-    "assfucking": { s: 4, c: 5 },
-    "ass fucking": { s: 4, c: 5 },
-    "asslicking": { s: 4, c: 4 },
-    "ass licking": { s: 4, c: 4 },
-    "ass to mouth": { s: 4, c: 4 },
-    "asstomouth": { s: 4, c: 4 },
-    "ballbusting": { s: 4, c: 4 },
-    "ball busting": { s: 4, c: 4 },
-    "ballgagged": { s: 4, c: 4 },
-    "ball gagged": { s: 4, c: 4 },
-    "booty call": { s: 4, c: 4 },
-    "bootycall": { s: 4, c: 4 },
-    "brownshower": { s: 4, c: 4 },
-    "brown shower": { s: 4, c: 4 },
-    "bukakke": { s: 4, c: 4 },
-    "bumfucking": { s: 4, c: 5 },
-    "bum fucking": { s: 4, c: 5 },
-    "camming": { s: 4, c: 4 },
-    "choking the chicken": { s: 4, c: 4 },
-    "circle jerk": { s: 4, c: 4 },
-    "circlejerking": { s: 4, c: 4 },
-    "cockgobbling": { s: 4, c: 4 },
-    "cock gobbling": { s: 4, c: 4 },
-    "cockriding": { s: 4, c: 4 },
-    "cock riding": { s: 4, c: 4 },
-    "cockslapping": { s: 4, c: 4 },
-    "cock slapping": { s: 4, c: 4 },
-    "cockstroking": { s: 4, c: 4 },
-    "cock stroking": { s: 4, c: 4 },
-    "cock sucking": { s: 4, c: 4 },
-    "cuminmyface": { s: 4, c: 5 },
-    "cum in my face": { s: 4, c: 5 },
-    "cumonme": { s: 4, c: 5 },
-    "cum on me": { s: 4, c: 5 },
-    "cumswap": { s: 4, c: 5 },
-    "cum swap": { s: 4, c: 5 },
-    "cumswapping": { s: 4, c: 5 },
-    "cum swapping": { s: 4, c: 5 },
-    "deep throating": { s: 4, c: 4 },
-    "donkey punch": { s: 4, c: 4 },
-    "double penetration": { s: 4, c: 4 },
-    "dry hump": { s: 4, c: 4 },
-    "dryhump": { s: 4, c: 4 },
-    "dry humping": { s: 4, c: 4 },
-    "dryhumping": { s: 4, c: 4 },
-    "eatbox": { s: 4, c: 4 },
-    "eat box": { s: 4, c: 4 },
-    "eating out": { s: 4, c: 4 },
-    "eatingout": { s: 4, c: 4 },
-    "erection": { s: 4, c: 3 },
-    "facefuck": { s: 4, c: 5 },
-    "face fuck": { s: 4, c: 5 },
-    "facefucking": { s: 4, c: 5 },
-    "face fucking": { s: 4, c: 5 },
-    "facesit": { s: 4, c: 4 },
-    "face sit": { s: 4, c: 4 },
-    "facesitting": { s: 4, c: 4 },
-    "face sitting": { s: 4, c: 4 },
-    "facial cumshot": { s: 4, c: 5 },
-    "feltching": { s: 4, c: 4 },
-    "fingerbanging": { s: 4, c: 4 },
-    "finger banging": { s: 4, c: 4 },
-    "foursome": { s: 4, c: 4 },
-    "gang banging": { s: 4, c: 4 },
-    "getting head": { s: 4, c: 4 },
-    "gettinghead": { s: 4, c: 4 },
-    "giving head": { s: 4, c: 4 },
-    "givinghead": { s: 4, c: 4 },
-    "glory hole": { s: 4, c: 4 },
-    "gloryhole": { s: 4, c: 4 },
-    "golden shower": { s: 4, c: 4 },
-    "goldenshow": { s: 4, c: 4 },
-    "goldenshower": { s: 4, c: 4 },
-    "group sex": { s: 4, c: 4 },
-    "groupsex": { s: 4, c: 4 },
-    "hand job": { s: 4, c: 4 },
-    "happyending": { s: 4, c: 4 },
-    "happy ending": { s: 4, c: 4 },
-    "hump": { s: 3, c: 3 },
-    "humped": { s: 4, c: 4 },
-    "jilling off": { s: 4, c: 4 },
-    "jillingoff": { s: 4, c: 4 },
-    "lapdance": { s: 4, c: 4 },
-    "lap dance": { s: 4, c: 4 },
-    "meatspin": { s: 4, c: 4 },
-    "meatspins": { s: 4, c: 4 },
-    "mouthfuck": { s: 4, c: 5 },
-    "mouth fuck": { s: 4, c: 5 },
-    "mouthfucking": { s: 4, c: 5 },
-    "muffdive": { s: 4, c: 4 },
-    "muff dive": { s: 4, c: 4 },
-    "muffdiver": { s: 4, c: 4 },
-    "muff diver": { s: 4, c: 4 },
-    "pearl necklace": { s: 4, c: 4 },
-    "pearlnecklace": { s: 4, c: 4 },
-    "piledriver": { s: 4, c: 4 },
-    "rawdog": { s: 4, c: 4 },
-    "raw dog": { s: 4, c: 4 },
-    "rawdogging": { s: 4, c: 4 },
-    "raw dogging": { s: 4, c: 4 },
-    "reach around": { s: 4, c: 4 },
-    "reacharound": { s: 4, c: 4 },
-    "rim job": { s: 4, c: 4 },
-    "sexting": { s: 4, c: 4 },
-    "skullfucking": { s: 4, c: 5 },
-    "skull fucking": { s: 4, c: 5 },
-    "soggy biscuit": { s: 4, c: 4 },
-    "soggybiscuit": { s: 4, c: 4 },
-    "spitroast": { s: 4, c: 4 },
-    "spit roast": { s: 4, c: 4 },
-    "spitroasting": { s: 4, c: 4 },
-    "squirting": { s: 4, c: 4 },
-    "suckoff": { s: 4, c: 4 },
-    "suck off": { s: 4, c: 4 },
-    "teabagged": { s: 4, c: 4 },
-    "teabags": { s: 4, c: 4 },
-    "tittyfuck": { s: 4, c: 5 },
-    "titty fuck": { s: 4, c: 5 },
-    "tittyfucking": { s: 4, c: 5 },
-    "threeway": { s: 4, c: 4 },
-    "three way": { s: 4, c: 4 },
-    "throatfuck": { s: 4, c: 5 },
-    "throat fuck": { s: 4, c: 5 },
-    "throatfucking": { s: 4, c: 5 },
-    "tossing salad": { s: 4, c: 4 },
-    "tossingsalad": { s: 4, c: 4 },
-    "watersports": { s: 4, c: 4 },
-    "water sports": { s: 4, c: 4 },
-    "wanked": { s: 4, c: 4 },
-    "wankfest": { s: 4, c: 4 },
+    "analplay": [4, 4],
+    "anal play": [4, 4],
+    "analsex": [4, 4],
+    "anal sex": [4, 4],
+    "analfuck": [4, 5],
+    "anal fuck": [4, 5],
+    "analfucking": [4, 5],
+    "anal fucking": [4, 5],
+    "assfucking": [4, 5],
+    "ass fucking": [4, 5],
+    "asslicking": [4, 4],
+    "ass licking": [4, 4],
+    "ass to mouth": [4, 4],
+    "asstomouth": [4, 4],
+    "ballbusting": [4, 4],
+    "ball busting": [4, 4],
+    "ballgagged": [4, 4],
+    "ball gagged": [4, 4],
+    "booty call": [4, 4],
+    "bootycall": [4, 4],
+    "brownshower": [4, 4],
+    "brown shower": [4, 4],
+    "bukakke": [4, 4],
+    "bumfucking": [4, 5],
+    "bum fucking": [4, 5],
+    "camming": [4, 4],
+    "choking the chicken": [4, 4],
+    "circle jerk": [4, 4],
+    "circlejerking": [4, 4],
+    "cockgobbling": [4, 4],
+    "cock gobbling": [4, 4],
+    "cockriding": [4, 4],
+    "cock riding": [4, 4],
+    "cockslapping": [4, 4],
+    "cock slapping": [4, 4],
+    "cockstroking": [4, 4],
+    "cock stroking": [4, 4],
+    "cock sucking": [4, 4],
+    "cuminmyface": [4, 5],
+    "cum in my face": [4, 5],
+    "cumonme": [4, 5],
+    "cum on me": [4, 5],
+    "cumswap": [4, 5],
+    "cum swap": [4, 5],
+    "cumswapping": [4, 5],
+    "cum swapping": [4, 5],
+    "deep throating": [4, 4],
+    "donkey punch": [4, 4],
+    "double penetration": [4, 4],
+    "dry hump": [4, 4],
+    "dryhump": [4, 4],
+    "dry humping": [4, 4],
+    "dryhumping": [4, 4],
+    "eatbox": [4, 4],
+    "eat box": [4, 4],
+    "eating out": [4, 4],
+    "eatingout": [4, 4],
+    "erection": [4, 3],
+    "facefuck": [4, 5],
+    "face fuck": [4, 5],
+    "facefucking": [4, 5],
+    "face fucking": [4, 5],
+    "facesit": [4, 4],
+    "face sit": [4, 4],
+    "facesitting": [4, 4],
+    "face sitting": [4, 4],
+    "facial cumshot": [4, 5],
+    "feltching": [4, 4],
+    "fingerbanging": [4, 4],
+    "finger banging": [4, 4],
+    "foursome": [4, 4],
+    "gang banging": [4, 4],
+    "getting head": [4, 4],
+    "gettinghead": [4, 4],
+    "giving head": [4, 4],
+    "givinghead": [4, 4],
+    "glory hole": [4, 4],
+    "gloryhole": [4, 4],
+    "golden shower": [4, 4],
+    "goldenshow": [4, 4],
+    "goldenshower": [4, 4],
+    "group sex": [4, 4],
+    "groupsex": [4, 4],
+    "hand job": [4, 4],
+    "happyending": [4, 4],
+    "happy ending": [4, 4],
+    "hump": [3, 3],
+    "humped": [4, 4],
+    "jilling off": [4, 4],
+    "jillingoff": [4, 4],
+    "lapdance": [4, 4],
+    "lap dance": [4, 4],
+    "meatspin": [4, 4],
+    "meatspins": [4, 4],
+    "mouthfuck": [4, 5],
+    "mouth fuck": [4, 5],
+    "mouthfucking": [4, 5],
+    "muffdive": [4, 4],
+    "muff dive": [4, 4],
+    "muffdiver": [4, 4],
+    "muff diver": [4, 4],
+    "pearl necklace": [4, 4],
+    "pearlnecklace": [4, 4],
+    "piledriver": [4, 4],
+    "rawdog": [4, 4],
+    "raw dog": [4, 4],
+    "rawdogging": [4, 4],
+    "raw dogging": [4, 4],
+    "reach around": [4, 4],
+    "reacharound": [4, 4],
+    "rim job": [4, 4],
+    "sexting": [4, 4],
+    "skullfucking": [4, 5],
+    "skull fucking": [4, 5],
+    "soggy biscuit": [4, 4],
+    "soggybiscuit": [4, 4],
+    "spitroast": [4, 4],
+    "spit roast": [4, 4],
+    "spitroasting": [4, 4],
+    "squirting": [4, 4],
+    "suckoff": [4, 4],
+    "suck off": [4, 4],
+    "teabagged": [4, 4],
+    "teabags": [4, 4],
+    "tittyfuck": [4, 5],
+    "titty fuck": [4, 5],
+    "tittyfucking": [4, 5],
+    "threeway": [4, 4],
+    "three way": [4, 4],
+    "throatfuck": [4, 5],
+    "throat fuck": [4, 5],
+    "throatfucking": [4, 5],
+    "tossing salad": [4, 4],
+    "tossingsalad": [4, 4],
+    "watersports": [4, 4],
+    "water sports": [4, 4],
+    "wanked": [4, 4],
+    "wankfest": [4, 4],
     // ===== HOMOPHOBIC/TRANSPHOBIC COMPOUNDS =====
-    "gaybash": { s: 5, c: 4 },
-    "gay bash": { s: 5, c: 4 },
-    "gaybashing": { s: 5, c: 4 },
-    "gay bashing": { s: 5, c: 4 },
-    "gayboy": { s: 5, c: 4 },
-    "gay boy": { s: 5, c: 4 },
-    "gaytard": { s: 5, c: 4 },
-    "gayfag": { s: 5, c: 4 },
-    "fag lover": { s: 5, c: 4 },
-    "faglover": { s: 5, c: 4 },
-    "fag hag": { s: 5, c: 4 },
-    "faghag": { s: 5, c: 4 },
-    "faggotface": { s: 5, c: 4 },
-    "faggotass": { s: 5, c: 4 },
-    "dyke lover": { s: 5, c: 4 },
-    "dykelover": { s: 5, c: 4 },
-    "homoboy": { s: 5, c: 4 },
-    "homo lover": { s: 5, c: 4 },
-    "homolover": { s: 5, c: 4 },
-    "pansyass": { s: 5, c: 4 },
-    "sissyboy": { s: 5, c: 4 },
-    "sissy boy": { s: 5, c: 4 },
-    "rump ranger": { s: 5, c: 4 },
-    "rumpranger": { s: 5, c: 4 },
-    "turd burglar": { s: 5, c: 4 },
-    "chutney ferret": { s: 5, c: 4 },
-    "chutneyferret": { s: 5, c: 4 },
-    "sausage jockey": { s: 5, c: 4 },
-    "sausagejockey": { s: 5, c: 4 },
-    "knob jockey": { s: 5, c: 4 },
-    "arse bandit": { s: 5, c: 4 },
-    "bum bandit": { s: 5, c: 4 },
-    "trouser lifter": { s: 5, c: 4 },
-    "trouserlifter": { s: 5, c: 4 },
-    "she-males": { s: 5, c: 4 },
-    "trannys": { s: 5, c: 5 },
-    "trannie": { s: 5, c: 5 },
-    "dickgirl": { s: 5, c: 4 },
-    "dick girl": { s: 5, c: 4 },
-    "shim": { s: 5, c: 4 },
-    "gender bender": { s: 5, c: 4 },
-    "genderbender": { s: 5, c: 4 },
-    "hesheit": { s: 5, c: 4 },
+    "gaybash": [5, 4],
+    "gay bash": [5, 4],
+    "gaybashing": [5, 4],
+    "gay bashing": [5, 4],
+    "gayboy": [5, 4],
+    "gay boy": [5, 4],
+    "gaytard": [5, 4],
+    "gayfag": [5, 4],
+    "fag lover": [5, 4],
+    "faglover": [5, 4],
+    "fag hag": [5, 4],
+    "faghag": [5, 4],
+    "faggotface": [5, 4],
+    "faggotass": [5, 4],
+    "dyke lover": [5, 4],
+    "dykelover": [5, 4],
+    "homoboy": [5, 4],
+    "homo lover": [5, 4],
+    "homolover": [5, 4],
+    "pansyass": [5, 4],
+    "sissyboy": [5, 4],
+    "sissy boy": [5, 4],
+    "rump ranger": [5, 4],
+    "rumpranger": [5, 4],
+    "turd burglar": [5, 4],
+    "chutney ferret": [5, 4],
+    "chutneyferret": [5, 4],
+    "sausage jockey": [5, 4],
+    "sausagejockey": [5, 4],
+    "knob jockey": [5, 4],
+    "arse bandit": [5, 4],
+    "bum bandit": [5, 4],
+    "trouser lifter": [5, 4],
+    "trouserlifter": [5, 4],
+    "she-males": [5, 4],
+    "trannys": [5, 5],
+    "trannie": [5, 5],
+    "dickgirl": [5, 4],
+    "dick girl": [5, 4],
+    "shim": [5, 4],
+    "gender bender": [5, 4],
+    "genderbender": [5, 4],
+    "hesheit": [5, 4],
     // ===== MISOGYNISTIC TERMS =====
-    "cumsponge": { s: 4, c: 5 },
-    "cum sponge": { s: 4, c: 5 },
-    "cumtarget": { s: 4, c: 5 },
-    "cum target": { s: 4, c: 5 },
-    "cocktease": { s: 4, c: 4 },
-    "cock tease": { s: 4, c: 4 },
-    "cockteaser": { s: 4, c: 4 },
-    "cock teaser": { s: 4, c: 4 },
-    "prick teaser": { s: 3, c: 4 },
-    "easy lay": { s: 3, c: 4 },
-    "easylay": { s: 3, c: 4 },
-    "town bike": { s: 3, c: 4 },
-    "townbike": { s: 3, c: 4 },
-    "village bicycle": { s: 3, c: 4 },
-    "villagebicycle": { s: 3, c: 4 },
-    "mattressback": { s: 3, c: 4 },
-    "mattress back": { s: 3, c: 4 },
-    "maneater": { s: 3, c: 4 },
-    "man eater": { s: 3, c: 4 },
-    "gold digger": { s: 3, c: 4 },
-    "golddigger": { s: 3, c: 4 },
-    "feminazi": { s: 3, c: 4 },
-    "feminazis": { s: 3, c: 4 },
-    "attention whore": { s: 5, c: 4 },
-    "attentionwhore": { s: 5, c: 4 },
-    "thot patrol": { s: 3, c: 4 },
-    "thotpatrol": { s: 3, c: 4 },
-    "thots": { s: 3, c: 4 },
-    "thotty": { s: 3, c: 4 },
-    "basic bitch": { s: 3, c: 4 },
-    "basicbitch": { s: 3, c: 4 },
-    "ditzy bitch": { s: 3, c: 4 },
-    "ditzybitch": { s: 3, c: 4 },
-    "bitchmade": { s: 3, c: 4 },
-    "bitch made": { s: 3, c: 4 },
-    "slutshamer": { s: 3, c: 4 },
-    "slut shamer": { s: 3, c: 4 },
-    "whoreface": { s: 5, c: 4 },
-    "whore face": { s: 5, c: 4 },
-    "whoremouth": { s: 5, c: 4 },
-    "whore mouth": { s: 5, c: 4 },
-    "whoremonger": { s: 5, c: 4 },
-    "whore monger": { s: 5, c: 4 },
-    "whoreson": { s: 5, c: 4 },
-    "hag": { s: 3, c: 4 },
-    "old hag": { s: 3, c: 4 },
-    "oldhag": { s: 3, c: 4 },
-    "old bat": { s: 3, c: 4 },
-    "battleaxe": { s: 3, c: 4 },
-    "fishwife": { s: 3, c: 4 },
-    "ball buster": { s: 3, c: 4 },
-    "shrew": { s: 3, c: 4 },
-    "harpy": { s: 3, c: 4 },
-    "succubus": { s: 3, c: 4 },
-    "strumpet": { s: 3, c: 4 },
+    "cumsponge": [4, 5],
+    "cum sponge": [4, 5],
+    "cumtarget": [4, 5],
+    "cum target": [4, 5],
+    "cocktease": [4, 4],
+    "cock tease": [4, 4],
+    "cockteaser": [4, 4],
+    "cock teaser": [4, 4],
+    "prick teaser": [3, 4],
+    "easy lay": [3, 4],
+    "easylay": [3, 4],
+    "town bike": [3, 4],
+    "townbike": [3, 4],
+    "village bicycle": [3, 4],
+    "villagebicycle": [3, 4],
+    "mattressback": [3, 4],
+    "mattress back": [3, 4],
+    "maneater": [3, 4],
+    "man eater": [3, 4],
+    "gold digger": [3, 4],
+    "golddigger": [3, 4],
+    "feminazi": [3, 4],
+    "feminazis": [3, 4],
+    "attention whore": [5, 4],
+    "attentionwhore": [5, 4],
+    "thot patrol": [3, 4],
+    "thotpatrol": [3, 4],
+    "thots": [3, 4],
+    "thotty": [3, 4],
+    "basic bitch": [3, 4],
+    "basicbitch": [3, 4],
+    "ditzy bitch": [3, 4],
+    "ditzybitch": [3, 4],
+    "bitchmade": [3, 4],
+    "bitch made": [3, 4],
+    "slutshamer": [3, 4],
+    "slut shamer": [3, 4],
+    "whoreface": [5, 4],
+    "whore face": [5, 4],
+    "whoremouth": [5, 4],
+    "whore mouth": [5, 4],
+    "whoremonger": [5, 4],
+    "whore monger": [5, 4],
+    "whoreson": [5, 4],
+    "hag": [3, 4],
+    "old hag": [3, 4],
+    "oldhag": [3, 4],
+    "old bat": [3, 4],
+    "battleaxe": [3, 4],
+    "fishwife": [3, 4],
+    "ball buster": [3, 4],
+    "shrew": [3, 4],
+    "harpy": [3, 4],
+    "succubus": [3, 4],
+    "strumpet": [3, 4],
     // ===== DISABILITY SLURS EXPANDED =====
-    "crip": { s: 5, c: 4 },
-    "gimp suit": { s: 5, c: 4 },
-    "gimpsuit": { s: 5, c: 4 },
-    "gimped": { s: 5, c: 4 },
-    "gimping": { s: 5, c: 4 },
-    "lunatic": { s: 5, c: 4 },
-    "lunatics": { s: 5, c: 4 },
-    "mental case": { s: 5, c: 4 },
-    "mentalcase": { s: 5, c: 4 },
-    "mentalist": { s: 5, c: 4 },
-    "mong face": { s: 5, c: 4 },
-    "mongface": { s: 5, c: 4 },
-    "mongoloid": { s: 5, c: 4 },
-    "mongoloids": { s: 5, c: 4 },
-    "psycho": { s: 5, c: 4 },
-    "psychos": { s: 5, c: 4 },
-    "nutcase": { s: 5, c: 4 },
-    "nutcases": { s: 5, c: 4 },
-    "nutjobs": { s: 5, c: 4 },
-    "nutter": { s: 5, c: 4 },
-    "nutters": { s: 5, c: 4 },
-    "freakshow": { s: 5, c: 4 },
-    "freak show": { s: 5, c: 4 },
-    "dimwit": { s: 5, c: 4 },
-    "dimwits": { s: 5, c: 4 },
-    "nitwit": { s: 5, c: 4 },
-    "nitwits": { s: 5, c: 4 },
-    "numbskulls": { s: 5, c: 4 },
-    "braindead": { s: 5, c: 4 },
-    "brain dead": { s: 5, c: 4 },
-    "brainless": { s: 5, c: 4 },
-    "idiot": { s: 1, c: 4 },
-    "idiots": { s: 5, c: 4 },
-    "idiotic": { s: 5, c: 4 },
-    "moronic": { s: 5, c: 4 },
-    "spaz attack": { s: 5, c: 4 },
-    "spazattack": { s: 5, c: 4 },
-    "spaz out": { s: 5, c: 4 },
-    "spazout": { s: 5, c: 4 },
-    "spazzed": { s: 5, c: 4 },
-    "spazzed out": { s: 5, c: 4 },
-    "spazzing": { s: 5, c: 4 },
-    "spazzing out": { s: 5, c: 4 },
-    "riding the short bus": { s: 5, c: 4 },
-    "short bus": { s: 5, c: 4 },
-    "shortbus": { s: 5, c: 4 },
-    "drooling idiot": { s: 5, c: 4 },
-    "droolingidiot": { s: 5, c: 4 },
-    "window licking": { s: 5, c: 4 },
-    "windowlicking": { s: 5, c: 4 },
+    "crip": [5, 4],
+    "gimp suit": [5, 4],
+    "gimpsuit": [5, 4],
+    "gimped": [5, 4],
+    "gimping": [5, 4],
+    "lunatic": [5, 4],
+    "lunatics": [5, 4],
+    "mental case": [5, 4],
+    "mentalcase": [5, 4],
+    "mentalist": [5, 4],
+    "mong face": [5, 4],
+    "mongface": [5, 4],
+    "mongoloid": [5, 4],
+    "mongoloids": [5, 4],
+    "psycho": [5, 4],
+    "psychos": [5, 4],
+    "nutcase": [5, 4],
+    "nutcases": [5, 4],
+    "nutjobs": [5, 4],
+    "nutter": [5, 4],
+    "nutters": [5, 4],
+    "freakshow": [5, 4],
+    "freak show": [5, 4],
+    "dimwit": [5, 4],
+    "dimwits": [5, 4],
+    "nitwit": [5, 4],
+    "nitwits": [5, 4],
+    "numbskulls": [5, 4],
+    "braindead": [5, 4],
+    "brain dead": [5, 4],
+    "brainless": [5, 4],
+    "idiot": [1, 4],
+    "idiots": [5, 4],
+    "idiotic": [5, 4],
+    "moronic": [5, 4],
+    "spaz attack": [5, 4],
+    "spazattack": [5, 4],
+    "spaz out": [5, 4],
+    "spazout": [5, 4],
+    "spazzed": [5, 4],
+    "spazzed out": [5, 4],
+    "spazzing": [5, 4],
+    "spazzing out": [5, 4],
+    "riding the short bus": [5, 4],
+    "short bus": [5, 4],
+    "shortbus": [5, 4],
+    "drooling idiot": [5, 4],
+    "droolingidiot": [5, 4],
+    "window licking": [5, 4],
+    "windowlicking": [5, 4],
     // ===== RELIGIOUS PROFANITY =====
-    "god damn": { s: 2, c: 3 },
-    "god dammit": { s: 2, c: 3 },
-    "god damn it": { s: 2, c: 3 },
-    "godforsaken": { s: 2, c: 3 },
-    "jesus christ": { s: 2, c: 3 },
-    "jesuschrist": { s: 2, c: 3 },
-    "jesus h christ": { s: 2, c: 3 },
-    "jesusfuckingchrist": { s: 3, c: 5 },
-    "christ on a bike": { s: 2, c: 3 },
-    "christonabike": { s: 2, c: 3 },
-    "christ on a cracker": { s: 2, c: 3 },
-    "christonacracker": { s: 2, c: 3 },
-    "holycrap": { s: 2, c: 4 },
-    "holy crap": { s: 2, c: 4 },
-    "holy hell": { s: 2, c: 3 },
-    "holyhell": { s: 2, c: 3 },
-    "for christ sake": { s: 2, c: 3 },
-    "for gods sake": { s: 2, c: 3 },
-    "godless": { s: 2, c: 3 },
-    "heathen": { s: 2, c: 3 },
-    "heathens": { s: 2, c: 3 },
-    "infidel": { s: 2, c: 3 },
-    "infidels": { s: 2, c: 3 },
-    "blasphemer": { s: 2, c: 3 },
-    "blasphemers": { s: 2, c: 3 },
-    "heretic": { s: 2, c: 3 },
-    "heretics": { s: 2, c: 3 },
-    "christkiller": { s: 2, c: 3 },
-    "christ killer": { s: 2, c: 3 },
-    "christkillers": { s: 2, c: 3 },
+    "god damn": [2, 3],
+    "god dammit": [2, 3],
+    "god damn it": [2, 3],
+    "godforsaken": [2, 3],
+    "jesus christ": [2, 3],
+    "jesuschrist": [2, 3],
+    "jesus h christ": [2, 3],
+    "jesusfuckingchrist": [3, 5],
+    "christ on a bike": [2, 3],
+    "christonabike": [2, 3],
+    "christ on a cracker": [2, 3],
+    "christonacracker": [2, 3],
+    "holycrap": [2, 4],
+    "holy crap": [2, 4],
+    "holy hell": [2, 3],
+    "holyhell": [2, 3],
+    "for christ sake": [2, 3],
+    "for gods sake": [2, 3],
+    "godless": [2, 3],
+    "heathen": [2, 3],
+    "heathens": [2, 3],
+    "infidel": [2, 3],
+    "infidels": [2, 3],
+    "blasphemer": [2, 3],
+    "blasphemers": [2, 3],
+    "heretic": [2, 3],
+    "heretics": [2, 3],
+    "christkiller": [2, 3],
+    "christ killer": [2, 3],
+    "christkillers": [2, 3],
     // ===== SCATOLOGICAL TERMS =====
-    "anal leakage": { s: 3, c: 4 },
-    "analleakage": { s: 3, c: 4 },
-    "ass gravy": { s: 3, c: 4 },
-    "assgravy": { s: 3, c: 4 },
-    "ass juice": { s: 3, c: 4 },
-    "assjuice": { s: 3, c: 4 },
-    "ass paste": { s: 3, c: 4 },
-    "asspaste": { s: 3, c: 4 },
-    "ass wipe": { s: 3, c: 4 },
-    "brown eye": { s: 3, c: 4 },
-    "browneye": { s: 3, c: 4 },
-    "bumgravy": { s: 3, c: 4 },
-    "bum gravy": { s: 3, c: 4 },
-    "butt gravy": { s: 3, c: 4 },
-    "buttgravy": { s: 3, c: 4 },
-    "butt juice": { s: 3, c: 4 },
-    "buttjuice": { s: 3, c: 4 },
-    "butt paste": { s: 3, c: 4 },
-    "buttpaste": { s: 3, c: 4 },
-    "butt nugget": { s: 3, c: 4 },
-    "buttnugget": { s: 3, c: 4 },
-    "cornlog": { s: 3, c: 4 },
-    "corn log": { s: 3, c: 4 },
-    "crapfactory": { s: 3, c: 4 },
-    "crap factory": { s: 3, c: 4 },
-    "crapper": { s: 3, c: 4 },
-    "crappers": { s: 3, c: 4 },
-    "crapping": { s: 3, c: 4 },
-    "crappola": { s: 3, c: 4 },
-    "dookie": { s: 3, c: 4 },
-    "doody": { s: 3, c: 4 },
-    "doodoo": { s: 3, c: 4 },
-    "doo doo": { s: 3, c: 4 },
-    "fart": { s: 3, c: 4 },
-    "farts": { s: 3, c: 4 },
-    "farted": { s: 3, c: 4 },
-    "farting": { s: 3, c: 4 },
-    "fartbag": { s: 3, c: 4 },
-    "fartbox": { s: 3, c: 4 },
-    "fartbreath": { s: 3, c: 4 },
-    "farthead": { s: 3, c: 4 },
-    "fartknocker": { s: 3, c: 4 },
-    "fartsniffer": { s: 3, c: 4 },
-    "fart sniffer": { s: 3, c: 4 },
-    "loaf pincher": { s: 3, c: 4 },
-    "loafpincher": { s: 3, c: 4 },
-    "mudbutt": { s: 3, c: 4 },
-    "mud butt": { s: 3, c: 4 },
-    "pee pee": { s: 3, c: 4 },
-    "peepee": { s: 3, c: 4 },
-    "piss artist": { s: 3, c: 4 },
-    "pissartist": { s: 3, c: 4 },
-    "pissy": { s: 3, c: 4 },
-    "poo": { s: 3, c: 4 },
-    "pooh": { s: 3, c: 4 },
-    "poo poo": { s: 3, c: 4 },
-    "poopoo": { s: 3, c: 4 },
-    "poop": { s: 3, c: 4 },
-    "pooper": { s: 3, c: 4 },
-    "pooping": { s: 3, c: 4 },
-    "poopy": { s: 3, c: 4 },
-    "poop chute": { s: 3, c: 4 },
-    "poophead": { s: 3, c: 4 },
-    "poop head": { s: 3, c: 4 },
-    "poopface": { s: 3, c: 4 },
-    "poop face": { s: 3, c: 4 },
-    "poopstain": { s: 3, c: 4 },
-    "poop stain": { s: 3, c: 4 },
-    "prairie dogging": { s: 3, c: 4 },
-    "prairiedogging": { s: 3, c: 4 },
-    "scat play": { s: 3, c: 4 },
-    "scatplay": { s: 3, c: 4 },
-    "sharted": { s: 3, c: 4 },
-    "sharting": { s: 3, c: 4 },
-    "shart": { s: 3, c: 4 },
-    "sharts": { s: 3, c: 4 },
-    "skidmark": { s: 3, c: 4 },
-    "skid mark": { s: 3, c: 4 },
-    "skidmarks": { s: 3, c: 4 },
-    "skid marks": { s: 3, c: 4 },
-    "sphincter": { s: 3, c: 4 },
-    "splashback": { s: 3, c: 4 },
-    "splash back": { s: 3, c: 4 },
-    "stinker": { s: 3, c: 4 },
-    "stinkfinger": { s: 3, c: 4 },
-    "stink finger": { s: 3, c: 4 },
-    "turdcutter": { s: 3, c: 4 },
-    "turd cutter": { s: 3, c: 4 },
-    "turdhole": { s: 3, c: 4 },
-    "turd hole": { s: 3, c: 4 },
-    "turdlicker": { s: 3, c: 4 },
-    "turd licker": { s: 3, c: 4 },
-    "turdsandwich": { s: 3, c: 4 },
-    "turd sandwich": { s: 3, c: 4 },
-    "wee wee": { s: 3, c: 4 },
-    "weewee": { s: 3, c: 4 },
+    "anal leakage": [3, 4],
+    "analleakage": [3, 4],
+    "ass gravy": [3, 4],
+    "assgravy": [3, 4],
+    "ass juice": [3, 4],
+    "assjuice": [3, 4],
+    "ass paste": [3, 4],
+    "asspaste": [3, 4],
+    "ass wipe": [3, 4],
+    "brown eye": [3, 4],
+    "browneye": [3, 4],
+    "bumgravy": [3, 4],
+    "bum gravy": [3, 4],
+    "butt gravy": [3, 4],
+    "buttgravy": [3, 4],
+    "butt juice": [3, 4],
+    "buttjuice": [3, 4],
+    "butt paste": [3, 4],
+    "buttpaste": [3, 4],
+    "butt nugget": [3, 4],
+    "buttnugget": [3, 4],
+    "cornlog": [3, 4],
+    "corn log": [3, 4],
+    "crapfactory": [3, 4],
+    "crap factory": [3, 4],
+    "crapper": [3, 4],
+    "crappers": [3, 4],
+    "crapping": [3, 4],
+    "crappola": [3, 4],
+    "dookie": [3, 4],
+    "doody": [3, 4],
+    "doodoo": [3, 4],
+    "doo doo": [3, 4],
+    "fart": [3, 4],
+    "farts": [3, 4],
+    "farted": [3, 4],
+    "farting": [3, 4],
+    "fartbag": [3, 4],
+    "fartbox": [3, 4],
+    "fartbreath": [3, 4],
+    "farthead": [3, 4],
+    "fartknocker": [3, 4],
+    "fartsniffer": [3, 4],
+    "fart sniffer": [3, 4],
+    "loaf pincher": [3, 4],
+    "loafpincher": [3, 4],
+    "mudbutt": [3, 4],
+    "mud butt": [3, 4],
+    "pee pee": [3, 4],
+    "peepee": [3, 4],
+    "piss artist": [3, 4],
+    "pissartist": [3, 4],
+    "pissy": [3, 4],
+    "poo": [3, 4],
+    "pooh": [3, 4],
+    "poo poo": [3, 4],
+    "poopoo": [3, 4],
+    "poop": [3, 4],
+    "pooper": [3, 4],
+    "pooping": [3, 4],
+    "poopy": [3, 4],
+    "poop chute": [3, 4],
+    "poophead": [3, 4],
+    "poop head": [3, 4],
+    "poopface": [3, 4],
+    "poop face": [3, 4],
+    "poopstain": [3, 4],
+    "poop stain": [3, 4],
+    "prairie dogging": [3, 4],
+    "prairiedogging": [3, 4],
+    "scat play": [3, 4],
+    "scatplay": [3, 4],
+    "sharted": [3, 4],
+    "sharting": [3, 4],
+    "shart": [3, 4],
+    "sharts": [3, 4],
+    "skidmark": [3, 4],
+    "skid mark": [3, 4],
+    "skidmarks": [3, 4],
+    "skid marks": [3, 4],
+    "sphincter": [3, 4],
+    "splashback": [3, 4],
+    "splash back": [3, 4],
+    "stinker": [3, 4],
+    "stinkfinger": [3, 4],
+    "stink finger": [3, 4],
+    "turdcutter": [3, 4],
+    "turd cutter": [3, 4],
+    "turdhole": [3, 4],
+    "turd hole": [3, 4],
+    "turdlicker": [3, 4],
+    "turd licker": [3, 4],
+    "turdsandwich": [3, 4],
+    "turd sandwich": [3, 4],
+    "wee wee": [3, 4],
+    "weewee": [3, 4],
     // ===== DRUG-RELATED INSULTS =====
-    "blunt head": { s: 2, c: 3 },
-    "blunthead": { s: 2, c: 3 },
-    "bonghead": { s: 2, c: 3 },
-    "bong head": { s: 2, c: 3 },
-    "burnout": { s: 3, c: 4 },
-    "crack baby": { s: 3, c: 4 },
-    "crackbaby": { s: 3, c: 4 },
-    "crack fiend": { s: 3, c: 4 },
-    "crackfiend": { s: 3, c: 4 },
-    "crack pipe": { s: 3, c: 4 },
-    "crackpipe": { s: 3, c: 4 },
-    "druggo": { s: 3, c: 4 },
-    "druggos": { s: 3, c: 4 },
-    "fried brain": { s: 3, c: 4 },
-    "friedbrain": { s: 3, c: 4 },
-    "meth face": { s: 3, c: 4 },
-    "methface": { s: 3, c: 4 },
-    "methmouth": { s: 3, c: 4 },
-    "meth mouth": { s: 3, c: 4 },
-    "needle junkie": { s: 3, c: 4 },
-    "needlejunkie": { s: 3, c: 4 },
-    "pillpopper": { s: 3, c: 4 },
-    "pill popper": { s: 3, c: 4 },
-    "reefer head": { s: 3, c: 4 },
-    "reeferhead": { s: 3, c: 4 },
-    "roach head": { s: 3, c: 4 },
-    "roachhead": { s: 3, c: 4 },
-    "speed freak": { s: 3, c: 4 },
-    "speedfreak": { s: 3, c: 4 },
-    "stoner bum": { s: 3, c: 4 },
-    "stonerbum": { s: 3, c: 4 },
-    "weedhead": { s: 3, c: 4 },
-    "weed head": { s: 3, c: 4 },
+    "blunt head": [2, 3],
+    "blunthead": [2, 3],
+    "bonghead": [2, 3],
+    "bong head": [2, 3],
+    "burnout": [3, 4],
+    "crack baby": [3, 4],
+    "crackbaby": [3, 4],
+    "crack fiend": [3, 4],
+    "crackfiend": [3, 4],
+    "crack pipe": [3, 4],
+    "crackpipe": [3, 4],
+    "druggo": [3, 4],
+    "druggos": [3, 4],
+    "fried brain": [3, 4],
+    "friedbrain": [3, 4],
+    "meth face": [3, 4],
+    "methface": [3, 4],
+    "methmouth": [3, 4],
+    "meth mouth": [3, 4],
+    "needle junkie": [3, 4],
+    "needlejunkie": [3, 4],
+    "pillpopper": [3, 4],
+    "pill popper": [3, 4],
+    "reefer head": [3, 4],
+    "reeferhead": [3, 4],
+    "roach head": [3, 4],
+    "roachhead": [3, 4],
+    "speed freak": [3, 4],
+    "speedfreak": [3, 4],
+    "stoner bum": [3, 4],
+    "stonerbum": [3, 4],
+    "weedhead": [3, 4],
+    "weed head": [3, 4],
     // ===== VIOLENT THREATS =====
-    "beat the shit out of you": { s: 5, c: 5 },
-    "beat your ass": { s: 5, c: 5 },
-    "beatyourass": { s: 5, c: 5 },
-    "blow your brains out": { s: 5, c: 5 },
-    "blowyourbrainsout": { s: 5, c: 5 },
-    "break your neck": { s: 5, c: 5 },
-    "breakyourneck": { s: 5, c: 5 },
-    "bust your face": { s: 5, c: 5 },
-    "bustyourface": { s: 5, c: 5 },
-    "catch these hands": { s: 5, c: 5 },
-    "catchthesehands": { s: 5, c: 5 },
-    "choke you": { s: 5, c: 5 },
-    "chokeyou": { s: 5, c: 5 },
-    "curb stomp you": { s: 5, c: 5 },
-    "curbstompyou": { s: 5, c: 5 },
-    "cut you": { s: 5, c: 5 },
-    "cutyou": { s: 5, c: 5 },
-    "cut your throat": { s: 5, c: 5 },
-    "cutyourthroat": { s: 5, c: 5 },
-    "die in a hole": { s: 5, c: 5 },
-    "dieinahole": { s: 5, c: 5 },
-    "drop dead": { s: 5, c: 5 },
-    "dropdead": { s: 5, c: 5 },
-    "eat glass": { s: 5, c: 5 },
-    "eatglass": { s: 5, c: 5 },
-    "end your life": { s: 5, c: 5 },
-    "endyourlife": { s: 5, c: 5 },
-    "get shot": { s: 5, c: 5 },
-    "getshot": { s: 5, c: 5 },
-    "get stabbed": { s: 5, c: 5 },
-    "getstabbed": { s: 5, c: 5 },
-    "gonna kill you": { s: 5, c: 5 },
-    "gonnakill": { s: 5, c: 5 },
-    "gut you": { s: 5, c: 5 },
-    "gutyou": { s: 5, c: 5 },
-    "i will kill you": { s: 5, c: 5 },
-    "iwillkillyou": { s: 5, c: 5 },
-    "ill kill you": { s: 5, c: 5 },
-    "illkillyou": { s: 5, c: 5 },
-    "kneecap you": { s: 5, c: 5 },
-    "kneecapyou": { s: 5, c: 5 },
-    "shoot you": { s: 5, c: 5 },
-    "shootyou": { s: 5, c: 5 },
-    "skin you alive": { s: 5, c: 5 },
-    "skinyoualive": { s: 5, c: 5 },
-    "slash your throat": { s: 5, c: 5 },
-    "slashyourthroat": { s: 5, c: 5 },
-    "smash your face": { s: 5, c: 5 },
-    "smashyourface": { s: 5, c: 5 },
-    "snap your neck": { s: 5, c: 5 },
-    "snapyourneck": { s: 5, c: 5 },
-    "stab you": { s: 5, c: 5 },
-    "stabyou": { s: 5, c: 5 },
-    "stomp your face": { s: 5, c: 5 },
-    "stompyourface": { s: 5, c: 5 },
-    "strangle you": { s: 5, c: 5 },
-    "strangleyou": { s: 5, c: 5 },
-    "watch you die": { s: 5, c: 5 },
-    "watchyoudie": { s: 5, c: 5 },
-    "you deserve to die": { s: 5, c: 5 },
-    "youdeservetodie": { s: 5, c: 5 },
-    "you should die": { s: 5, c: 5 },
-    "youshoulddie": { s: 5, c: 5 },
-    "bash your head in": { s: 5, c: 5 },
-    "bashyourheadin": { s: 5, c: 5 },
-    "beat your face in": { s: 5, c: 5 },
-    "beatyourfacein": { s: 5, c: 5 },
-    "bite the curb": { s: 5, c: 5 },
-    "bitethecurb": { s: 5, c: 5 },
-    "blow your head off": { s: 5, c: 5 },
-    "blowyourheadoff": { s: 5, c: 5 },
-    "break your face": { s: 5, c: 5 },
-    "breakyourface": { s: 5, c: 5 },
-    "break your legs": { s: 5, c: 5 },
-    "breakyourlegs": { s: 5, c: 5 },
-    "bury you": { s: 5, c: 5 },
-    "buryyou": { s: 5, c: 5 },
-    "cap your ass": { s: 5, c: 5 },
-    "capyourass": { s: 5, c: 5 },
-    "cave your head in": { s: 5, c: 5 },
-    "caveyourheadin": { s: 5, c: 5 },
-    "crush your skull": { s: 5, c: 5 },
-    "crushyourskull": { s: 5, c: 5 },
-    "die already": { s: 5, c: 5 },
-    "diealready": { s: 5, c: 5 },
-    "die bitch": { s: 5, c: 5 },
-    "diebitch": { s: 5, c: 5 },
-    "dismember you": { s: 5, c: 5 },
-    "dismemberyou": { s: 5, c: 5 },
-    "drown yourself": { s: 5, c: 5 },
-    "drownyourself": { s: 5, c: 5 },
-    "eat lead": { s: 5, c: 5 },
-    "eatlead": { s: 5, c: 5 },
-    "glass you": { s: 5, c: 5 },
-    "glassyou": { s: 5, c: 5 },
-    "gonna beat you": { s: 5, c: 5 },
-    "gonnabeatyou": { s: 5, c: 5 },
-    "gonna cut you": { s: 5, c: 5 },
-    "gonnacutyou": { s: 5, c: 5 },
-    "gonna stab you": { s: 5, c: 5 },
-    "gonnastabyou": { s: 5, c: 5 },
-    "hope you choke": { s: 5, c: 5 },
-    "hopeyouchoke": { s: 5, c: 5 },
-    "hope you get cancer": { s: 5, c: 5 },
-    "hopeyougetcancer": { s: 5, c: 5 },
-    "hope you suffer": { s: 5, c: 5 },
-    "hopeyousuffer": { s: 5, c: 5 },
-    "hunt you down": { s: 5, c: 5 },
-    "huntyoudown": { s: 5, c: 5 },
-    "i will find you": { s: 5, c: 5 },
-    "iwillfindyou": { s: 5, c: 5 },
-    "jump off a cliff": { s: 5, c: 5 },
-    "jumpoffacliff": { s: 5, c: 5 },
-    "kick your teeth in": { s: 5, c: 5 },
-    "kickyourteethin": { s: 5, c: 5 },
-    "murder you": { s: 5, c: 5 },
-    "murderyou": { s: 5, c: 5 },
-    "rip your head off": { s: 5, c: 5 },
-    "ripyourheadoff": { s: 5, c: 5 },
-    "run you over": { s: 5, c: 5 },
-    "runyouover": { s: 5, c: 5 },
-    "set you on fire": { s: 5, c: 5 },
-    "setyouonfire": { s: 5, c: 5 },
-    "shank you": { s: 5, c: 5 },
-    "shankyou": { s: 5, c: 5 },
-    "six feet under": { s: 5, c: 5 },
-    "sixfeetunder": { s: 5, c: 5 },
-    "slash you": { s: 5, c: 5 },
-    "slashyou": { s: 5, c: 5 },
-    "smack you": { s: 5, c: 5 },
-    "smackyou": { s: 5, c: 5 },
-    "stomp you out": { s: 5, c: 5 },
-    "stompyouout": { s: 5, c: 5 },
-    "throw hands": { s: 5, c: 5 },
-    "throwhands": { s: 5, c: 5 },
-    "waste you": { s: 5, c: 5 },
-    "wasteyou": { s: 5, c: 5 },
-    "wreck you": { s: 5, c: 5 },
-    "wreckyou": { s: 5, c: 5 },
-    "youre dead": { s: 5, c: 5 },
-    "youredead": { s: 5, c: 5 },
-    "youre dead meat": { s: 5, c: 5 },
-    "youredeadmeat": { s: 5, c: 5 },
+    "beat the shit out of you": [5, 5],
+    "beat your ass": [5, 5],
+    "beatyourass": [5, 5],
+    "blow your brains out": [5, 5],
+    "blowyourbrainsout": [5, 5],
+    "break your neck": [5, 5],
+    "breakyourneck": [5, 5],
+    "bust your face": [5, 5],
+    "bustyourface": [5, 5],
+    "catch these hands": [5, 5],
+    "catchthesehands": [5, 5],
+    "choke you": [5, 5],
+    "chokeyou": [5, 5],
+    "curb stomp you": [5, 5],
+    "curbstompyou": [5, 5],
+    "cut you": [5, 5],
+    "cutyou": [5, 5],
+    "cut your throat": [5, 5],
+    "cutyourthroat": [5, 5],
+    "die in a hole": [5, 5],
+    "dieinahole": [5, 5],
+    "drop dead": [5, 5],
+    "dropdead": [5, 5],
+    "eat glass": [5, 5],
+    "eatglass": [5, 5],
+    "end your life": [5, 5],
+    "endyourlife": [5, 5],
+    "get shot": [5, 5],
+    "getshot": [5, 5],
+    "get stabbed": [5, 5],
+    "getstabbed": [5, 5],
+    "gonna kill you": [5, 5],
+    "gonnakill": [5, 5],
+    "gut you": [5, 5],
+    "gutyou": [5, 5],
+    "i will kill you": [5, 5],
+    "iwillkillyou": [5, 5],
+    "ill kill you": [5, 5],
+    "illkillyou": [5, 5],
+    "kneecap you": [5, 5],
+    "kneecapyou": [5, 5],
+    "shoot you": [5, 5],
+    "shootyou": [5, 5],
+    "skin you alive": [5, 5],
+    "skinyoualive": [5, 5],
+    "slash your throat": [5, 5],
+    "slashyourthroat": [5, 5],
+    "smash your face": [5, 5],
+    "smashyourface": [5, 5],
+    "snap your neck": [5, 5],
+    "snapyourneck": [5, 5],
+    "stab you": [5, 5],
+    "stabyou": [5, 5],
+    "stomp your face": [5, 5],
+    "stompyourface": [5, 5],
+    "strangle you": [5, 5],
+    "strangleyou": [5, 5],
+    "watch you die": [5, 5],
+    "watchyoudie": [5, 5],
+    "you deserve to die": [5, 5],
+    "youdeservetodie": [5, 5],
+    "you should die": [5, 5],
+    "youshoulddie": [5, 5],
+    "bash your head in": [5, 5],
+    "bashyourheadin": [5, 5],
+    "beat your face in": [5, 5],
+    "beatyourfacein": [5, 5],
+    "bite the curb": [5, 5],
+    "bitethecurb": [5, 5],
+    "blow your head off": [5, 5],
+    "blowyourheadoff": [5, 5],
+    "break your face": [5, 5],
+    "breakyourface": [5, 5],
+    "break your legs": [5, 5],
+    "breakyourlegs": [5, 5],
+    "bury you": [5, 5],
+    "buryyou": [5, 5],
+    "cap your ass": [5, 5],
+    "capyourass": [5, 5],
+    "cave your head in": [5, 5],
+    "caveyourheadin": [5, 5],
+    "crush your skull": [5, 5],
+    "crushyourskull": [5, 5],
+    "die already": [5, 5],
+    "diealready": [5, 5],
+    "die bitch": [5, 5],
+    "diebitch": [5, 5],
+    "dismember you": [5, 5],
+    "dismemberyou": [5, 5],
+    "drown yourself": [5, 5],
+    "drownyourself": [5, 5],
+    "eat lead": [5, 5],
+    "eatlead": [5, 5],
+    "glass you": [5, 5],
+    "glassyou": [5, 5],
+    "gonna beat you": [5, 5],
+    "gonnabeatyou": [5, 5],
+    "gonna cut you": [5, 5],
+    "gonnacutyou": [5, 5],
+    "gonna stab you": [5, 5],
+    "gonnastabyou": [5, 5],
+    "hope you choke": [5, 5],
+    "hopeyouchoke": [5, 5],
+    "hope you get cancer": [5, 5],
+    "hopeyougetcancer": [5, 5],
+    "hope you suffer": [5, 5],
+    "hopeyousuffer": [5, 5],
+    "hunt you down": [5, 5],
+    "huntyoudown": [5, 5],
+    "i will find you": [5, 5],
+    "iwillfindyou": [5, 5],
+    "jump off a cliff": [5, 5],
+    "jumpoffacliff": [5, 5],
+    "kick your teeth in": [5, 5],
+    "kickyourteethin": [5, 5],
+    "murder you": [5, 5],
+    "murderyou": [5, 5],
+    "rip your head off": [5, 5],
+    "ripyourheadoff": [5, 5],
+    "run you over": [5, 5],
+    "runyouover": [5, 5],
+    "set you on fire": [5, 5],
+    "setyouonfire": [5, 5],
+    "shank you": [5, 5],
+    "shankyou": [5, 5],
+    "six feet under": [5, 5],
+    "sixfeetunder": [5, 5],
+    "slash you": [5, 5],
+    "slashyou": [5, 5],
+    "smack you": [5, 5],
+    "smackyou": [5, 5],
+    "stomp you out": [5, 5],
+    "stompyouout": [5, 5],
+    "throw hands": [5, 5],
+    "throwhands": [5, 5],
+    "waste you": [5, 5],
+    "wasteyou": [5, 5],
+    "wreck you": [5, 5],
+    "wreckyou": [5, 5],
+    "youre dead": [5, 5],
+    "youredead": [5, 5],
+    "youre dead meat": [5, 5],
+    "youredeadmeat": [5, 5],
     // ===== INTERNET/GAMING TOXICITY =====
-    "bot diff": { s: 2, c: 3 },
-    "botdiff": { s: 2, c: 3 },
-    "braindead player": { s: 2, c: 3 },
-    "braindeadplayer": { s: 2, c: 3 },
-    "clapped": { s: 2, c: 3 },
-    "cringe lord": { s: 2, c: 3 },
-    "cringelord": { s: 2, c: 3 },
-    "cry more": { s: 2, c: 3 },
-    "crymore": { s: 2, c: 3 },
-    "cry about it": { s: 2, c: 3 },
-    "cryaboutit": { s: 4, c: 4 },
-    "delete the game": { s: 2, c: 3 },
-    "deletethegame": { s: 2, c: 3 },
-    "dog water": { s: 2, c: 3 },
-    "dogwater": { s: 2, c: 3 },
-    "dumpster fire": { s: 2, c: 3 },
-    "dumpsterfire": { s: 2, c: 3 },
-    "ez clap": { s: 2, c: 3 },
-    "ezclap": { s: 2, c: 3 },
-    "ez game": { s: 2, c: 3 },
-    "ezgame": { s: 2, c: 3 },
-    "ez pz": { s: 2, c: 3 },
-    "ezpz": { s: 2, c: 3 },
-    "feeder": { s: 2, c: 3 },
-    "feeding": { s: 3, c: 4 },
-    "free kill": { s: 3, c: 4 },
-    "freekill": { s: 3, c: 4 },
-    "gamer word": { s: 3, c: 4 },
-    "gamerword": { s: 3, c: 4 },
-    "garbage player": { s: 3, c: 4 },
-    "garbageplayer": { s: 3, c: 4 },
-    "gg ez": { s: 3, c: 4 },
-    "ggez": { s: 3, c: 4 },
-    "get clapped": { s: 3, c: 4 },
-    "getclapped": { s: 3, c: 4 },
-    "get destroyed": { s: 3, c: 4 },
-    "getdestroyed": { s: 3, c: 4 },
-    "get good": { s: 3, c: 4 },
-    "getgood": { s: 3, c: 4 },
-    "get owned": { s: 3, c: 4 },
-    "getowned": { s: 3, c: 4 },
-    "get rekt": { s: 3, c: 4 },
-    "getrekt": { s: 3, c: 4 },
-    "get wrecked": { s: 3, c: 4 },
-    "getwrecked": { s: 3, c: 4 },
-    "git gud": { s: 3, c: 4 },
-    "gitgud": { s: 3, c: 4 },
-    "go cry": { s: 3, c: 4 },
-    "gocry": { s: 3, c: 4 },
-    "griefer": { s: 3, c: 4 },
-    "griefing": { s: 3, c: 4 },
-    "hardstuck": { s: 3, c: 4 },
-    "hard stuck": { s: 3, c: 4 },
-    "inting": { s: 3, c: 4 },
-    "jg diff": { s: 3, c: 4 },
-    "jgdiff": { s: 3, c: 4 },
-    "kill stealer": { s: 3, c: 4 },
-    "killstealer": { s: 3, c: 4 },
-    "l bozo": { s: 3, c: 4 },
-    "lbozo": { s: 3, c: 4 },
-    "l ratio": { s: 3, c: 4 },
-    "lratio": { s: 3, c: 4 },
-    "low elo": { s: 3, c: 4 },
-    "lowelo": { s: 3, c: 4 },
-    "lulz": { s: 3, c: 4 },
-    "mad cuz bad": { s: 3, c: 4 },
-    "madcuzbad": { s: 3, c: 4 },
-    "malding": { s: 3, c: 4 },
-    "mid diff": { s: 3, c: 4 },
-    "middiff": { s: 3, c: 4 },
-    "no skill": { s: 3, c: 4 },
-    "noskill": { s: 3, c: 4 },
-    "noob": { s: 1, c: 2 },
-    "noobs": { s: 3, c: 4 },
-    "noobie": { s: 3, c: 4 },
-    "newb": { s: 3, c: 4 },
-    "newbie": { s: 3, c: 4 },
-    "owned": { s: 3, c: 4 },
-    "powned": { s: 3, c: 4 },
-    "pwned": { s: 3, c: 4 },
-    "pwn3d": { s: 3, c: 5 },
-    "pwnage": { s: 3, c: 4 },
-    "ownage": { s: 3, c: 4 },
-    "rage quit": { s: 3, c: 4 },
-    "ragequit": { s: 3, c: 4 },
-    "ragequitter": { s: 3, c: 4 },
-    "ratio": { s: 3, c: 4 },
-    "ratioed": { s: 3, c: 4 },
-    "rekt": { s: 3, c: 4 },
-    "rent free": { s: 3, c: 4 },
-    "rentfree": { s: 3, c: 4 },
-    "skill issue": { s: 3, c: 4 },
-    "skillissue": { s: 3, c: 4 },
-    "stay mad": { s: 3, c: 4 },
-    "staymad": { s: 3, c: 4 },
-    "stay pressed": { s: 3, c: 4 },
-    "staypressed": { s: 3, c: 4 },
-    "sweatlord": { s: 3, c: 4 },
-    "sweat lord": { s: 3, c: 4 },
-    "sweaty": { s: 3, c: 4 },
-    "tilted": { s: 3, c: 4 },
-    "top diff": { s: 3, c: 4 },
-    "topdiff": { s: 3, c: 4 },
-    "touch grass": { s: 3, c: 4 },
-    "touchgrass": { s: 3, c: 4 },
-    "trash player": { s: 3, c: 4 },
-    "trashplayer": { s: 3, c: 4 },
-    "trash talk": { s: 3, c: 4 },
-    "trashtalk": { s: 3, c: 4 },
-    "trashtalker": { s: 3, c: 4 },
-    "trashtalking": { s: 3, c: 4 },
-    "trolled": { s: 3, c: 4 },
-    "trolling": { s: 3, c: 4 },
-    "tryhard": { s: 1, c: 2 },
-    "try hard": { s: 3, c: 4 },
-    "uninstall": { s: 3, c: 4 },
-    "washed up": { s: 3, c: 4 },
-    "washedup": { s: 3, c: 4 },
-    "you suck": { s: 3, c: 4 },
-    "yousuck": { s: 3, c: 4 },
-    "youre bad": { s: 3, c: 4 },
-    "yourebad": { s: 3, c: 4 },
-    "youre trash": { s: 3, c: 4 },
-    "youretrash": { s: 3, c: 4 },
-    "you stink": { s: 3, c: 4 },
-    "youstink": { s: 3, c: 4 },
-    "zero skill": { s: 3, c: 4 },
-    "zeroskill": { s: 3, c: 4 },
+    "bot diff": [2, 3],
+    "botdiff": [2, 3],
+    "braindead player": [2, 3],
+    "braindeadplayer": [2, 3],
+    "clapped": [2, 3],
+    "cringe lord": [2, 3],
+    "cringelord": [2, 3],
+    "cry more": [2, 3],
+    "crymore": [2, 3],
+    "cry about it": [2, 3],
+    "cryaboutit": [4, 4],
+    "delete the game": [2, 3],
+    "deletethegame": [2, 3],
+    "dog water": [2, 3],
+    "dogwater": [2, 3],
+    "dumpster fire": [2, 3],
+    "dumpsterfire": [2, 3],
+    "ez clap": [2, 3],
+    "ezclap": [2, 3],
+    "ez game": [2, 3],
+    "ezgame": [2, 3],
+    "ez pz": [2, 3],
+    "ezpz": [2, 3],
+    "feeder": [2, 3],
+    "feeding": [3, 4],
+    "free kill": [3, 4],
+    "freekill": [3, 4],
+    "gamer word": [3, 4],
+    "gamerword": [3, 4],
+    "garbage player": [3, 4],
+    "garbageplayer": [3, 4],
+    "gg ez": [3, 4],
+    "ggez": [3, 4],
+    "get clapped": [3, 4],
+    "getclapped": [3, 4],
+    "get destroyed": [3, 4],
+    "getdestroyed": [3, 4],
+    "get good": [3, 4],
+    "getgood": [3, 4],
+    "get owned": [3, 4],
+    "getowned": [3, 4],
+    "get rekt": [3, 4],
+    "getrekt": [3, 4],
+    "get wrecked": [3, 4],
+    "getwrecked": [3, 4],
+    "git gud": [3, 4],
+    "gitgud": [3, 4],
+    "go cry": [3, 4],
+    "gocry": [3, 4],
+    "griefer": [3, 4],
+    "griefing": [3, 4],
+    "hardstuck": [3, 4],
+    "hard stuck": [3, 4],
+    "inting": [3, 4],
+    "jg diff": [3, 4],
+    "jgdiff": [3, 4],
+    "kill stealer": [3, 4],
+    "killstealer": [3, 4],
+    "l bozo": [3, 4],
+    "lbozo": [3, 4],
+    "l ratio": [3, 4],
+    "lratio": [3, 4],
+    "low elo": [3, 4],
+    "lowelo": [3, 4],
+    "lulz": [3, 4],
+    "mad cuz bad": [3, 4],
+    "madcuzbad": [3, 4],
+    "malding": [3, 4],
+    "mid diff": [3, 4],
+    "middiff": [3, 4],
+    "no skill": [3, 4],
+    "noskill": [3, 4],
+    "noob": [1, 2],
+    "noobs": [3, 4],
+    "noobie": [3, 4],
+    "newb": [3, 4],
+    "newbie": [3, 4],
+    "owned": [3, 4],
+    "powned": [3, 4],
+    "pwned": [3, 4],
+    "pwn3d": [3, 5],
+    "pwnage": [3, 4],
+    "ownage": [3, 4],
+    "rage quit": [3, 4],
+    "ragequit": [3, 4],
+    "ragequitter": [3, 4],
+    "ratio": [3, 4],
+    "ratioed": [3, 4],
+    "rekt": [3, 4],
+    "rent free": [3, 4],
+    "rentfree": [3, 4],
+    "skill issue": [3, 4],
+    "skillissue": [3, 4],
+    "stay mad": [3, 4],
+    "staymad": [3, 4],
+    "stay pressed": [3, 4],
+    "staypressed": [3, 4],
+    "sweatlord": [3, 4],
+    "sweat lord": [3, 4],
+    "sweaty": [3, 4],
+    "tilted": [3, 4],
+    "top diff": [3, 4],
+    "topdiff": [3, 4],
+    "touch grass": [3, 4],
+    "touchgrass": [3, 4],
+    "trash player": [3, 4],
+    "trashplayer": [3, 4],
+    "trash talk": [3, 4],
+    "trashtalk": [3, 4],
+    "trashtalker": [3, 4],
+    "trashtalking": [3, 4],
+    "trolled": [3, 4],
+    "trolling": [3, 4],
+    "tryhard": [1, 2],
+    "try hard": [3, 4],
+    "uninstall": [3, 4],
+    "washed up": [3, 4],
+    "washedup": [3, 4],
+    "you suck": [3, 4],
+    "yousuck": [3, 4],
+    "youre bad": [3, 4],
+    "yourebad": [3, 4],
+    "youre trash": [3, 4],
+    "youretrash": [3, 4],
+    "you stink": [3, 4],
+    "youstink": [3, 4],
+    "zero skill": [3, 4],
+    "zeroskill": [3, 4],
     // ===== BRITISH SLANG EXPANDED =====
-    "bawbag": { s: 3, c: 4 },
-    "bampot": { s: 3, c: 4 },
-    "barmpot": { s: 3, c: 4 },
-    "bell whiff": { s: 3, c: 4 },
-    "bellwhiff": { s: 3, c: 4 },
-    "bogoff": { s: 3, c: 4 },
-    "bog off": { s: 3, c: 4 },
-    "bugger all": { s: 3, c: 4 },
-    "buggerall": { s: 3, c: 4 },
-    "cheeky git": { s: 3, c: 4 },
-    "cheekygit": { s: 3, c: 4 },
-    "cheeky sod": { s: 3, c: 4 },
-    "cheekysod": { s: 3, c: 4 },
-    "codswallop": { s: 3, c: 4 },
-    "daft cow": { s: 3, c: 4 },
-    "daftcow": { s: 3, c: 4 },
-    "daft git": { s: 3, c: 4 },
-    "daftgit": { s: 3, c: 4 },
-    "daft twat": { s: 4, c: 4 },
-    "dafttwat": { s: 4, c: 4 },
-    "div": { s: 3, c: 4 },
-    "divvy": { s: 3, c: 4 },
-    "eejit": { s: 3, c: 4 },
-    "fanny about": { s: 3, c: 4 },
-    "fannyabout": { s: 3, c: 4 },
-    "get knotted": { s: 3, c: 4 },
-    "getknotted": { s: 3, c: 4 },
-    "get stuffed": { s: 3, c: 4 },
-    "getstuffed": { s: 3, c: 4 },
-    "gobshites": { s: 3, c: 5 },
-    "jammy git": { s: 3, c: 4 },
-    "jammygit": { s: 3, c: 4 },
-    "jammy bastard": { s: 5, c: 4 },
-    "jammybastard": { s: 5, c: 4 },
+    "bawbag": [3, 4],
+    "bampot": [3, 4],
+    "barmpot": [3, 4],
+    "bell whiff": [3, 4],
+    "bellwhiff": [3, 4],
+    "bogoff": [3, 4],
+    "bog off": [3, 4],
+    "bugger all": [3, 4],
+    "buggerall": [3, 4],
+    "cheeky git": [3, 4],
+    "cheekygit": [3, 4],
+    "cheeky sod": [3, 4],
+    "cheekysod": [3, 4],
+    "codswallop": [3, 4],
+    "daft cow": [3, 4],
+    "daftcow": [3, 4],
+    "daft git": [3, 4],
+    "daftgit": [3, 4],
+    "daft twat": [4, 4],
+    "dafttwat": [4, 4],
+    "div": [3, 4],
+    "divvy": [3, 4],
+    "eejit": [3, 4],
+    "fanny about": [3, 4],
+    "fannyabout": [3, 4],
+    "get knotted": [3, 4],
+    "getknotted": [3, 4],
+    "get stuffed": [3, 4],
+    "getstuffed": [3, 4],
+    "gobshites": [3, 5],
+    "jammy git": [3, 4],
+    "jammygit": [3, 4],
+    "jammy bastard": [5, 4],
+    "jammybastard": [5, 4],
     // FP: "jessie" — common name
-    // "jessie": { s: 3, c: 4 },
+    // "jessie": [3, 4],
     // FP: "jobbie" — triggers on "job" via separator-tolerant matching
-    // "jobbie": { s: 3, c: 4 },
-    "knob cheese": { s: 3, c: 4 },
-    "mangy git": { s: 3, c: 4 },
-    "mangygit": { s: 3, c: 4 },
-    "meff": { s: 3, c: 4 },
-    "midden": { s: 3, c: 4 },
-    "ming": { s: 3, c: 4 },
-    "minging": { s: 3, c: 4 },
-    "numpty": { s: 1, c: 2 },
-    "numptie": { s: 3, c: 4 },
-    "numpties": { s: 3, c: 4 },
-    "old fart": { s: 3, c: 4 },
-    "oldfart": { s: 3, c: 4 },
-    "pilchard": { s: 3, c: 4 },
-    "plank": { s: 3, c: 4 },
-    "ponce about": { s: 3, c: 4 },
-    "ponceabout": { s: 3, c: 4 },
-    "prat": { s: 1, c: 2 },
-    "prats": { s: 3, c: 4 },
-    "pratt": { s: 3, c: 4 },
-    "ratarsed": { s: 3, c: 4 },
-    "rat arsed": { s: 3, c: 4 },
-    "scally": { s: 3, c: 4 },
-    "scallywag": { s: 3, c: 4 },
-    "scrotes": { s: 3, c: 4 },
-    "slappers": { s: 3, c: 4 },
-    "slag off": { s: 3, c: 4 },
-    "slagoff": { s: 3, c: 4 },
-    "slagging": { s: 3, c: 4 },
-    "smarmy git": { s: 3, c: 4 },
-    "smarmygit": { s: 3, c: 4 },
-    "swine": { s: 3, c: 4 },
-    "tit head": { s: 4, c: 4 },
-    "tithead": { s: 4, c: 4 },
-    "toerags": { s: 3, c: 4 },
-    "tossers": { s: 3, c: 4 },
-    "tossing": { s: 3, c: 4 },
-    "toss off": { s: 3, c: 4 },
-    "tossoff": { s: 3, c: 4 },
-    "twits": { s: 3, c: 4 },
-    "wally": { s: 3, c: 4 },
-    "wallies": { s: 3, c: 4 },
-    "wazzocks": { s: 3, c: 4 },
-    "whinger": { s: 3, c: 4 },
-    "wingnut": { s: 3, c: 4 },
+    // "jobbie": [3, 4],
+    "knob cheese": [3, 4],
+    "mangy git": [3, 4],
+    "mangygit": [3, 4],
+    "meff": [3, 4],
+    "midden": [3, 4],
+    "ming": [3, 4],
+    "minging": [3, 4],
+    "numpty": [1, 2],
+    "numptie": [3, 4],
+    "numpties": [3, 4],
+    "old fart": [3, 4],
+    "oldfart": [3, 4],
+    "pilchard": [3, 4],
+    "plank": [3, 4],
+    "ponce about": [3, 4],
+    "ponceabout": [3, 4],
+    "prat": [1, 2],
+    "prats": [3, 4],
+    "pratt": [3, 4],
+    "ratarsed": [3, 4],
+    "rat arsed": [3, 4],
+    "scally": [3, 4],
+    "scallywag": [3, 4],
+    "scrotes": [3, 4],
+    "slappers": [3, 4],
+    "slag off": [3, 4],
+    "slagoff": [3, 4],
+    "slagging": [3, 4],
+    "smarmy git": [3, 4],
+    "smarmygit": [3, 4],
+    "swine": [3, 4],
+    "tit head": [4, 4],
+    "tithead": [4, 4],
+    "toerags": [3, 4],
+    "tossers": [3, 4],
+    "tossing": [3, 4],
+    "toss off": [3, 4],
+    "tossoff": [3, 4],
+    "twits": [3, 4],
+    "wally": [3, 4],
+    "wallies": [3, 4],
+    "wazzocks": [3, 4],
+    "whinger": [3, 4],
+    "wingnut": [3, 4],
     // FP: "yob" — leet speak j→y turns "job" into "yob"
-    // "yob": { s: 3, c: 4 },
-    // "yobbo": { s: 3, c: 4 },
-    // "yobbos": { s: 3, c: 4 },
+    // "yob": [3, 4],
+    // "yobbo": [3, 4],
+    // "yobbos": [3, 4],
     // ===== AUSTRALIAN SLANG EXPANDED =====
-    "bludger": { s: 3, c: 4 },
-    "bludgers": { s: 3, c: 4 },
-    "boofhead": { s: 3, c: 4 },
-    "boofheads": { s: 3, c: 4 },
-    "bush pig": { s: 3, c: 4 },
-    "bushpig": { s: 3, c: 4 },
-    "deadset drongo": { s: 3, c: 4 },
-    "deadsetdrongo": { s: 3, c: 4 },
-    "dipstick": { s: 3, c: 4 },
-    "dipsticks": { s: 3, c: 4 },
-    "dero": { s: 3, c: 4 },
-    "deros": { s: 3, c: 4 },
-    "dickwit": { s: 4, c: 4 },
-    "dickwits": { s: 4, c: 4 },
-    "dingbat": { s: 3, c: 4 },
-    "dingbats": { s: 3, c: 4 },
-    "dropkick": { s: 3, c: 4 },
-    "dropkicks": { s: 3, c: 4 },
-    "festy": { s: 3, c: 4 },
-    "flamin galah": { s: 3, c: 4 },
-    "flamingalah": { s: 3, c: 4 },
-    "galah": { s: 3, c: 4 },
-    "galahs": { s: 3, c: 4 },
-    "hoon": { s: 3, c: 4 },
-    "hoons": { s: 3, c: 4 },
-    "mongrel": { s: 3, c: 4 },
-    "mongrels": { s: 3, c: 4 },
-    "no hoper": { s: 3, c: 4 },
-    "nohoper": { s: 3, c: 4 },
-    "piss weak": { s: 3, c: 4 },
-    "pissweak": { s: 3, c: 4 },
-    "ratbags": { s: 3, c: 4 },
-    "shit stirrer": { s: 3, c: 5 },
-    "shitstirrer": { s: 3, c: 5 },
-    "show pony": { s: 3, c: 4 },
-    "showpony": { s: 3, c: 4 },
-    "silly bugger": { s: 3, c: 4 },
-    "sillybugger": { s: 3, c: 4 },
-    "sook": { s: 3, c: 4 },
-    "sooks": { s: 3, c: 4 },
-    "wowser": { s: 3, c: 4 },
-    "wowsers": { s: 3, c: 4 },
+    "bludger": [3, 4],
+    "bludgers": [3, 4],
+    "boofhead": [3, 4],
+    "boofheads": [3, 4],
+    "bush pig": [3, 4],
+    "bushpig": [3, 4],
+    "deadset drongo": [3, 4],
+    "deadsetdrongo": [3, 4],
+    "dipstick": [3, 4],
+    "dipsticks": [3, 4],
+    "dero": [3, 4],
+    "deros": [3, 4],
+    "dickwit": [4, 4],
+    "dickwits": [4, 4],
+    "dingbat": [3, 4],
+    "dingbats": [3, 4],
+    "dropkick": [3, 4],
+    "dropkicks": [3, 4],
+    "festy": [3, 4],
+    "flamin galah": [3, 4],
+    "flamingalah": [3, 4],
+    "galah": [3, 4],
+    "galahs": [3, 4],
+    "hoon": [3, 4],
+    "hoons": [3, 4],
+    "mongrel": [3, 4],
+    "mongrels": [3, 4],
+    "no hoper": [3, 4],
+    "nohoper": [3, 4],
+    "piss weak": [3, 4],
+    "pissweak": [3, 4],
+    "ratbags": [3, 4],
+    "shit stirrer": [3, 5],
+    "shitstirrer": [3, 5],
+    "show pony": [3, 4],
+    "showpony": [3, 4],
+    "silly bugger": [3, 4],
+    "sillybugger": [3, 4],
+    "sook": [3, 4],
+    "sooks": [3, 4],
+    "wowser": [3, 4],
+    "wowsers": [3, 4],
     // ===== LEETSPEAK VARIANTS EXPANDED =====
-    "4$$": { s: 3, c: 5 },
-    "4ssh0l3": { s: 3, c: 5 },
-    "b!tch3s": { s: 3, c: 5 },
-    "b1tch3s": { s: 3, c: 5 },
-    "b4st4rd": { s: 3, c: 5 },
-    "b4stard": { s: 5, c: 5 },
-    "ba5tard": { s: 5, c: 5 },
-    "c0cksuck4": { s: 3, c: 5 },
-    "c0nts": { s: 3, c: 5 },
-    "cum5hot": { s: 4, c: 5 },
-    "d!ckh34d": { s: 3, c: 5 },
-    "d1ckh34d": { s: 3, c: 5 },
-    "d1ckw33d": { s: 3, c: 5 },
-    "d1ldos": { s: 3, c: 5 },
-    "f@gg0ts": { s: 3, c: 5 },
-    "f4gg0ts": { s: 3, c: 5 },
-    "fck3r": { s: 3, c: 5 },
-    "fcuk3r": { s: 3, c: 5 },
-    "fuk3r": { s: 3, c: 5 },
-    "fukk3r": { s: 3, c: 5 },
-    "h00k3r": { s: 3, c: 5 },
-    "h0m0": { s: 3, c: 5 },
-    "k1ll y0urs3lf": { s: 3, c: 5 },
-    "m0th3rfuck3r": { s: 3, c: 5 },
-    "m0th4fuck4": { s: 3, c: 5 },
-    "n!gg@": { s: 3, c: 5 },
-    "n!gg@s": { s: 3, c: 5 },
-    "n1664z": { s: 3, c: 5 },
-    "n1gg@": { s: 3, c: 5 },
-    "n1gg@z": { s: 3, c: 5 },
-    "p3d0": { s: 3, c: 5 },
-    "p3d0ph1l3": { s: 3, c: 5 },
-    "p3rv": { s: 3, c: 5 },
-    "pr0st1tut3": { s: 3, c: 5 },
-    "r4c1st": { s: 3, c: 5 },
-    "r4p3": { s: 3, c: 5 },
-    "r4p3d": { s: 3, c: 5 },
-    "r4p1st": { s: 3, c: 5 },
-    "s3x": { s: 3, c: 5 },
-    "s3xy": { s: 3, c: 5 },
-    "sh!tb4g": { s: 3, c: 5 },
-    "sh!th34d": { s: 3, c: 5 },
-    "sh1tb4g": { s: 3, c: 5 },
-    "sh1th34d": { s: 3, c: 5 },
-    "sk4nky": { s: 3, c: 5 },
-    "sl4g": { s: 3, c: 5 },
-    "sl4gs": { s: 3, c: 5 },
-    "w4nk3rs": { s: 3, c: 5 },
+    "4$$": [3, 5],
+    "4ssh0l3": [3, 5],
+    "b!tch3s": [3, 5],
+    "b1tch3s": [3, 5],
+    "b4st4rd": [3, 5],
+    "b4stard": [5, 5],
+    "ba5tard": [5, 5],
+    "c0cksuck4": [3, 5],
+    "c0nts": [3, 5],
+    "cum5hot": [4, 5],
+    "d!ckh34d": [3, 5],
+    "d1ckh34d": [3, 5],
+    "d1ckw33d": [3, 5],
+    "d1ldos": [3, 5],
+    "f@gg0ts": [3, 5],
+    "f4gg0ts": [3, 5],
+    "fck3r": [3, 5],
+    "fcuk3r": [3, 5],
+    "fuk3r": [3, 5],
+    "fukk3r": [3, 5],
+    "h00k3r": [3, 5],
+    "h0m0": [3, 5],
+    "k1ll y0urs3lf": [3, 5],
+    "m0th3rfuck3r": [3, 5],
+    "m0th4fuck4": [3, 5],
+    "n!gg@": [3, 5],
+    "n!gg@s": [3, 5],
+    "n1664z": [3, 5],
+    "n1gg@": [3, 5],
+    "n1gg@z": [3, 5],
+    "p3d0": [3, 5],
+    "p3d0ph1l3": [3, 5],
+    "p3rv": [3, 5],
+    "pr0st1tut3": [3, 5],
+    "r4c1st": [3, 5],
+    "r4p3": [3, 5],
+    "r4p3d": [3, 5],
+    "r4p1st": [3, 5],
+    "s3x": [3, 5],
+    "s3xy": [3, 5],
+    "sh!tb4g": [3, 5],
+    "sh!th34d": [3, 5],
+    "sh1tb4g": [3, 5],
+    "sh1th34d": [3, 5],
+    "sk4nky": [3, 5],
+    "sl4g": [3, 5],
+    "sl4gs": [3, 5],
+    "w4nk3rs": [3, 5],
     // ===== UNICODE HOMOGLYPHS EXPANDED =====
-    "bіtсh": { s: 3, c: 5 },
-    "сoсk": { s: 3, c: 5 },
-    "сum": { s: 3, c: 5 },
-    "dіск": { s: 3, c: 5 },
-    "fuск": { s: 3, c: 5 },
-    "nіggа": { s: 3, c: 5 },
-    "рuѕѕу": { s: 3, c: 5 },
-    "ѕlut": { s: 3, c: 5 },
-    "whоrе": { s: 3, c: 5 },
-    "fаggоt": { s: 3, c: 5 },
-    "rеtаrd": { s: 3, c: 5 },
-    "bаstаrd": { s: 3, c: 5 },
-    "wаnkеr": { s: 3, c: 5 },
-    "tоssеr": { s: 3, c: 5 },
+    "bіtсh": [3, 5],
+    "сoсk": [3, 5],
+    "сum": [3, 5],
+    "dіск": [3, 5],
+    "fuск": [3, 5],
+    "nіggа": [3, 5],
+    "рuѕѕу": [3, 5],
+    "ѕlut": [3, 5],
+    "whоrе": [3, 5],
+    "fаggоt": [3, 5],
+    "rеtаrd": [3, 5],
+    "bаstаrd": [3, 5],
+    "wаnkеr": [3, 5],
+    "tоssеr": [3, 5],
     // ===== SPACING/PUNCTUATION EVASIONS =====
-    "a.s.s.h.o.l.e": { s: 3, c: 5 },
-    "a-s-s-h-o-l-e": { s: 3, c: 5 },
-    "a_s_s_h_o_l_e": { s: 3, c: 5 },
-    "c.o.c.k.s.u.c.k.e.r": { s: 3, c: 5 },
-    "c-o-c-k-s-u-c-k-e-r": { s: 3, c: 5 },
-    "d.i.c.k.h.e.a.d": { s: 3, c: 5 },
-    "d-i-c-k-h-e-a-d": { s: 3, c: 5 },
-    "f-a-g-g-o-t": { s: 3, c: 5 },
-    "m.o.t.h.e.r.f.u.c.k.e.r": { s: 3, c: 5 },
-    "r.e.t.a.r.d": { s: 3, c: 5 },
-    "r-e-t-a-r-d": { s: 3, c: 5 },
-    "s.h.i.t.h.e.a.d": { s: 3, c: 5 },
-    "w.a.n.k.e.r": { s: 3, c: 5 },
-    "w-a-n-k-e-r": { s: 3, c: 5 },
-    "f u c k e r": { s: 3, c: 5 },
-    "c o c k s u c k e r": { s: 3, c: 5 },
-    "d i c k h e a d": { s: 3, c: 5 },
-    "m o t h e r f u c k e r": { s: 3, c: 5 },
-    "s h i t h e a d": { s: 3, c: 5 },
-    "w a n k e r": { s: 3, c: 5 },
-    "r e t a r d": { s: 3, c: 5 },
-    "a s s h o l e": { s: 3, c: 5 },
+    "a.s.s.h.o.l.e": [3, 5],
+    "a-s-s-h-o-l-e": [3, 5],
+    "a_s_s_h_o_l_e": [3, 5],
+    "c.o.c.k.s.u.c.k.e.r": [3, 5],
+    "c-o-c-k-s-u-c-k-e-r": [3, 5],
+    "d.i.c.k.h.e.a.d": [3, 5],
+    "d-i-c-k-h-e-a-d": [3, 5],
+    "f-a-g-g-o-t": [3, 5],
+    "m.o.t.h.e.r.f.u.c.k.e.r": [3, 5],
+    "r.e.t.a.r.d": [3, 5],
+    "r-e-t-a-r-d": [3, 5],
+    "s.h.i.t.h.e.a.d": [3, 5],
+    "w.a.n.k.e.r": [3, 5],
+    "w-a-n-k-e-r": [3, 5],
+    "f u c k e r": [3, 5],
+    "c o c k s u c k e r": [3, 5],
+    "d i c k h e a d": [3, 5],
+    "m o t h e r f u c k e r": [3, 5],
+    "s h i t h e a d": [3, 5],
+    "w a n k e r": [3, 5],
+    "r e t a r d": [3, 5],
+    "a s s h o l e": [3, 5],
     // ===== ABBREVIATION PROFANITY =====
-    "bamf": { s: 3, c: 4 },
-    "dgaf": { s: 3, c: 4 },
-    "fbgm": { s: 3, c: 4 },
-    "fwb": { s: 3, c: 4 },
-    "gtfoh": { s: 3, c: 4 },
-    "kma": { s: 3, c: 4 },
-    "kmfa": { s: 3, c: 4 },
-    "nfw": { s: 3, c: 4 },
-    "roflmao": { s: 3, c: 4 },
-    "sfu": { s: 3, c: 4 },
-    "stfa": { s: 3, c: 4 },
-    "syfm": { s: 3, c: 4 },
-    "tfu": { s: 3, c: 4 },
-    "wgaf": { s: 3, c: 4 },
-    "wtaf": { s: 3, c: 4 },
-    "mfg": { s: 3, c: 4 },
+    "bamf": [3, 4],
+    "dgaf": [3, 4],
+    "fbgm": [3, 4],
+    "fwb": [3, 4],
+    "gtfoh": [3, 4],
+    "kma": [3, 4],
+    "kmfa": [3, 4],
+    "nfw": [3, 4],
+    "roflmao": [3, 4],
+    "sfu": [3, 4],
+    "stfa": [3, 4],
+    "syfm": [3, 4],
+    "tfu": [3, 4],
+    "wgaf": [3, 4],
+    "wtaf": [3, 4],
+    "mfg": [3, 4],
     // ===== PHONETIC SPELLINGS EXPANDED =====
-    "dee eye see kay": { s: 3, c: 4 },
-    "double you aitch oh are ee": { s: 3, c: 4 },
-    "eff ay gee": { s: 3, c: 4 },
-    "en eye gee gee ee are": { s: 3, c: 4 },
-    "see oh see kay": { s: 3, c: 4 },
-    "pee you ess ess why": { s: 3, c: 4 },
-    "ess ell you tee": { s: 3, c: 4 },
-    "are ee tee ay are dee": { s: 3, c: 4 },
-    "fyoo see kay": { s: 3, c: 4 },
-    "sheet": { s: 3, c: 4 },
-    "coq": { s: 3, c: 4 },
-    "kawk": { s: 3, c: 4 },
-    "hoor": { s: 3, c: 4 },
-    "whoor": { s: 3, c: 4 },
-    "hoer": { s: 3, c: 4 },
-    "shlut": { s: 3, c: 4 },
-    "fark": { s: 3, c: 4 },
-    "farking": { s: 3, c: 4 },
-    "farked": { s: 3, c: 4 },
-    "fahking": { s: 3, c: 4 },
-    "fouck": { s: 3, c: 4 },
-    "btch": { s: 3, c: 4 },
-    "whr": { s: 3, c: 4 },
-    "hrny": { s: 3, c: 4 },
-    "prn": { s: 3, c: 4 },
+    "dee eye see kay": [3, 4],
+    "double you aitch oh are ee": [3, 4],
+    "eff ay gee": [3, 4],
+    "en eye gee gee ee are": [3, 4],
+    "see oh see kay": [3, 4],
+    "pee you ess ess why": [3, 4],
+    "ess ell you tee": [3, 4],
+    "are ee tee ay are dee": [3, 4],
+    "fyoo see kay": [3, 4],
+    "sheet": [3, 4],
+    "coq": [3, 4],
+    "kawk": [3, 4],
+    "hoor": [3, 4],
+    "whoor": [3, 4],
+    "hoer": [3, 4],
+    "shlut": [3, 4],
+    "fark": [3, 4],
+    "farking": [3, 4],
+    "farked": [3, 4],
+    "fahking": [3, 4],
+    "fouck": [3, 4],
+    "btch": [3, 4],
+    "whr": [3, 4],
+    "hrny": [3, 4],
+    "prn": [3, 4],
     // ===== ADDITIONAL COMPOUND INSULTS =====
-    "arse licker": { s: 1, c: 4 },
-    "arsemonger": { s: 1, c: 4 },
-    "arse monger": { s: 1, c: 4 },
-    "assbandito": { s: 3, c: 4 },
-    "assblaster": { s: 3, c: 4 },
-    "ass blaster": { s: 3, c: 4 },
-    "assburglar": { s: 3, c: 4 },
-    "ass burglar": { s: 3, c: 4 },
-    "asscracker": { s: 3, c: 4 },
-    "ass cracker": { s: 3, c: 4 },
-    "assgrinder": { s: 3, c: 4 },
-    "ass grinder": { s: 3, c: 4 },
-    "assmaster": { s: 3, c: 4 },
-    "ass master": { s: 3, c: 4 },
-    "asspumper": { s: 3, c: 4 },
-    "ass pumper": { s: 3, c: 4 },
-    "assrammer": { s: 3, c: 4 },
-    "ass rammer": { s: 3, c: 4 },
-    "assreamer": { s: 3, c: 4 },
-    "ass reamer": { s: 3, c: 4 },
-    "asssmeller": { s: 3, c: 4 },
-    "ass smeller": { s: 3, c: 4 },
-    "bitch tits": { s: 3, c: 4 },
-    "bitchwork": { s: 3, c: 4 },
-    "bitch work": { s: 3, c: 4 },
-    "cock breath": { s: 4, c: 4 },
-    "cock juggler": { s: 4, c: 4 },
-    "cockjuggler": { s: 4, c: 4 },
-    "cock knocker": { s: 4, c: 4 },
-    "cockknocker": { s: 4, c: 4 },
-    "cock monster": { s: 4, c: 4 },
-    "cockmonster": { s: 4, c: 4 },
-    "cock wallet": { s: 4, c: 4 },
-    "cockwallet": { s: 4, c: 4 },
-    "cum bucket": { s: 4, c: 5 },
-    "cumbucket": { s: 4, c: 5 },
-    "cum gargler": { s: 4, c: 5 },
-    "cumgargler": { s: 4, c: 5 },
-    "cum gobbler": { s: 4, c: 5 },
-    "cumgobbler": { s: 4, c: 5 },
-    "cum junkie": { s: 4, c: 5 },
-    "cumjunkie": { s: 4, c: 5 },
-    "cum queen": { s: 4, c: 5 },
-    "cumqueen": { s: 4, c: 5 },
-    "cunt bubble": { s: 5, c: 5 },
-    "cuntbubble": { s: 5, c: 5 },
-    "cunt cake": { s: 5, c: 5 },
-    "cuntcake": { s: 5, c: 5 },
-    "cunt muscle": { s: 5, c: 5 },
-    "cuntmuscle": { s: 5, c: 5 },
-    "cunt nugget": { s: 5, c: 5 },
-    "cuntnugget": { s: 5, c: 5 },
-    "cunt stain": { s: 5, c: 5 },
-    "cuntstain": { s: 5, c: 5 },
-    "dick biscuit": { s: 4, c: 4 },
-    "dickbiscuit": { s: 4, c: 4 },
-    "dick fingers": { s: 4, c: 4 },
-    "dickfingers": { s: 4, c: 4 },
-    "dick gobbler": { s: 4, c: 4 },
-    "dickgobbler": { s: 4, c: 4 },
-    "dick lips": { s: 4, c: 4 },
-    "dicklips": { s: 4, c: 4 },
-    "dick stain": { s: 4, c: 4 },
-    "dickstain": { s: 4, c: 4 },
-    "dick weasel": { s: 4, c: 4 },
-    "dickweasel": { s: 4, c: 4 },
-    "douche monkey": { s: 3, c: 4 },
-    "douchemonkey": { s: 3, c: 4 },
-    "douche rocket": { s: 3, c: 4 },
-    "doucherocket": { s: 3, c: 4 },
-    "fuck bucket": { s: 3, c: 5 },
-    "fuckbucket": { s: 3, c: 5 },
-    "fuck chop": { s: 3, c: 5 },
-    "fuckchop": { s: 3, c: 5 },
-    "fuck hat": { s: 3, c: 5 },
-    "fuckhat": { s: 3, c: 5 },
-    "fuck knocker": { s: 3, c: 5 },
-    "fuckknocker": { s: 3, c: 5 },
-    "fuck muffin": { s: 3, c: 5 },
-    "fuckmuffin": { s: 3, c: 5 },
-    "fuck noodle": { s: 3, c: 5 },
-    "fucknoodle": { s: 3, c: 5 },
-    "fuck puppet": { s: 3, c: 5 },
-    "fuckpuppet": { s: 3, c: 5 },
-    "fuck sack": { s: 3, c: 5 },
-    "fucksack": { s: 3, c: 5 },
-    "fuck trophy": { s: 3, c: 5 },
-    "fucktrophy": { s: 3, c: 5 },
-    "jizz bucket": { s: 4, c: 5 },
-    "jizzbucket": { s: 4, c: 5 },
-    "jizz monkey": { s: 4, c: 5 },
-    "jizzmonkey": { s: 4, c: 5 },
-    "piss bag": { s: 3, c: 4 },
-    "pissbag": { s: 3, c: 4 },
-    "shit hawk": { s: 3, c: 5 },
-    "shithawk": { s: 3, c: 5 },
-    "slut muffin": { s: 3, c: 4 },
-    "slutmuffin": { s: 3, c: 4 },
-    "turd blossom": { s: 1, c: 4 },
-    "turdblossom": { s: 1, c: 4 },
-    "turd bucket": { s: 1, c: 4 },
-    "turdbucket": { s: 1, c: 4 },
-    "turd waffle": { s: 1, c: 4 },
-    "turdwaffle": { s: 1, c: 4 },
-    "twat rocket": { s: 4, c: 4 },
-    "twatrocket": { s: 4, c: 4 },
+    "arse licker": [1, 4],
+    "arsemonger": [1, 4],
+    "arse monger": [1, 4],
+    "assbandito": [3, 4],
+    "assblaster": [3, 4],
+    "ass blaster": [3, 4],
+    "assburglar": [3, 4],
+    "ass burglar": [3, 4],
+    "asscracker": [3, 4],
+    "ass cracker": [3, 4],
+    "assgrinder": [3, 4],
+    "ass grinder": [3, 4],
+    "assmaster": [3, 4],
+    "ass master": [3, 4],
+    "asspumper": [3, 4],
+    "ass pumper": [3, 4],
+    "assrammer": [3, 4],
+    "ass rammer": [3, 4],
+    "assreamer": [3, 4],
+    "ass reamer": [3, 4],
+    "asssmeller": [3, 4],
+    "ass smeller": [3, 4],
+    "bitch tits": [3, 4],
+    "bitchwork": [3, 4],
+    "bitch work": [3, 4],
+    "cock breath": [4, 4],
+    "cock juggler": [4, 4],
+    "cockjuggler": [4, 4],
+    "cock knocker": [4, 4],
+    "cockknocker": [4, 4],
+    "cock monster": [4, 4],
+    "cockmonster": [4, 4],
+    "cock wallet": [4, 4],
+    "cockwallet": [4, 4],
+    "cum bucket": [4, 5],
+    "cumbucket": [4, 5],
+    "cum gargler": [4, 5],
+    "cumgargler": [4, 5],
+    "cum gobbler": [4, 5],
+    "cumgobbler": [4, 5],
+    "cum junkie": [4, 5],
+    "cumjunkie": [4, 5],
+    "cum queen": [4, 5],
+    "cumqueen": [4, 5],
+    "cunt bubble": [5, 5],
+    "cuntbubble": [5, 5],
+    "cunt cake": [5, 5],
+    "cuntcake": [5, 5],
+    "cunt muscle": [5, 5],
+    "cuntmuscle": [5, 5],
+    "cunt nugget": [5, 5],
+    "cuntnugget": [5, 5],
+    "cunt stain": [5, 5],
+    "cuntstain": [5, 5],
+    "dick biscuit": [4, 4],
+    "dickbiscuit": [4, 4],
+    "dick fingers": [4, 4],
+    "dickfingers": [4, 4],
+    "dick gobbler": [4, 4],
+    "dickgobbler": [4, 4],
+    "dick lips": [4, 4],
+    "dicklips": [4, 4],
+    "dick stain": [4, 4],
+    "dickstain": [4, 4],
+    "dick weasel": [4, 4],
+    "dickweasel": [4, 4],
+    "douche monkey": [3, 4],
+    "douchemonkey": [3, 4],
+    "douche rocket": [3, 4],
+    "doucherocket": [3, 4],
+    "fuck bucket": [3, 5],
+    "fuckbucket": [3, 5],
+    "fuck chop": [3, 5],
+    "fuckchop": [3, 5],
+    "fuck hat": [3, 5],
+    "fuckhat": [3, 5],
+    "fuck knocker": [3, 5],
+    "fuckknocker": [3, 5],
+    "fuck muffin": [3, 5],
+    "fuckmuffin": [3, 5],
+    "fuck noodle": [3, 5],
+    "fucknoodle": [3, 5],
+    "fuck puppet": [3, 5],
+    "fuckpuppet": [3, 5],
+    "fuck sack": [3, 5],
+    "fucksack": [3, 5],
+    "fuck trophy": [3, 5],
+    "fucktrophy": [3, 5],
+    "jizz bucket": [4, 5],
+    "jizzbucket": [4, 5],
+    "jizz monkey": [4, 5],
+    "jizzmonkey": [4, 5],
+    "piss bag": [3, 4],
+    "pissbag": [3, 4],
+    "shit hawk": [3, 5],
+    "shithawk": [3, 5],
+    "slut muffin": [3, 4],
+    "slutmuffin": [3, 4],
+    "turd blossom": [1, 4],
+    "turdblossom": [1, 4],
+    "turd bucket": [1, 4],
+    "turdbucket": [1, 4],
+    "turd waffle": [1, 4],
+    "turdwaffle": [1, 4],
+    "twat rocket": [4, 4],
+    "twatrocket": [4, 4],
     // ===== ADDITIONAL EVASION PATTERNS =====
-    "a$$clown": { s: 3, c: 5 },
-    "a$$face": { s: 3, c: 5 },
-    "a$$hat": { s: 3, c: 5 },
-    "a$$licker": { s: 3, c: 5 },
-    "a$$munch": { s: 3, c: 5 },
-    "b!tch3z": { s: 3, c: 5 },
-    "c0cksuk4": { s: 3, c: 5 },
-    "c0cksuk3r": { s: 3, c: 5 },
-    "c*m": { s: 3, c: 5 },
-    "c*mshot": { s: 3, c: 5 },
-    "c*mslut": { s: 3, c: 5 },
-    "d!ckwad": { s: 3, c: 5 },
-    "d!ckface": { s: 3, c: 5 },
-    "d*ckhead": { s: 3, c: 5 },
-    "f*ckface": { s: 3, c: 5 },
-    "f*ckhead": { s: 3, c: 5 },
-    "f*ckwit": { s: 3, c: 5 },
-    "h*e": { s: 3, c: 5 },
-    "m*therfucker": { s: 3, c: 5 },
-    "m*therf*cker": { s: 3, c: 5 },
-    "p*rn": { s: 3, c: 5 },
-    "r*pe": { s: 3, c: 5 },
-    "r*pist": { s: 3, c: 5 },
-    "s*ck my d*ck": { s: 3, c: 5 },
-    "s*ut": { s: 3, c: 5 },
-    "sh*thead": { s: 3, c: 5 },
-    "sh*thole": { s: 3, c: 5 },
-    "sk*nk": { s: 3, c: 5 },
-    "t*ts": { s: 3, c: 5 },
-    "tw*t": { s: 3, c: 5 },
-    "w*nk": { s: 3, c: 5 },
-    "w*nker": { s: 3, c: 5 },
+    "a$$clown": [3, 5],
+    "a$$face": [3, 5],
+    "a$$hat": [3, 5],
+    "a$$licker": [3, 5],
+    "a$$munch": [3, 5],
+    "b!tch3z": [3, 5],
+    "c0cksuk4": [3, 5],
+    "c0cksuk3r": [3, 5],
+    "c*m": [3, 5],
+    "c*mshot": [3, 5],
+    "c*mslut": [3, 5],
+    "d!ckwad": [3, 5],
+    "d!ckface": [3, 5],
+    "d*ckhead": [3, 5],
+    "f*ckface": [3, 5],
+    "f*ckhead": [3, 5],
+    "f*ckwit": [3, 5],
+    "h*e": [3, 5],
+    "m*therfucker": [3, 5],
+    "m*therf*cker": [3, 5],
+    "p*rn": [3, 5],
+    "r*pe": [3, 5],
+    "r*pist": [3, 5],
+    "s*ck my d*ck": [3, 5],
+    "s*ut": [3, 5],
+    "sh*thead": [3, 5],
+    "sh*thole": [3, 5],
+    "sk*nk": [3, 5],
+    "t*ts": [3, 5],
+    "tw*t": [3, 5],
+    "w*nk": [3, 5],
+    "w*nker": [3, 5],
     // ===== ADDITIONAL VULGAR PHRASES =====
-    "bend over": { s: 3, c: 4 },
-    "bendover": { s: 3, c: 4 },
-    "blow your load": { s: 3, c: 4 },
-    "blowyourload": { s: 3, c: 4 },
-    "bust a nut": { s: 3, c: 4 },
-    "bustanut": { s: 3, c: 4 },
-    "choke on a dick": { s: 4, c: 4 },
-    "chokeonadick": { s: 4, c: 4 },
-    "cum in me": { s: 4, c: 5 },
-    "cuminme": { s: 4, c: 5 },
-    "cum inside": { s: 4, c: 5 },
-    "cuminside": { s: 4, c: 5 },
-    "eat me out": { s: 3, c: 4 },
-    "eatmeout": { s: 3, c: 4 },
-    "eat my cock": { s: 4, c: 4 },
-    "eatmycock": { s: 4, c: 4 },
-    "eat my pussy": { s: 4, c: 4 },
-    "eatmypussy": { s: 4, c: 4 },
-    "finger me": { s: 3, c: 4 },
-    "fingerme": { s: 3, c: 4 },
-    "fist me": { s: 3, c: 4 },
-    "fistme": { s: 3, c: 4 },
-    "get on your knees": { s: 3, c: 4 },
-    "getonyourknees": { s: 3, c: 4 },
-    "lick my balls": { s: 3, c: 4 },
-    "lickmyballs": { s: 3, c: 4 },
-    "lick my clit": { s: 3, c: 4 },
-    "lickmyclit": { s: 3, c: 4 },
-    "lick my dick": { s: 4, c: 4 },
-    "lickmydick": { s: 4, c: 4 },
-    "lick my pussy": { s: 4, c: 4 },
-    "lickmypussy": { s: 4, c: 4 },
-    "pound my ass": { s: 3, c: 4 },
-    "poundmyass": { s: 3, c: 4 },
-    "ride my dick": { s: 4, c: 4 },
-    "ridemydick": { s: 4, c: 4 },
-    "ride my face": { s: 3, c: 4 },
-    "ridemyface": { s: 3, c: 4 },
-    "sit on my face": { s: 3, c: 4 },
-    "sitonmyface": { s: 3, c: 4 },
-    "spread your legs": { s: 3, c: 4 },
-    "spreadyourlegs": { s: 3, c: 4 },
-    "suck my balls": { s: 3, c: 4 },
-    "suckmyballs": { s: 3, c: 4 },
-    "suck my clit": { s: 3, c: 4 },
-    "suckmyclit": { s: 3, c: 4 },
-    "suck my tits": { s: 4, c: 4 },
-    "suckmytits": { s: 4, c: 4 },
-    "take it up the ass": { s: 3, c: 4 },
-    "takeituptheass": { s: 3, c: 4 },
-    "up the ass": { s: 3, c: 4 },
-    "uptheass": { s: 3, c: 4 },
+    "bend over": [3, 4],
+    "bendover": [3, 4],
+    "blow your load": [3, 4],
+    "blowyourload": [3, 4],
+    "bust a nut": [3, 4],
+    "bustanut": [3, 4],
+    "choke on a dick": [4, 4],
+    "chokeonadick": [4, 4],
+    "cum in me": [4, 5],
+    "cuminme": [4, 5],
+    "cum inside": [4, 5],
+    "cuminside": [4, 5],
+    "eat me out": [3, 4],
+    "eatmeout": [3, 4],
+    "eat my cock": [4, 4],
+    "eatmycock": [4, 4],
+    "eat my pussy": [4, 4],
+    "eatmypussy": [4, 4],
+    "finger me": [3, 4],
+    "fingerme": [3, 4],
+    "fist me": [3, 4],
+    "fistme": [3, 4],
+    "get on your knees": [3, 4],
+    "getonyourknees": [3, 4],
+    "lick my balls": [3, 4],
+    "lickmyballs": [3, 4],
+    "lick my clit": [3, 4],
+    "lickmyclit": [3, 4],
+    "lick my dick": [4, 4],
+    "lickmydick": [4, 4],
+    "lick my pussy": [4, 4],
+    "lickmypussy": [4, 4],
+    "pound my ass": [3, 4],
+    "poundmyass": [3, 4],
+    "ride my dick": [4, 4],
+    "ridemydick": [4, 4],
+    "ride my face": [3, 4],
+    "ridemyface": [3, 4],
+    "sit on my face": [3, 4],
+    "sitonmyface": [3, 4],
+    "spread your legs": [3, 4],
+    "spreadyourlegs": [3, 4],
+    "suck my balls": [3, 4],
+    "suckmyballs": [3, 4],
+    "suck my clit": [3, 4],
+    "suckmyclit": [3, 4],
+    "suck my tits": [4, 4],
+    "suckmytits": [4, 4],
+    "take it up the ass": [3, 4],
+    "takeituptheass": [3, 4],
+    "up the ass": [3, 4],
+    "uptheass": [3, 4],
     // ===== MODERN INTERNET SLANG =====
-    "autist": { s: 2, c: 3 },
-    "autists": { s: 2, c: 3 },
-    "autistic screeching": { s: 2, c: 3 },
-    "basement dweller": { s: 2, c: 3 },
-    "basementdweller": { s: 2, c: 3 },
-    "brainlet": { s: 2, c: 3 },
-    "brainlets": { s: 2, c: 3 },
-    "butthurt": { s: 2, c: 3 },
-    "butt hurt": { s: 2, c: 3 },
-    "clout chaser": { s: 2, c: 3 },
-    "cloutchaser": { s: 2, c: 3 },
-    "coomer brain": { s: 2, c: 3 },
-    "coomerbrain": { s: 2, c: 3 },
-    "cum brain": { s: 4, c: 5 },
-    "cumbrain": { s: 4, c: 5 },
-    "degen": { s: 2, c: 3 },
-    "degens": { s: 2, c: 3 },
-    "doxxed": { s: 2, c: 3 },
-    "doxxing": { s: 2, c: 3 },
-    "e-thot": { s: 2, c: 3 },
-    "ethot": { s: 2, c: 3 },
-    "e-whore": { s: 5, c: 4 },
-    "ewhore": { s: 5, c: 4 },
-    "fake and gay": { s: 2, c: 3 },
-    "fakeandgay": { s: 2, c: 3 },
-    "fat neckbeard": { s: 2, c: 3 },
-    "fatneckbeard": { s: 2, c: 3 },
-    "femcel": { s: 2, c: 3 },
-    "gammon": { s: 2, c: 3 },
-    "inbred": { s: 2, c: 3 },
-    "keyboard warrior": { s: 2, c: 3 },
-    "keyboardwarrior": { s: 2, c: 3 },
-    "kek": { s: 2, c: 3 },
-    "kekw": { s: 2, c: 3 },
-    "libtard": { s: 5, c: 4 },
-    "libtards": { s: 5, c: 4 },
-    "lolcow": { s: 2, c: 3 },
-    "lolcows": { s: 2, c: 3 },
-    "mald": { s: 2, c: 3 },
-    "man child": { s: 2, c: 3 },
-    "manchild": { s: 2, c: 3 },
-    "man children": { s: 2, c: 3 },
-    "manchildren": { s: 2, c: 3 },
-    "mouth breather": { s: 2, c: 3 },
-    "mouthbreather": { s: 2, c: 3 },
-    "neckbeards": { s: 2, c: 3 },
-    "normie": { s: 2, c: 3 },
-    "normies": { s: 2, c: 3 },
-    "ok boomer": { s: 2, c: 3 },
-    "okboomer": { s: 2, c: 3 },
-    "pick me": { s: 2, c: 3 },
-    "pickme": { s: 2, c: 3 },
-    "pick me girl": { s: 2, c: 3 },
-    "pickmegirl": { s: 2, c: 3 },
-    "plebbit": { s: 2, c: 3 },
-    "plebs": { s: 2, c: 3 },
-    "reddit moment": { s: 2, c: 3 },
-    "redditmoment": { s: 2, c: 3 },
-    "schizo": { s: 2, c: 3 },
-    "schizos": { s: 2, c: 3 },
-    "schizopost": { s: 2, c: 3 },
-    "seething": { s: 2, c: 3 },
-    "snowflake": { s: 2, c: 3 },
-    "snowflakes": { s: 2, c: 3 },
-    "soyjak": { s: 2, c: 3 },
-    "soy boy": { s: 2, c: 3 },
-    "streamer simp": { s: 2, c: 3 },
-    "streamersimp": { s: 2, c: 3 },
-    "terminally online": { s: 2, c: 3 },
-    "terminallyonline": { s: 2, c: 3 },
-    "touch grass loser": { s: 3, c: 3 },
-    "touchgrassloser": { s: 3, c: 3 },
-    "troglodyte": { s: 2, c: 3 },
-    "troglodytes": { s: 2, c: 3 },
-    "twitch thot": { s: 2, c: 3 },
-    "twitchthot": { s: 2, c: 3 },
-    "virgin loser": { s: 2, c: 3 },
-    "virginloser": { s: 2, c: 3 },
-    "waste of air": { s: 2, c: 3 },
-    "wasteofair": { s: 2, c: 3 },
-    "waste of oxygen": { s: 2, c: 3 },
-    "wasteofoxygen": { s: 2, c: 3 },
-    "waste of skin": { s: 2, c: 3 },
-    "wasteofskin": { s: 2, c: 3 },
-    "waste of space": { s: 2, c: 3 },
-    "wasteofspace": { s: 2, c: 3 },
-    "white knight": { s: 2, c: 3 },
-    "whiteknight": { s: 2, c: 3 },
-    "white knighting": { s: 2, c: 3 },
-    "whiteknighting": { s: 2, c: 3 },
+    "autist": [2, 3],
+    "autists": [2, 3],
+    "autistic screeching": [2, 3],
+    "basement dweller": [2, 3],
+    "basementdweller": [2, 3],
+    "brainlet": [2, 3],
+    "brainlets": [2, 3],
+    "butthurt": [2, 3],
+    "butt hurt": [2, 3],
+    "clout chaser": [2, 3],
+    "cloutchaser": [2, 3],
+    "coomer brain": [2, 3],
+    "coomerbrain": [2, 3],
+    "cum brain": [4, 5],
+    "cumbrain": [4, 5],
+    "degen": [2, 3],
+    "degens": [2, 3],
+    "doxxed": [2, 3],
+    "doxxing": [2, 3],
+    "e-thot": [2, 3],
+    "ethot": [2, 3],
+    "e-whore": [5, 4],
+    "ewhore": [5, 4],
+    "fake and gay": [2, 3],
+    "fakeandgay": [2, 3],
+    "fat neckbeard": [2, 3],
+    "fatneckbeard": [2, 3],
+    "femcel": [2, 3],
+    "gammon": [2, 3],
+    "inbred": [2, 3],
+    "keyboard warrior": [2, 3],
+    "keyboardwarrior": [2, 3],
+    "kek": [2, 3],
+    "kekw": [2, 3],
+    "libtard": [5, 4],
+    "libtards": [5, 4],
+    "lolcow": [2, 3],
+    "lolcows": [2, 3],
+    "mald": [2, 3],
+    "man child": [2, 3],
+    "manchild": [2, 3],
+    "man children": [2, 3],
+    "manchildren": [2, 3],
+    "mouth breather": [2, 3],
+    "mouthbreather": [2, 3],
+    "neckbeards": [2, 3],
+    "normie": [2, 3],
+    "normies": [2, 3],
+    "ok boomer": [2, 3],
+    "okboomer": [2, 3],
+    "pick me": [2, 3],
+    "pickme": [2, 3],
+    "pick me girl": [2, 3],
+    "pickmegirl": [2, 3],
+    "plebbit": [2, 3],
+    "plebs": [2, 3],
+    "reddit moment": [2, 3],
+    "redditmoment": [2, 3],
+    "schizo": [2, 3],
+    "schizos": [2, 3],
+    "schizopost": [2, 3],
+    "seething": [2, 3],
+    "snowflake": [2, 3],
+    "snowflakes": [2, 3],
+    "soyjak": [2, 3],
+    "soy boy": [2, 3],
+    "streamer simp": [2, 3],
+    "streamersimp": [2, 3],
+    "terminally online": [2, 3],
+    "terminallyonline": [2, 3],
+    "touch grass loser": [3, 3],
+    "touchgrassloser": [3, 3],
+    "troglodyte": [2, 3],
+    "troglodytes": [2, 3],
+    "twitch thot": [2, 3],
+    "twitchthot": [2, 3],
+    "virgin loser": [2, 3],
+    "virginloser": [2, 3],
+    "waste of air": [2, 3],
+    "wasteofair": [2, 3],
+    "waste of oxygen": [2, 3],
+    "wasteofoxygen": [2, 3],
+    "waste of skin": [2, 3],
+    "wasteofskin": [2, 3],
+    "waste of space": [2, 3],
+    "wasteofspace": [2, 3],
+    "white knight": [2, 3],
+    "whiteknight": [2, 3],
+    "white knighting": [2, 3],
+    "whiteknighting": [2, 3],
     // ===== FOREIGN LANGUAGE PROFANITY (commonly used in English) =====
-    "chutiya": { s: 3, c: 4 },
-    "madarchod": { s: 5, c: 5 },
-    "benchod": { s: 3, c: 4 },
-    "bhenchod": { s: 5, c: 5 },
-    "bhosdike": { s: 3, c: 4 },
-    "gaand": { s: 3, c: 4 },
-    "chodu": { s: 3, c: 4 },
-    "randi": { s: 3, c: 4 },
-    "hijo de puta": { s: 5, c: 5 },
-    "puta": { s: 3, c: 4 },
-    "puto": { s: 3, c: 4 },
-    "mierda": { s: 3, c: 4 },
-    "cabron": { s: 3, c: 4 },
-    "pendejo": { s: 3, c: 4 },
-    "verga": { s: 3, c: 4 },
-    "culo": { s: 3, c: 4 },
-    "coglione": { s: 3, c: 4 },
-    "stronzo": { s: 3, c: 4 },
-    "vaffanculo": { s: 3, c: 4 },
-    "putain": { s: 3, c: 4 },
-    "merde": { s: 3, c: 4 },
-    "connard": { s: 3, c: 4 },
-    "connasse": { s: 3, c: 4 },
-    "salope": { s: 3, c: 4 },
-    "enculer": { s: 3, c: 4 },
-    "scheisse": { s: 3, c: 4 },
-    "arschloch": { s: 3, c: 4 },
-    "hurensohn": { s: 5, c: 5 },
-    "fotze": { s: 3, c: 4 },
-    "wichser": { s: 3, c: 4 },
-    "kurwa": { s: 3, c: 4 },
-    "blyat": { s: 3, c: 4 },
-    "suka": { s: 3, c: 4 },
-    "cyka": { s: 3, c: 4 },
-    "cyka blyat": { s: 3, c: 4 },
-    "cykablyat": { s: 3, c: 4 },
-    "nahui": { s: 3, c: 4 },
-    "pizdec": { s: 3, c: 4 },
-    "mudak": { s: 3, c: 4 },
-    "gavno": { s: 3, c: 4 },
-    "ebat": { s: 3, c: 4 },
-    "chinga tu madre": { s: 3, c: 4 },
-    "chingatumadre": { s: 3, c: 4 },
-    "kutje": { s: 3, c: 4 },
-    "poes": { s: 3, c: 4 },
-    "naai": { s: 3, c: 4 },
-    "voetsek": { s: 3, c: 4 },
-    "doos": { s: 3, c: 4 },
-    "kak": { s: 3, c: 4 },
+    "chutiya": [3, 4],
+    "madarchod": [5, 5],
+    "benchod": [3, 4],
+    "bhenchod": [5, 5],
+    "bhosdike": [3, 4],
+    "gaand": [3, 4],
+    "chodu": [3, 4],
+    "randi": [3, 4],
+    "hijo de puta": [5, 5],
+    "puta": [3, 4],
+    "puto": [3, 4],
+    "mierda": [3, 4],
+    "cabron": [3, 4],
+    "pendejo": [3, 4],
+    "verga": [3, 4],
+    "culo": [3, 4],
+    "coglione": [3, 4],
+    "stronzo": [3, 4],
+    "vaffanculo": [3, 4],
+    "putain": [3, 4],
+    "merde": [3, 4],
+    "connard": [3, 4],
+    "connasse": [3, 4],
+    "salope": [3, 4],
+    "enculer": [3, 4],
+    "scheisse": [3, 4],
+    "arschloch": [3, 4],
+    "hurensohn": [5, 5],
+    "fotze": [3, 4],
+    "wichser": [3, 4],
+    "kurwa": [3, 4],
+    "blyat": [3, 4],
+    "suka": [3, 4],
+    "cyka": [3, 4],
+    "cyka blyat": [3, 4],
+    "cykablyat": [3, 4],
+    "nahui": [3, 4],
+    "pizdec": [3, 4],
+    "mudak": [3, 4],
+    "gavno": [3, 4],
+    "ebat": [3, 4],
+    "chinga tu madre": [3, 4],
+    "chingatumadre": [3, 4],
+    "kutje": [3, 4],
+    "poes": [3, 4],
+    "naai": [3, 4],
+    "voetsek": [3, 4],
+    "doos": [3, 4],
+    "kak": [3, 4],
     // ===== COMBINED LEET EVASION =====
-    "azzhol3": { s: 3, c: 5 },
-    "b1tchass": { s: 3, c: 5 },
-    "b1tchb0y": { s: 3, c: 5 },
-    "c0ckface": { s: 3, c: 5 },
-    "c0ckgobbler": { s: 3, c: 5 },
-    "c0cklicker": { s: 3, c: 5 },
-    "c0ckmonger": { s: 3, c: 5 },
-    "c0cksm0ker": { s: 3, c: 5 },
-    "c0cksuck": { s: 3, c: 5 },
-    "d!ckbr41n": { s: 3, c: 5 },
-    "d!ckl3ss": { s: 3, c: 5 },
-    "d!cksuck3r": { s: 3, c: 5 },
-    "d1ckbr41n": { s: 3, c: 5 },
-    "d1ckf4c3": { s: 3, c: 5 },
-    "d1ckl3ss": { s: 3, c: 5 },
-    "d1cksuck3r": { s: 3, c: 5 },
-    "f@ckf4c3": { s: 3, c: 5 },
-    "f@ckh34d": { s: 3, c: 5 },
-    "f@ckw1t": { s: 3, c: 5 },
-    "f4ckf4c3": { s: 3, c: 5 },
-    "f4ckh34d": { s: 3, c: 5 },
-    "fuckf4c3": { s: 3, c: 5 },
-    "n!gg3rz": { s: 3, c: 5 },
-    "n1g n0g": { s: 3, c: 5 },
-    "n1gn0g": { s: 3, c: 5 },
-    "sh!tb1rd": { s: 3, c: 5 },
-    "sh!tf4c3": { s: 3, c: 5 },
-    "sh!th0l3": { s: 3, c: 5 },
-    "sh!tl0rd": { s: 3, c: 5 },
-    "sh1tb1rd": { s: 3, c: 5 },
-    "sh1tf4c3": { s: 3, c: 5 },
-    "sh1th0l3": { s: 3, c: 5 },
-    "sh1tl0rd": { s: 3, c: 5 },
+    "azzhol3": [3, 5],
+    "b1tchass": [3, 5],
+    "b1tchb0y": [3, 5],
+    "c0ckface": [3, 5],
+    "c0ckgobbler": [3, 5],
+    "c0cklicker": [3, 5],
+    "c0ckmonger": [3, 5],
+    "c0cksm0ker": [3, 5],
+    "c0cksuck": [3, 5],
+    "d!ckbr41n": [3, 5],
+    "d!ckl3ss": [3, 5],
+    "d!cksuck3r": [3, 5],
+    "d1ckbr41n": [3, 5],
+    "d1ckf4c3": [3, 5],
+    "d1ckl3ss": [3, 5],
+    "d1cksuck3r": [3, 5],
+    "f@ckf4c3": [3, 5],
+    "f@ckh34d": [3, 5],
+    "f@ckw1t": [3, 5],
+    "f4ckf4c3": [3, 5],
+    "f4ckh34d": [3, 5],
+    "fuckf4c3": [3, 5],
+    "n!gg3rz": [3, 5],
+    "n1g n0g": [3, 5],
+    "n1gn0g": [3, 5],
+    "sh!tb1rd": [3, 5],
+    "sh!tf4c3": [3, 5],
+    "sh!th0l3": [3, 5],
+    "sh!tl0rd": [3, 5],
+    "sh1tb1rd": [3, 5],
+    "sh1tf4c3": [3, 5],
+    "sh1th0l3": [3, 5],
+    "sh1tl0rd": [3, 5],
     // ===== ADDITIONAL THREAT PHRASES =====
-    "beat the crap out of you": { s: 5, c: 5 },
-    "beat the living shit": { s: 5, c: 5 },
-    "brain you": { s: 5, c: 5 },
-    "brainyou": { s: 5, c: 5 },
-    "carve you up": { s: 5, c: 5 },
-    "carveyouup": { s: 5, c: 5 },
-    "come at me": { s: 5, c: 5 },
-    "comeatme": { s: 5, c: 5 },
-    "die please": { s: 5, c: 5 },
-    "eviscerate you": { s: 5, c: 5 },
-    "eviscerateyou": { s: 5, c: 5 },
-    "gonna kill": { s: 5, c: 5 },
-    "i hope you get raped": { s: 5, c: 5 },
-    "put a bullet in you": { s: 5, c: 5 },
-    "smother you": { s: 5, c: 5 },
-    "smotheryou": { s: 5, c: 5 },
+    "beat the crap out of you": [5, 5],
+    "beat the living shit": [5, 5],
+    "brain you": [5, 5],
+    "brainyou": [5, 5],
+    "carve you up": [5, 5],
+    "carveyouup": [5, 5],
+    "come at me": [5, 5],
+    "comeatme": [5, 5],
+    "die please": [5, 5],
+    "eviscerate you": [5, 5],
+    "eviscerateyou": [5, 5],
+    "gonna kill": [5, 5],
+    "i hope you get raped": [5, 5],
+    "put a bullet in you": [5, 5],
+    "smother you": [5, 5],
+    "smotheryou": [5, 5],
     // ===== ADDITIONAL MISC COMPOUNDS =====
-    "assgasket": { s: 3, c: 5 },
-    "assking": { s: 3, c: 5 },
-    "assmunger": { s: 3, c: 5 },
-    "ass munger": { s: 3, c: 5 },
-    "asscavity": { s: 3, c: 5 },
-    "assflapper": { s: 3, c: 5 },
-    "bellsniff": { s: 3, c: 5 },
-    "bell sniff": { s: 3, c: 5 },
-    "asstard": { s: 3, c: 5 },
-    "ass tard": { s: 3, c: 5 },
-    "cock block": { s: 4, c: 5 },
-    "cockblocked": { s: 4, c: 5 },
-    "cock blocked": { s: 4, c: 5 },
-    "cockblocking": { s: 4, c: 5 },
-    "cock blocking": { s: 4, c: 5 },
-    "cockblocker": { s: 4, c: 5 },
-    "cock blocker": { s: 4, c: 5 },
-    "cumonyourface": { s: 4, c: 5 },
-    "cum on your face": { s: 4, c: 5 },
-    "shit lips": { s: 3, c: 5 },
-    "shit sipper": { s: 3, c: 5 },
-    "shit spitter": { s: 3, c: 5 },
-    "slut whore": { s: 5, c: 5 },
-    "spunk jockey": { s: 3, c: 5 },
-    "spunk bubble": { s: 3, c: 5 },
-    "spunk face": { s: 3, c: 5 },
-    "spunk monkey": { s: 3, c: 5 },
-    "spunk rat": { s: 3, c: 5 },
-    "wank bucket": { s: 3, c: 5 },
-    "dick for": { s: 4, c: 5 },
-    "dick rot": { s: 4, c: 5 },
-    "dick worm": { s: 4, c: 5 },
-    "dick pull": { s: 4, c: 5 },
-    "dong face": { s: 3, c: 5 },
-    "douche lord": { s: 3, c: 5 },
-    "douche wad": { s: 3, c: 5 },
-    "fuck pile": { s: 3, c: 5 },
-    "fuck sicle": { s: 3, c: 5 },
-    "gay fuck": { s: 3, c: 5 },
-    "gay shit": { s: 3, c: 5 },
-    "hoe bag": { s: 3, c: 5 },
-    "horse fucker": { s: 3, c: 5 },
-    "jizz ball": { s: 4, c: 5 },
-    "jizz bag": { s: 4, c: 5 },
-    "jizz breath": { s: 4, c: 5 },
-    "jizz jar": { s: 4, c: 5 },
-    "knob chops": { s: 3, c: 5 },
-    "knob goblin": { s: 3, c: 5 },
-    "knob rash": { s: 3, c: 5 },
-    "knob shine": { s: 3, c: 5 },
-    "meat flap": { s: 3, c: 5 },
-    "pecker brain": { s: 3, c: 5 },
-    "pecker face": { s: 3, c: 5 },
-    "penis breath": { s: 3, c: 5 },
-    "penis face": { s: 3, c: 5 },
-    "penis head": { s: 3, c: 5 },
-    "penis wrinkle": { s: 3, c: 5 },
-    "pig fucker": { s: 3, c: 5 },
-    "pole smoker": { s: 3, c: 5 },
-    "poon hound": { s: 3, c: 5 },
-    "prick lick": { s: 3, c: 5 },
-    "prick weed": { s: 3, c: 5 },
-    "shit fucker": { s: 3, c: 5 },
-    "shit gobbler": { s: 3, c: 5 },
-    "shit licker": { s: 3, c: 5 },
-    "shit muncher": { s: 3, c: 5 },
-    "shit sucker": { s: 3, c: 5 },
-    "slut monger": { s: 3, c: 5 },
-    "snatch face": { s: 3, c: 5 },
-    "tit fucker": { s: 3, c: 5 },
-    "tit licker": { s: 4, c: 5 },
-    "tit sucker": { s: 4, c: 5 },
+    "assgasket": [3, 5],
+    "assking": [3, 5],
+    "assmunger": [3, 5],
+    "ass munger": [3, 5],
+    "asscavity": [3, 5],
+    "assflapper": [3, 5],
+    "bellsniff": [3, 5],
+    "bell sniff": [3, 5],
+    "asstard": [3, 5],
+    "ass tard": [3, 5],
+    "cock block": [4, 5],
+    "cockblocked": [4, 5],
+    "cock blocked": [4, 5],
+    "cockblocking": [4, 5],
+    "cock blocking": [4, 5],
+    "cockblocker": [4, 5],
+    "cock blocker": [4, 5],
+    "cumonyourface": [4, 5],
+    "cum on your face": [4, 5],
+    "shit lips": [3, 5],
+    "shit sipper": [3, 5],
+    "shit spitter": [3, 5],
+    "slut whore": [5, 5],
+    "spunk jockey": [3, 5],
+    "spunk bubble": [3, 5],
+    "spunk face": [3, 5],
+    "spunk monkey": [3, 5],
+    "spunk rat": [3, 5],
+    "wank bucket": [3, 5],
+    "dick for": [4, 5],
+    "dick rot": [4, 5],
+    "dick worm": [4, 5],
+    "dick pull": [4, 5],
+    "dong face": [3, 5],
+    "douche lord": [3, 5],
+    "douche wad": [3, 5],
+    "fuck pile": [3, 5],
+    "fuck sicle": [3, 5],
+    "gay fuck": [3, 5],
+    "gay shit": [3, 5],
+    "hoe bag": [3, 5],
+    "horse fucker": [3, 5],
+    "jizz ball": [4, 5],
+    "jizz bag": [4, 5],
+    "jizz breath": [4, 5],
+    "jizz jar": [4, 5],
+    "knob chops": [3, 5],
+    "knob goblin": [3, 5],
+    "knob rash": [3, 5],
+    "knob shine": [3, 5],
+    "meat flap": [3, 5],
+    "pecker brain": [3, 5],
+    "pecker face": [3, 5],
+    "penis breath": [3, 5],
+    "penis face": [3, 5],
+    "penis head": [3, 5],
+    "penis wrinkle": [3, 5],
+    "pig fucker": [3, 5],
+    "pole smoker": [3, 5],
+    "poon hound": [3, 5],
+    "prick lick": [3, 5],
+    "prick weed": [3, 5],
+    "shit fucker": [3, 5],
+    "shit gobbler": [3, 5],
+    "shit licker": [3, 5],
+    "shit muncher": [3, 5],
+    "shit sucker": [3, 5],
+    "slut monger": [3, 5],
+    "snatch face": [3, 5],
+    "tit fucker": [3, 5],
+    "tit licker": [4, 5],
+    "tit sucker": [4, 5],
 
     // ===== BATCH 28: MORE ADJECTIVE+NOUN COMPOUNDS =====
-    "retarded fuck": { s: 3, c: 5 },
-    "retardedfuck": { s: 3, c: 5 },
-    "retarded cunt": { s: 5, c: 5 },
-    "retardedcunt": { s: 5, c: 5 },
-    "retarded bitch": { s: 3, c: 5 },
-    "retardedbitch": { s: 3, c: 5 },
-    "retarded twat": { s: 4, c: 5 },
-    "retardedtwat": { s: 4, c: 5 },
-    "retarded prick": { s: 5, c: 5 },
-    "retardedprick": { s: 5, c: 5 },
-    "retarded bastard": { s: 5, c: 5 },
-    "retardedbastard": { s: 5, c: 5 },
-    "wretched cunt": { s: 5, c: 5 },
-    "wretchedcunt": { s: 5, c: 5 },
-    "wretched bitch": { s: 3, c: 5 },
-    "wretchedbitch": { s: 3, c: 5 },
-    "stinking cunt": { s: 5, c: 5 },
-    "stinkingcunt": { s: 5, c: 5 },
-    "stinking bitch": { s: 3, c: 5 },
-    "stinkingbitch": { s: 3, c: 5 },
-    "stinking whore": { s: 5, c: 5 },
-    "stinkingwhore": { s: 5, c: 5 },
-    "lousy fuck": { s: 3, c: 5 },
-    "lousyfuck": { s: 3, c: 5 },
-    "lousy cunt": { s: 5, c: 5 },
-    "lousycunt": { s: 5, c: 5 },
-    "lousy bitch": { s: 3, c: 5 },
-    "lousybitch": { s: 3, c: 5 },
-    "lousy bastard": { s: 5, c: 5 },
-    "lousybastard": { s: 5, c: 5 },
-    "pathetic twat": { s: 4, c: 5 },
-    "pathetictwat": { s: 4, c: 5 },
-    "pathetic prick": { s: 3, c: 5 },
-    "patheticprick": { s: 3, c: 5 },
-    "pathetic wanker": { s: 3, c: 5 },
-    "patheticwanker": { s: 3, c: 5 },
-    "miserable fuck": { s: 3, c: 5 },
-    "miserablefuck": { s: 3, c: 5 },
-    "miserable cunt": { s: 5, c: 5 },
-    "miserablecunt": { s: 5, c: 5 },
-    "miserable bitch": { s: 3, c: 5 },
-    "miserablebitch": { s: 3, c: 5 },
-    "miserable bastard": { s: 5, c: 5 },
-    "miserablebastard": { s: 5, c: 5 },
-    "ignorant fuck": { s: 3, c: 5 },
-    "ignorantfuck": { s: 3, c: 5 },
-    "ignorant cunt": { s: 5, c: 5 },
-    "ignorantcunt": { s: 5, c: 5 },
-    "ignorant bitch": { s: 3, c: 5 },
-    "ignorantbitch": { s: 3, c: 5 },
-    "ignorant bastard": { s: 5, c: 5 },
-    "ignorantbastard": { s: 5, c: 5 },
-    "brainless fuck": { s: 3, c: 5 },
-    "brainlessfuck": { s: 3, c: 5 },
-    "brainless cunt": { s: 5, c: 5 },
-    "brainlesscunt": { s: 5, c: 5 },
-    "brainless twat": { s: 4, c: 5 },
-    "brainlesstwat": { s: 4, c: 5 },
-    "brainless bitch": { s: 3, c: 5 },
-    "brainlessbitch": { s: 3, c: 5 },
-    "crusty cunt": { s: 5, c: 5 },
-    "crustycunt": { s: 5, c: 5 },
-    "crusty bitch": { s: 3, c: 5 },
-    "crustybitch": { s: 3, c: 5 },
-    "crusty whore": { s: 5, c: 5 },
-    "crustywhore": { s: 5, c: 5 },
-    "slimy cunt": { s: 5, c: 5 },
-    "slimycunt": { s: 5, c: 5 },
-    "slimy bastard": { s: 5, c: 5 },
-    "slimybastard": { s: 5, c: 5 },
-    "slimy prick": { s: 3, c: 5 },
-    "slimyprick": { s: 3, c: 5 },
-    "rotten cunt": { s: 5, c: 5 },
-    "rottencunt": { s: 5, c: 5 },
-    "rotten bastard": { s: 5, c: 5 },
-    "rottenbastard": { s: 5, c: 5 },
-    "rotten bitch": { s: 3, c: 5 },
-    "rottenbitch": { s: 3, c: 5 },
-    "vile cunt": { s: 5, c: 5 },
-    "vilecunt": { s: 5, c: 5 },
-    "vile bitch": { s: 3, c: 5 },
-    "vilebitch": { s: 3, c: 5 },
-    "vile bastard": { s: 5, c: 5 },
-    "vilebastard": { s: 5, c: 5 },
-    "disgusting fuck": { s: 3, c: 5 },
-    "disgustingfuck": { s: 3, c: 5 },
-    "disgusting cunt": { s: 5, c: 5 },
-    "disgustingcunt": { s: 5, c: 5 },
-    "disgusting bitch": { s: 3, c: 5 },
-    "disgustingbitch": { s: 3, c: 5 },
-    "disgusting pig": { s: 3, c: 5 },
-    "disgustingpig": { s: 3, c: 5 },
-    "disgusting whore": { s: 5, c: 5 },
-    "disgustingwhore": { s: 5, c: 5 },
-    "sorry cunt": { s: 5, c: 5 },
-    "sorrycunt": { s: 5, c: 5 },
-    "sorry bastard": { s: 5, c: 5 },
-    "sorrybastard": { s: 5, c: 5 },
-    "sorry bitch": { s: 3, c: 5 },
-    "sorrybitch": { s: 3, c: 5 },
-    "sorry prick": { s: 3, c: 5 },
-    "sorryprick": { s: 3, c: 5 },
-    "pitiful fuck": { s: 3, c: 5 },
-    "pitifulfuck": { s: 3, c: 5 },
-    "pitiful cunt": { s: 5, c: 5 },
-    "pitifulcunt": { s: 5, c: 5 },
-    "pitiful bitch": { s: 3, c: 5 },
-    "pitifulbitch": { s: 3, c: 5 },
-    "hideous cunt": { s: 5, c: 5 },
-    "hideouscunt": { s: 5, c: 5 },
-    "hideous bitch": { s: 3, c: 5 },
-    "hideousbitch": { s: 3, c: 5 },
-    "gross fuck": { s: 3, c: 5 },
-    "grossfuck": { s: 3, c: 5 },
-    "gross cunt": { s: 5, c: 5 },
-    "grosscunt": { s: 5, c: 5 },
-    "gross bitch": { s: 3, c: 5 },
-    "grossbitch": { s: 3, c: 5 },
-    "gross whore": { s: 5, c: 5 },
-    "grosswhore": { s: 5, c: 5 },
-    "gross pig": { s: 3, c: 5 },
-    "grosspig": { s: 3, c: 5 },
-    "pathetic piece of shit": { s: 3, c: 5 },
-    "useless piece of shit": { s: 3, c: 5 },
-    "worthless piece of crap": { s: 3, c: 5 },
-    "complete piece of shit": { s: 3, c: 5 },
-    "total piece of shit": { s: 3, c: 5 },
-    "absolute piece of shit": { s: 3, c: 5 },
-    "utter piece of shit": { s: 3, c: 5 },
-    "fucking piece of shit": { s: 3, c: 5 },
-    "stupid piece of shit": { s: 3, c: 5 },
-    "dumb piece of shit": { s: 3, c: 5 },
+    "retarded fuck": [3, 5],
+    "retardedfuck": [3, 5],
+    "retarded cunt": [5, 5],
+    "retardedcunt": [5, 5],
+    "retarded bitch": [3, 5],
+    "retardedbitch": [3, 5],
+    "retarded twat": [4, 5],
+    "retardedtwat": [4, 5],
+    "retarded prick": [5, 5],
+    "retardedprick": [5, 5],
+    "retarded bastard": [5, 5],
+    "retardedbastard": [5, 5],
+    "wretched cunt": [5, 5],
+    "wretchedcunt": [5, 5],
+    "wretched bitch": [3, 5],
+    "wretchedbitch": [3, 5],
+    "stinking cunt": [5, 5],
+    "stinkingcunt": [5, 5],
+    "stinking bitch": [3, 5],
+    "stinkingbitch": [3, 5],
+    "stinking whore": [5, 5],
+    "stinkingwhore": [5, 5],
+    "lousy fuck": [3, 5],
+    "lousyfuck": [3, 5],
+    "lousy cunt": [5, 5],
+    "lousycunt": [5, 5],
+    "lousy bitch": [3, 5],
+    "lousybitch": [3, 5],
+    "lousy bastard": [5, 5],
+    "lousybastard": [5, 5],
+    "pathetic twat": [4, 5],
+    "pathetictwat": [4, 5],
+    "pathetic prick": [3, 5],
+    "patheticprick": [3, 5],
+    "pathetic wanker": [3, 5],
+    "patheticwanker": [3, 5],
+    "miserable fuck": [3, 5],
+    "miserablefuck": [3, 5],
+    "miserable cunt": [5, 5],
+    "miserablecunt": [5, 5],
+    "miserable bitch": [3, 5],
+    "miserablebitch": [3, 5],
+    "miserable bastard": [5, 5],
+    "miserablebastard": [5, 5],
+    "ignorant fuck": [3, 5],
+    "ignorantfuck": [3, 5],
+    "ignorant cunt": [5, 5],
+    "ignorantcunt": [5, 5],
+    "ignorant bitch": [3, 5],
+    "ignorantbitch": [3, 5],
+    "ignorant bastard": [5, 5],
+    "ignorantbastard": [5, 5],
+    "brainless fuck": [3, 5],
+    "brainlessfuck": [3, 5],
+    "brainless cunt": [5, 5],
+    "brainlesscunt": [5, 5],
+    "brainless twat": [4, 5],
+    "brainlesstwat": [4, 5],
+    "brainless bitch": [3, 5],
+    "brainlessbitch": [3, 5],
+    "crusty cunt": [5, 5],
+    "crustycunt": [5, 5],
+    "crusty bitch": [3, 5],
+    "crustybitch": [3, 5],
+    "crusty whore": [5, 5],
+    "crustywhore": [5, 5],
+    "slimy cunt": [5, 5],
+    "slimycunt": [5, 5],
+    "slimy bastard": [5, 5],
+    "slimybastard": [5, 5],
+    "slimy prick": [3, 5],
+    "slimyprick": [3, 5],
+    "rotten cunt": [5, 5],
+    "rottencunt": [5, 5],
+    "rotten bastard": [5, 5],
+    "rottenbastard": [5, 5],
+    "rotten bitch": [3, 5],
+    "rottenbitch": [3, 5],
+    "vile cunt": [5, 5],
+    "vilecunt": [5, 5],
+    "vile bitch": [3, 5],
+    "vilebitch": [3, 5],
+    "vile bastard": [5, 5],
+    "vilebastard": [5, 5],
+    "disgusting fuck": [3, 5],
+    "disgustingfuck": [3, 5],
+    "disgusting cunt": [5, 5],
+    "disgustingcunt": [5, 5],
+    "disgusting bitch": [3, 5],
+    "disgustingbitch": [3, 5],
+    "disgusting pig": [3, 5],
+    "disgustingpig": [3, 5],
+    "disgusting whore": [5, 5],
+    "disgustingwhore": [5, 5],
+    "sorry cunt": [5, 5],
+    "sorrycunt": [5, 5],
+    "sorry bastard": [5, 5],
+    "sorrybastard": [5, 5],
+    "sorry bitch": [3, 5],
+    "sorrybitch": [3, 5],
+    "sorry prick": [3, 5],
+    "sorryprick": [3, 5],
+    "pitiful fuck": [3, 5],
+    "pitifulfuck": [3, 5],
+    "pitiful cunt": [5, 5],
+    "pitifulcunt": [5, 5],
+    "pitiful bitch": [3, 5],
+    "pitifulbitch": [3, 5],
+    "hideous cunt": [5, 5],
+    "hideouscunt": [5, 5],
+    "hideous bitch": [3, 5],
+    "hideousbitch": [3, 5],
+    "gross fuck": [3, 5],
+    "grossfuck": [3, 5],
+    "gross cunt": [5, 5],
+    "grosscunt": [5, 5],
+    "gross bitch": [3, 5],
+    "grossbitch": [3, 5],
+    "gross whore": [5, 5],
+    "grosswhore": [5, 5],
+    "gross pig": [3, 5],
+    "grosspig": [3, 5],
+    "pathetic piece of shit": [3, 5],
+    "useless piece of shit": [3, 5],
+    "worthless piece of crap": [3, 5],
+    "complete piece of shit": [3, 5],
+    "total piece of shit": [3, 5],
+    "absolute piece of shit": [3, 5],
+    "utter piece of shit": [3, 5],
+    "fucking piece of shit": [3, 5],
+    "stupid piece of shit": [3, 5],
+    "dumb piece of shit": [3, 5],
     // ===== BATCH 29: MORE SEXUAL TERMS =====
-    "bj": { s: 4, c: 4 },
-    "blowie": { s: 4, c: 4 },
-    "blowies": { s: 4, c: 4 },
-    "boned": { s: 4, c: 4 },
-    "boner pill": { s: 4, c: 4 },
-    "bonerpill": { s: 4, c: 4 },
-    "boob job": { s: 4, c: 4 },
-    "boobjob": { s: 4, c: 4 },
-    "booby": { s: 4, c: 4 },
-    "boobies": { s: 4, c: 4 },
-    "booty": { s: 4, c: 1 },
-    "clam slam": { s: 4, c: 4 },
-    "clamslam": { s: 4, c: 4 },
-    "cock ring": { s: 4, c: 4 },
-    "coitus": { s: 4, c: 4 },
-    "cream pie": { s: 4, c: 4 },
-    "cum rag": { s: 4, c: 5 },
-    "cum sock": { s: 4, c: 5 },
-    "cum wad": { s: 4, c: 5 },
-    "cunt punt": { s: 5, c: 5 },
-    "cybersex": { s: 4, c: 4 },
-    "cyber sex": { s: 4, c: 4 },
-    "deep throat": { s: 4, c: 4 },
-    "dick pic": { s: 4, c: 4 },
-    "dickpic": { s: 4, c: 4 },
-    "dick pics": { s: 4, c: 4 },
-    "dickpics": { s: 4, c: 4 },
-    "dirty talk": { s: 4, c: 4 },
-    "dirtytalk": { s: 4, c: 4 },
-    "dong": { s: 4, c: 4 },
-    "dongs": { s: 4, c: 4 },
-    "double dong": { s: 4, c: 4 },
-    "doubledong": { s: 4, c: 4 },
-    "eating ass": { s: 4, c: 4 },
-    "eatingass": { s: 4, c: 4 },
-    "eat ass": { s: 4, c: 4 },
-    "eatass": { s: 4, c: 4 },
-    "edging": { s: 4, c: 4 },
-    "exhibitionist": { s: 4, c: 4 },
-    "fellatrix": { s: 4, c: 4 },
-    "fingerfuck": { s: 4, c: 5 },
-    "finger fuck": { s: 4, c: 5 },
-    "fingerfucking": { s: 4, c: 5 },
-    "finger fucking": { s: 4, c: 5 },
-    "foot fetish": { s: 4, c: 4 },
-    "footfetish": { s: 4, c: 4 },
-    "foreplay": { s: 4, c: 4 },
-    "frottage": { s: 4, c: 4 },
-    "gang rape": { s: 5, c: 5 },
-    "gangrape": { s: 5, c: 5 },
-    "getting laid": { s: 4, c: 4 },
-    "gettinglaid": { s: 4, c: 4 },
-    "hand relief": { s: 4, c: 4 },
-    "handrelief": { s: 4, c: 4 },
-    "hookup": { s: 4, c: 4 },
-    "hook up": { s: 4, c: 4 },
-    "hooking up": { s: 4, c: 4 },
-    "hookingup": { s: 4, c: 4 },
-    "jacking off": { s: 4, c: 4 },
-    "jackingoff": { s: 4, c: 4 },
-    "jerking it": { s: 4, c: 4 },
-    "jerkingit": { s: 4, c: 4 },
-    "knob job": { s: 4, c: 4 },
-    "knobjob": { s: 4, c: 4 },
-    "money shot": { s: 4, c: 4 },
-    "moneyshot": { s: 4, c: 4 },
-    "nookie": { s: 4, c: 4 },
-    "nooky": { s: 4, c: 4 },
-    "nude pic": { s: 4, c: 4 },
-    "nudepic": { s: 4, c: 4 },
-    "nude pics": { s: 4, c: 4 },
-    "nudepics": { s: 4, c: 4 },
-    "one night stand": { s: 4, c: 4 },
-    "onenightstand": { s: 4, c: 4 },
-    "oral sex": { s: 4, c: 4 },
-    "oralsex": { s: 4, c: 4 },
-    "orgasming": { s: 4, c: 4 },
-    "orgasms": { s: 4, c: 4 },
-    "panty sniffer": { s: 4, c: 4 },
-    "pantysniffer": { s: 4, c: 4 },
-    "peep show": { s: 4, c: 4 },
-    "peepshow": { s: 4, c: 4 },
-    "phone sex": { s: 4, c: 4 },
-    "phonesex": { s: 4, c: 4 },
-    "play with yourself": { s: 4, c: 4 },
-    "playwithyourself": { s: 4, c: 4 },
-    "pound town": { s: 4, c: 4 },
-    "poundtown": { s: 4, c: 4 },
-    "pussy fart": { s: 4, c: 4 },
-    "pussyfart": { s: 4, c: 4 },
-    "pussy juice": { s: 4, c: 4 },
-    "pussyjuice": { s: 4, c: 4 },
-    "pussy lips": { s: 4, c: 4 },
-    "pussylips": { s: 4, c: 4 },
-    "red light district": { s: 4, c: 4 },
-    "redlightdistrict": { s: 4, c: 4 },
-    "reverse cowgirl": { s: 4, c: 4 },
-    "reversecowgirl": { s: 4, c: 4 },
-    "rub one out": { s: 4, c: 4 },
-    "ruboneout": { s: 4, c: 4 },
-    "rusty trombone": { s: 4, c: 4 },
-    "rustytrombone": { s: 4, c: 4 },
-    "sex slave": { s: 4, c: 4 },
-    "sexslave": { s: 4, c: 4 },
-    "sex toy": { s: 4, c: 4 },
-    "sextoy": { s: 4, c: 4 },
-    "sex toys": { s: 4, c: 4 },
-    "sextoys": { s: 4, c: 4 },
-    "skin flute": { s: 4, c: 4 },
-    "skinflute": { s: 4, c: 4 },
-    "sleep around": { s: 4, c: 4 },
-    "sleeparound": { s: 4, c: 4 },
-    "snuff film": { s: 4, c: 4 },
-    "snufffilm": { s: 4, c: 4 },
-    "spanked": { s: 4, c: 4 },
-    "spanking": { s: 4, c: 4 },
-    "strip club": { s: 4, c: 4 },
-    "stripclub": { s: 4, c: 4 },
-    "stripper": { s: 4, c: 4 },
-    "strippers": { s: 4, c: 4 },
-    "strip tease": { s: 4, c: 4 },
-    "striptease": { s: 4, c: 4 },
-    "swingers": { s: 4, c: 4 },
-    "two girls one cup": { s: 4, c: 4 },
-    "twogirlsonecup": { s: 4, c: 4 },
-    "voyeurism": { s: 4, c: 4 },
-    "wet dream": { s: 4, c: 4 },
-    "wetdream": { s: 4, c: 4 },
-    "wife swap": { s: 4, c: 4 },
-    "wifeswap": { s: 4, c: 4 },
-    "wife swapping": { s: 4, c: 4 },
-    "wifeswapping": { s: 4, c: 4 },
-    "xxxx": { s: 4, c: 4 },
-    "xxxxx": { s: 4, c: 4 },
+    "bj": [4, 4],
+    "blowie": [4, 4],
+    "blowies": [4, 4],
+    "boned": [4, 4],
+    "boner pill": [4, 4],
+    "bonerpill": [4, 4],
+    "boob job": [4, 4],
+    "boobjob": [4, 4],
+    "booby": [4, 4],
+    "boobies": [4, 4],
+    "booty": [4, 1],
+    "clam slam": [4, 4],
+    "clamslam": [4, 4],
+    "cock ring": [4, 4],
+    "coitus": [4, 4],
+    "cream pie": [4, 4],
+    "cum rag": [4, 5],
+    "cum sock": [4, 5],
+    "cum wad": [4, 5],
+    "cunt punt": [5, 5],
+    "cybersex": [4, 4],
+    "cyber sex": [4, 4],
+    "deep throat": [4, 4],
+    "dick pic": [4, 4],
+    "dickpic": [4, 4],
+    "dick pics": [4, 4],
+    "dickpics": [4, 4],
+    "dirty talk": [4, 4],
+    "dirtytalk": [4, 4],
+    "dong": [4, 4],
+    "dongs": [4, 4],
+    "double dong": [4, 4],
+    "doubledong": [4, 4],
+    "eating ass": [4, 4],
+    "eatingass": [4, 4],
+    "eat ass": [4, 4],
+    "eatass": [4, 4],
+    "edging": [4, 4],
+    "exhibitionist": [4, 4],
+    "fellatrix": [4, 4],
+    "fingerfuck": [4, 5],
+    "finger fuck": [4, 5],
+    "fingerfucking": [4, 5],
+    "finger fucking": [4, 5],
+    "foot fetish": [4, 4],
+    "footfetish": [4, 4],
+    "foreplay": [4, 4],
+    "frottage": [4, 4],
+    "gang rape": [5, 5],
+    "gangrape": [5, 5],
+    "getting laid": [4, 4],
+    "gettinglaid": [4, 4],
+    "hand relief": [4, 4],
+    "handrelief": [4, 4],
+    "hookup": [4, 4],
+    "hook up": [4, 4],
+    "hooking up": [4, 4],
+    "hookingup": [4, 4],
+    "jacking off": [4, 4],
+    "jackingoff": [4, 4],
+    "jerking it": [4, 4],
+    "jerkingit": [4, 4],
+    "knob job": [4, 4],
+    "knobjob": [4, 4],
+    "money shot": [4, 4],
+    "moneyshot": [4, 4],
+    "nookie": [4, 4],
+    "nooky": [4, 4],
+    "nude pic": [4, 4],
+    "nudepic": [4, 4],
+    "nude pics": [4, 4],
+    "nudepics": [4, 4],
+    "one night stand": [4, 4],
+    "onenightstand": [4, 4],
+    "oral sex": [4, 4],
+    "oralsex": [4, 4],
+    "orgasming": [4, 4],
+    "orgasms": [4, 4],
+    "panty sniffer": [4, 4],
+    "pantysniffer": [4, 4],
+    "peep show": [4, 4],
+    "peepshow": [4, 4],
+    "phone sex": [4, 4],
+    "phonesex": [4, 4],
+    "play with yourself": [4, 4],
+    "playwithyourself": [4, 4],
+    "pound town": [4, 4],
+    "poundtown": [4, 4],
+    "pussy fart": [4, 4],
+    "pussyfart": [4, 4],
+    "pussy juice": [4, 4],
+    "pussyjuice": [4, 4],
+    "pussy lips": [4, 4],
+    "pussylips": [4, 4],
+    "red light district": [4, 4],
+    "redlightdistrict": [4, 4],
+    "reverse cowgirl": [4, 4],
+    "reversecowgirl": [4, 4],
+    "rub one out": [4, 4],
+    "ruboneout": [4, 4],
+    "rusty trombone": [4, 4],
+    "rustytrombone": [4, 4],
+    "sex slave": [4, 4],
+    "sexslave": [4, 4],
+    "sex toy": [4, 4],
+    "sextoy": [4, 4],
+    "sex toys": [4, 4],
+    "sextoys": [4, 4],
+    "skin flute": [4, 4],
+    "skinflute": [4, 4],
+    "sleep around": [4, 4],
+    "sleeparound": [4, 4],
+    "snuff film": [4, 4],
+    "snufffilm": [4, 4],
+    "spanked": [4, 4],
+    "spanking": [4, 4],
+    "strip club": [4, 4],
+    "stripclub": [4, 4],
+    "stripper": [4, 4],
+    "strippers": [4, 4],
+    "strip tease": [4, 4],
+    "striptease": [4, 4],
+    "swingers": [4, 4],
+    "two girls one cup": [4, 4],
+    "twogirlsonecup": [4, 4],
+    "voyeurism": [4, 4],
+    "wet dream": [4, 4],
+    "wetdream": [4, 4],
+    "wife swap": [4, 4],
+    "wifeswap": [4, 4],
+    "wife swapping": [4, 4],
+    "wifeswapping": [4, 4],
+    "xxxx": [4, 4],
+    "xxxxx": [4, 4],
     // ===== BATCH 30: MORE EVASION MISSPELLINGS =====
-    "ashole": { s: 3, c: 5 },
-    "assho": { s: 3, c: 5 },
-    "asshle": { s: 3, c: 5 },
-    "bassturd": { s: 3, c: 5 },
-    "basturd": { s: 3, c: 5 },
-    "bastid": { s: 3, c: 5 },
-    "bullcrap": { s: 3, c: 5 },
-    "bull crap": { s: 3, c: 5 },
-    "cack": { s: 3, c: 5 },
-    "cock womble": { s: 4, c: 5 },
-    "coochee": { s: 3, c: 5 },
-    "coksucker": { s: 3, c: 5 },
-    "coksuker": { s: 3, c: 5 },
-    "cumm": { s: 4, c: 5 },
-    "cummer": { s: 4, c: 5 },
-    "cummin": { s: 4, c: 5 },
-    "cuntt": { s: 5, c: 5 },
-    "damm": { s: 3, c: 5 },
-    "dammn": { s: 3, c: 5 },
-    "dayum": { s: 3, c: 5 },
-    "deeck": { s: 3, c: 5 },
-    "deeq": { s: 3, c: 5 },
-    "diik": { s: 3, c: 5 },
-    "dique": { s: 3, c: 5 },
-    "doosh": { s: 3, c: 5 },
-    "dooshbag": { s: 3, c: 5 },
-    "douch": { s: 3, c: 5 },
-    "douchbag": { s: 3, c: 5 },
-    "douchetard": { s: 3, c: 5 },
-    "f u k": { s: 3, c: 5 },
-    "faaack": { s: 3, c: 5 },
-    "faaak": { s: 3, c: 5 },
-    "faack": { s: 3, c: 5 },
-    "faak": { s: 3, c: 5 },
-    "faaq": { s: 3, c: 5 },
-    "fakk": { s: 3, c: 5 },
-    "farg": { s: 3, c: 5 },
-    "fauck": { s: 3, c: 5 },
-    "fcuker": { s: 3, c: 5 },
-    "fker": { s: 3, c: 5 },
-    "fluck": { s: 3, c: 5 },
-    "fokk": { s: 3, c: 5 },
-    "frigg": { s: 3, c: 5 },
-    "frigger": { s: 3, c: 5 },
-    "fruck": { s: 3, c: 5 },
-    "fuark": { s: 3, c: 5 },
-    "fuarking": { s: 3, c: 5 },
-    "fucca": { s: 3, c: 5 },
-    "fuchen": { s: 3, c: 5 },
-    "fuching": { s: 3, c: 5 },
-    "fudging": { s: 3, c: 5 },
-    "fuken": { s: 3, c: 5 },
-    "fuqqing": { s: 3, c: 5 },
-    "horsecrap": { s: 3, c: 5 },
-    "horse crap": { s: 3, c: 5 },
-    "jackarse": { s: 3, c: 5 },
-    "jack arse": { s: 3, c: 5 },
-    "jizm": { s: 3, c: 5 },
-    "jizzm": { s: 4, c: 5 },
-    "knobbers": { s: 3, c: 5 },
-    "knobjocky": { s: 3, c: 5 },
-    "knobjokey": { s: 3, c: 5 },
-    "kooch": { s: 3, c: 5 },
-    "kootch": { s: 3, c: 5 },
-    "kootchie": { s: 3, c: 5 },
-    "kuunt": { s: 3, c: 5 },
-    "kwunt": { s: 3, c: 5 },
-    "lmaooo": { s: 3, c: 5 },
-    "m0f0": { s: 3, c: 5 },
-    "mof0": { s: 3, c: 5 },
-    "mofocker": { s: 3, c: 5 },
-    "mofucker": { s: 3, c: 5 },
-    "mofucking": { s: 3, c: 5 },
-    "muddafucka": { s: 3, c: 5 },
-    "muddafucker": { s: 3, c: 5 },
-    "muthafuckaz": { s: 3, c: 5 },
-    "muthafuckin": { s: 3, c: 5 },
-    "muther": { s: 3, c: 5 },
-    "mutherfucka": { s: 3, c: 5 },
-    "mutherfucking": { s: 3, c: 5 },
-    "niqqah": { s: 3, c: 5 },
-    "niqqas": { s: 3, c: 5 },
-    "nobjokey": { s: 3, c: 5 },
-    "nobjocky": { s: 3, c: 5 },
-    "nutto": { s: 3, c: 5 },
-    "orafis": { s: 3, c: 5 },
-    "orgasim": { s: 3, c: 5 },
-    "orgasims": { s: 3, c: 5 },
-    "orgasum": { s: 3, c: 5 },
-    "orgasums": { s: 3, c: 5 },
-    "penus": { s: 3, c: 5 },
-    "phallick": { s: 3, c: 5 },
-    "phuker": { s: 3, c: 5 },
-    "phukked": { s: 3, c: 5 },
-    "phukker": { s: 3, c: 5 },
-    "phukkin": { s: 3, c: 5 },
-    "phukking": { s: 3, c: 5 },
-    "phuks": { s: 3, c: 5 },
-    "phuqed": { s: 3, c: 5 },
-    "phuqer": { s: 3, c: 5 },
-    "phuqing": { s: 3, c: 5 },
-    "piky": { s: 3, c: 5 },
-    "pissers": { s: 3, c: 5 },
-    "pissess": { s: 3, c: 5 },
-    "porn0": { s: 3, c: 5 },
-    "pornn": { s: 3, c: 5 },
-    "pussee": { s: 3, c: 5 },
-    "pussie": { s: 3, c: 5 },
-    "pussi": { s: 3, c: 5 },
-    "pusy": { s: 3, c: 5 },
-    "rimjaw": { s: 3, c: 5 },
-    "rim jaw": { s: 3, c: 5 },
-    "s.o.b": { s: 3, c: 5 },
-    "s.o.b.": { s: 3, c: 5 },
-    "scrotie": { s: 3, c: 5 },
-    "skeeted": { s: 3, c: 5 },
-    "skeeting": { s: 3, c: 5 },
-    "skeezy": { s: 3, c: 5 },
-    "slutz": { s: 3, c: 5 },
-    "snatches": { s: 3, c: 5 },
-    "snatchy": { s: 3, c: 5 },
-    "spunked": { s: 3, c: 5 },
-    "spunking": { s: 3, c: 5 },
-    "spunky": { s: 3, c: 5 },
-    "titt": { s: 4, c: 5 },
-    "tittie": { s: 4, c: 5 },
-    "tittiefucker": { s: 3, c: 5 },
-    "tittyfucked": { s: 3, c: 5 },
-    "twatt": { s: 4, c: 5 },
-    "twatted": { s: 4, c: 5 },
-    "v1agra": { s: 3, c: 5 },
-    "vjayjay": { s: 3, c: 5 },
-    "w00se": { s: 3, c: 5 },
-    "w0g": { s: 3, c: 5 },
-    "w0gs": { s: 3, c: 5 },
-    "whoars": { s: 3, c: 5 },
-    "willies": { s: 3, c: 5 },
-    "wuss": { s: 3, c: 5 },
-    "wussy": { s: 3, c: 5 },
+    "ashole": [3, 5],
+    "assho": [3, 5],
+    "asshle": [3, 5],
+    "bassturd": [3, 5],
+    "basturd": [3, 5],
+    "bastid": [3, 5],
+    "bullcrap": [3, 5],
+    "bull crap": [3, 5],
+    "cack": [3, 5],
+    "cock womble": [4, 5],
+    "coochee": [3, 5],
+    "coksucker": [3, 5],
+    "coksuker": [3, 5],
+    "cumm": [4, 5],
+    "cummer": [4, 5],
+    "cummin": [4, 5],
+    "cuntt": [5, 5],
+    "damm": [3, 5],
+    "dammn": [3, 5],
+    "dayum": [3, 5],
+    "deeck": [3, 5],
+    "deeq": [3, 5],
+    "diik": [3, 5],
+    "dique": [3, 5],
+    "doosh": [3, 5],
+    "dooshbag": [3, 5],
+    "douch": [3, 5],
+    "douchbag": [3, 5],
+    "douchetard": [3, 5],
+    "f u k": [3, 5],
+    "faaack": [3, 5],
+    "faaak": [3, 5],
+    "faack": [3, 5],
+    "faak": [3, 5],
+    "faaq": [3, 5],
+    "fakk": [3, 5],
+    "farg": [3, 5],
+    "fauck": [3, 5],
+    "fcuker": [3, 5],
+    "fker": [3, 5],
+    "fluck": [3, 5],
+    "fokk": [3, 5],
+    "frigg": [3, 5],
+    "frigger": [3, 5],
+    "fruck": [3, 5],
+    "fuark": [3, 5],
+    "fuarking": [3, 5],
+    "fucca": [3, 5],
+    "fuchen": [3, 5],
+    "fuching": [3, 5],
+    "fudging": [3, 5],
+    "fuken": [3, 5],
+    "fuqqing": [3, 5],
+    "horsecrap": [3, 5],
+    "horse crap": [3, 5],
+    "jackarse": [3, 5],
+    "jack arse": [3, 5],
+    "jizm": [3, 5],
+    "jizzm": [4, 5],
+    "knobbers": [3, 5],
+    "knobjocky": [3, 5],
+    "knobjokey": [3, 5],
+    "kooch": [3, 5],
+    "kootch": [3, 5],
+    "kootchie": [3, 5],
+    "kuunt": [3, 5],
+    "kwunt": [3, 5],
+    "lmaooo": [3, 5],
+    "m0f0": [3, 5],
+    "mof0": [3, 5],
+    "mofocker": [3, 5],
+    "mofucker": [3, 5],
+    "mofucking": [3, 5],
+    "muddafucka": [3, 5],
+    "muddafucker": [3, 5],
+    "muthafuckaz": [3, 5],
+    "muthafuckin": [3, 5],
+    "muther": [3, 5],
+    "mutherfucka": [3, 5],
+    "mutherfucking": [3, 5],
+    "niqqah": [3, 5],
+    "niqqas": [3, 5],
+    "nobjokey": [3, 5],
+    "nobjocky": [3, 5],
+    "nutto": [3, 5],
+    "orafis": [3, 5],
+    "orgasim": [3, 5],
+    "orgasims": [3, 5],
+    "orgasum": [3, 5],
+    "orgasums": [3, 5],
+    "penus": [3, 5],
+    "phallick": [3, 5],
+    "phuker": [3, 5],
+    "phukked": [3, 5],
+    "phukker": [3, 5],
+    "phukkin": [3, 5],
+    "phukking": [3, 5],
+    "phuks": [3, 5],
+    "phuqed": [3, 5],
+    "phuqer": [3, 5],
+    "phuqing": [3, 5],
+    "piky": [3, 5],
+    "pissers": [3, 5],
+    "pissess": [3, 5],
+    "porn0": [3, 5],
+    "pornn": [3, 5],
+    "pussee": [3, 5],
+    "pussie": [3, 5],
+    "pussi": [3, 5],
+    "pusy": [3, 5],
+    "rimjaw": [3, 5],
+    "rim jaw": [3, 5],
+    "s.o.b": [3, 5],
+    "s.o.b.": [3, 5],
+    "scrotie": [3, 5],
+    "skeeted": [3, 5],
+    "skeeting": [3, 5],
+    "skeezy": [3, 5],
+    "slutz": [3, 5],
+    "snatches": [3, 5],
+    "snatchy": [3, 5],
+    "spunked": [3, 5],
+    "spunking": [3, 5],
+    "spunky": [3, 5],
+    "titt": [4, 5],
+    "tittie": [4, 5],
+    "tittiefucker": [3, 5],
+    "tittyfucked": [3, 5],
+    "twatt": [4, 5],
+    "twatted": [4, 5],
+    "v1agra": [3, 5],
+    "vjayjay": [3, 5],
+    "w00se": [3, 5],
+    "w0g": [3, 5],
+    "w0gs": [3, 5],
+    "whoars": [3, 5],
+    "willies": [3, 5],
+    "wuss": [3, 5],
+    "wussy": [3, 5],
     // ===== BATCH 31: MORE GAMING TERMS =====
-    "aim bot": { s: 3, c: 4 },
-    "aimbot": { s: 3, c: 4 },
-    "b00sted": { s: 3, c: 5 },
-    "boosted": { s: 3, c: 4 },
-    "boosted animal": { s: 3, c: 4 },
-    "boostedanimal": { s: 3, c: 4 },
-    "camp3r": { s: 3, c: 5 },
-    "camper": { s: 1, c: 2 },
-    "campers": { s: 3, c: 4 },
-    "carried trash": { s: 3, c: 4 },
-    "carriedtrash": { s: 3, c: 4 },
-    "cheater": { s: 3, c: 4 },
-    "cheaters": { s: 3, c: 4 },
-    "d3stroyed": { s: 3, c: 5 },
-    "deranked": { s: 3, c: 4 },
-    "easy mode": { s: 3, c: 4 },
-    "easymode": { s: 3, c: 4 },
-    "fragile ego": { s: 3, c: 4 },
-    "fragileego": { s: 3, c: 4 },
-    "garbage can": { s: 3, c: 4 },
-    "garbagecan": { s: 3, c: 4 },
-    "garbage tier": { s: 3, c: 4 },
-    "garbagetier": { s: 3, c: 4 },
-    "get bodied": { s: 3, c: 4 },
-    "getbodied": { s: 3, c: 4 },
-    "get dunked on": { s: 3, c: 4 },
-    "getdunkedon": { s: 3, c: 4 },
-    "get fragged": { s: 3, c: 4 },
-    "getfragged": { s: 3, c: 4 },
-    "get rolled": { s: 3, c: 4 },
-    "getrolled": { s: 3, c: 4 },
-    "get shit on": { s: 3, c: 5 },
-    "getshiton": { s: 3, c: 5 },
-    "go uninstall": { s: 3, c: 4 },
-    "gouninstall": { s: 3, c: 4 },
-    "griefers": { s: 3, c: 4 },
-    "hacker": { s: 3, c: 4 },
-    "hackers": { s: 3, c: 4 },
-    "hardscoper": { s: 3, c: 4 },
-    "hardscoping": { s: 3, c: 4 },
-    "jg gap": { s: 3, c: 4 },
-    "jggap": { s: 3, c: 4 },
-    "mad because bad": { s: 3, c: 4 },
-    "madbecausebad": { s: 3, c: 4 },
-    "mid gap": { s: 3, c: 4 },
-    "midgap": { s: 3, c: 4 },
-    "n00b": { s: 3, c: 5 },
-    "n0ob": { s: 3, c: 5 },
-    "noob bait": { s: 3, c: 4 },
-    "noobbait": { s: 3, c: 4 },
-    "noob tube": { s: 3, c: 4 },
-    "noobtube": { s: 3, c: 4 },
-    "one trick pony": { s: 3, c: 4 },
-    "onetrickpony": { s: 3, c: 4 },
-    "outplayed": { s: 3, c: 4 },
-    "outskilled": { s: 3, c: 4 },
-    "rage": { s: 3, c: 4 },
-    "rager": { s: 3, c: 4 },
-    "ragers": { s: 3, c: 4 },
-    "raging": { s: 3, c: 4 },
-    "rank diff": { s: 3, c: 4 },
-    "rankdiff": { s: 3, c: 4 },
-    "reported": { s: 3, c: 4 },
-    "scrub": { s: 1, c: 2 },
-    "scrubs": { s: 3, c: 4 },
-    "shit tier": { s: 3, c: 5 },
-    "skill gap": { s: 3, c: 4 },
-    "skillgap": { s: 3, c: 4 },
-    "smurfing": { s: 3, c: 4 },
-    "smurf": { s: 1, c: 2 },
-    "smurfs": { s: 3, c: 4 },
-    "spammer": { s: 3, c: 4 },
-    "spammers": { s: 3, c: 4 },
-    "spamming": { s: 3, c: 4 },
-    "stream sniper": { s: 3, c: 4 },
-    "streamsniper": { s: 3, c: 4 },
-    "stream sniping": { s: 3, c: 4 },
-    "streamsniping": { s: 3, c: 4 },
-    "support diff": { s: 3, c: 4 },
-    "supportdiff": { s: 3, c: 4 },
-    "thrower": { s: 3, c: 4 },
-    "throwers": { s: 3, c: 4 },
-    "throwing": { s: 3, c: 4 },
-    "top gap": { s: 3, c: 4 },
-    "topgap": { s: 3, c: 4 },
-    "trash can": { s: 3, c: 4 },
-    "trashcan": { s: 3, c: 4 },
-    "trash tier": { s: 3, c: 4 },
-    "trashtier": { s: 3, c: 4 },
-    "troll pick": { s: 3, c: 4 },
-    "trollpick": { s: 3, c: 4 },
-    "u mad": { s: 3, c: 4 },
-    "umad": { s: 3, c: 4 },
-    "u mad bro": { s: 3, c: 4 },
-    "umadbro": { s: 3, c: 4 },
-    "uninstall the game": { s: 3, c: 4 },
-    "uninstallthegame": { s: 3, c: 4 },
-    "you are bad": { s: 3, c: 4 },
-    "youarebad": { s: 3, c: 4 },
-    "you are garbage": { s: 3, c: 4 },
-    "youaregarbage": { s: 3, c: 4 },
-    "you are shit": { s: 3, c: 5 },
-    "youareshit": { s: 3, c: 5 },
-    "you are terrible": { s: 3, c: 4 },
-    "youareterrible": { s: 3, c: 4 },
-    "you are trash": { s: 3, c: 4 },
-    "youaretrash": { s: 3, c: 4 },
-    "you suck at this": { s: 3, c: 4 },
-    "yousuckatthis": { s: 3, c: 4 },
-    "zero damage": { s: 3, c: 4 },
-    "zerodamage": { s: 3, c: 4 },
+    "aim bot": [3, 4],
+    "aimbot": [3, 4],
+    "b00sted": [3, 5],
+    "boosted": [3, 4],
+    "boosted animal": [3, 4],
+    "boostedanimal": [3, 4],
+    "camp3r": [3, 5],
+    "camper": [1, 2],
+    "campers": [3, 4],
+    "carried trash": [3, 4],
+    "carriedtrash": [3, 4],
+    "cheater": [3, 4],
+    "cheaters": [3, 4],
+    "d3stroyed": [3, 5],
+    "deranked": [3, 4],
+    "easy mode": [3, 4],
+    "easymode": [3, 4],
+    "fragile ego": [3, 4],
+    "fragileego": [3, 4],
+    "garbage can": [3, 4],
+    "garbagecan": [3, 4],
+    "garbage tier": [3, 4],
+    "garbagetier": [3, 4],
+    "get bodied": [3, 4],
+    "getbodied": [3, 4],
+    "get dunked on": [3, 4],
+    "getdunkedon": [3, 4],
+    "get fragged": [3, 4],
+    "getfragged": [3, 4],
+    "get rolled": [3, 4],
+    "getrolled": [3, 4],
+    "get shit on": [3, 5],
+    "getshiton": [3, 5],
+    "go uninstall": [3, 4],
+    "gouninstall": [3, 4],
+    "griefers": [3, 4],
+    "hacker": [3, 4],
+    "hackers": [3, 4],
+    "hardscoper": [3, 4],
+    "hardscoping": [3, 4],
+    "jg gap": [3, 4],
+    "jggap": [3, 4],
+    "mad because bad": [3, 4],
+    "madbecausebad": [3, 4],
+    "mid gap": [3, 4],
+    "midgap": [3, 4],
+    "n00b": [3, 5],
+    "n0ob": [3, 5],
+    "noob bait": [3, 4],
+    "noobbait": [3, 4],
+    "noob tube": [3, 4],
+    "noobtube": [3, 4],
+    "one trick pony": [3, 4],
+    "onetrickpony": [3, 4],
+    "outplayed": [3, 4],
+    "outskilled": [3, 4],
+    "rage": [3, 4],
+    "rager": [3, 4],
+    "ragers": [3, 4],
+    "raging": [3, 4],
+    "rank diff": [3, 4],
+    "rankdiff": [3, 4],
+    "reported": [3, 4],
+    "scrub": [1, 2],
+    "scrubs": [3, 4],
+    "shit tier": [3, 5],
+    "skill gap": [3, 4],
+    "skillgap": [3, 4],
+    "smurfing": [3, 4],
+    "smurf": [1, 2],
+    "smurfs": [3, 4],
+    "spammer": [3, 4],
+    "spammers": [3, 4],
+    "spamming": [3, 4],
+    "stream sniper": [3, 4],
+    "streamsniper": [3, 4],
+    "stream sniping": [3, 4],
+    "streamsniping": [3, 4],
+    "support diff": [3, 4],
+    "supportdiff": [3, 4],
+    "thrower": [3, 4],
+    "throwers": [3, 4],
+    "throwing": [3, 4],
+    "top gap": [3, 4],
+    "topgap": [3, 4],
+    "trash can": [3, 4],
+    "trashcan": [3, 4],
+    "trash tier": [3, 4],
+    "trashtier": [3, 4],
+    "troll pick": [3, 4],
+    "trollpick": [3, 4],
+    "u mad": [3, 4],
+    "umad": [3, 4],
+    "u mad bro": [3, 4],
+    "umadbro": [3, 4],
+    "uninstall the game": [3, 4],
+    "uninstallthegame": [3, 4],
+    "you are bad": [3, 4],
+    "youarebad": [3, 4],
+    "you are garbage": [3, 4],
+    "youaregarbage": [3, 4],
+    "you are shit": [3, 5],
+    "youareshit": [3, 5],
+    "you are terrible": [3, 4],
+    "youareterrible": [3, 4],
+    "you are trash": [3, 4],
+    "youaretrash": [3, 4],
+    "you suck at this": [3, 4],
+    "yousuckatthis": [3, 4],
+    "zero damage": [3, 4],
+    "zerodamage": [3, 4],
     // ===== BATCH 32: MORE COMPOUND NOUNS =====
-    "assbanger": { s: 3, c: 5 },
-    "ass banger": { s: 3, c: 5 },
-    "assbite": { s: 3, c: 5 },
-    "ass bite": { s: 3, c: 5 },
-    "assboil": { s: 3, c: 5 },
-    "ass boil": { s: 3, c: 5 },
-    "asscrawler": { s: 3, c: 5 },
-    "ass crawler": { s: 3, c: 5 },
-    "assdouche": { s: 3, c: 5 },
-    "ass douche": { s: 3, c: 5 },
-    "asseater": { s: 3, c: 5 },
-    "ass eater": { s: 3, c: 5 },
-    "assflower": { s: 3, c: 5 },
-    "ass flower": { s: 3, c: 5 },
-    "assgrabber": { s: 3, c: 5 },
-    "ass grabber": { s: 3, c: 5 },
-    "buttchug": { s: 3, c: 5 },
-    "butt chug": { s: 3, c: 5 },
-    "buttchugging": { s: 3, c: 5 },
-    "butt chugging": { s: 3, c: 5 },
-    "buttkisser": { s: 3, c: 5 },
-    "butt kisser": { s: 3, c: 5 },
-    "buttsniffer": { s: 3, c: 5 },
-    "butt sniffer": { s: 3, c: 5 },
-    "buttstuffer": { s: 3, c: 5 },
-    "butt stuffer": { s: 3, c: 5 },
-    "clitlicker": { s: 3, c: 5 },
-    "clit licker": { s: 3, c: 5 },
-    "cumchugger": { s: 4, c: 5 },
-    "cum chugger": { s: 4, c: 5 },
-    "cumeater": { s: 4, c: 5 },
-    "cum eater": { s: 4, c: 5 },
-    "cumlicker": { s: 4, c: 5 },
-    "cum licker": { s: 4, c: 5 },
-    "cumsucker": { s: 4, c: 5 },
-    "cum sucker": { s: 4, c: 5 },
-    "cumswallower": { s: 4, c: 5 },
-    "cum swallower": { s: 4, c: 5 },
-    "cuntbuster": { s: 5, c: 5 },
-    "cunt buster": { s: 5, c: 5 },
-    "cuntfucker": { s: 3, c: 5 },
-    "cunt fucker": { s: 3, c: 5 },
-    "cunthammer": { s: 5, c: 5 },
-    "cunt hammer": { s: 5, c: 5 },
-    "cuntmonger": { s: 5, c: 5 },
-    "cunt monger": { s: 5, c: 5 },
-    "dickbiter": { s: 4, c: 5 },
-    "dick biter": { s: 4, c: 5 },
-    "fuck monkey": { s: 3, c: 5 },
-    "fuck muppet": { s: 3, c: 5 },
-    "fuck pig": { s: 3, c: 5 },
-    "fuck twit": { s: 3, c: 5 },
-    "fuck wagon": { s: 3, c: 5 },
-    "shitbucket": { s: 3, c: 5 },
-    "shit bucket": { s: 3, c: 5 },
-    "shitsniffer": { s: 3, c: 5 },
-    "shit sniffer": { s: 3, c: 5 },
-    "shittongue": { s: 3, c: 5 },
-    "shit tongue": { s: 3, c: 5 },
-    "skankass": { s: 3, c: 5 },
-    "skank ass": { s: 3, c: 5 },
-    "skankyass": { s: 3, c: 5 },
-    "skanky ass": { s: 3, c: 5 },
-    "slimeball": { s: 3, c: 5 },
-    "slime ball": { s: 3, c: 5 },
-    "slutty bitch": { s: 3, c: 5 },
-    "sluttybitch": { s: 3, c: 5 },
-    "slutty whore": { s: 5, c: 5 },
-    "sluttywhore": { s: 5, c: 5 },
-    "turdgobbler": { s: 3, c: 5 },
-    "turd gobbler": { s: 3, c: 5 },
-    "turdmonger": { s: 3, c: 5 },
-    "turd monger": { s: 3, c: 5 },
-    "turdsniffer": { s: 3, c: 5 },
-    "turd sniffer": { s: 3, c: 5 },
+    "assbanger": [3, 5],
+    "ass banger": [3, 5],
+    "assbite": [3, 5],
+    "ass bite": [3, 5],
+    "assboil": [3, 5],
+    "ass boil": [3, 5],
+    "asscrawler": [3, 5],
+    "ass crawler": [3, 5],
+    "assdouche": [3, 5],
+    "ass douche": [3, 5],
+    "asseater": [3, 5],
+    "ass eater": [3, 5],
+    "assflower": [3, 5],
+    "ass flower": [3, 5],
+    "assgrabber": [3, 5],
+    "ass grabber": [3, 5],
+    "buttchug": [3, 5],
+    "butt chug": [3, 5],
+    "buttchugging": [3, 5],
+    "butt chugging": [3, 5],
+    "buttkisser": [3, 5],
+    "butt kisser": [3, 5],
+    "buttsniffer": [3, 5],
+    "butt sniffer": [3, 5],
+    "buttstuffer": [3, 5],
+    "butt stuffer": [3, 5],
+    "clitlicker": [3, 5],
+    "clit licker": [3, 5],
+    "cumchugger": [4, 5],
+    "cum chugger": [4, 5],
+    "cumeater": [4, 5],
+    "cum eater": [4, 5],
+    "cumlicker": [4, 5],
+    "cum licker": [4, 5],
+    "cumsucker": [4, 5],
+    "cum sucker": [4, 5],
+    "cumswallower": [4, 5],
+    "cum swallower": [4, 5],
+    "cuntbuster": [5, 5],
+    "cunt buster": [5, 5],
+    "cuntfucker": [3, 5],
+    "cunt fucker": [3, 5],
+    "cunthammer": [5, 5],
+    "cunt hammer": [5, 5],
+    "cuntmonger": [5, 5],
+    "cunt monger": [5, 5],
+    "dickbiter": [4, 5],
+    "dick biter": [4, 5],
+    "fuck monkey": [3, 5],
+    "fuck muppet": [3, 5],
+    "fuck pig": [3, 5],
+    "fuck twit": [3, 5],
+    "fuck wagon": [3, 5],
+    "shitbucket": [3, 5],
+    "shit bucket": [3, 5],
+    "shitsniffer": [3, 5],
+    "shit sniffer": [3, 5],
+    "shittongue": [3, 5],
+    "shit tongue": [3, 5],
+    "skankass": [3, 5],
+    "skank ass": [3, 5],
+    "skankyass": [3, 5],
+    "skanky ass": [3, 5],
+    "slimeball": [3, 5],
+    "slime ball": [3, 5],
+    "slutty bitch": [3, 5],
+    "sluttybitch": [3, 5],
+    "slutty whore": [5, 5],
+    "sluttywhore": [5, 5],
+    "turdgobbler": [3, 5],
+    "turd gobbler": [3, 5],
+    "turdmonger": [3, 5],
+    "turd monger": [3, 5],
+    "turdsniffer": [3, 5],
+    "turd sniffer": [3, 5],
     // ===== BATCH 33: REGIONAL SLURS =====
-    "alligator bait": { s: 5, c: 4 },
-    "alligatorbait": { s: 5, c: 4 },
-    "bootlip": { s: 5, c: 4 },
-    "bootlips": { s: 5, c: 4 },
-    "brownskin": { s: 5, c: 4 },
-    "brown skin": { s: 5, c: 4 },
-    "buckwheat": { s: 5, c: 4 },
-    "cabbage eater": { s: 5, c: 4 },
-    "cabbageeater": { s: 5, c: 4 },
-    "chinless wonder": { s: 5, c: 4 },
-    "chinlesswonder": { s: 5, c: 4 },
-    "clogwog": { s: 5, c: 4 },
-    "eight ball": { s: 5, c: 4 },
-    "eightball": { s: 5, c: 4 },
-    "gin jockey": { s: 5, c: 4 },
-    "ginjockey": { s: 5, c: 4 },
-    "gweilo": { s: 5, c: 4 },
-    "gwilo": { s: 5, c: 4 },
-    "hairyback": { s: 5, c: 4 },
-    "hairy back": { s: 5, c: 4 },
-    "haole": { s: 5, c: 4 },
-    "heebs": { s: 5, c: 4 },
-    "honkie": { s: 5, c: 4 },
-    "honkies": { s: 5, c: 4 },
-    "jim crow": { s: 5, c: 4 },
-    "jimcrow": { s: 5, c: 4 },
-    "krauthead": { s: 5, c: 4 },
-    "kraut head": { s: 5, c: 4 },
-    "lubra": { s: 5, c: 4 },
-    "macaca": { s: 5, c: 4 },
-    "mayate": { s: 5, c: 4 },
-    "mocky": { s: 5, c: 4 },
-    "mooncricket": { s: 5, c: 4 },
-    "mosshead": { s: 5, c: 4 },
-    "moss head": { s: 5, c: 4 },
-    "mudskin": { s: 5, c: 4 },
-    "mud skin": { s: 5, c: 4 },
-    "pancake face": { s: 5, c: 4 },
-    "pancakeface": { s: 5, c: 4 },
-    "peckerwoods": { s: 5, c: 4 },
-    "redbone": { s: 5, c: 4 },
-    "river rat": { s: 5, c: 4 },
-    "riverrat": { s: 5, c: 4 },
-    "round eye": { s: 5, c: 4 },
-    "roundeye": { s: 5, c: 4 },
-    "sand flea": { s: 5, c: 4 },
-    "sandflea": { s: 5, c: 4 },
-    "sand rat": { s: 5, c: 4 },
-    "sandrat": { s: 5, c: 4 },
-    "sheepshagger": { s: 5, c: 4 },
-    "sheep shagger": { s: 5, c: 4 },
-    "sheepfucker": { s: 5, c: 5 },
-    "sheep fucker": { s: 5, c: 5 },
-    "spade": { s: 5, c: 4 },
-    "spades": { s: 5, c: 4 },
-    "swamp donkey": { s: 5, c: 4 },
-    "swampdonkey": { s: 5, c: 4 },
-    "toesucker": { s: 5, c: 4 },
-    "toe sucker": { s: 5, c: 4 },
-    "tree jumper": { s: 5, c: 4 },
-    "treejumper": { s: 5, c: 4 },
-    "wagon burner": { s: 5, c: 4 },
-    "wagonburner": { s: 5, c: 4 },
-    "welfare queen": { s: 5, c: 4 },
-    "welfarequeen": { s: 5, c: 4 },
-    "wood ape": { s: 5, c: 4 },
-    "woodape": { s: 5, c: 4 },
-    "wool head": { s: 5, c: 4 },
-    "woolhead": { s: 5, c: 4 },
+    "alligator bait": [5, 4],
+    "alligatorbait": [5, 4],
+    "bootlip": [5, 4],
+    "bootlips": [5, 4],
+    "brownskin": [5, 4],
+    "brown skin": [5, 4],
+    "buckwheat": [5, 4],
+    "cabbage eater": [5, 4],
+    "cabbageeater": [5, 4],
+    "chinless wonder": [5, 4],
+    "chinlesswonder": [5, 4],
+    "clogwog": [5, 4],
+    "eight ball": [5, 4],
+    "eightball": [5, 4],
+    "gin jockey": [5, 4],
+    "ginjockey": [5, 4],
+    "gweilo": [5, 4],
+    "gwilo": [5, 4],
+    "hairyback": [5, 4],
+    "hairy back": [5, 4],
+    "haole": [5, 4],
+    "heebs": [5, 4],
+    "honkie": [5, 4],
+    "honkies": [5, 4],
+    "jim crow": [5, 4],
+    "jimcrow": [5, 4],
+    "krauthead": [5, 4],
+    "kraut head": [5, 4],
+    "lubra": [5, 4],
+    "macaca": [5, 4],
+    "mayate": [5, 4],
+    "mocky": [5, 4],
+    "mooncricket": [5, 4],
+    "mosshead": [5, 4],
+    "moss head": [5, 4],
+    "mudskin": [5, 4],
+    "mud skin": [5, 4],
+    "pancake face": [5, 4],
+    "pancakeface": [5, 4],
+    "peckerwoods": [5, 4],
+    "redbone": [5, 4],
+    "river rat": [5, 4],
+    "riverrat": [5, 4],
+    "round eye": [5, 4],
+    "roundeye": [5, 4],
+    "sand flea": [5, 4],
+    "sandflea": [5, 4],
+    "sand rat": [5, 4],
+    "sandrat": [5, 4],
+    "sheepshagger": [5, 4],
+    "sheep shagger": [5, 4],
+    "sheepfucker": [5, 5],
+    "sheep fucker": [5, 5],
+    "spade": [5, 4],
+    "spades": [5, 4],
+    "swamp donkey": [5, 4],
+    "swampdonkey": [5, 4],
+    "toesucker": [5, 4],
+    "toe sucker": [5, 4],
+    "tree jumper": [5, 4],
+    "treejumper": [5, 4],
+    "wagon burner": [5, 4],
+    "wagonburner": [5, 4],
+    "welfare queen": [5, 4],
+    "welfarequeen": [5, 4],
+    "wood ape": [5, 4],
+    "woodape": [5, 4],
+    "wool head": [5, 4],
+    "woolhead": [5, 4],
     // ===== BATCH 34: ABBREVIATIONS =====
-    "cfnm": { s: 3, c: 4 },
-    "csb": { s: 3, c: 4 },
-    "ctm": { s: 3, c: 4 },
-    "dfo": { s: 3, c: 4 },
-    "dvp": { s: 3, c: 4 },
-    "fobr": { s: 3, c: 4 },
-    "fyfi": { s: 3, c: 4 },
-    "fym": { s: 3, c: 4 },
-    "gdf": { s: 3, c: 4 },
-    "gfu": { s: 3, c: 4 },
-    "gfym": { s: 3, c: 4 },
-    "gky": { s: 3, c: 4 },
-    "grf": { s: 3, c: 4 },
-    "hmfic": { s: 3, c: 4 },
-    "iaf": { s: 3, c: 4 },
-    "ibtl": { s: 3, c: 4 },
-    "jfgi": { s: 3, c: 4 },
-    "jsyk": { s: 3, c: 4 },
-    "lamf": { s: 3, c: 4 },
-    "lma0": { s: 3, c: 5 },
-    "mfao": { s: 3, c: 4 },
-    "mfl": { s: 3, c: 4 },
-    "nfg": { s: 3, c: 4 },
-    "ngaf": { s: 3, c: 4 },
-    "nmfp": { s: 3, c: 4 },
-    "nsfl": { s: 3, c: 4 },
-    "sf": { s: 3, c: 4 },
-    "sof": { s: 3, c: 4 },
-    "stfuattdlagg": { s: 3, c: 4 },
-    "susfu": { s: 3, c: 4 },
-    "tarfu": { s: 3, c: 4 },
-    "wtmf": { s: 3, c: 4 },
-    "wttf": { s: 3, c: 4 },
-    "ygtbfkm": { s: 3, c: 4 },
-    "ygtbkm": { s: 3, c: 4 },
+    "cfnm": [3, 4],
+    "csb": [3, 4],
+    "ctm": [3, 4],
+    "dfo": [3, 4],
+    "dvp": [3, 4],
+    "fobr": [3, 4],
+    "fyfi": [3, 4],
+    "fym": [3, 4],
+    "gdf": [3, 4],
+    "gfu": [3, 4],
+    "gfym": [3, 4],
+    "gky": [3, 4],
+    "grf": [3, 4],
+    "hmfic": [3, 4],
+    "iaf": [3, 4],
+    "ibtl": [3, 4],
+    "jfgi": [3, 4],
+    "jsyk": [3, 4],
+    "lamf": [3, 4],
+    "lma0": [3, 5],
+    "mfao": [3, 4],
+    "mfl": [3, 4],
+    "nfg": [3, 4],
+    "ngaf": [3, 4],
+    "nmfp": [3, 4],
+    "nsfl": [3, 4],
+    "sf": [3, 4],
+    "sof": [3, 4],
+    "stfuattdlagg": [3, 4],
+    "susfu": [3, 4],
+    "tarfu": [3, 4],
+    "wtmf": [3, 4],
+    "wttf": [3, 4],
+    "ygtbfkm": [3, 4],
+    "ygtbkm": [3, 4],
     // ===== BATCH 35: MORE LEET COMBOS =====
-    "4n4l": { s: 3, c: 5 },
-    "4nal": { s: 3, c: 5 },
-    "4ss crack": { s: 3, c: 5 },
-    "4sscrack": { s: 3, c: 5 },
-    "4ssfuck": { s: 3, c: 5 },
-    "4sshole": { s: 3, c: 5 },
-    "4sswipe": { s: 3, c: 5 },
-    "b!0tch": { s: 3, c: 5 },
-    "b!otch": { s: 3, c: 5 },
-    "b4ll sack": { s: 3, c: 5 },
-    "b4llsack": { s: 3, c: 5 },
-    "blowj0b": { s: 3, c: 5 },
-    "cl!toris": { s: 3, c: 5 },
-    "cum$h0t": { s: 4, c: 5 },
-    "cumsh0t": { s: 4, c: 5 },
-    "d!ckl1ck3r": { s: 3, c: 5 },
-    "d!ckn0s3": { s: 3, c: 5 },
-    "d!cksn33z3": { s: 3, c: 5 },
-    "d!ckt1p": { s: 3, c: 5 },
-    "d!ckw4d": { s: 3, c: 5 },
-    "d!ldos": { s: 3, c: 5 },
-    "d1ld0": { s: 3, c: 5 },
-    "f@ggotry": { s: 3, c: 5 },
-    "f@ggy": { s: 3, c: 5 },
-    "f@gg0try": { s: 3, c: 5 },
-    "f4ggy": { s: 3, c: 5 },
-    "f4gg0try": { s: 3, c: 5 },
-    "fuck3d": { s: 3, c: 5 },
-    "fuck3rs": { s: 3, c: 5 },
-    "fvck3d": { s: 3, c: 5 },
-    "fvck3r": { s: 3, c: 5 },
-    "g0ddam": { s: 3, c: 5 },
-    "g0ddamn": { s: 3, c: 5 },
-    "h0m0phobe": { s: 3, c: 5 },
-    "h0mos3xual": { s: 3, c: 5 },
-    "h4ndjobs": { s: 3, c: 5 },
-    "h4ndj0bs": { s: 3, c: 5 },
-    "j1zzface": { s: 3, c: 5 },
-    "j1zzm0pp3r": { s: 3, c: 5 },
-    "j1zzrag": { s: 3, c: 5 },
-    "j1zzst41n": { s: 3, c: 5 },
-    "l3sbo": { s: 3, c: 5 },
-    "l3zbos": { s: 3, c: 5 },
-    "m0l3st": { s: 3, c: 5 },
-    "m0l3st3r": { s: 3, c: 5 },
-    "m0th3rfuck": { s: 3, c: 5 },
-    "m4sturb4t3": { s: 3, c: 5 },
-    "m4sturb4t1ng": { s: 3, c: 5 },
-    "n1gl3t": { s: 3, c: 5 },
-    "n1gg4h": { s: 3, c: 5 },
-    "p0rn0": { s: 3, c: 5 },
-    "p0rnhub": { s: 3, c: 5 },
-    "p0rnst4r": { s: 3, c: 5 },
-    "p1ssed": { s: 3, c: 5 },
-    "p1ssfl4ps": { s: 3, c: 5 },
-    "p1ssh34d": { s: 3, c: 5 },
-    "pu55i3s": { s: 3, c: 5 },
-    "r4p1ng": { s: 3, c: 5 },
-    "s3m3n": { s: 3, c: 5 },
-    "sh!tb0x": { s: 3, c: 5 },
-    "sh!tbr41n": { s: 3, c: 5 },
-    "sh!tc4nn3d": { s: 3, c: 5 },
-    "sh!td1ck": { s: 3, c: 5 },
-    "sh!te4t3r": { s: 3, c: 5 },
-    "sh!tfuck": { s: 3, c: 5 },
-    "sh!tg1bb0n": { s: 3, c: 5 },
-    "sh!tk1ck3r": { s: 3, c: 5 },
-    "sl4pp3r": { s: 3, c: 5 },
-    "sl4pp3rs": { s: 3, c: 5 },
-    "sp4st1c": { s: 3, c: 5 },
-    "sp4st1cs": { s: 3, c: 5 },
-    "tw4tf4c3": { s: 3, c: 5 },
-    "tw4tw4ffl3": { s: 3, c: 5 },
-    "w4nkf4c3": { s: 3, c: 5 },
-    "w4nkst41n": { s: 3, c: 5 },
-    "wh0r3b4g": { s: 3, c: 5 },
-    "wh0r3f4c3": { s: 3, c: 5 },
+    "4n4l": [3, 5],
+    "4nal": [3, 5],
+    "4ss crack": [3, 5],
+    "4sscrack": [3, 5],
+    "4ssfuck": [3, 5],
+    "4sshole": [3, 5],
+    "4sswipe": [3, 5],
+    "b!0tch": [3, 5],
+    "b!otch": [3, 5],
+    "b4ll sack": [3, 5],
+    "b4llsack": [3, 5],
+    "blowj0b": [3, 5],
+    "cl!toris": [3, 5],
+    "cum$h0t": [4, 5],
+    "cumsh0t": [4, 5],
+    "d!ckl1ck3r": [3, 5],
+    "d!ckn0s3": [3, 5],
+    "d!cksn33z3": [3, 5],
+    "d!ckt1p": [3, 5],
+    "d!ckw4d": [3, 5],
+    "d!ldos": [3, 5],
+    "d1ld0": [3, 5],
+    "f@ggotry": [3, 5],
+    "f@ggy": [3, 5],
+    "f@gg0try": [3, 5],
+    "f4ggy": [3, 5],
+    "f4gg0try": [3, 5],
+    "fuck3d": [3, 5],
+    "fuck3rs": [3, 5],
+    "fvck3d": [3, 5],
+    "fvck3r": [3, 5],
+    "g0ddam": [3, 5],
+    "g0ddamn": [3, 5],
+    "h0m0phobe": [3, 5],
+    "h0mos3xual": [3, 5],
+    "h4ndjobs": [3, 5],
+    "h4ndj0bs": [3, 5],
+    "j1zzface": [3, 5],
+    "j1zzm0pp3r": [3, 5],
+    "j1zzrag": [3, 5],
+    "j1zzst41n": [3, 5],
+    "l3sbo": [3, 5],
+    "l3zbos": [3, 5],
+    "m0l3st": [3, 5],
+    "m0l3st3r": [3, 5],
+    "m0th3rfuck": [3, 5],
+    "m4sturb4t3": [3, 5],
+    "m4sturb4t1ng": [3, 5],
+    "n1gl3t": [3, 5],
+    "n1gg4h": [3, 5],
+    "p0rn0": [3, 5],
+    "p0rnhub": [3, 5],
+    "p0rnst4r": [3, 5],
+    "p1ssed": [3, 5],
+    "p1ssfl4ps": [3, 5],
+    "p1ssh34d": [3, 5],
+    "pu55i3s": [3, 5],
+    "r4p1ng": [3, 5],
+    "s3m3n": [3, 5],
+    "sh!tb0x": [3, 5],
+    "sh!tbr41n": [3, 5],
+    "sh!tc4nn3d": [3, 5],
+    "sh!td1ck": [3, 5],
+    "sh!te4t3r": [3, 5],
+    "sh!tfuck": [3, 5],
+    "sh!tg1bb0n": [3, 5],
+    "sh!tk1ck3r": [3, 5],
+    "sl4pp3r": [3, 5],
+    "sl4pp3rs": [3, 5],
+    "sp4st1c": [3, 5],
+    "sp4st1cs": [3, 5],
+    "tw4tf4c3": [3, 5],
+    "tw4tw4ffl3": [3, 5],
+    "w4nkf4c3": [3, 5],
+    "w4nkst41n": [3, 5],
+    "wh0r3b4g": [3, 5],
+    "wh0r3f4c3": [3, 5],
     // ===== BATCH 36: ADDITIONAL HATE SPEECH =====
-    "borderbunny": { s: 3, c: 4 },
-    "borderhopper": { s: 3, c: 4 },
-    "coalburner": { s: 3, c: 4 },
-    "fencejumper": { s: 3, c: 4 },
-    "mudpeople": { s: 3, c: 4 },
-    "racetraitor": { s: 3, c: 4 },
-    "white power": { s: 5, c: 5 },
-    "whitepower": { s: 3, c: 4 },
-    "white pride": { s: 3, c: 4 },
-    "whitepride": { s: 3, c: 4 },
-    "white supremacy": { s: 3, c: 4 },
-    "whitesupremacy": { s: 3, c: 4 },
-    "white supremacist": { s: 3, c: 4 },
-    "whitesupremacist": { s: 3, c: 4 },
-    "ethnic cleansing": { s: 3, c: 4 },
-    "ethniccleansing": { s: 3, c: 4 },
-    "final solution": { s: 3, c: 4 },
-    "finalsolution": { s: 3, c: 4 },
-    "gas the jews": { s: 3, c: 4 },
-    "gasthejews": { s: 3, c: 4 },
-    "heil hitler": { s: 3, c: 4 },
-    "heilhitler": { s: 3, c: 4 },
-    "hitler did nothing wrong": { s: 3, c: 4 },
-    "holocaust denier": { s: 3, c: 4 },
-    "holocaustdenier": { s: 3, c: 4 },
-    "master race": { s: 3, c: 4 },
-    "masterrace": { s: 3, c: 4 },
-    "neo nazi": { s: 3, c: 4 },
-    "neo-nazi": { s: 3, c: 4 },
-    "racial purity": { s: 3, c: 4 },
-    "racialpurity": { s: 3, c: 4 },
-    "sieg heil": { s: 5, c: 5 },
-    "siegheil": { s: 3, c: 4 },
-    "blood and soil": { s: 3, c: 4 },
-    "bloodandsoil": { s: 3, c: 4 },
-    "fourteen words": { s: 3, c: 4 },
-    "fourteenwords": { s: 3, c: 4 },
-    "1488": { s: 3, c: 4 },
-    "14 88": { s: 3, c: 4 },
-    "rahowa": { s: 3, c: 4 },
-    "day of the rope": { s: 3, c: 4 },
-    "dayoftherope": { s: 3, c: 4 },
-    "great replacement": { s: 3, c: 4 },
-    "greatreplacement": { s: 3, c: 4 },
-    "ku klux klan": { s: 3, c: 4 },
-    "kukluxklan": { s: 3, c: 4 },
-    "kkk": { s: 3, c: 4 },
-    "lynching": { s: 3, c: 4 },
-    "lynch mob": { s: 3, c: 4 },
-    "lynchmob": { s: 3, c: 4 },
-    "race war": { s: 3, c: 4 },
-    "racewar": { s: 3, c: 4 },
-    "race mixing": { s: 3, c: 4 },
-    "racemixing": { s: 3, c: 4 },
+    "borderbunny": [3, 4],
+    "borderhopper": [3, 4],
+    "coalburner": [3, 4],
+    "fencejumper": [3, 4],
+    "mudpeople": [3, 4],
+    "racetraitor": [3, 4],
+    "white power": [5, 5],
+    "whitepower": [3, 4],
+    "white pride": [3, 4],
+    "whitepride": [3, 4],
+    "white supremacy": [3, 4],
+    "whitesupremacy": [3, 4],
+    "white supremacist": [3, 4],
+    "whitesupremacist": [3, 4],
+    "ethnic cleansing": [3, 4],
+    "ethniccleansing": [3, 4],
+    "final solution": [3, 4],
+    "finalsolution": [3, 4],
+    "gas the jews": [3, 4],
+    "gasthejews": [3, 4],
+    "heil hitler": [3, 4],
+    "heilhitler": [3, 4],
+    "hitler did nothing wrong": [3, 4],
+    "holocaust denier": [3, 4],
+    "holocaustdenier": [3, 4],
+    "master race": [3, 4],
+    "masterrace": [3, 4],
+    "neo nazi": [3, 4],
+    "neo-nazi": [3, 4],
+    "racial purity": [3, 4],
+    "racialpurity": [3, 4],
+    "sieg heil": [5, 5],
+    "siegheil": [3, 4],
+    "blood and soil": [3, 4],
+    "bloodandsoil": [3, 4],
+    "fourteen words": [3, 4],
+    "fourteenwords": [3, 4],
+    "1488": [3, 4],
+    "14 88": [3, 4],
+    "rahowa": [3, 4],
+    "day of the rope": [3, 4],
+    "dayoftherope": [3, 4],
+    "great replacement": [3, 4],
+    "greatreplacement": [3, 4],
+    "ku klux klan": [3, 4],
+    "kukluxklan": [3, 4],
+    "kkk": [3, 4],
+    "lynching": [3, 4],
+    "lynch mob": [3, 4],
+    "lynchmob": [3, 4],
+    "race war": [3, 4],
+    "racewar": [3, 4],
+    "race mixing": [3, 4],
+    "racemixing": [3, 4],
     // ===== BATCH 37: MORE MISC PROFANITY =====
-    "anal bead": { s: 3, c: 4 },
-    "analbead": { s: 3, c: 4 },
-    "ball gag": { s: 3, c: 4 },
-    "ball licker": { s: 3, c: 4 },
-    "balllicker": { s: 3, c: 4 },
-    "ball sack": { s: 3, c: 4 },
-    "ball sucker": { s: 3, c: 4 },
-    "ballsucker": { s: 3, c: 4 },
-    "bastardization": { s: 5, c: 4 },
-    "bastardize": { s: 5, c: 4 },
-    "bitch face": { s: 3, c: 4 },
-    "blow job": { s: 3, c: 4 },
-    "blue waffle": { s: 3, c: 4 },
-    "bluewaffle": { s: 3, c: 4 },
-    "boners": { s: 3, c: 4 },
-    "butt plug": { s: 3, c: 4 },
-    "cock and balls": { s: 4, c: 4 },
-    "cockandballs": { s: 4, c: 4 },
-    "cock sucker": { s: 4, c: 4 },
-    "cum dumpster": { s: 4, c: 5 },
-    "dick head": { s: 4, c: 4 },
-    "dick sucker": { s: 4, c: 4 },
-    "dog fucker": { s: 3, c: 5 },
-    "dogfucker": { s: 3, c: 5 },
-    "donkey fucker": { s: 3, c: 5 },
-    "donkeyfucker": { s: 3, c: 5 },
-    "double fisting": { s: 3, c: 4 },
-    "doublefisting": { s: 3, c: 4 },
-    "dry fuck": { s: 3, c: 5 },
-    "dryfuck": { s: 3, c: 5 },
-    "fuck face": { s: 3, c: 5 },
-    "fuck wad": { s: 3, c: 5 },
-    "jack ass": { s: 3, c: 4 },
-    "jerk off": { s: 3, c: 4 },
-    "jizz face": { s: 4, c: 5 },
-    "knob end": { s: 3, c: 4 },
-    "knob head": { s: 3, c: 4 },
-    "mother fucker": { s: 3, c: 5 },
-    "nut sack": { s: 3, c: 4 },
-    "nut job": { s: 3, c: 4 },
-    "penis pump": { s: 3, c: 4 },
-    "penispump": { s: 3, c: 4 },
-    "shit bag": { s: 3, c: 5 },
-    "shit face": { s: 3, c: 5 },
-    "shit head": { s: 3, c: 5 },
-    "shit hole": { s: 3, c: 5 },
-    "skull fuck": { s: 3, c: 5 },
-    "tit fuck": { s: 3, c: 5 },
-    "twat face": { s: 4, c: 4 },
-    "wank stain": { s: 3, c: 4 },
-    "whore bag": { s: 5, c: 4 },
+    "anal bead": [3, 4],
+    "analbead": [3, 4],
+    "ball gag": [3, 4],
+    "ball licker": [3, 4],
+    "balllicker": [3, 4],
+    "ball sack": [3, 4],
+    "ball sucker": [3, 4],
+    "ballsucker": [3, 4],
+    "bastardization": [5, 4],
+    "bastardize": [5, 4],
+    "bitch face": [3, 4],
+    "blow job": [3, 4],
+    "blue waffle": [3, 4],
+    "bluewaffle": [3, 4],
+    "boners": [3, 4],
+    "butt plug": [3, 4],
+    "cock and balls": [4, 4],
+    "cockandballs": [4, 4],
+    "cock sucker": [4, 4],
+    "cum dumpster": [4, 5],
+    "dick head": [4, 4],
+    "dick sucker": [4, 4],
+    "dog fucker": [3, 5],
+    "dogfucker": [3, 5],
+    "donkey fucker": [3, 5],
+    "donkeyfucker": [3, 5],
+    "double fisting": [3, 4],
+    "doublefisting": [3, 4],
+    "dry fuck": [3, 5],
+    "dryfuck": [3, 5],
+    "fuck face": [3, 5],
+    "fuck wad": [3, 5],
+    "jack ass": [3, 4],
+    "jerk off": [3, 4],
+    "jizz face": [4, 5],
+    "knob end": [3, 4],
+    "knob head": [3, 4],
+    "mother fucker": [3, 5],
+    "nut sack": [3, 4],
+    "nut job": [3, 4],
+    "penis pump": [3, 4],
+    "penispump": [3, 4],
+    "shit bag": [3, 5],
+    "shit face": [3, 5],
+    "shit head": [3, 5],
+    "shit hole": [3, 5],
+    "skull fuck": [3, 5],
+    "tit fuck": [3, 5],
+    "twat face": [4, 4],
+    "wank stain": [3, 4],
+    "whore bag": [5, 4],
 
     // ===== BATCH 38: FINAL ADDITIONS =====
-    "anal bleaching": { s: 3, c: 4 },
-    "analbleaching": { s: 3, c: 4 },
-    "anal fissure": { s: 3, c: 4 },
-    "analfissure": { s: 3, c: 4 },
-    "anal probe": { s: 3, c: 4 },
-    "analprobe": { s: 3, c: 4 },
-    "arse crack": { s: 3, c: 4 },
-    "arsecrack": { s: 3, c: 4 },
-    "arse lick": { s: 3, c: 4 },
-    "arselick": { s: 3, c: 4 },
-    "ass backward": { s: 3, c: 4 },
-    "assbackward": { s: 3, c: 4 },
-    "ass backwards": { s: 3, c: 4 },
-    "assbackwards": { s: 3, c: 4 },
-    "ass breath": { s: 3, c: 4 },
-    "ass clap": { s: 3, c: 4 },
-    "assclap": { s: 3, c: 4 },
-    "ass fuck": { s: 3, c: 5 },
-    "ass fucker": { s: 3, c: 5 },
-    "ass goblin": { s: 3, c: 4 },
-    "ass hole": { s: 3, c: 4 },
-    "ass jacker": { s: 3, c: 4 },
-    "ass licker": { s: 3, c: 4 },
-    "ass monkey": { s: 3, c: 4 },
-    "ball bag": { s: 3, c: 4 },
-    "ballbag": { s: 3, c: 4 },
-    "ball breaker": { s: 3, c: 4 },
-    "ball crusher": { s: 3, c: 4 },
-    "ball hair": { s: 3, c: 4 },
-    "ball licking": { s: 3, c: 4 },
-    "balllicking": { s: 3, c: 4 },
-    "ball sac": { s: 3, c: 4 },
-    "ball torture": { s: 3, c: 4 },
-    "balltorture": { s: 3, c: 4 },
-    "bastard face": { s: 5, c: 4 },
-    "beaver": { s: 3, c: 4 },
-    "bellend cheese": { s: 3, c: 4 },
-    "bint": { s: 3, c: 4 },
-    "bints": { s: 3, c: 4 },
-    "bitchlet": { s: 3, c: 4 },
-    "bitch let": { s: 3, c: 4 },
-    "bitchslapped": { s: 3, c: 4 },
-    "bitch slapped": { s: 3, c: 4 },
-    "boob squeeze": { s: 3, c: 4 },
-    "boobsqueeze": { s: 3, c: 4 },
-    "brown nose": { s: 3, c: 4 },
-    "brownnose": { s: 3, c: 4 },
-    "brown noser": { s: 3, c: 4 },
-    "brownnoser": { s: 3, c: 4 },
-    "buggering": { s: 3, c: 4 },
-    "bum fuck": { s: 3, c: 5 },
-    "bum hole": { s: 3, c: 4 },
-    "bumhole": { s: 3, c: 4 },
-    "butt fuck": { s: 3, c: 5 },
-    "butt fucker": { s: 3, c: 5 },
-    "butt fucking": { s: 3, c: 5 },
-    "butt licker": { s: 3, c: 4 },
-    "butt munch": { s: 3, c: 4 },
-    "camel toe": { s: 3, c: 4 },
-    "carpet muncher": { s: 3, c: 4 },
-    "chesticle": { s: 3, c: 4 },
-    "clit face": { s: 3, c: 4 },
-    "clitface": { s: 3, c: 4 },
-    "cock face": { s: 4, c: 4 },
-    "cock gobbler": { s: 4, c: 4 },
-    "cock head": { s: 4, c: 4 },
-    "cock holster": { s: 4, c: 4 },
-    "cock jockey": { s: 4, c: 4 },
-    "cock licker": { s: 4, c: 4 },
-    "cock nose": { s: 4, c: 4 },
-    "cock smith": { s: 4, c: 4 },
-    "cock up": { s: 4, c: 4 },
-    "corn hole": { s: 3, c: 4 },
-    "cum bubble": { s: 4, c: 5 },
-    "cum face": { s: 4, c: 5 },
-    "cum guzzler": { s: 4, c: 5 },
-    "cum stain": { s: 4, c: 5 },
-    "cunt bag": { s: 5, c: 5 },
-    "cunt face": { s: 5, c: 5 },
-    "cunt flap": { s: 5, c: 5 },
-    "cunt flaps": { s: 5, c: 5 },
-    "cunt hair": { s: 5, c: 5 },
-    "cunt hole": { s: 5, c: 5 },
-    "cunt wipe": { s: 5, c: 5 },
-    "dick brain": { s: 4, c: 4 },
-    "dick fuck": { s: 3, c: 5 },
-    "dirty sanchez": { s: 3, c: 4 },
-    "fanny flap": { s: 3, c: 4 },
-    "fanny flaps": { s: 3, c: 4 },
-    "fart face": { s: 3, c: 4 },
-    "fart knocker": { s: 3, c: 4 },
-    "finger bang": { s: 3, c: 4 },
-    "foot job": { s: 3, c: 4 },
-    "fuck bag": { s: 3, c: 5 },
-    "fuck ball": { s: 3, c: 5 },
-    "fuck boy": { s: 3, c: 5 },
-    "fuck buddy": { s: 3, c: 5 },
-    "fuck er": { s: 3, c: 5 },
-    "fuck ers": { s: 3, c: 5 },
-    "fuck hole": { s: 3, c: 5 },
-    "fuck stick": { s: 3, c: 5 },
-    "fuck up": { s: 3, c: 5 },
-    "horn dog": { s: 3, c: 4 },
-    "horndog": { s: 3, c: 4 },
-    "horny bastard": { s: 5, c: 4 },
-    "hornybastard": { s: 5, c: 4 },
-    "hot carl": { s: 3, c: 4 },
-    "hotcarl": { s: 3, c: 4 },
-    "jack hole": { s: 3, c: 4 },
-    "jizz mopper": { s: 4, c: 5 },
-    "jizz rag": { s: 4, c: 5 },
-    "jizz stain": { s: 4, c: 5 },
-    "knob gobbler": { s: 3, c: 4 },
-    "man whore": { s: 5, c: 4 },
-    "meat curtain": { s: 3, c: 4 },
-    "meatcurtain": { s: 3, c: 4 },
-    "muff diving": { s: 3, c: 4 },
-    "nut buster": { s: 3, c: 4 },
-    "nutbuster": { s: 3, c: 4 },
-    "piss baby": { s: 3, c: 4 },
-    "piss flap": { s: 3, c: 4 },
-    "pissflap": { s: 3, c: 4 },
-    "shit bird": { s: 3, c: 5 },
-    "shit box": { s: 3, c: 5 },
-    "shit brain": { s: 3, c: 5 },
-    "shitbrain": { s: 3, c: 5 },
-    "shit breath": { s: 3, c: 5 },
-    "shit dick": { s: 3, c: 5 },
-    "shit eater": { s: 3, c: 5 },
-    "shit fuck": { s: 3, c: 5 },
-    "shit gibbon": { s: 3, c: 5 },
-    "shit house": { s: 3, c: 5 },
-    "shit kicker": { s: 3, c: 5 },
-    "shit lord": { s: 3, c: 5 },
-    "shit show": { s: 3, c: 5 },
-    "shit stick": { s: 3, c: 5 },
-    "shit storm": { s: 3, c: 5 },
-    "shit wad": { s: 3, c: 5 },
-    "shit weasel": { s: 3, c: 5 },
-    "slut bag": { s: 3, c: 4 },
-    "slut bucket": { s: 3, c: 4 },
-    "slut face": { s: 3, c: 4 },
-    "smart ass": { s: 3, c: 4 },
-    "snot face": { s: 3, c: 4 },
-    "snot nose": { s: 3, c: 4 },
-    "thunder cunt": { s: 5, c: 5 },
-    "turd brain": { s: 3, c: 4 },
-    "turd face": { s: 3, c: 4 },
-    "turd muncher": { s: 3, c: 4 },
-    "turd whistle": { s: 3, c: 4 },
-    "twat badger": { s: 4, c: 4 },
-    "twat monger": { s: 4, c: 4 },
-    "twat muffin": { s: 4, c: 4 },
-    "twat waffle": { s: 4, c: 4 },
-    "wank badger": { s: 3, c: 4 },
-    "wank pheasant": { s: 3, c: 4 },
-    "wank puffin": { s: 3, c: 4 },
-    "wank shaft": { s: 3, c: 4 },
-    "wank sock": { s: 3, c: 4 },
+    "anal bleaching": [3, 4],
+    "analbleaching": [3, 4],
+    "anal fissure": [3, 4],
+    "analfissure": [3, 4],
+    "anal probe": [3, 4],
+    "analprobe": [3, 4],
+    "arse crack": [3, 4],
+    "arsecrack": [3, 4],
+    "arse lick": [3, 4],
+    "arselick": [3, 4],
+    "ass backward": [3, 4],
+    "assbackward": [3, 4],
+    "ass backwards": [3, 4],
+    "assbackwards": [3, 4],
+    "ass breath": [3, 4],
+    "ass clap": [3, 4],
+    "assclap": [3, 4],
+    "ass fuck": [3, 5],
+    "ass fucker": [3, 5],
+    "ass goblin": [3, 4],
+    "ass hole": [3, 4],
+    "ass jacker": [3, 4],
+    "ass licker": [3, 4],
+    "ass monkey": [3, 4],
+    "ball bag": [3, 4],
+    "ballbag": [3, 4],
+    "ball breaker": [3, 4],
+    "ball crusher": [3, 4],
+    "ball hair": [3, 4],
+    "ball licking": [3, 4],
+    "balllicking": [3, 4],
+    "ball sac": [3, 4],
+    "ball torture": [3, 4],
+    "balltorture": [3, 4],
+    "bastard face": [5, 4],
+    "beaver": [3, 4],
+    "bellend cheese": [3, 4],
+    "bint": [3, 4],
+    "bints": [3, 4],
+    "bitchlet": [3, 4],
+    "bitch let": [3, 4],
+    "bitchslapped": [3, 4],
+    "bitch slapped": [3, 4],
+    "boob squeeze": [3, 4],
+    "boobsqueeze": [3, 4],
+    "brown nose": [3, 4],
+    "brownnose": [3, 4],
+    "brown noser": [3, 4],
+    "brownnoser": [3, 4],
+    "buggering": [3, 4],
+    "bum fuck": [3, 5],
+    "bum hole": [3, 4],
+    "bumhole": [3, 4],
+    "butt fuck": [3, 5],
+    "butt fucker": [3, 5],
+    "butt fucking": [3, 5],
+    "butt licker": [3, 4],
+    "butt munch": [3, 4],
+    "camel toe": [3, 4],
+    "carpet muncher": [3, 4],
+    "chesticle": [3, 4],
+    "clit face": [3, 4],
+    "clitface": [3, 4],
+    "cock face": [4, 4],
+    "cock gobbler": [4, 4],
+    "cock head": [4, 4],
+    "cock holster": [4, 4],
+    "cock jockey": [4, 4],
+    "cock licker": [4, 4],
+    "cock nose": [4, 4],
+    "cock smith": [4, 4],
+    "cock up": [4, 4],
+    "corn hole": [3, 4],
+    "cum bubble": [4, 5],
+    "cum face": [4, 5],
+    "cum guzzler": [4, 5],
+    "cum stain": [4, 5],
+    "cunt bag": [5, 5],
+    "cunt face": [5, 5],
+    "cunt flap": [5, 5],
+    "cunt flaps": [5, 5],
+    "cunt hair": [5, 5],
+    "cunt hole": [5, 5],
+    "cunt wipe": [5, 5],
+    "dick brain": [4, 4],
+    "dick fuck": [3, 5],
+    "dirty sanchez": [3, 4],
+    "fanny flap": [3, 4],
+    "fanny flaps": [3, 4],
+    "fart face": [3, 4],
+    "fart knocker": [3, 4],
+    "finger bang": [3, 4],
+    "foot job": [3, 4],
+    "fuck bag": [3, 5],
+    "fuck ball": [3, 5],
+    "fuck boy": [3, 5],
+    "fuck buddy": [3, 5],
+    "fuck er": [3, 5],
+    "fuck ers": [3, 5],
+    "fuck hole": [3, 5],
+    "fuck stick": [3, 5],
+    "fuck up": [3, 5],
+    "horn dog": [3, 4],
+    "horndog": [3, 4],
+    "horny bastard": [5, 4],
+    "hornybastard": [5, 4],
+    "hot carl": [3, 4],
+    "hotcarl": [3, 4],
+    "jack hole": [3, 4],
+    "jizz mopper": [4, 5],
+    "jizz rag": [4, 5],
+    "jizz stain": [4, 5],
+    "knob gobbler": [3, 4],
+    "man whore": [5, 4],
+    "meat curtain": [3, 4],
+    "meatcurtain": [3, 4],
+    "muff diving": [3, 4],
+    "nut buster": [3, 4],
+    "nutbuster": [3, 4],
+    "piss baby": [3, 4],
+    "piss flap": [3, 4],
+    "pissflap": [3, 4],
+    "shit bird": [3, 5],
+    "shit box": [3, 5],
+    "shit brain": [3, 5],
+    "shitbrain": [3, 5],
+    "shit breath": [3, 5],
+    "shit dick": [3, 5],
+    "shit eater": [3, 5],
+    "shit fuck": [3, 5],
+    "shit gibbon": [3, 5],
+    "shit house": [3, 5],
+    "shit kicker": [3, 5],
+    "shit lord": [3, 5],
+    "shit show": [3, 5],
+    "shit stick": [3, 5],
+    "shit storm": [3, 5],
+    "shit wad": [3, 5],
+    "shit weasel": [3, 5],
+    "slut bag": [3, 4],
+    "slut bucket": [3, 4],
+    "slut face": [3, 4],
+    "smart ass": [3, 4],
+    "snot face": [3, 4],
+    "snot nose": [3, 4],
+    "thunder cunt": [5, 5],
+    "turd brain": [3, 4],
+    "turd face": [3, 4],
+    "turd muncher": [3, 4],
+    "turd whistle": [3, 4],
+    "twat badger": [4, 4],
+    "twat monger": [4, 4],
+    "twat muffin": [4, 4],
+    "twat waffle": [4, 4],
+    "wank badger": [3, 4],
+    "wank pheasant": [3, 4],
+    "wank puffin": [3, 4],
+    "wank shaft": [3, 4],
+    "wank sock": [3, 4],
 
 };
-
+const englishBadWords: Record<string, { s: number; c: number }> = {};
+for (const [k, [s, c]] of Object.entries(_d)) {
+    englishBadWords[k] = { s, c };
+}
 export default englishBadWords;
