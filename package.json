@@ -3,14 +3,14 @@
   "version": "0.0.5",
   "description": "A multi-language profanity filter with romanization detection, language-aware innocence scoring, leet-speak detection, and cross-language collision handling. Forked from AllProfanity.",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
+  "module": "dist/esm.min.js",
   "types": "dist/esm/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
       "import": {
         "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
+        "default": "./dist/esm.min.js"
       },
       "require": {
         "types": "./dist/esm/index.d.ts",
@@ -19,7 +19,7 @@
     }
   },
   "scripts": {
-    "build": "tsc && esbuild dist/esm/index.js --bundle --minify --platform=node --format=cjs --outfile=dist/cjs/index.js --packages=bundle && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
+    "build": "tsc && esbuild dist/esm/index.js --bundle --minify --platform=node --format=esm --outfile=dist/esm.min.js --packages=bundle && esbuild dist/esm/index.js --bundle --minify --platform=node --format=cjs --outfile=dist/cjs/index.js --packages=bundle && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -75,9 +75,8 @@
     "typescript": "^4.0.0"
   },
   "files": [
-    "dist/esm/**/*.js",
+    "dist/esm.min.js",
     "dist/esm/**/*.d.ts",
-    "!dist/esm/languages/*-words.js",
     "!dist/esm/languages/*-words.d.ts",
     "dist/cjs/index.js",
     "dist/cjs/package.json",
@@ -91,7 +90,5 @@
   "bin": {
     "bekindprofanityfilter": "./bin/init.js"
   },
-  "dependencies": {
-    "eld": "^2.0.2"
-  }
+  "dependencies": {}
 }
