@@ -235,3 +235,112 @@ describe("Short common word collisions — need language-aware context detection
     expectClean("Check the GU clinic for your appointment.");
   });
 });
+
+/**
+ * Profane usage of the same short words — these SHOULD flag when re-enabled.
+ *
+ * When language-aware context detection is added and the words above are
+ * uncommented, these tests verify that genuinely profane usage is still caught.
+ * Both sides of the coin must pass before a word can be re-enabled.
+ */
+describe("Short common words — should flag when used as profanity", () => {
+  let filter: BeKind;
+
+  beforeAll(() => {
+    filter = new BeKind({ silent: true, enableLeetSpeak: true, sensitiveMode: true });
+  });
+
+  // Helper: text SHOULD be flagged (word detected as PROFANE)
+  const expectFlagged = (text: string, word: string) => {
+    const result = filter.detect(text);
+    const match = result.scoredWords.find(
+      sw => sw.word.toLowerCase() === word.toLowerCase() && sw.severity === WordSeverity.PROFANE
+    );
+    expect(match).toBeDefined();
+  };
+
+  it.skip("ken (fr: verlan for niquer) — should flag in French profane context", () => {
+    expectFlagged("Je vais te ken ce soir, tu vas voir.", "ken");
+    expectFlagged("Il s'est fait ken par tout le monde.", "ken");
+  });
+
+  it.skip("nom (ko: bastard) — should flag in Korean profane context", () => {
+    expectFlagged("이 nom 새끼가 또 왔어.", "nom");
+    expectFlagged("geu nom jal mot haesseo.", "nom");
+  });
+
+  it.skip("gay (en/br: slur) — should flag when used as insult", () => {
+    expectFlagged("That's so gay, what a loser.", "gay");
+    expectFlagged("Stop being gay about it.", "gay");
+  });
+
+  it.skip("dom (bn: caste slur) — should flag in Bengali profane context", () => {
+    expectFlagged("tui ekta dom, tor shathe kotha bolbo na.", "dom");
+    expectFlagged("oi dom ta ke dhore maar.", "dom");
+  });
+
+  it.skip("eta (ja: outcaste slur) — should flag in Japanese discriminatory context", () => {
+    expectFlagged("あいつはetaだから関わるな.", "eta");
+    expectFlagged("eta no hito tachi wa kitanai.", "eta");
+  });
+
+  it.skip("tat (hi: testicles/shit) — should flag in Hindi profane context", () => {
+    expectFlagged("tera tat pakad ke marunga.", "tat");
+    expectFlagged("chal tat dhone ja.", "tat");
+  });
+
+  it.skip("goo (hi: dung/shit) — should flag in Hindi profane context", () => {
+    expectFlagged("tu goo kha le saale.", "goo");
+    expectFlagged("tera muh goo se bhara hai.", "goo");
+  });
+
+  it.skip("mut (hi/bn: urine) — should flag in Hindi/Bengali profane context", () => {
+    expectFlagged("ja ke mut pi le.", "mut");
+    expectFlagged("tor mut e snan korbo.", "mut");
+  });
+
+  it.skip("bur (hi: vagina) — should flag in Bhojpuri profane context", () => {
+    expectFlagged("teri maa ka bur.", "bur");
+    expectFlagged("bur mein daal de.", "bur");
+  });
+
+  it.skip("ano (es: anus) — should flag in Spanish profane context", () => {
+    expectFlagged("te voy a meter por el ano.", "ano");
+    expectFlagged("lameme el ano, pendejo.", "ano");
+  });
+
+  it.skip("wea (es/Chile: bullshit) — should flag in Chilean profane context", () => {
+    expectFlagged("que wea mas estupida, culiao.", "wea");
+    expectFlagged("deja de hablar wea, conchetumadre.", "wea");
+  });
+
+  it.skip("mae (es/Costa Rica: derogatory) — should flag in derogatory context", () => {
+    expectFlagged("ese mae es un hijueputa.", "mae");
+    expectFlagged("callate mae imbecil.", "mae");
+  });
+
+  it.skip("pos (en: piece of s***) — should flag as acronym insult", () => {
+    expectFlagged("you're a total pos and everyone knows it.", "pos");
+    expectFlagged("what a pos human being.", "pos");
+  });
+
+  it.skip("hag (en: ugly old woman) — should flag as insult", () => {
+    expectFlagged("that old hag needs to shut up.", "hag");
+    expectFlagged("she's such a hag, nobody can stand her.", "hag");
+  });
+
+  it.skip("div (en: stupid person) — should flag as British insult", () => {
+    expectFlagged("you absolute div, what were you thinking.", "div");
+    expectFlagged("don't be such a div about it.", "div");
+  });
+
+  it.skip("bal (bn: pubic hair insult) — should flag in Bengali profane context", () => {
+    expectFlagged("tor bal chire felbo.", "bal");
+    expectFlagged("oi bal ta ke dekh.", "bal");
+  });
+
+  it.skip("gu (bn: feces) — should flag in Bengali profane context", () => {
+    expectFlagged("tor gu kha.", "gu");
+    expectFlagged("oi gu ta ke saaf kor.", "gu");
+  });
+});
