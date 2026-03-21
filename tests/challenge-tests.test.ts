@@ -103,3 +103,135 @@ describe("Unsolved challenges — semantic analysis needed", () => {
     }
   });
 });
+
+/**
+ * Short common words (≤3 chars) — commented out of dictionaries due to false positives.
+ *
+ * These words are profane in their source language but collide with common English
+ * words, names, or abbreviations. They need language-aware context detection before
+ * they can be re-enabled without causing false positives on an English-dominant platform.
+ *
+ * To re-enable: add robust innocence entries with language detection, unskip the test,
+ * verify it passes, and uncomment the word in its source dictionary.
+ */
+describe("Short common word collisions — need language-aware context detection", () => {
+  let filter: BeKind;
+
+  beforeAll(() => {
+    filter = new BeKind({ silent: true, enableLeetSpeak: true, sensitiveMode: true });
+  });
+
+  // Helper: text should NOT be flagged as profane
+  const expectClean = (text: string) => {
+    const result = filter.detect(text);
+    const profane = result.scoredWords.filter(sw => sw.severity === WordSeverity.PROFANE);
+    expect(profane).toEqual([]);
+  };
+
+  it.skip("ken (fr: verlan for niquer) — should not flag English name Ken", () => {
+    expectClean("Ken Burns is a legendary documentary filmmaker.");
+    expectClean("Beyond my ken, the landscape stretched for miles.");
+    expectClean("Ken Griffey Jr. hit another home run.");
+  });
+
+  it.skip("nom (ko: bastard) — should not flag English 'nom nom' or 'nominated'", () => {
+    expectClean("Nom nom nom, this food is delicious!");
+    expectClean("She was nominated for best actress.");
+    expectClean("The nom de plume of the author was revealed.");
+  });
+
+  it.skip("gay (en/br: slur) — should not flag LGBTQ+ identity usage", () => {
+    expectClean("Join us for the annual Gay Pride Parade this Saturday!");
+    expectClean("The organization advocates for gay rights and equality.");
+    expectClean("Gay marriage was legalized nationwide in 2015.");
+  });
+
+  it.skip("dom (bn: caste slur) — should not flag English DOM/domain", () => {
+    expectClean("The DOM element was updated dynamically.");
+    expectClean("Register your domain name today.");
+    expectClean("Dom Pérignon is a famous champagne brand.");
+  });
+
+  it.skip("eta (ja: outcaste slur) — should not flag English ETA", () => {
+    expectClean("ETA for the delivery is 3pm.");
+    expectClean("What's your eta? We're waiting at the restaurant.");
+    expectClean("The eta of the project completion is next Friday.");
+  });
+
+  it.skip("tat (hi: testicles) — should not flag English 'tit for tat'", () => {
+    expectClean("It was a tit for tat exchange of accusations.");
+    expectClean("She got a beautiful tat on her arm.");
+    expectClean("The market was full of cheap tat and souvenirs.");
+  });
+
+  it.skip("goo (hi: dung) — should not flag English 'goo', 'gooey'", () => {
+    expectClean("The slime was all gooey and green.");
+    expectClean("What is this goo on my shoe?");
+    expectClean("Goo Goo Dolls are playing tonight.");
+  });
+
+  it.skip("mut (hi/bn: urine) — should not flag English 'mutt'", () => {
+    expectClean("Our mutt is the sweetest dog in the neighborhood.");
+    expectClean("Don't mutter under your breath like that.");
+    expectClean("The mut kept barking at the mailman.");
+  });
+
+  it.skip("bur (hi: vagina) — should not flag English 'burger', 'burn'", () => {
+    expectClean("Let's grab a burger for lunch.");
+    expectClean("Don't burn the toast again.");
+    expectClean("The bur oak tree is native to North America.");
+  });
+
+  it.skip("ano (es: anus) — should not flag 'another', 'anon'", () => {
+    expectClean("Ano nuevo, vida nueva — happy new year!");
+    expectClean("Anonymous users posted the review.");
+    expectClean("Another year, another opportunity to grow.");
+  });
+
+  it.skip("wea (es/Chile: bullshit) — should not flag 'we are'", () => {
+    expectClean("We are all human beings living together on this earth.");
+    expectClean("We are excited to announce the new program.");
+    expectClean("Together we are stronger than ever.");
+  });
+
+  it.skip("mae (es/Costa Rica: derogatory) — should not flag name Mae", () => {
+    expectClean("Mae Jemison was the first African American woman in space.");
+    expectClean("Aunt Mae brought her famous apple pie.");
+    expectClean("Mae West was known for her wit and charm.");
+  });
+
+  it.skip("pos (en: piece of s***) — should not flag POS terminal", () => {
+    expectClean("The POS system crashed during the lunch rush.");
+    expectClean("Install the new POS terminal at register 3.");
+    expectClean("Our POS software needs an update.");
+  });
+
+  it.skip("hag (en: ugly old woman) — should not flag common usage", () => {
+    expectClean("Haggis is a traditional Scottish dish.");
+    expectClean("We went to The Hague for the conference.");
+    expectClean("Hagar the Horrible is a classic comic strip.");
+  });
+
+  it.skip("div (en: stupid person) — should not flag HTML div or division", () => {
+    expectClean("Wrap the content in a div element.");
+    expectClean("The division between the two teams was clear.");
+    expectClean("Use a div container for the layout.");
+  });
+
+  it.skip("bra (en: undergarment) — should not flag Swedish 'bra' (good)", () => {
+    expectClean("Det var bra! (That was good in Swedish)");
+    expectClean("Bra fitting appointments available this week.");
+    expectClean("The cobra slithered through the grass.");
+  });
+
+  it.skip("bal (bn: pubic hair insult) — should not flag English 'ball', 'balance'", () => {
+    expectClean("The ball game starts at 7pm.");
+    expectClean("Maintaining work-life balance is important.");
+    expectClean("The ballet performance was stunning.");
+  });
+
+  it.skip("gu (bn: feces) — should not flag common text", () => {
+    expectClean("GU stands for geographically unique.");
+    expectClean("Check the GU clinic for your appointment.");
+  });
+});

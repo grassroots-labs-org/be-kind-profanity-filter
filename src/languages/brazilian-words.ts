@@ -51,7 +51,7 @@ const _d: Record<string, [number, number]> = {
   "fudendo": [3, 5], // Fucking (variant)
   "fuder": [3, 5], // To fuck (variant)
   "fudido": [3, 5], // Fucked (variant)
-  "gay": [5, 2], // Gay (used as insult)
+  // "gay": [5, 2], // Commented out: standard identity term, too many false positives on LGBTQ+ event descriptions
   "gorda": [1, 4], // Fat (female)
   "gordo": [1, 4], // Fat (male)
   "grelinho": [3, 4], // Little clitoris (slang)

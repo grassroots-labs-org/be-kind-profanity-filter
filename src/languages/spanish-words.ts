@@ -295,7 +295,7 @@ const _d: Record<string, [number, number]> = {
   "pajúo": [1, 4], // Idiot (Venezuela)
   "cachudo": [3, 4], // Cuckold (Chile)
   "conchetumadre": [5, 5], // Your mother's cunt (Chile)
-  "wea": [3, 5], // Thing / Bullshit (Chile)
+  // "wea": [3, 5], // Thing / Bullshit (Chile) — commented out: "we a(re)" triggers via separator bridging
   "weón": [1, 4], // Dude / Idiot (Chile)
   "weona": [3, 4], // Fem (Chile)
   "aweonao": [1, 4], // Fucking idiot (Chile)
@@ -570,7 +570,7 @@ const _d: Record<string, [number, number]> = {
   "tragar": [3, 4], // To swallow
   "pene": [4, 4], // Penis
   "vagina": [4, 3], // Vagina
-  "ano": [3, 4], // Anus
+  // "ano": [3, 4], // Anus — commented out: collides with English "another", "anon", common in text
   "nalgas": [3, 4], // Buttocks
   "pompis": [3, 4], // Butt (childish)
   "pechos": [4, 4], // Breasts
@@ -754,7 +754,7 @@ const _d: Record<string, [number, number]> = {
   "cerote": [3, 5], // Piece of shit (Guatemala, El Salvador)
   "chucho": [3, 4], // Dog / mutt (Central America)
   "pichazo": [4, 4], // Dick hit (Costa Rica)
-  "mae": [3, 4], // Dude (Costa Rica, can be derogatory)
+  // "mae": [3, 4], // Dude (Costa Rica, can be derogatory) — commented out: collides with English name "Mae"
   "playo": [3, 4], // Faggot (Honduras, derogatory)
   "playa": [3, 4], // Fem faggot (Honduras, derogatory)
   "culero hijueputa": [3, 5], // Fucking asshole (Central America)

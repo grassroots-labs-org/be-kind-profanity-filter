@@ -31,7 +31,7 @@ const _d: Record<string, [number, number]> = {
   // ========================================
   // === Roman Script Transliterations ===
   // ========================================
-  "bal": [3, 4], // pubic hair (insult)
+  // "bal": [3, 4], // pubic hair (insult) — commented out: collides with English "ball", "balance"
   "kuttar bachcha": [3, 5], // son of a dog
   "kutar bacha": [3, 5], // son of a dog (variant)
   "haramjada": [3, 4], // bastard
@@ -754,11 +754,11 @@ const _d: Record<string, [number, number]> = {
   "tor bon bajarer magi": [5, 5], // Your sister market prostitute
   "chamar": [3, 5], // Caste slur
   "methor": [3, 5], // Sweeper caste slur
-  "dom": [3, 5], // Funeral worker caste slur
+  // "dom": [3, 5], // Funeral worker caste slur — commented out: collides with English "DOM" (web), "domain"
   "hagu": [3, 5], // Feces (childish)
-  "mut": [3, 4], // Urine
+  // "mut": [3, 4], // Urine — commented out: collides with English "mutt", "mutter"
   "padure": [3, 5], // One who farts
-  "gu": [3, 5], // Feces
+  // "gu": [3, 5], // Feces — commented out: too short, collides with common text
   "gu kha": [3, 5], // Eat feces
   "mut kha": [3, 5], // Drink urine
   "pad shunke mor": [5, 5], // Smell fart and die

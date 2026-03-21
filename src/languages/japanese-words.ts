@@ -1029,7 +1029,7 @@ const _d: Record<string, [number, number]> = {
   "dojin": [3, 5], // Primitive person (slur)
   "sangokujin": [3, 5], // Derogatory for foreigners
   "hitomodoki": [5, 5], // Sub-human
-  "eta": [3, 5], // Historical outcaste slur
+  // "eta": [3, 5], // Historical outcaste slur — commented out: collides with English "ETA" (estimated time of arrival)
   "hinin": [3, 5], // Non-person (historical)
   "burakumin": [3, 5], // Burakumin (discriminatory)
   "yotsu": [3, 5], // Four (burakumin slur)

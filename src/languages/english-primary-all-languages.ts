@@ -58,7 +58,7 @@ const _d: Record<string, number> = {
   "boob": 832,
   "boobs": 1088,
   "bop": 1024, // slang for promiscuous person, but also musical context
-  "bra": 544,
+  // "bra": 544, // commented out: common English word, Swedish "bra" (good)
   "bukkake": 1104,
   "bulldyke": 1360,
   "bullshit": 848,
@@ -310,7 +310,7 @@ const _d: Record<string, number> = {
   "fuckhead": 848,
   "fuckoff": 848,
   "fuckwit": 848,
-  "gay": 1312, // used as slur, but very common innocent usage
+  // "gay": 1312, // commented out: standard identity term, too many false positives
   "goddamn": 560,
   "goddamnit": 832,
   "gook": 832,
@@ -724,7 +724,7 @@ const _d: Record<string, number> = {
   "piss off": 848,
   "pissed off": 832,
   "piece of shit": 848,
-  "pos": 848,
+  // "pos": 848, // commented out: collides with "POS" (point of sale)
   "suck my dick": 1104,
   "suck it": 848,
   "son of a bitch": 848,
@@ -3099,7 +3099,7 @@ const _d: Record<string, number> = {
   "whoremonger": 1344,
   "whore monger": 1344,
   "whoreson": 1344,
-  "hag": 832,
+  // "hag": 832, // commented out: common English word
   "old hag": 832,
   "oldhag": 832,
   "old bat": 832,
@@ -3492,7 +3492,7 @@ const _d: Record<string, number> = {
   "daftgit": 832,
   "daft twat": 1088,
   "dafttwat": 1088,
-  "div": 832,
+  // "div": 832, // commented out: HTML <div>, "division"
   "divvy": 832,
   "eejit": 832,
   "fanny about": 832,
@@ -8434,7 +8434,7 @@ const _d: Record<string, number> = {
   "fiotte": 837, // Faggot (offensive)
   "grognasse": 325, // Ugly/nasty woman
   "keh": 837, // Verlan for chier (internet slang)
-  "ken": 853, // Verlan for niquer (to fuck)
+  // "ken": 853, // commented out: common English name "Ken"
   "keuf": 837, // Verlan for flic (cop, derogatory)
   "meuf": 837, // Verlan for femme (can be neutral but used pejoratively)
   "nique sa race": 853, // Fuck his/her race (very offensive)
@@ -10767,7 +10767,7 @@ const _d: Record<string, number> = {
   "pajúo": 324, // Idiot (Venezuela)
   "cachudo": 836, // Cuckold (Chile)
   "conchetumadre": 1364, // Your mother's cunt (Chile)
-  "wea": 852, // Thing / Bullshit (Chile)
+  // "wea": 852, // commented out: "we a(re)" separator bridging false positive
   "weón": 324, // Dude / Idiot (Chile)
   "weona": 836, // Fem (Chile)
   "aweonao": 324, // Fucking idiot (Chile)
@@ -11032,7 +11032,7 @@ const _d: Record<string, number> = {
   "lamer": 836, // To lick
   "tragar": 836, // To swallow
   "pene": 1092, // Penis
-  "ano": 836, // Anus
+  // "ano": 836, // commented out: collides with "another", "anon"
   "nalgas": 836, // Buttocks
   "pompis": 836, // Butt (childish)
   "pechos": 1092, // Breasts
@@ -11205,7 +11205,7 @@ const _d: Record<string, number> = {
   "cerote": 852, // Piece of shit (Guatemala, El Salvador)
   "chucho": 836, // Dog / mutt (Central America)
   "pichazo": 1092, // Dick hit (Costa Rica)
-  "mae": 836, // Dude (Costa Rica, can be derogatory)
+  // "mae": 836, // commented out: common English name "Mae"
   "playo": 836, // Faggot (Honduras, derogatory)
   "culero hijueputa": 852, // Fucking asshole (Central America)
   "gran cerote": 852, // Big piece of shit (Guatemala)
@@ -15299,12 +15299,12 @@ const _d: Record<string, number> = {
   "tatta": 1092, // Testicle
   "tatti": 852, // Shit / Feces
   "tati": 852, // Shit (variant)
-  "tat": 1108, // Testicles/Shit (shortened)
+  // "tat": 1108, // commented out: "tit for tat", "tattoo"
   "tatti khana": 852, // Eat shit
   "tatti surat": 852, // Shitty face
-  "goo": 852, // Dung/shit
+  // "goo": 852, // commented out: English "goo", "gooey"
   "goobar": 852, // Dung/shit (variant of gobar)
-  "mut": 836, // Piss/Urine
+  // "mut": 836, // commented out: English "mutt", "mutter"
   "moot": 836, // Piss/Urine (variant)
   "mutra": 836, // Urine (formal)
   "mutna": 836, // To piss
@@ -15716,7 +15716,7 @@ const _d: Record<string, number> = {
   "chodni": 852, // Fuckable (Bhojpuri vulgar)
   "harua": 836, // Bastard (Bhojpuri)
   "maichod": 1364, // Motherfucker (Bhojpuri)
-  "bur": 1092, // Vagina (Bhojpuri)
+  // "bur": 1092, // commented out: English "burger", "burn"
   "burwa": 1092, // Vagina (Bhojpuri variant)
   // More internet abbreviations
   "bsdk gandu": 564, // Compound abbreviation insult
@@ -19790,7 +19790,7 @@ const _d: Record<string, number> = {
   "tor bon bajarer magi": 1362, // Your sister market prostitute
   "chamar": 850, // Caste slur
   "methor": 850, // Sweeper caste slur
-  "dom": 850, // Funeral worker caste slur
+  // "dom": 850, // commented out: English "DOM" (web), "domain"
   "hagu": 850, // Feces (childish)
   "padure": 850, // One who farts
   // "gu" removed — 2-char Latin entry too prone to false positives
@@ -30207,7 +30207,7 @@ const _d: Record<string, number> = {
   "dojin": 856, // Primitive person (slur)
   "sangokujin": 856, // Derogatory for foreigners
   "hitomodoki": 1368, // Sub-human
-  "eta": 856, // Historical outcaste slur
+  // "eta": 856, // commented out: English "ETA" (estimated time of arrival)
   "hinin": 856, // Non-person (historical)
   "burakumin": 856, // Burakumin (discriminatory)
   "yotsu": 856, // Four (burakumin slur)
@@ -32525,7 +32525,7 @@ const _d: Record<string, number> = {
   "saekki": 857, // Bastard
   "sekki": 857, // Bastard (variant)
   "seki": 857, // Bastard (variant)
-  "nom": 857, // Bastard
+  // "nom": 857, // commented out: English "nom nom", "nominated"
   "nyeon": 857, // Bitch
   "nyon": 857, // Bitch (variant)
   "ssangnom": 857, // Low-class bastard

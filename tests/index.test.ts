@@ -591,8 +591,7 @@ describe("BeKind Filter - Upgraded Test Suite", () => {
       // s:5, c:5
       expect(filter.shouldFlag("nigger")).toBe(true);
       expect(filter.shouldFlag("cunt")).toBe(true);
-      // s:5, c:2 — common innocent usage but flagged at s:5
-      expect(filter.shouldFlag("gay")).toBe(true);
+      // "gay" removed from dictionary — see challenge-tests.test.ts
     });
 
     test("should flag s:4+ with c:2+", () => {

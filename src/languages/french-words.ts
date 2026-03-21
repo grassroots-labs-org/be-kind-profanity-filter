@@ -232,7 +232,7 @@ const _d: Record<string, [number, number]> = {
   "fiotte": [3, 4], // Faggot (offensive)
   "grognasse": [1, 4], // Ugly/nasty woman
   "keh": [3, 4], // Verlan for chier (internet slang)
-  "ken": [3, 5], // Verlan for niquer (to fuck)
+  // "ken": [3, 5], // Verlan for niquer (to fuck) — commented out: collides with English name "Ken"
   "keuf": [3, 4], // Verlan for flic (cop, derogatory)
   "meuf": [3, 4], // Verlan for femme (can be neutral but used pejoratively)
   "nique sa race": [3, 5], // Fuck his/her race (very offensive)

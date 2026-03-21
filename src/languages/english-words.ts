@@ -34,7 +34,7 @@ const _d: Record<string, [number, number]> = {
     "boner": [3, 4],
     "boob": [3, 4],
     "boobs": [4, 4],
-    "bra": [2, 2],
+    // "bra": [2, 2], // Commented out: collides with Swedish "bra" (good), common English word
     "bukkake": [4, 5],
     "bulldyke": [5, 5],
     "bullshit": [3, 5],
@@ -288,7 +288,7 @@ const _d: Record<string, [number, number]> = {
     "fuckhead": [3, 5],
     "fuckoff": [3, 5],
     "fuckwit": [3, 5],
-    "gay": [5, 2],
+    // "gay": [5, 2], // Commented out: standard identity term, too many false positives on LGBTQ+ event descriptions
     "goddamn": [2, 3],
     "goddamnit": [3, 4],
     "gook": [3, 4],
@@ -540,7 +540,7 @@ const _d: Record<string, [number, number]> = {
     "piss off": [3, 5],
     "pissed off": [3, 4],
     "piece of shit": [3, 5],
-    "pos": [3, 5],
+    // "pos": [3, 5], // Commented out: collides with "POS" (point of sale)
     "suck my dick": [4, 5],
     "suck it": [3, 5],
     "son of a bitch": [3, 5],
@@ -2987,7 +2987,7 @@ const _d: Record<string, [number, number]> = {
     "whoremonger": [5, 4],
     "whore monger": [5, 4],
     "whoreson": [5, 4],
-    "hag": [3, 4],
+    // "hag": [3, 4], // Commented out: collides with "Hagar", "haggis", common in text
     "old hag": [3, 4],
     "oldhag": [3, 4],
     "old bat": [3, 4],
@@ -3505,7 +3505,7 @@ const _d: Record<string, [number, number]> = {
     "daftgit": [3, 4],
     "daft twat": [4, 4],
     "dafttwat": [4, 4],
-    "div": [3, 4],
+    // "div": [3, 4], // Commented out: collides with HTML "<div>", "divider", "division"
     "divvy": [3, 4],
     "eejit": [3, 4],
     "fanny about": [3, 4],

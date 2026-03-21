@@ -287,12 +287,12 @@ const _d: Record<string, [number, number]> = {
   "tatta": [4, 4], // Testicle
   "tatti": [3, 5], // Shit / Feces
   "tati": [3, 5], // Shit (variant)
-  "tat": [4, 5], // Testicles/Shit (shortened)
+  // "tat": [4, 5], // Testicles/Shit (shortened) — commented out: collides with English "tit for tat", "tattoo"
   "tatti khana": [3, 5], // Eat shit
   "tatti surat": [3, 5], // Shitty face
-  "goo": [3, 5], // Dung/shit
+  // "goo": [3, 5], // Dung/shit — commented out: collides with English "goo", "gooey", "Google"
   "goobar": [3, 5], // Dung/shit (variant of gobar)
-  "mut": [3, 4], // Piss/Urine
+  // "mut": [3, 4], // Piss/Urine — commented out: collides with English "mutt", "mutter"
   "moot": [3, 4], // Piss/Urine (variant)
   "mutra": [3, 4], // Urine (formal)
   "mutna": [3, 4], // To piss
@@ -716,7 +716,7 @@ const _d: Record<string, [number, number]> = {
   "chodni": [3, 5], // Fuckable (Bhojpuri vulgar)
   "harua": [3, 4], // Bastard (Bhojpuri)
   "maichod": [5, 5], // Motherfucker (Bhojpuri)
-  "bur": [4, 4], // Vagina (Bhojpuri)
+  // "bur": [4, 4], // Vagina (Bhojpuri) — commented out: collides with English "burger", "burn", "burp"
   "burwa": [4, 4], // Vagina (Bhojpuri variant)
 
   // More internet abbreviations

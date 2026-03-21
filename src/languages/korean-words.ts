@@ -727,7 +727,7 @@ const _d: Record<string, [number, number]> = {
   "saekki": [3, 5], // Bastard
   "sekki": [3, 5], // Bastard (variant)
   "seki": [3, 5], // Bastard (variant)
-  "nom": [3, 5], // Bastard
+  // "nom": [3, 5], // Bastard — commented out: collides with English "nom nom" (eating), "nominated"
   "nyeon": [3, 5], // Bitch
   "nyon": [3, 5], // Bitch (variant)
   "ssangnom": [3, 5], // Low-class bastard
