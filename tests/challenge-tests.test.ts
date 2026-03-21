@@ -344,3 +344,52 @@ describe("Short common words — should flag when used as profanity", () => {
     expectFlagged("oi gu ta ke saaf kor.", "gu");
   });
 });
+
+/**
+ * All-digit leet-speak evasion — words spelled entirely with digits.
+ *
+ * Pure numeric+symbol tokens (no letters) are protected from leet-decode.
+ * Tokens containing at least one letter get full leet-speak processing.
+ *
+ * Solved cases: tokens with letters ("6006s", "b006s", "4ss", "d1ld0")
+ * are now caught. Pure-digit tokens ("6006", "60065") are correctly
+ * left alone since they're ambiguous as numbers.
+ *
+ * Remaining challenges: tokens where digits form a bridge between
+ * letter segments ("n066er") — the pure-digit "066" substring gets
+ * protected because the token-level regex sees "n066er" but the
+ * inner "066" isn't adjacent to the outer letters at the regex level.
+ */
+describe("Digit leet-speak evasion", () => {
+  let filter: BeKind;
+
+  beforeAll(() => {
+    filter = new BeKind({ silent: true, enableLeetSpeak: true, sensitiveMode: true });
+  });
+
+  const expectCaught = (text: string) => {
+    const result = filter.detect(text);
+    expect(result.hasProfanity).toBe(true);
+  };
+
+  it("6006s — digit leet for 'boobs' with trailing letter", () => {
+    expectCaught("6006s");
+    expectCaught("nice 6006s");
+  });
+
+  it("b006s — mixed digit-letter leet for 'boobs'", () => {
+    expectCaught("b006s");
+  });
+
+  it("4ss — digit-prefix leet for 'ass'", () => {
+    expectCaught("4ss");
+  });
+
+  it("d1ld0 — mixed digit leet for 'dildo'", () => {
+    expectCaught("d1ld0");
+  });
+
+  // n066er decodes to "nobber" (0→o, 6→b), not the n-word slur.
+  // To catch digit-encoded slurs, would need variants like n1663r → nigger.
+  // This is a dictionary/mapping coverage gap, not a protection issue.
+});
