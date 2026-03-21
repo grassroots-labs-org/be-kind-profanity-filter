@@ -1593,12 +1593,25 @@ export class BeKind {
     if (!this.enableLeetSpeak) return text;
 
     let normalized = text.toLowerCase();
+    // Protect purely-numeric tokens (e.g. phone numbers "206", zip codes "98155")
+    // from being leet-decoded into profanity ("206" → "zob").
+    // Replace digit-only tokens with placeholders, normalize, then restore.
+    const numericTokens: { placeholder: string; original: string }[] = [];
+    normalized = normalized.replace(/\b\d+\b/g, (match) => {
+      const placeholder = `\x00NUM${numericTokens.length}\x00`;
+      numericTokens.push({ placeholder, original: match });
+      return placeholder;
+    });
     const sortedMappings = Array.from(this.leetMappings.entries()).sort(
       ([leetA], [leetB]) => leetB.length - leetA.length
     );
     for (const [leet, normal] of sortedMappings) {
       const regex = new RegExp(this.escapeRegex(leet), "g");
       normalized = normalized.replace(regex, normal);
+    }
+    // Restore numeric tokens
+    for (const { placeholder, original } of numericTokens) {
+      normalized = normalized.replace(placeholder, original);
     }
     return normalized;
   }
@@ -1613,6 +1626,13 @@ export class BeKind {
     if (!this.enableLeetSpeak) return text;
 
     let normalized = text.toLowerCase();
+    // Protect purely-numeric tokens from leet-decode (same as normalizeLeetSpeak)
+    const numericTokens: { placeholder: string; original: string }[] = [];
+    normalized = normalized.replace(/\b\d+\b/g, (match) => {
+      const placeholder = `\x00NUM${numericTokens.length}\x00`;
+      numericTokens.push({ placeholder, original: match });
+      return placeholder;
+    });
     const sortedMappings = Array.from(this.leetMappings.entries()).sort(
       ([leetA], [leetB]) => leetB.length - leetA.length
     );
@@ -1620,6 +1640,10 @@ export class BeKind {
       if (this.letterToLetterLeetKeys.has(leet)) continue;
       const regex = new RegExp(this.escapeRegex(leet), "g");
       normalized = normalized.replace(regex, normal);
+    }
+    // Restore numeric tokens
+    for (const { placeholder, original } of numericTokens) {
+      normalized = normalized.replace(placeholder, original);
     }
     return normalized;
   }

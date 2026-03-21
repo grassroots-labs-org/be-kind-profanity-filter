@@ -1861,4 +1861,58 @@ describe('containsAbhorrentLanguage — cross-language innocence scoring', () =>
       expect(result!.flaggedWords.length).toBeGreaterThan(0);
     });
   });
+
+  // ── Real-world false positive regression tests ──────────────────────
+  describe('Real-world false positive regressions', () => {
+    it('should NOT flag Third Place Books event with phone number (206) 366-3311', () => {
+      // Regression: "206" was leet-decoded to "zob" (French profanity: 2→z, 0→o, 6→b)
+      // Phone numbers and other pure-numeric tokens must not be leet-decoded.
+      const result = containsAbhorrentLanguage(
+        fields(
+          `A universal story of kindness, compassion, and the importance of looking for the best in others.
+
+Third Place Books welcomes celebrated Pacific Northwest author Kobi Yamada to our Lake Forest Park store for the launch of his new children's picture book, Others: A Story for All of Us: a thoughtful exploration of how our assumptions can prevent us from connection and a beautiful reminder that we are all human beings living together on this earth.
+
+This event is free and open to the public. For important updates, RSVP is highly recommended in advance. This event will include a public signing and time for audience Q&A. Sustain our author series by purchasing a copy of the featured book!
+
+About Others: A Story for All of Us.
+A universal story of kindness, compassion, and the importance of looking for the best in others.
+
+You have to wonder what they're thinking. The other people.
+
+
+They're not from here. They're over there.
+They're different.
+
+Standing by the hedge that divides them, two children wonder what the people on the opposite side are like. They're not like us, one child insists. The other child wonders: How are they different? Can they fly? Do they have tentacles? Are they machines? Or are they human? And if they are, do they think and feel? Maybe, just maybe, the people here and the people there are not so different after all.
+
+Written with gentle humor and illustrated with spare, emotionally powerful pictures, Others is a thoughtful exploration of how our assumptions can prevent us from connection and a beautiful reminder that we are all human beings living together on this earth.
+
+Kobi Yamada is the #1 New York Times bestselling author of What Do You Do with an Idea?, Finding Muchness, Because I Had a Teacher, and many other bestselling, award-winning books. In addition to being the creator of inspiring books and products, he is also the president of Compendium. He lives with his family in the Pacific Northwest. (Photo credit: Paul Gibson)
+
+Want a signed edition of the featured book, but can't make it to the event? Order through our website or over the phone, and write your request for a signature or personalization in the comments field at checkout. Please call the hosting store if you're placing your order within 24 hours of the event.
+
+
+For media or accessibility inquiries, please email events@thirdplacebooks.com or call our Lake Forest Park store at (206) 366-3311. Check out this video for more!`,
+        ),
+      );
+      expect(result?.hasProfane).toBeFalsy();
+    });
+
+    it('should NOT flag standalone numeric tokens as leet-speak', () => {
+      // Area codes, quantities, zip codes, etc. should never be leet-decoded
+      const numericCases = [
+        'Call us at (206) 555-1234',
+        'Event capacity: 206 attendees',
+        'Room 420 is available for booking',
+        'Zip code 90210 is in Beverly Hills',
+        'We served 1337 meals last year',
+        'Suite 69, Floor 3',
+      ];
+      for (const text of numericCases) {
+        const result = containsAbhorrentLanguage(fields(text));
+        expect(result?.hasProfane).toBeFalsy();
+      }
+    });
+  });
 });
