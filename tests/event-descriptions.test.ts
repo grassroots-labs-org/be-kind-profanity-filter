@@ -101,6 +101,9 @@ describe("Event Description Profanity Filter Tests", () => {
         [
           "Farm-to-table dinner featuring locally sourced produce and proteins. Five-course meal paired with regional wines.",
         ],
+        [
+          "Creating a fun plant-based potluck featuring dishes from across the world. Come one, come all, and learn how to make some of your most interesting dishes super low-impact! Join a community, grab some recipe cards or scan QR codes, and grab a seat! Eating plant-based cuts your land usage by 75%, and your water usage by up to 50%. Plant-based Palooza is designed to welcome people of all backgrounds, vegetarians, pesecetarians, and even hardcore meat eaters to try to push the boundaries of ethical eating.",
+        ],
       ])("should NOT flag: %s", (description) => {
         expect(filter.check(description)).toBe(false);
       });

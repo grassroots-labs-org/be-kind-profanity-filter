@@ -93,16 +93,16 @@ export const UNIVERSAL_CONTEXT_PATTERNS: UniversalContextPattern[] = [
 
   {
     type: "sexual_verb_before",
-    pattern: /\b(suck|ride|lick|grab|stroke|jerk|squirt|bang|blow|pound|hump|grind|fondle|grope|spank|thrust|mount|penetrate|finger|fist|step|stomp|foot)\b.{0,10}PROFANE_WORD/i,
+    pattern: /\b(suck|ride|lick|grab|stroke|jerk|squirt|bang|blow|pound|hump|grind|fondle|grope|spank|thrust|mount|penetrate|finger|fist|step|stomp|foot|hardcore|softcore)\b.{0,10}PROFANE_WORD/i,
     weight: 2.0,
     delta: 3,
     languages: ["*"],
     description: "Sexual verb before target word — confirms profane intent",
-    examples: ["suck my cock", "ride that dick", "jerk that dick", "stomp on my"],
+    examples: ["suck my cock", "ride that dick", "jerk that dick", "stomp on my", "hardcore porn", "softcore erotica"],
   },
   {
     type: "sexual_verb_after",
-    pattern: /PROFANE_WORD.{0,10}\b(suck|ride|lick|grab|stroke|jerk|squirt|bang|blow|pound|hump|grind|fondle|grope|spank|thrust|mount|penetrate|finger|fist|step|stomp|foot|sucking|riding|licking|grabbing|stroking|jerking|squirting|banging|blowing|pounding|humping|grinding|fondling|groping|spanking|thrusting|mounting|penetrating|fingering|fisting|stepping|stomping|footing)\b/i,
+    pattern: /PROFANE_WORD.{0,10}\b(suck|ride|lick|grab|stroke|jerk|squirt|bang|blow|pound|hump|grind|fondle|grope|spank|thrust|mount|penetrate|finger|fist|step|stomp|foot|hardcore|softcore|sucking|riding|licking|grabbing|stroking|jerking|squirting|banging|blowing|pounding|humping|grinding|fondling|groping|spanking|thrusting|mounting|penetrating|fingering|fisting|stepping|stomping|footing)\b/i,
     weight: 2.0,
     delta: 3,
     languages: ["*"],

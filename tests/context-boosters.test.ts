@@ -124,6 +124,36 @@ describe("Context Booster Patterns", () => {
       expect(booster).toBeDefined();
     });
 
+    it("hardcore + profane word: 'hardcore porn' matches with delta +3", () => {
+      const rules = matcher.generateRules("porn");
+      const text = "hardcore porn";
+      const booster = rules.find(
+        (r) => r.delta > 0 && r.pattern.test(text),
+      );
+      expect(booster).toBeDefined();
+      expect(booster!.delta).toBe(3);
+    });
+
+    it("softcore + profane word: 'softcore erotica' matches with delta +3", () => {
+      const rules = matcher.generateRules("erotica");
+      const text = "softcore erotica";
+      const booster = rules.find(
+        (r) => r.delta > 0 && r.pattern.test(text),
+      );
+      expect(booster).toBeDefined();
+      expect(booster!.delta).toBe(3);
+    });
+
+    it("profane word + hardcore after: 'porn hardcore' matches with delta +3", () => {
+      const rules = matcher.generateRules("porn");
+      const text = "porn hardcore";
+      const booster = rules.find(
+        (r) => r.delta > 0 && r.pattern.test(text),
+      );
+      expect(booster).toBeDefined();
+      expect(booster!.delta).toBe(3);
+    });
+
     it("unrelated word gets no word-specific patterns", () => {
       const rules = matcher.generateRules("fuck");
       // Check that no word-specific reducer/booster words appear in patterns
@@ -241,6 +271,26 @@ describe("Context booster integration — full pipeline", () => {
 
   it("'you're an ass' → ass is still PROFANE (no reducer, already passes shouldFlag)", () => {
     const result = filter.detect("you're an ass");
+    expect(result.hasProfanity).toBe(true);
+  });
+
+  it("'hardcore meat eaters' → not flagged (innocent context)", () => {
+    const result = filter.detect("hardcore meat eaters");
+    expect(result.hasProfanity).toBe(false);
+  });
+
+  it("'hardcore fans of gardening' → not flagged (innocent context)", () => {
+    const result = filter.detect("hardcore fans of gardening");
+    expect(result.hasProfanity).toBe(false);
+  });
+
+  it("'hardcore porn' → flagged (sexual context boosts severity)", () => {
+    const result = filter.detect("hardcore porn");
+    expect(result.hasProfanity).toBe(true);
+  });
+
+  it("'softcore erotica' → flagged (sexual context boosts severity)", () => {
+    const result = filter.detect("softcore erotica");
     expect(result.hasProfanity).toBe(true);
   });
 
