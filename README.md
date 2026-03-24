@@ -20,8 +20,9 @@ A multi-language profanity filter with romanization detection, language-aware in
 - **Multi-Language Profanity Detection:** 34K+ word dictionary across 16 languages with 18-language detection trie
 - **Romanization Detection:** Catches Hinglish, transliterated Bengali, Tamil, Telugu, and Japanese
 - **Cross-Language Innocence Scoring:** Handles words like "got" (Turkish: "buttocks") and "fart" (Norwegian: "speed")
+- **False Positive Reduction:** Common dual-meaning words (groomer, missionary, edibles, tinker, etc.) are excluded from default detection to prevent flagging legitimate content on community platforms
 - **Context-Aware Analysis:** Booster/reducer patterns detect sexual context, negation, medical usage, and quoted speech
-- **Leet-Speak Detection:** Catches obfuscated profanity (`f#ck`, `a55hole`, `sh1t`)
+- **Leet-Speak Detection:** Catches obfuscated profanity (`f#ck`, `a55hole`, `sh1t`) including digit-based leet (`6006s`, `d1ld0`)
 - **Word Boundary Detection:** Smart whole-word matching prevents flagging "assassin" or "assistance"
 - **Multiple Algorithms:** Trie (default), Aho-Corasick, or Hybrid modes with optional Bloom filters and result caching
 
@@ -867,19 +868,21 @@ Words like "ass" (donkey) and "cock" (rooster) are both profane and innocent in 
 
 ### Tested Scenarios
 
-The challenge test suite (`tests/challenge-tests.test.ts`) validates 32 real-world scenarios:
+The challenge test suite (`tests/challenge-tests.test.ts`) documents known limitations and unsolved edge cases:
 
-| Category | Tests | Passing | Description |
-|----------|-------|---------|-------------|
-| Swedish text | 7 | 7 | News, recipes, driving, email, school contexts |
-| Norwegian/Danish | 4 | 4 | Via confusion map cross-detection |
-| Mixed-language | 5 | 4 | Code-switching, bilingual documents |
-| Same-language (en→en) | 5 | 3 | Donkey/rooster/garden contexts |
-| Threshold boundaries | 3 | 3 | Minimal context, short text |
-| Adversarial inputs | 4 | 4 | Swedish padding attacks, Unicode tricks |
-| Missing language pairs | 4 | 3 | Dutch, German, Italian, Portuguese |
+| Category | Tests | Status | Description |
+|----------|-------|--------|-------------|
+| Semantic analysis | 4 | skipped | "slut" in Swedish, "ass" as donkey, "cock" as rooster, "git" as VCS tool |
+| Dual-meaning words (innocent) | 10 | skipped | tinker, edibles, missionary, groomer, puttanesca, 8ball, catfish, knob, redskins, crime statistics |
+| Dual-meaning words (hateful) | 4 | skipped | Same words used as slurs/dog whistles |
+| Short common words (innocent) | 18 | skipped | ken, nom, gay, dom, eta, tat, goo, mut, bur, ano, wea, mae, pos, hag, div, bra, bal, gu |
+| Short common words (profane) | 18 | skipped | Same words in their profane language contexts |
+| Embedded profanity | 1 | skipped | "urASSHOLEbro" — concatenated evasion |
+| Digit leet-speak | 4 | passing | "6006s", "b006s", "4ss", "d1ld0" |
 
-**4 skipped tests** document unsolved challenges requiring semantic analysis or additional language support.
+**Dual-meaning words** like "groomer" (dog grooming vs anti-LGBTQ+ slur), "missionary" (religious work vs sexual position), and "edibles" (food vs cannabis) are commented out of the dictionary to prevent false positives on community platforms. The challenge tests document both the innocent and hateful usage patterns — solving these requires context-aware detection that can distinguish legitimate uses from slurs/dog whistles.
+
+**Short common words** (≤3 chars) collide across languages (e.g., "ken" is French verlan for a slur but also a common English name). These need language-aware context detection before re-enabling.
 
 ---
 
@@ -992,6 +995,9 @@ A: Yes! BeKind is universal.
 - ✅ Language confusion map for Scandinavian/Germanic disambiguation
 - ✅ Additional language packs (Arabic, Russian, Japanese, Korean, Chinese, Dutch)
 - ✅ Romanization detection (Hinglish and other transliterated scripts)
+- ✅ False positive reduction for dual-meaning words (groomer, missionary, edibles, etc.)
+- ✅ Digit leet-speak detection (6006s, b006s, 4ss, d1ld0)
+- 🚧 Context-aware dual-meaning word disambiguation (distinguish "dog groomer" from "groomer" as slur)
 - 🚧 Norwegian and Danish trie vocabularies (currently covered via confusion map)
 - 🚧 Repeat character compression (normalize elongated words before matching, avoiding the need to enumerate elongations in the dictionary)
 - 🚧 Phonetic matching (sounds-like detection)
