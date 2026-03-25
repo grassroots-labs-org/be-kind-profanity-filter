@@ -272,6 +272,20 @@ https://us02web.zoom.us/meeting/register/RKi3-yeBTfqfaEAAb_-Puw`,
     });
   });
 
+  describe('Discussion and debate meetups', () => {
+    it('should NOT flag rationalist debate night with Partiful cross-post link', () => {
+      const result = containsAbhorrentLanguage(fields(
+        `This is a cross-post of https://partiful.com/e/Dh8EjYQhLIc2lgmuT4oT
+
+Wanted to experiment with a debate night as a format for a rationalist/EA/etc meetup. Extremely informal / just-for-fun vibes, no preparation expected. Rough draft of a format is one person suggests a topic, someone else volunteers to take the other side, both people get 1m opening and closing statements and then a few minutes for back-and-forth. Possible group discussion to follow depending on how many people show up.`
+      ));
+      if (result) {
+        expect(result.hasProfane).toBe(false);
+        expect(result.profaneWords).toHaveLength(0);
+      }
+    });
+  });
+
   describe('Tech conferences and virtual events', () => {
     it('should NOT flag Women in Blockchain virtual event with Indian names', () => {
       const result = containsAbhorrentLanguage(fields(
