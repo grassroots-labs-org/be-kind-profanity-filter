@@ -249,6 +249,110 @@ He also has a robust [YouTube](https://www.youtube.com/@vedantasocietyofwesternw
     });
   });
 
+  describe('Government and wildlife advocacy events', () => {
+    it('should NOT flag WDFW wildlife commission Q&A with Zoom link', () => {
+      const result = containsAbhorrentLanguage({
+        title: 'Meet the Chair of the WDFW Commission',
+        description: `The Washington Department of Fish and Wildlife (WDFW) Commission is responsible for setting much of the policy for how wildlife and wildlands are managed in Washington State.
+
+It is vital for Commissioners to hear from Animal Advocates, as most of the voices they hear from are folks in the hunting community.
+As such, NARN is please to host an opportunity to meet with the Chair of the WDFW Commission, James Anderson
+
+James "Jim" R. Anderson was appointed to the Commission in July of 2019. Jim is a life-long resident of the state, and lives near Buckley in rural Pierce County, very close to land his grandparents bought in 1912 and that is still in the family today. He graduated from Washington State University in 1974 with a Bachelors of Science in Environmental Science and Masters of Science in Environmental Science (Rural and Regional Planning option) in 1978. He worked 35 years in professional natural resource management. He was the Executive Director of the Northwest Indian Fisheries Commission from 1985 to 2005.
+To learn a little more about him, come to our Q&A session and get the chance to ask him questions, and express your concerns about wildlife issues in Washington State.
+
+Please register here:
+https://us02web.zoom.us/meeting/register/RKi3-yeBTfqfaEAAb_-Puw`,
+        tags: [],
+      });
+      if (result) {
+        expect(result.hasProfane).toBe(false);
+        expect(result.profaneWords).toHaveLength(0);
+      }
+    });
+  });
+
+  describe('Tech conferences and virtual events', () => {
+    it('should NOT flag Women in Blockchain virtual event with Indian names', () => {
+      const result = containsAbhorrentLanguage(fields(
+        `Women in Blockchain is a a global annual event conducted by the LF Decentralized Trust India Chapter along with the LFDT. We are happy to launch our VII series in 2026. In this series, we invite women working in the field of Blockchain to share their views on all things Blockchain, tech and non-tech by engaging in insightful panel discussions, research work presentation and post event networking with folks across the world.
+
+Event Dates: Saturday - March 28th, 2026
+
+Location: Virtual Event(Zoom)
+
+Please note: This event is being shared with our entire global community. If you're interested in this content but can't attend the event live, feel free to sign up and we will send you a link to the recording after the meetup is over.
+
+Speaker
+Hosts: Kamlesh Nagware and Anasuya`
+      ));
+      if (result) {
+        expect(result.hasProfane).toBe(false);
+        expect(result.profaneWords).toHaveLength(0);
+      }
+    });
+  });
+
+  describe('Animal advocacy events', () => {
+    it('should NOT flag Pay-Per-View animal advocacy event at UW campus', () => {
+      const result = containsAbhorrentLanguage(fields(
+        `Justice For Animals will be hosting a Pay-Per-View event taking place at the University of Washington "Quad". The cherry blossoms should be blooming, so there will likely be lots of visitors to the campus! These are usually some of our busiest events of the year! Please join us!
+
+Passersby will be paid to watch the 4-minute video/mini-documentary about animal agriculture! We often offer additional videos to help people make the connection! We then have conversations with those people and offer them resources. This has been very effective! Please join us, whether for a few minutes or the whole time! Feel free just to stop by to learn what we do!
+
+I plan to host, rain or shine! I plan to bring the canopy to keep us dry if it looks like rain!
+
+If you choose to join us, please wear clothing with no references to veganism or animal rights, etc.!
+
+We'll be near the southwest corner by the steps, next to Gowen Hall.
+47.656698,-122.307951
+
+This event is also posted on Facebook, Discord, and JFA's main website!`
+      ));
+      if (result) {
+        expect(result.hasProfane).toBe(false);
+        expect(result.profaneWords).toHaveLength(0);
+      }
+    });
+  });
+
+  describe('Robotics and maker meetups', () => {
+    it('should NOT flag robotics group meetup with Google Meet link', () => {
+      const result = containsAbhorrentLanguage(fields(
+        `We invite all to our meeting of the Snohomish County Robotics Group. We meet at least once a month, almost always on the first Saturday of the month at 10 AM. Our group is sponsored by SnoCo Makers.
+
+Attend in person at the SnoCo Makerspace 11604 Airport Rd Suite D200 Everett, WA
+
+***
+
+Price: Free
+
+In general, this meeting will include:
+
+Introductions / Show 'n' tell
+General robotics discussion
+Technical presentation (on occasion)
+SRS Competition Discussions/Updates
+SRG Discussion/Mentoring
+Between meetings, please visit and participate in our web presence:
+
+Our wiki with background and technical detail [currently being rebuilt due to spam pollution]
+Discussions (Google group)
+***
+
+If we have the ability in the meeting we will run it on Google Meet but this is hit and miss and depends on the availability of hosts, and content. We encourage you to attend in person whenever possible. Otherwise here is the video call link: https://meet.google.com/gac-vyht-osk
+
+... if you get some nugget of value out of this meetup we hope you'll consider becoming a member of SnoCo Makers or donating to help us pay rent.
+
+We'd love for you to put on a technical presentation. Please contact Don or Chas if you're willing.`
+      ));
+      if (result) {
+        expect(result.hasProfane).toBe(false);
+        expect(result.profaneWords).toHaveLength(0);
+      }
+    });
+  });
+
   describe('LGBTQ+ and diversity events', () => {
     it('should NOT flag Trans Visibility film screening with Hindi title', () => {
       const result = containsAbhorrentLanguage({
